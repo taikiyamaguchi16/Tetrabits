@@ -66,9 +66,14 @@ public class PlayerMove : MonoBehaviour
                 transform.position -= camera.transform.right * moveSpd;
             }
 
+            rb.velocity += camera.transform.right * moveSpd * XInputManager.GetThumbStickLeftX(0);
+            rb.velocity += camera.transform.forward * moveSpd * XInputManager.GetThumbStickLeftY(0);
+            //addVelocityXZ.x += velocity.x;
+            //addVelocityXZ.y += velocity.z;
+
             if (isGround == true)//着地しているとき
             {
-                if (Input.GetKeyDown("space"))
+                if (Input.GetKeyDown("space") || XInputManager.GetButtonTrigger(0,XButtonType.A))
                 {
                     isGround = false;
                     rb.AddForce(new Vector3(0, upForce, 0));
