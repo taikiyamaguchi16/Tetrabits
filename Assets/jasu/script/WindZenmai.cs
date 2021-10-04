@@ -7,7 +7,7 @@ public class WindZenmai : MonoBehaviour, IPlayerAction
     Zenmai zenmai;
 
     [SerializeField]
-    int windPerSeconds = 10;
+    float wind = 0.02f;  // ゼンマイパワー回復量
 
     bool windFlag = false;
 
@@ -21,21 +21,21 @@ public class WindZenmai : MonoBehaviour, IPlayerAction
     {
         if (windFlag)
         {
-            zenmai.zenmaiPower += windPerSeconds;
-            if(zenmai.zenmaiPower > zenmai.maxZenmaiPower)
-            {
+            zenmai.zenmaiPower += wind;
+            if (zenmai.zenmaiPower > zenmai.maxZenmaiPower)
                 zenmai.zenmaiPower = zenmai.maxZenmaiPower;
-            }
         }
     }
 
     void IPlayerAction.StartPlayerAction(PlayerActionDesc _desc)
     {
         windFlag = true;
+        zenmai.decreaseTrigger = false;
     }
 
     void IPlayerAction.EndPlayerAction(PlayerActionDesc _desc)
     {
         windFlag = false;
+        zenmai.decreaseTrigger = true;
     }
 }

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Zenmai : MonoBehaviour
 {
-    public int maxZenmaiPower = 100;
-    
-    public int decreasePerSeconds = 1;
+    public float maxZenmaiPower = 100f;    // ゼンマイパワー最大値
 
-    public int zenmaiPower;
+    public float zenmaiPower; // ゼンマイパワー
 
-    float timer = 0f;
+    public float decrease = 0.01f;  // ゼンマイパワー減少値
+
+    public bool decreaseTrigger = true;
 
     // Start is called before the first frame update
     void Start()
@@ -21,12 +21,12 @@ public class Zenmai : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-
-        if (timer >= 1 && zenmaiPower > 0)
+        // ゼンマイパワー減少
+        if (decreaseTrigger)
         {
-            timer = 0f;
-            zenmaiPower -= decreasePerSeconds;
+            zenmaiPower -= decrease;
+            if (zenmaiPower < 0)
+                zenmaiPower = 0;
         }
     }
 }
