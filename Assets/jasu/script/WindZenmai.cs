@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class kari : MonoBehaviour
+public class WindZenmai : MonoBehaviour
 {
+    [SerializeField]
+    SphereCollider collider;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -12,6 +17,11 @@ public class kari : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        
+    }
+
+    private void OnTriggerStay(Collider other)
     {
         
     }
