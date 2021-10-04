@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// アクションインターフェース用Desc
 public struct PlayerActionDesc
 {
     GameObject target;
 }
 
+// アクション用インターフェース
 public interface IPlayerAction
 {
     void StartPlayerAction(PlayerActionDesc _desc);
@@ -16,6 +18,9 @@ public interface IPlayerAction
 
 public class PlayerActionCtrl : MonoBehaviour
 {
+    [SerializeField]
+    PlayerMove playerMove;
+
     // アクション候補リスト
     List<GameObject> candidates = new List<GameObject>();
 
@@ -27,6 +32,8 @@ public class PlayerActionCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        playerMove.movable = true;  // プレイヤーを行動可能に
+
         if (Input.GetKey("e"))  // アクションボタン
         {
             if (candidates.Count > 0 && runningAction == null)
@@ -46,6 +53,8 @@ public class PlayerActionCtrl : MonoBehaviour
                 // アクション開始
                 runningAction.StartPlayerAction(desc);
             }
+
+            playerMove.movable = false; // プレイヤー行動停止
         }
         else if(Input.GetKeyUp("e") && runningAction != null)   // アクションボタンリリース
         {

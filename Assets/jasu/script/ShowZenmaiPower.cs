@@ -20,6 +20,6 @@ public class ShowZenmaiPower : MonoBehaviour
 
     private void LateUpdate()
     {
-        slider.value = zenmai.zenmaiPower;
+        slider.value = zenmai.zenmaiPower;  // スライダーに値を適用
     }
 }
