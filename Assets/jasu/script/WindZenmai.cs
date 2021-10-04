@@ -2,27 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WindZenmai : MonoBehaviour
+public class WindZenmai : MonoBehaviour, IPlayerAction
 {
+    Zenmai zenmai;
+
     [SerializeField]
-    SphereCollider collider;
+    int windPerSeconds = 10;
 
-
+    bool windFlag = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        zenmai = GetComponent<Zenmai>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (windFlag)
+        {
+            zenmai.zenmaiPower += windPerSeconds;
+            if(zenmai.zenmaiPower > zenmai.maxZenmaiPower)
+            {
+                zenmai.zenmaiPower = zenmai.maxZenmaiPower;
+            }
+        }
     }
 
-    private void OnTriggerStay(Collider other)
+    void IPlayerAction.StartPlayerAction(PlayerActionDesc _desc)
     {
-        
+        windFlag = true;
+    }
+
+    void IPlayerAction.EndPlayerAction(PlayerActionDesc _desc)
+    {
+        windFlag = false;
     }
 }

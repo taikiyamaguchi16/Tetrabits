@@ -6,7 +6,7 @@ public class Zenmai : MonoBehaviour
 {
     public int maxZenmaiPower = 100;
     
-    public int decreasePS = 1;
+    public int decreasePerSeconds = 1;
 
     public int zenmaiPower;
 
@@ -26,7 +26,7 @@ public class Zenmai : MonoBehaviour
         if (timer >= 1 && zenmaiPower > 0)
         {
             timer = 0f;
-            zenmaiPower -= decreasePS;
+            zenmaiPower -= decreasePerSeconds;
         }
     }
 }
