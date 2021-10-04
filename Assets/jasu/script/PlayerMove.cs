@@ -5,17 +5,19 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField]
-    Camera camera = null;
+    Camera camera = null;   // 移動方向用カメラ
 
     private Rigidbody rb;
 
     [SerializeField]
     float upForce = 200f;    //ジャンプ力
 
-    private bool isGround;          // 着地判定
+    private bool isGround;   // 着地判定
 
     [SerializeField]
     float moveSpd = 0.03f;
+
+    public bool movable = true;
 
     // Start is called before the first frame update
     void Start()
@@ -27,32 +29,35 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("w"))
+        if (movable)
         {
-            transform.position += camera.transform.forward * moveSpd;
-        }
-
-        if (Input.GetKey("s"))
-        {
-            transform.position -= camera.transform.forward * moveSpd;
-        }
-
-        if (Input.GetKey("d"))
-        {
-            transform.position += camera.transform.right * moveSpd;
-        }
-
-        if (Input.GetKey("a"))
-        {
-            transform.position -= camera.transform.right * moveSpd;
-        }
-
-        if (isGround == true)//着地しているとき
-        {
-            if (Input.GetKeyDown("space"))
+            if (Input.GetKey("w"))
             {
-                isGround = false;
-                rb.AddForce(new Vector3(0, upForce, 0));
+                transform.position += camera.transform.forward * moveSpd;
+            }
+
+            if (Input.GetKey("s"))
+            {
+                transform.position -= camera.transform.forward * moveSpd;
+            }
+
+            if (Input.GetKey("d"))
+            {
+                transform.position += camera.transform.right * moveSpd;
+            }
+
+            if (Input.GetKey("a"))
+            {
+                transform.position -= camera.transform.right * moveSpd;
+            }
+
+            if (isGround == true)//着地しているとき
+            {
+                if (Input.GetKeyDown("space"))
+                {
+                    isGround = false;
+                    rb.AddForce(new Vector3(0, upForce, 0));
+                }
             }
         }
     }
