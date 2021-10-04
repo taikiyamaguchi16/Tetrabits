@@ -17,18 +17,33 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     float moveSpd = 0.03f;
 
+    [SerializeField]
+    float maxSpd = 0.03f;
+
+    [SerializeField]
+    float minSpd = 0.01f;
+
     public bool movable = true;
+    
+    Zenmai zenmai;
 
     // Start is called before the first frame update
     void Start()
     {
         camera = Camera.main;
         rb = GetComponent<Rigidbody>();
+        zenmai = GetComponent<Zenmai>();
+        moveSpd = maxSpd;
     }
 
     // Update is called once per frame
     void Update()
     {
+        moveSpd = zenmai.zenmaiPower / zenmai.maxZenmaiPower * maxSpd;
+        if (moveSpd < minSpd)
+            moveSpd = minSpd;
+
+
         if (movable)
         {
             if (Input.GetKey("w"))
