@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TetraLever : MonoBehaviour
+public class TetraLever : MonoBehaviour,IPlayerAction
 {
     [Header("Reference")]
     [SerializeField] GameObject fulcrumObj;
@@ -50,4 +50,11 @@ public class TetraLever : MonoBehaviour
     void Switch() { leverState = !leverState; }
 
     public bool GetPoweredOn() { return leverState; }
+
+    public void StartPlayerAction(PlayerActionDesc _desc)
+    {
+        Switch();
+    }
+
+    public void EndPlayerAction(PlayerActionDesc _desc){}
 }
