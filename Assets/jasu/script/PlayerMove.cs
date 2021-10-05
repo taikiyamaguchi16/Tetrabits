@@ -2,30 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct MoveSpeedInRatio
+{
+    [Tooltip("割合(0~1)")]　    public float ratio;
+    [Tooltip("移動速度")]  public float moveSpd;
+}
+
 public class PlayerMove : MonoBehaviour
 {
+    public int playerNum = 0;
+
     [SerializeField]
     Camera camera = null;   // 移動方向用カメラ
 
     private Rigidbody rb;
 
-    [SerializeField]
-    float upForce = 200f;    //ジャンプ力
-
     private bool isGround;   // 着地判定
-
-    [SerializeField]
-    float moveSpd = 0.03f;
-
-    [SerializeField]
-    float maxSpd = 0.03f;
-
-    [SerializeField]
-    float minSpd = 0.01f;
-
-    public bool movable = true;
     
-    Zenmai zenmai;
+    float moveSpd = 0.03f;  // 移動速度
+
+    public bool movable = true; // 移動可能フラグ
+    
+    Zenmai zenmai;  // ゼンマイ
+
+    [Header("プランナー調整用")]
+
+    [SerializeField, Tooltip("ゼンマイパワーの割合とそれに応じた移動速度")]
+    List<MoveSpeedInRatio> moveSpeedInRatios = new List<MoveSpeedInRatio>();
+
+    [SerializeField]
+    float jumpPower = 200f;    //ジャンプ力
 
     // Start is called before the first frame update
     void Start()
@@ -33,50 +40,63 @@ public class PlayerMove : MonoBehaviour
         camera = Camera.main;
         rb = GetComponent<Rigidbody>();
         zenmai = GetComponent<Zenmai>();
-        moveSpd = maxSpd;
+
+        // ソート
+        for (int i = 0; i < moveSpeedInRatios.Count; i++)
+        {
+            for(int j = i + 1; j < moveSpeedInRatios.Count; j++)
+            {
+                if(moveSpeedInRatios[i].ratio < moveSpeedInRatios[j].ratio)
+                {
+                    MoveSpeedInRatio tmp = moveSpeedInRatios[i];
+                    moveSpeedInRatios[i] = moveSpeedInRatios[j];
+                    moveSpeedInRatios[j] = tmp;
+                }
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        moveSpd = zenmai.zenmaiPower / zenmai.maxZenmaiPower * maxSpd;
-        if (moveSpd < minSpd)
-            moveSpd = minSpd;
-
+        float ratio = zenmai.zenmaiPower / zenmai.maxZenmaiPower;
+        foreach (var speedInRatio in moveSpeedInRatios)
+        {
+            if(ratio <= speedInRatio.ratio)
+                moveSpd = speedInRatio.moveSpd;
+        }
 
         if (movable)
         {
             if (Input.GetKey("w"))
             {
-                transform.position += camera.transform.forward * moveSpd;
+                rb.velocity += camera.transform.forward * moveSpd;
             }
 
             if (Input.GetKey("s"))
             {
-                transform.position -= camera.transform.forward * moveSpd;
+                rb.velocity -= camera.transform.forward * moveSpd;
             }
 
             if (Input.GetKey("d"))
             {
-                transform.position += camera.transform.right * moveSpd;
+                rb.velocity += camera.transform.right * moveSpd;
             }
 
             if (Input.GetKey("a"))
             {
-                transform.position -= camera.transform.right * moveSpd;
+                rb.velocity -= camera.transform.right * moveSpd;
             }
 
-            rb.velocity += camera.transform.right * moveSpd * XInputManager.GetThumbStickLeftX(0);
-            rb.velocity += camera.transform.forward * moveSpd * XInputManager.GetThumbStickLeftY(0);
-            //addVelocityXZ.x += velocity.x;
-            //addVelocityXZ.y += velocity.z;
+            rb.velocity += camera.transform.right * moveSpd * XInputManager.GetThumbStickLeftX(playerNum);
+            rb.velocity += camera.transform.forward * moveSpd * XInputManager.GetThumbStickLeftY(playerNum);
 
             if (isGround == true)//着地しているとき
             {
-                if (Input.GetKeyDown("space") || XInputManager.GetButtonTrigger(0,XButtonType.A))
+                if (Input.GetKeyDown("space") || XInputManager.GetButtonTrigger(playerNum, XButtonType.A))
                 {
                     isGround = false;
-                    rb.AddForce(new Vector3(0, upForce, 0));
+                    rb.AddForce(new Vector3(0, jumpPower, 0));
                 }
             }
         }
