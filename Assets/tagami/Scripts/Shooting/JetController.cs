@@ -24,8 +24,14 @@ public class JetController : MonoBehaviour
     {
         if (TetraInput.sTetraButton.GetPress())
         {
+            Debug.Log("Bomb!");
+            foreach(var obj in GameObject.FindGameObjectsWithTag("Bullet"))
+            {
+                Destroy(obj);
+            }
 
         }
+
 
         if (TetraInput.sTetraLever.GetPoweredOn())
         {

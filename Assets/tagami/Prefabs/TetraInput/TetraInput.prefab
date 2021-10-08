@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5568306285539570049}
   - component: {fileID: 5568306285539570050}
+  - component: {fileID: 40944506}
   m_Layer: 0
   m_Name: TetraLever
   m_TagString: Untagged
@@ -47,6 +48,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fulcrumObj: {fileID: 5568306286960834374}
   switchingTime: 1
+--- !u!65 &40944506
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5568306285539570048}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.5, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &5568306285689874560
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,7 +361,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonObj: {fileID: 5568306285689874560}
   foundationObj: {fileID: 5568306286951674930}
-  ySpring: 200
+  ySpring: 100
 --- !u!1 &5568306286951674930
 GameObject:
   m_ObjectHideFlags: 0
