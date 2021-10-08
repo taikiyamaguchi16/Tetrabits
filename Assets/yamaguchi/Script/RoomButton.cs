@@ -3,6 +3,7 @@ using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class RoomButton : MonoBehaviour
 {
@@ -35,6 +36,7 @@ public class RoomButton : MonoBehaviour
         var roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = MaxPlayers;
         PhotonNetwork.JoinOrCreateRoom(RoomName, roomOptions, TypedLobby.Default);
+        SceneManager.LoadScene("test_game");
     }
 
     public void SetPlayerCount(int playerCount)
