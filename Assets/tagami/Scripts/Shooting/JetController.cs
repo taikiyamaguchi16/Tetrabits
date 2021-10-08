@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class JetController : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class JetController : MonoBehaviour
     [SerializeField] float shotIntervalTime = 1.0f;
     float shotTimer;
 
+    float selfDestroyTimer;
+    [SerializeField] float selfDestroySeconds = 10.0f;
+    [SerializeField] Slider destroyGaugeSlider;
+    [SerializeField] float bombSelfDestroyCostSeconds = 3.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,32 +28,50 @@ public class JetController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (TetraInput.sTetraButton.GetPress())
+        if (TetraInput.sTetraButton.GetTrigger())
         {
             Debug.Log("Bomb!");
-            foreach(var obj in GameObject.FindGameObjectsWithTag("Bullet"))
+            foreach (var obj in GameObject.FindGameObjectsWithTag("Bullet"))
             {
                 Destroy(obj);
             }
-
+            selfDestroyTimer += bombSelfDestroyCostSeconds;
         }
 
 
         if (TetraInput.sTetraLever.GetPoweredOn())
         {
+            //弾発射
             shotTimer += Time.deltaTime;
             if (shotTimer >= shotIntervalTime)
             {
                 shotTimer = 0.0f;
                 //発射
                 var obj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-                obj.GetComponent<Rigidbody2D>().velocity = Vector2.right*10.0f;
+                obj.GetComponent<Rigidbody2D>().velocity = Vector2.right * 10.0f;
+            }
+
+            //自爆のゲージためる
+            selfDestroyTimer += Time.deltaTime;
+            if (selfDestroyTimer >= selfDestroySeconds)
+            {
+                selfDestroyTimer = selfDestroySeconds;
+                Destroy(gameObject);
             }
         }
         else
         {
             shotTimer = 0.0f;
+
+            selfDestroyTimer -= Time.deltaTime;
+            if(selfDestroyTimer<=0)
+            {
+                selfDestroyTimer = 0;
+            }
         }
+
+        //UpdateGauge
+        destroyGaugeSlider.value = (selfDestroyTimer / selfDestroySeconds)*100;
 
         //Move
         Vector3 moveVec = Vector3.zero;
