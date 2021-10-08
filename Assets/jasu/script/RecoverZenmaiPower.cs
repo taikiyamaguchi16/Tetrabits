@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WindZenmai : MonoBehaviour, IPlayerAction
+public class RecoverZenmaiPower : MonoBehaviour, IPlayerAction
 {
     Zenmai zenmai;  // ゼンマイ
 
     [SerializeField]
-    float wind = 0.02f;  // ゼンマイパワー回復量
+    float recoveryAmount = 0.02f;  // ゼンマイパワー回復量
 
     bool windFlag = false;  // 巻きフラグ
 
@@ -21,7 +21,7 @@ public class WindZenmai : MonoBehaviour, IPlayerAction
     {
         if (windFlag)   // ゼンマイを巻く
         {
-            zenmai.zenmaiPower += wind;
+            zenmai.zenmaiPower += recoveryAmount;
             if (zenmai.zenmaiPower > zenmai.maxZenmaiPower)
                 zenmai.zenmaiPower = zenmai.maxZenmaiPower;
         }

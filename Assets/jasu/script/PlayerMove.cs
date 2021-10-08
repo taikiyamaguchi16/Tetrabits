@@ -18,9 +18,11 @@ public class PlayerMove : MonoBehaviour
 
     private Rigidbody rb;
 
-    private bool isGround;   // 着地判定
+    private bool isGround;  // 着地判定
     
     float moveSpd = 0.03f;  // 移動速度
+
+    bool inputted = false;
 
     public bool movable = true; // 移動可能フラグ
     
@@ -33,6 +35,8 @@ public class PlayerMove : MonoBehaviour
 
     [SerializeField]
     float jumpPower = 200f;    //ジャンプ力
+
+    Vector3 moveVec = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -65,31 +69,31 @@ public class PlayerMove : MonoBehaviour
             if(ratio <= speedInRatio.ratio)
                 moveSpd = speedInRatio.moveSpd;
         }
-
+        
         if (movable)
         {
             if (Input.GetKey("w"))
             {
-                rb.velocity += camera.transform.forward * moveSpd;
+                moveVec += camera.transform.forward;
             }
 
             if (Input.GetKey("s"))
             {
-                rb.velocity -= camera.transform.forward * moveSpd;
+                moveVec -= camera.transform.forward;
             }
 
             if (Input.GetKey("d"))
             {
-                rb.velocity += camera.transform.right * moveSpd;
+                moveVec += camera.transform.right;
             }
 
             if (Input.GetKey("a"))
             {
-                rb.velocity -= camera.transform.right * moveSpd;
+                moveVec -= camera.transform.right;
             }
 
-            rb.velocity += camera.transform.right * moveSpd * XInputManager.GetThumbStickLeftX(playerNum);
-            rb.velocity += camera.transform.forward * moveSpd * XInputManager.GetThumbStickLeftY(playerNum);
+            moveVec += camera.transform.right * XInputManager.GetThumbStickLeftX(playerNum);
+            moveVec += camera.transform.forward * XInputManager.GetThumbStickLeftY(playerNum);
 
             if (isGround == true)//着地しているとき
             {
@@ -100,6 +104,12 @@ public class PlayerMove : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        moveVec.Normalize();
+        rb.velocity = moveVec * moveSpd;
     }
 
     void OnCollisionEnter(Collision other) //地面に触れた時の処理
