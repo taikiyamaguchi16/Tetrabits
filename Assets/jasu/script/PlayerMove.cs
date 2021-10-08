@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 [System.Serializable]
 public struct MoveSpeedInRatio
@@ -9,7 +10,7 @@ public struct MoveSpeedInRatio
     [Tooltip("移動速度")]  public float moveSpd;
 }
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : MonoBehaviourPunCallbacks
 {
     public int playerNum = 0;
 
@@ -72,39 +73,42 @@ public class PlayerMove : MonoBehaviour
         }
         
         moveDir = Vector3.zero;
-        if (movable)
+        if (photonView.IsMine)
         {
-            if (Input.GetKey("w"))
+            if (movable)
             {
-                moveDir += moveStandard.transform.forward;
-            }
-
-            if (Input.GetKey("s"))
-            {
-                moveDir -= moveStandard.transform.forward;
-            }
-
-            if (Input.GetKey("d"))
-            {
-                moveDir += moveStandard.transform.right;
-            }
-
-            if (Input.GetKey("a"))
-            {
-                moveDir -= moveStandard.transform.right;
-            }
-
-            moveDir += moveStandard.transform.right * XInputManager.GetThumbStickLeftX(playerNum);
-            moveDir += moveStandard.transform.forward * XInputManager.GetThumbStickLeftY(playerNum);
-
-            moveDir.Normalize();
-
-            if (isGround == true)//着地しているとき
-            {
-                if (Input.GetKeyDown("space") || XInputManager.GetButtonTrigger(playerNum, XButtonType.A))
+                if (Input.GetKey("w"))
                 {
-                    isGround = false;
-                    rb.AddForce(new Vector3(0, jumpPower, 0));
+                    moveDir += moveStandard.transform.forward;
+                }
+
+                if (Input.GetKey("s"))
+                {
+                    moveDir -= moveStandard.transform.forward;
+                }
+
+                if (Input.GetKey("d"))
+                {
+                    moveDir += moveStandard.transform.right;
+                }
+
+                if (Input.GetKey("a"))
+                {
+                    moveDir -= moveStandard.transform.right;
+                }
+
+                moveDir += moveStandard.transform.right * XInputManager.GetThumbStickLeftX(playerNum);
+                moveDir += moveStandard.transform.forward * XInputManager.GetThumbStickLeftY(playerNum);
+
+                moveDir.Normalize();
+
+                if (isGround == true)//着地しているとき
+                {
+                    if (Input.GetKeyDown("space") || XInputManager.GetButtonTrigger(playerNum, XButtonType.A))
+                    {
+                        isGround = false;
+                        rb.AddForce(new Vector3(0, jumpPower, 0));
+                    }
                 }
             }
         }
