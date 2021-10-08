@@ -14,7 +14,7 @@ public class PlayerMove : MonoBehaviour
     public int playerNum = 0;
 
     [SerializeField]
-    Camera camera = null;   // 移動方向用カメラ
+    Transform moveStandard = null;   // 移動方向の基準
 
     private Rigidbody rb;
 
@@ -35,13 +35,14 @@ public class PlayerMove : MonoBehaviour
 
     [SerializeField]
     float jumpPower = 200f;    //ジャンプ力
-
-    Vector3 moveVec = Vector3.zero;
+    
+    // 移動方向
+    Vector3 moveDir = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
     {
-        camera = Camera.main;
+        moveStandard = Camera.main.transform;
         rb = GetComponent<Rigidbody>();
         zenmai = GetComponent<Zenmai>();
 
@@ -70,30 +71,33 @@ public class PlayerMove : MonoBehaviour
                 moveSpd = speedInRatio.moveSpd;
         }
         
+        moveDir = Vector3.zero;
         if (movable)
         {
             if (Input.GetKey("w"))
             {
-                moveVec += camera.transform.forward;
+                moveDir += moveStandard.transform.forward;
             }
 
             if (Input.GetKey("s"))
             {
-                moveVec -= camera.transform.forward;
+                moveDir -= moveStandard.transform.forward;
             }
 
             if (Input.GetKey("d"))
             {
-                moveVec += camera.transform.right;
+                moveDir += moveStandard.transform.right;
             }
 
             if (Input.GetKey("a"))
             {
-                moveVec -= camera.transform.right;
+                moveDir -= moveStandard.transform.right;
             }
 
-            moveVec += camera.transform.right * XInputManager.GetThumbStickLeftX(playerNum);
-            moveVec += camera.transform.forward * XInputManager.GetThumbStickLeftY(playerNum);
+            moveDir += moveStandard.transform.right * XInputManager.GetThumbStickLeftX(playerNum);
+            moveDir += moveStandard.transform.forward * XInputManager.GetThumbStickLeftY(playerNum);
+
+            moveDir.Normalize();
 
             if (isGround == true)//着地しているとき
             {
@@ -108,8 +112,12 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        moveVec.Normalize();
-        rb.velocity = moveVec * moveSpd;
+        //rb.AddForce(moveDir * moveSpd, ForceMode.Force);
+        Vector3 moveVec = moveDir * moveSpd;
+        rb.velocity = new Vector3(moveVec.x, rb.velocity.y, moveVec.z);
+
+        // 重力
+        //rb.AddForce(new Vector3(0, -3000, 0));
     }
 
     void OnCollisionEnter(Collision other) //地面に触れた時の処理
