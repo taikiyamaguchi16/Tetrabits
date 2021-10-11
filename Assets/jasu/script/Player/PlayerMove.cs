@@ -81,8 +81,8 @@ public class PlayerMove : MonoBehaviourPunCallbacks
         jumpable = jumpSensor.GetExistInTrigger();
 
         moveDir = Vector3.zero;
-        if (photonView.IsMine)
-        {
+        //if (photonView.IsMine)
+       // {
             if (movable)
             {
                 if (Input.GetKey("w"))
@@ -118,7 +118,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                         rb.AddForce(new Vector3(0, jumpPower, 0));
                     }
                 }
-            }
+            //}
         }
     }
 
