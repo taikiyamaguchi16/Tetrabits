@@ -34,7 +34,7 @@ public class PlayerActionCtrl : MonoBehaviour
     {
         playerMove.movable = true;  // プレイヤーを行動可能に
 
-        if (Input.GetKey("e") || XInputManager.GetButtonPress(playerMove.playerNum, XButtonType.B))  // アクションボタン
+        if (Input.GetKey("e") || XInputManager.GetButtonPress(playerMove.controllerID, XButtonType.B))  // アクションボタン
         {
             if (candidates.Count > 0 && runningAction == null)
             {
@@ -56,7 +56,7 @@ public class PlayerActionCtrl : MonoBehaviour
 
             playerMove.movable = false; // プレイヤー行動停止
         }
-        else if((Input.GetKeyUp("e") || XInputManager.GetButtonRelease(playerMove.playerNum, XButtonType.B)) && runningAction != null)   // アクションボタンリリース
+        else if((Input.GetKeyUp("e") || XInputManager.GetButtonRelease(playerMove.controllerID, XButtonType.B)) && runningAction != null)   // アクションボタンリリース
         {
             // アクション終了
             runningAction.EndPlayerAction(desc);

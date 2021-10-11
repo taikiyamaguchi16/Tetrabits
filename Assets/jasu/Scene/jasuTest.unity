@@ -146,13 +146,17 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5046413703426060530, guid: 064ecad0c7a18bc40b5b3827f3d495d4, type: 3}
+      propertyPath: m_Name
+      value: JumpSensor
+      objectReference: {fileID: 0}
     - target: {fileID: 7772201493524667833, guid: 064ecad0c7a18bc40b5b3827f3d495d4, type: 3}
       propertyPath: upForce
       value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 7772201493524667833, guid: 064ecad0c7a18bc40b5b3827f3d495d4, type: 3}
       propertyPath: jumpPower
-      value: 300
+      value: 1500
       objectReference: {fileID: 0}
     - target: {fileID: 7772201493524667833, guid: 064ecad0c7a18bc40b5b3827f3d495d4, type: 3}
       propertyPath: moveSpeedInRatios.Array.size
@@ -176,11 +180,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7772201493524667833, guid: 064ecad0c7a18bc40b5b3827f3d495d4, type: 3}
       propertyPath: moveSpeedInRatios.Array.data[1].moveSpd
-      value: 0.3
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7772201493524667833, guid: 064ecad0c7a18bc40b5b3827f3d495d4, type: 3}
       propertyPath: moveSpeedInRatios.Array.data[2].moveSpd
-      value: 0.3
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7772201493524667844, guid: 064ecad0c7a18bc40b5b3827f3d495d4, type: 3}
       propertyPath: m_Name
@@ -230,7 +234,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8550399356960404772, guid: 064ecad0c7a18bc40b5b3827f3d495d4, type: 3}
+      propertyPath: sceneViewId
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8889787103556452775, guid: 064ecad0c7a18bc40b5b3827f3d495d4, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1839320643526764802, guid: 064ecad0c7a18bc40b5b3827f3d495d4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 064ecad0c7a18bc40b5b3827f3d495d4, type: 3}
 --- !u!1 &407165981
 GameObject:
@@ -261,7 +274,6 @@ MonoBehaviour:
   m_Script: {fileID: 229809761, guid: f2c2112f638c5b8489d16403d930373b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentInfo: []
 --- !u!4 &407165983
 Transform:
   m_ObjectHideFlags: 1
@@ -290,6 +302,10 @@ PrefabInstance:
     - target: {fileID: 1691369028188046511, guid: e7dfea4ef3c084f41ab6cd236112f868, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2312364000901008841, guid: e7dfea4ef3c084f41ab6cd236112f868, type: 3}
+      propertyPath: sceneViewId
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4423199158916949289, guid: e7dfea4ef3c084f41ab6cd236112f868, type: 3}
       propertyPath: m_Name
@@ -461,6 +477,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2312364000901008841, guid: e7dfea4ef3c084f41ab6cd236112f868, type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4423199158916949289, guid: e7dfea4ef3c084f41ab6cd236112f868, type: 3}
       propertyPath: m_Name
       value: Player Variant (1)
@@ -533,6 +553,10 @@ PrefabInstance:
     - target: {fileID: 1691369028188046511, guid: e7dfea4ef3c084f41ab6cd236112f868, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2312364000901008841, guid: e7dfea4ef3c084f41ab6cd236112f868, type: 3}
+      propertyPath: sceneViewId
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4423199158916949289, guid: e7dfea4ef3c084f41ab6cd236112f868, type: 3}
       propertyPath: m_Name
@@ -729,7 +753,7 @@ GameObject:
   - component: {fileID: 1916653549}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
