@@ -9,6 +9,9 @@ public class RoomButton : MonoBehaviour
 {
     private const int MaxPlayers = 4;
 
+    // 他からシーンの名前をもらって対象シーンを指定
+    public string sceneName;
+
     [SerializeField]
     private Text label = default;
 
@@ -37,6 +40,7 @@ public class RoomButton : MonoBehaviour
         roomOptions.MaxPlayers = MaxPlayers;
         PhotonNetwork.JoinOrCreateRoom(RoomName, roomOptions, TypedLobby.Default);
         SceneManager.LoadScene("TestScene");
+//        SceneManager.LoadScene(sceneName);
     }
 
     public void SetPlayerCount(int playerCount)
