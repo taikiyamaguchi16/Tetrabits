@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 [System.Serializable]
 public enum HowToSpawn
@@ -11,7 +12,7 @@ public enum HowToSpawn
     Interval,
 }
 
-public class Spawner : MonoBehaviour
+public class Spawner : MonoBehaviourPunCallbacks
 {
     [SerializeField, Tooltip("スポーンされるプレハブ")]
     GameObject prefabToSpawn;
@@ -39,10 +40,15 @@ public class Spawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
+    }
+
+    public override void OnJoinedRoom()
+    {
+        Debug.Log("ルームへ参加しました");
         if (spawnWhenStart && spawnable)
             SpawnPrefab();
     }
-
     private void Update()
     {
         switch (howToSpawn)
@@ -64,9 +70,7 @@ public class Spawner : MonoBehaviour
     {
         if (spawnable)
         {
-            GameObject spawned = Instantiate(prefabToSpawn);
-            spawned.transform.position = spawnPosition;
-            spawned.transform.rotation = Quaternion.Euler(spawnEuler);
+            GameObject spawned = PhotonNetwork.Instantiate(prefabToSpawn.name, spawnPosition,Quaternion.Euler(spawnEuler));
             return spawned;
         }
         return null;
