@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine;
 // アクションインターフェース用Desc
 public struct PlayerActionDesc
 {
@@ -16,7 +18,7 @@ public interface IPlayerAction
     void EndPlayerAction(PlayerActionDesc _desc);
 }
 
-public class PlayerActionCtrl : MonoBehaviour
+public class PlayerActionCtrl : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     PlayerMove playerMove;
@@ -32,38 +34,41 @@ public class PlayerActionCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerMove.movable = true;  // プレイヤーを行動可能に
-
-        if (Input.GetKey("e") || XInputManager.GetButtonPress(playerMove.controllerID, XButtonType.B))  // アクションボタン
+        if (photonView.IsMine)
         {
-            if (candidates.Count > 0 && runningAction == null)
+            playerMove.movable = true;  // プレイヤーを行動可能に
+
+            if (Input.GetKey("e") || XInputManager.GetButtonPress(playerMove.controllerID, XButtonType.B))  // アクションボタン
             {
-                // 一番近いオブジェクトを検索
-                GameObject nearest = candidates[0];
-                foreach (var can in candidates)
+                if (candidates.Count > 0 && runningAction == null)
                 {
-                    if (Vector3.Distance(transform.position, can.transform.position) <
-                        Vector3.Distance(transform.position, nearest.transform.position))
-                        nearest = can;
+                    // 一番近いオブジェクトを検索
+                    GameObject nearest = candidates[0];
+                    foreach (var can in candidates)
+                    {
+                        if (Vector3.Distance(transform.position, can.transform.position) <
+                            Vector3.Distance(transform.position, nearest.transform.position))
+                            nearest = can;
+                    }
+
+                    // IAction持ちの一番近いやつ取得
+                    runningAction = nearest.GetComponent<IPlayerAction>();
+
+                    // アクション開始
+                    runningAction.StartPlayerAction(desc);
                 }
 
-                // IAction持ちの一番近いやつ取得
-                runningAction = nearest.GetComponent<IPlayerAction>();
-
-                // アクション開始
-                runningAction.StartPlayerAction(desc);
+                playerMove.movable = false; // プレイヤー行動停止
+            }
+            else if ((Input.GetKeyUp("e") || XInputManager.GetButtonRelease(playerMove.controllerID, XButtonType.B)) && runningAction != null)   // アクションボタンリリース
+            {
+                // アクション終了
+                runningAction.EndPlayerAction(desc);
+                runningAction = null;
             }
 
-            playerMove.movable = false; // プレイヤー行動停止
+            candidates.Clear(); // リストクリア
         }
-        else if((Input.GetKeyUp("e") || XInputManager.GetButtonRelease(playerMove.controllerID, XButtonType.B)) && runningAction != null)   // アクションボタンリリース
-        {
-            // アクション終了
-            runningAction.EndPlayerAction(desc);
-            runningAction = null;
-        }
-
-        candidates.Clear(); // リストクリア
     }
 
     private void OnTriggerStay(Collider other)
