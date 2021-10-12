@@ -7,6 +7,9 @@ public class TetraPad : MonoBehaviour
     [Header("Reference")]
     [SerializeField] TetraPadBody tetraPadBody;
 
+    [System.NonSerialized]
+    public bool keyDebug = false;
+
     Vector2 padVector;
 
     private void Update()
@@ -19,6 +22,27 @@ public class TetraPad : MonoBehaviour
             localVec.Normalize();
             padVector.x += localVec.x;
             padVector.y += localVec.z;
+        }
+
+        if(keyDebug)
+        {
+            padVector = Vector2.zero;
+            if(Input.GetKey(KeyCode.UpArrow)|| Input.GetKey(KeyCode.W))
+            {
+                padVector.y += 1.0f;
+            }
+            if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+            {
+                padVector.y -= 1.0f;
+            }
+            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+            {
+                padVector.x -= 1.0f;
+            }
+            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            {
+                padVector.x += 1.0f;
+            }
         }
     }
 

@@ -11,6 +11,9 @@ public class TetraButton : MonoBehaviour
     [Header("Option")]
     [SerializeField, Tooltip("ボタン押し返し力")] float ySpring = 100.0f;
 
+    [System.NonSerialized]
+    public bool keyDebug = false;
+
     bool buttonState;
     bool oldButtonState;
 
@@ -30,7 +33,7 @@ public class TetraButton : MonoBehaviour
         oldButtonState = buttonState;
 
         //ベースより位置が低くなった時TRUE?
-        buttonState = buttonObj.transform.position.y < foundationObj.transform.position.y;
+        buttonState = buttonObj.transform.position.y < foundationObj.transform.position.y || (keyDebug && Input.GetKeyDown(KeyCode.E));
     }
 
     public bool GetPress() { return buttonState; }
