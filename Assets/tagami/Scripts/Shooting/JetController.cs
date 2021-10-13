@@ -28,6 +28,8 @@ public class JetController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //**********************************************************
+        //ボタン
         if (TetraInput.sTetraButton.GetTrigger())
         {
             Debug.Log("Bomb!");
@@ -38,7 +40,8 @@ public class JetController : MonoBehaviour
             selfDestroyTimer += bombSelfDestroyCostSeconds;
         }
 
-
+        //**********************************************************
+        //レバー
         if (TetraInput.sTetraLever.GetPoweredOn())
         {
             //弾発射
@@ -49,6 +52,8 @@ public class JetController : MonoBehaviour
                 //発射
                 var obj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
                 obj.GetComponent<Rigidbody2D>().velocity = Vector2.right * 10.0f;
+                GameInGameUtil.MoveGameObjectToOwnerScene(obj, gameObject);
+                
             }
 
             //自爆のゲージためる
@@ -70,9 +75,17 @@ public class JetController : MonoBehaviour
             }
         }
 
+        //**********************************************************
+        //SelfDestroy
+        if (selfDestroyTimer >= selfDestroySeconds)
+        {
+            selfDestroyTimer = selfDestroySeconds;
+            Destroy(gameObject);
+        }
         //UpdateGauge
         destroyGaugeSlider.value = (selfDestroyTimer / selfDestroySeconds)*100;
 
+        //**********************************************************
         //Move
         Vector3 moveVec = Vector3.zero;
         moveVec.x += TetraInput.sTetraPad.GetVector().x;
