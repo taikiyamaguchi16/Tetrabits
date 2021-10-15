@@ -7,9 +7,13 @@ using UnityEngine;
 
 public class TetraInput : MonoBehaviour
 {
+    [Header("Reference")]
     [SerializeField] TetraButton tetraButton;
     [SerializeField] TetraLever tetraLever;
     [SerializeField] TetraPad tetraPad;
+
+    [Header("Debug Option")]
+    [SerializeField] bool keyDebug;
 
     public static TetraButton sTetraButton { private set; get; }
     public static TetraLever sTetraLever { private set; get; }
@@ -21,6 +25,13 @@ public class TetraInput : MonoBehaviour
         sTetraButton = tetraButton;
         sTetraLever = tetraLever;
         sTetraPad = tetraPad;
+
+        if(keyDebug)
+        {
+            tetraButton.keyDebug = true;
+            tetraLever.keyDebug = true;
+            tetraPad.keyDebug = true;
+        }
     }
 
     private void OnGUI()

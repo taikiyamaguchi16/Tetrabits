@@ -1,30 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.SceneManagement;
 
 public class GameInGameSwitcher : MonoBehaviour
-{
-    [SerializeField] SceneObject sceneObjA;
-    [SerializeField] SceneObject sceneObjB;
+{  
+    [System.Serializable]
+    struct SceneObjectAndKeyCode
+    {
+        public SceneObject sceneObject;
+        public KeyCode keyCode;
+    }
+    [Header("Debug")]
+    [SerializeField]
+    List<SceneObjectAndKeyCode> gameInGameSwitchByKeys;
 
+    //現在のゲーム内ゲーム名
     string currentGameInGameSceneName="";
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
+        foreach(var val in gameInGameSwitchByKeys)
         {
-            SwitchScene(sceneObjB);
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            SwitchScene(sceneObjA);
+            if(Input.GetKeyDown(val.keyCode))
+            {
+                SwitchGameInGameScene(val.sceneObject);
+            }
         }
     }
 
-    void SwitchScene(string _nextSceneName)
+    void SwitchGameInGameScene(string _nextSceneName)
     {
         Debug.Log(currentGameInGameSceneName);
         if (currentGameInGameSceneName.Length > 0)
