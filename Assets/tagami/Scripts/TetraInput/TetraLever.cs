@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TetraLever : MonoBehaviour,IPlayerAction
+public class TetraLever : MonoBehaviour, IPlayerAction
 {
     [Header("Reference")]
     [SerializeField] GameObject fulcrumObj;
 
     [Header("Option")]
     [SerializeField] float switchingTime = 1.0f;
+
+    [System.NonSerialized]
+    public bool keyDebug = false;
 
     float switchTimer;
     Quaternion onQt;
@@ -31,19 +34,28 @@ public class TetraLever : MonoBehaviour,IPlayerAction
         oldLeverState = leverState;
 
         //leverStateによって支点の回転を決める
-        if (leverState) {
+        if (leverState)
+        {
             switchTimer += Time.deltaTime;
-            if (switchTimer >= switchingTime){
+            if (switchTimer >= switchingTime)
+            {
                 switchTimer = switchingTime;
             }
         }
-        else {
+        else
+        {
             switchTimer -= Time.deltaTime;
-            if(switchTimer<=0) {
+            if (switchTimer <= 0)
+            {
                 switchTimer = 0;
             }
         }
-        fulcrumObj.transform.rotation = Quaternion.Slerp(offQt,onQt,switchTimer/switchingTime);
+        fulcrumObj.transform.rotation = Quaternion.Slerp(offQt, onQt, switchTimer / switchingTime);
+
+        if (keyDebug && Input.GetKeyDown(KeyCode.Return))
+        {
+            Switch();
+        }
     }
 
     [ContextMenu("Switch!")]
@@ -56,5 +68,5 @@ public class TetraLever : MonoBehaviour,IPlayerAction
         Switch();
     }
 
-    public void EndPlayerAction(PlayerActionDesc _desc){}
+    public void EndPlayerAction(PlayerActionDesc _desc) { }
 }
