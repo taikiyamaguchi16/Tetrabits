@@ -40,10 +40,11 @@ public class TargetShooter : MonoBehaviour
                     );
 
                 bulletObj.GetComponent<Rigidbody2D>().velocity = (targetObj.transform.position - transform.position).normalized * bulletSpeed;
+                GameInGameUtil.MoveGameObjectToOwnerScene(bulletObj, gameObject);
             }
             else
             {
-                Debug.LogError("Targetが見つからないので弾を生成できません");
+                Debug.LogWarning("Targetが見つからないので弾を生成できません");
             }
         }
     }

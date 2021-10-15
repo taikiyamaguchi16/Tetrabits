@@ -39,6 +39,7 @@ public class Instancer : MonoBehaviour
             {
                 instanceTimer = 0.0f;
                 var obj = Instantiate(prefab, transform.position, Quaternion.identity);
+                GameInGameUtil.MoveGameObjectToOwnerScene(obj, gameObject);
                 instancedObjects.Add(obj);
             }
         }

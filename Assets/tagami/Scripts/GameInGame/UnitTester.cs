@@ -4,19 +4,30 @@ using UnityEngine;
 
 public class UnitTester : MonoBehaviour
 {
-    public static bool isRunning = true;
+    static bool occupancy = false;
 
-    [SerializeField] bool runUnitTest = true;
+    [Header("Reference")]
+    [SerializeField] List<GameObject> UnitTestObjects;
+
+    [Header("Option")]
+    [SerializeField] bool completeInactiveUnitTest;
 
     // Start is called before the first frame update
     void Awake()
     {
-        isRunning = runUnitTest;
-    }
+        //ユニットテストの機能を切りたい場合
+        if(completeInactiveUnitTest)
+        {
+            occupancy = true;   //占有状態にしておく
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        //占有状態の場合、UnitTest用の機能を落とす
+        if (occupancy)
+        {
+            foreach (var obj in UnitTestObjects)
+            {
+                obj.SetActive(false);
+            }
+        }
     }
 }
