@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Zenmai : MonoBehaviour
+public class Zenmai : MonoBehaviourPunCallbacks
 {
     public float maxZenmaiPower = 100f;    // ゼンマイパワー最大値
 
@@ -21,12 +22,15 @@ public class Zenmai : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // ゼンマイパワー減少
-        if (decreaseTrigger)
+        if (photonView.IsMine)
         {
-            zenmaiPower -= decrease;
-            if (zenmaiPower < 0)
-                zenmaiPower = 0;
+            // ゼンマイパワー減少
+            if (decreaseTrigger)
+            {
+                zenmaiPower -= decrease * Time.deltaTime * 300f;
+                if (zenmaiPower < 0)
+                    zenmaiPower = 0;
+            }
         }
     }
 }
