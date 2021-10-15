@@ -6,8 +6,13 @@ public class UnitTester : MonoBehaviour
 {
     static bool occupancy = false;
 
-    [Header("Reference")]
+    [Header("Unit Reference")]
     [SerializeField] List<GameObject> UnitTestObjects;
+
+    [Header("Canvas")]
+    [SerializeField] Camera monitorCamera;
+    [SerializeField] Camera unitTestCamera;
+    [SerializeField] List<Canvas> canvass;
 
     [Header("Option")]
     [SerializeField] bool completeInactiveUnitTest;
@@ -21,13 +26,40 @@ public class UnitTester : MonoBehaviour
             occupancy = true;   //占有状態にしておく
         }
 
-        //占有状態の場合、UnitTest用の機能を落とす
+        
         if (occupancy)
-        {
+        {//占有状態の場合、UnitTest用の機能を削除
+
+            //初期状態でUnitTestオブジェクトは起動しておきたいため
+            //このタイミングで削除する
             foreach (var obj in UnitTestObjects)
             {
                 obj.SetActive(false);
             }
+
+            //カメラをモニター用に設定
+            SetCanvassWorldCamera(monitorCamera);
+        }
+        else
+        {
+            //UnitTest用の機能を起動
+
+            //ユニットテスト用機能を起動
+            SetCanvassWorldCamera(unitTestCamera);
+        }
+    }
+
+    private void Update()
+    {
+        Debug.Log("w:"+Screen.width +"h:"+ Screen.height);
+    }
+
+    void SetCanvassWorldCamera(Camera _camera)
+    {
+        foreach (var canvas in canvass)
+        {
+            canvas.renderMode = RenderMode.ScreenSpaceCamera;
+            canvas.worldCamera = _camera;
         }
     }
 }
