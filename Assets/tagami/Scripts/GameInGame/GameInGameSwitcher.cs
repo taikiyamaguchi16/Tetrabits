@@ -30,7 +30,7 @@ public class GameInGameSwitcher : MonoBehaviour
         }
     }
 
-    void SwitchGameInGameScene(string _nextSceneName)
+    public void SwitchGameInGameScene(string _nextSceneName)
     {
         Debug.Log(currentGameInGameSceneName);
         if (currentGameInGameSceneName.Length > 0)
