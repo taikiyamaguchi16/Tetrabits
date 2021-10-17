@@ -32,8 +32,7 @@ public class ButtonSelected : MonoBehaviour
     //--------------------------------------------------
     void Start()
     {
-        // カーソル位置をイベントシステムで選択されている位置に指定
-        transform.position = EventSystem.current.currentSelectedGameObject.transform.position;
+
     }
 
     //--------------------------------------------------
@@ -43,10 +42,13 @@ public class ButtonSelected : MonoBehaviour
     void Update()
     {
         // カーソル位置をイベントシステムで選択されている位置に指定
-        transform.position = EventSystem.current.currentSelectedGameObject.transform.position;
+        if(EventSystem.current.currentSelectedGameObject != null)
+        {
+            transform.position = EventSystem.current.currentSelectedGameObject.transform.position;
+        }
 
         // 現在位置フラグがfalseの時
-        if(currentFlag == false)
+        if (currentFlag == false)
         {
             // 現在位置を更新
             currentPos = transform.position;
