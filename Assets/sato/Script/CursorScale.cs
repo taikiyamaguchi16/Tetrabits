@@ -11,7 +11,7 @@ public class CursorScale : MonoBehaviour
     private Vector3 scaleMax = new Vector3(0.0f, 0.0f, 0.0f);
 
     // スケールを拡縮する際に加減算を行う元の値
-    [SerializeField][Tooltip("拡縮速度")]
+    [SerializeField][Header("拡縮速度")]
     private float scaleChangeSpeed = 0.1f;
 
     // スケールを加減算するか管理するフラグ(false = 減算 / true = 加算)
@@ -19,7 +19,9 @@ public class CursorScale : MonoBehaviour
 
     // タイマー上限
     [SerializeField]
+    [Header("拡縮切り替え時間")]
     private float timerLimit = 1.0f;
+
 
     // 拡縮タイマー
     private float timer = 0.0f;
