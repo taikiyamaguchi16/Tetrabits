@@ -11,7 +11,7 @@ public class RoomButton : MonoBehaviour
 
     [SerializeField]
     [Header("シーン名")]
-    private string scenName;
+    private string sceneName;
 
     [SerializeField]
     private Text label = default;
@@ -40,7 +40,7 @@ public class RoomButton : MonoBehaviour
         var roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = MaxPlayers;
         PhotonNetwork.JoinOrCreateRoom(RoomName, roomOptions, TypedLobby.Default);
-        SceneManager.LoadScene(scenName);
+        SceneManager.LoadScene(sceneName);
 //        SceneManager.LoadScene(sceneName);
     }
 
