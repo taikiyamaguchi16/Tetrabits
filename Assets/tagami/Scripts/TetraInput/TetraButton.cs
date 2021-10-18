@@ -33,7 +33,7 @@ public class TetraButton : MonoBehaviour
         oldButtonState = buttonState;
 
         //ベースより位置が低くなった時TRUE?
-        buttonState = buttonObj.transform.position.y < foundationObj.transform.position.y || (keyDebug && Input.GetKeyDown(KeyCode.E));
+        buttonState = buttonObj.transform.position.y < foundationObj.transform.position.y || (keyDebug && Input.GetKey(KeyCode.E));
     }
 
     public bool GetPress() { return buttonState; }
