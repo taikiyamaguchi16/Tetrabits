@@ -6,6 +6,7 @@ public class CommonBullet2D : MonoBehaviour
 {
     [SerializeField] string targetTag = "Enemy";
 
+    [SerializeField] bool destroyGameClear; 
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,15 @@ public class CommonBullet2D : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(targetTag))
         {
+            if(destroyGameClear)
+            {
+                GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
+                Destroy(collision.gameObject);
+            }
+
             //Destroy(collision.gameObject);
+
+            //自身弾の消去
             Destroy(gameObject);
             MonitorManager.DealDamageToMonitor(1);
         }
