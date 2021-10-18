@@ -29,7 +29,6 @@ public class MatchmakingView : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
-        Debug.Log("ロビー接続完了");
         // ロビーに参加したら、ルーム参加ボタンを押せるようにする
         canvasGroup.interactable = true;
     }

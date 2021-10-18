@@ -26,7 +26,7 @@ public class Coal : MonoBehaviourPunCallbacks,IPlayerAction
         Debug.Log(name + "実行");
 
         Debug.Log(name + "成功");
-        keepSc.ChangeHolding(this);
+       // keepSc.ChangeHolding(this);
 
         rb.isKinematic = true;
         col.enabled = false;

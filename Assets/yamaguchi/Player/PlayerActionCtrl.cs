@@ -25,14 +25,11 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
     // アクション候補リスト
     List<GameObject> candidates = new List<GameObject>();
 
-    //何かしら保持しているか
-    //private bool isOwn;
-    private Coal ownObj;
+    //保有しているオブジェクト
+    private GameObject ownObj;
 
     //自身の情報を送る(仮)
     PlayerActionDesc desc;
-    //持ち替えた際は捨てられない
-    public bool cantDump;
 
     // 実行中アクション
     IPlayerAction runningAction = null;
@@ -40,7 +37,6 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
     private void Start()
     {
         desc.target = this.gameObject;
-        cantDump = false;
     }
     // Update is called once per frame
     void Update()
@@ -72,18 +68,10 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                    
                 }
                 //保有しているオブジェクトがあったら捨てる
-                if (ownObj != null && !cantDump)
-                {
-                    ownObj.Dump();
-                    cantDump = true;
-                    ownObj = null;
-                }
                 playerMove.movable = false; // プレイヤー行動停止
             }
             else if (Input.GetKeyUp("e") || XInputManager.GetButtonRelease(playerMove.controllerID, XButtonType.B))   // アクションボタンリリース
             {
-                
-                cantDump = false;
                 if (runningAction != null)
                 {
                     // アクション終了
@@ -103,14 +91,12 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
             candidates.Add(other.gameObject);  // アクション候補のリストに追加
         }
     }
-
-    public void ChangeHolding(Coal _sc)
+    //オブジェクトを保有しているかどうか
+    public bool GetIsOwn()
     {
         if (ownObj != null)
-        {
-            ownObj.Dump();
-        }
-        ownObj = _sc;
-        cantDump = true;
+            return true;
+        else
+            return false;
     }
 }
