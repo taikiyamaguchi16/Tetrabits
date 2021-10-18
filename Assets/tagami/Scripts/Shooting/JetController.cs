@@ -58,11 +58,6 @@ public class JetController : MonoBehaviour
 
             //自爆のゲージためる
             selfDestroyTimer += Time.deltaTime;
-            if (selfDestroyTimer >= selfDestroySeconds)
-            {
-                selfDestroyTimer = selfDestroySeconds;
-                Destroy(gameObject);
-            }
         }
         else
         {
@@ -79,8 +74,8 @@ public class JetController : MonoBehaviour
         //SelfDestroy
         if (selfDestroyTimer >= selfDestroySeconds)
         {
-            selfDestroyTimer = selfDestroySeconds;
-            Destroy(gameObject);
+            MonitorManager.DealDamageToMonitor(3);
+            selfDestroyTimer = 0.0f;//reset
         }
         //UpdateGauge
         destroyGaugeSlider.value = (selfDestroyTimer / selfDestroySeconds)*100;

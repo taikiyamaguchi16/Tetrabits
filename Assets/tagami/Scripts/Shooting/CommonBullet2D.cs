@@ -23,8 +23,9 @@ public class CommonBullet2D : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(targetTag))
         {
-            Destroy(collision.gameObject);
+            //Destroy(collision.gameObject);
             Destroy(gameObject);
+            MonitorManager.DealDamageToMonitor(1);
         }
     }
 

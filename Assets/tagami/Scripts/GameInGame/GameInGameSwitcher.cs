@@ -32,12 +32,22 @@ public class GameInGameSwitcher : MonoBehaviour
 
     public void SwitchGameInGameScene(string _nextSceneName)
     {
-        Debug.Log(currentGameInGameSceneName);
+        //現在のシーンを削除
         if (currentGameInGameSceneName.Length > 0)
         {
             SceneManager.UnloadSceneAsync(currentGameInGameSceneName);
         }
-        SceneManager.LoadSceneAsync(_nextSceneName, LoadSceneMode.Additive);
+        //次のシーンへ移行
+        if (_nextSceneName.Length > 0)
+        {
+            SceneManager.LoadSceneAsync(_nextSceneName, LoadSceneMode.Additive);
+        }
+        else
+        {
+            Debug.LogWarning("Scene名が設定されていないので、次のシーンへ移行できません");
+        }
+
+        //シーン名更新
         currentGameInGameSceneName = _nextSceneName;
     }
 }
