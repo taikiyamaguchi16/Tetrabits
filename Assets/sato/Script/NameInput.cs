@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class NameInput : MonoBehaviourPunCallbacks
+public class NameInput : MonoBehaviour
 {
     public InputField inputField;
     public Text text;
