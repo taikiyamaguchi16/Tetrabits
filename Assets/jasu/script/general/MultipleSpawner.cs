@@ -2,45 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class SpawnInfo
-{
-    [Tooltip("スポーンされるプレハブ")]
-    public GameObject prefabToSpawn;
-
-    [Tooltip("生成位置")]
-    public Vector3 spawnPosition;
-
-    [Tooltip("生成角度")]
-    public Vector3 spawnEuler;
-
-    [Tooltip("生成方法")]
-    public HowToSpawn howToSpawn;
-
-    [Tooltip("インターバル秒数")]
-    public float intervalSeconds = 1f;
-
-    [HideInInspector]
-    public float timer = 0f;
-
-    [Tooltip("スタート時に生成するか否か")]
-    public bool spawnWhenStart = true;
-
-    [Tooltip("スポーン可能かどうか")]
-    public bool spawnable = true;
-
-    public void SpawnPrefab()
-    {
-        if (spawnable)
-        {
-            GameObject spawned = Object.Instantiate(prefabToSpawn);
-            spawned.transform.position = spawnPosition;
-            spawned.transform.rotation = Quaternion.Euler(spawnEuler);
-        }
-    }
-}
-
-
 public class MultipleSpawner : MonoBehaviour
 {
     [SerializeField]
@@ -80,51 +41,45 @@ public class MultipleSpawner : MonoBehaviour
         }
     }
 
-    public GameObject SpawnPrefab()
-    {
-        if (spawnList[0].spawnable)
-        {
-            GameObject spawned = Instantiate(spawnList[0].prefabToSpawn);
-            spawned.transform.position = spawnList[0].spawnPosition;
-            spawned.transform.rotation = Quaternion.Euler(spawnList[0].spawnEuler);
-            return spawned;
-        }
-        return null;
-    }
-
     public GameObject SpawnPrefab(int _num)
     {
         if (spawnList[_num].spawnable)
         {
-            GameObject spawned = Instantiate(spawnList[_num].prefabToSpawn);
-            spawned.transform.position = spawnList[_num].spawnPosition;
-            spawned.transform.rotation = Quaternion.Euler(spawnList[_num].spawnEuler);
-            return spawned;
+            return spawnList[_num].SpawnPrefab();
         }
         return null;
     }
 
-    public GameObject SpawnPrefab(Vector3 _pos, Vector3 _euler)
-    {
-        if (spawnList[0].spawnable)
-        {
-            GameObject spawned = Instantiate(spawnList[0].prefabToSpawn);
-            spawned.transform.position = _pos;
-            spawned.transform.rotation = Quaternion.Euler(_euler);
-            return spawned;
-        }
-        return null;
-    }
-
-    public GameObject SpawnPrefab(Vector3 _pos, Vector3 _euler, int _num)
+    public GameObject SpawnPrefab(int _num, Vector3 _pos, Vector3 _euler)
     {
         if (spawnList[_num].spawnable)
         {
-            GameObject spawned = Instantiate(spawnList[_num].prefabToSpawn);
-            spawned.transform.position = _pos;
-            spawned.transform.rotation = Quaternion.Euler(_euler);
-            return spawned;
+            return spawnList[_num].SpawnPrefab(_pos, _euler);
         }
         return null;
+    }
+
+    public GameObject SpawnPrefab(int _num, Transform _trans)
+    {
+        if (spawnList[_num].spawnable)
+        {
+            return spawnList[_num].SpawnPrefab(_trans);
+        }
+        return null;
+    }
+
+    public List<GameObject> SpawnAllPrefab()
+    {
+        List<GameObject> spawnedList = new List<GameObject>();
+        foreach(var spawn in spawnList)
+        {
+            spawnedList.Add(spawn.SpawnPrefab());
+        }
+        return null;
+    }
+
+    public List<SpawnInfo> GetSpawnInfoList()
+    {
+        return spawnList;
     }
 }
