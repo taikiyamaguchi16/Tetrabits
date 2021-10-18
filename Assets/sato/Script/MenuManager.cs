@@ -4,14 +4,18 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
 
-public class MenuManager : MonoBehaviour
+public class MenuManager : MonoBehaviourPunCallbacks
 {
     [Tooltip("コントローラー番号")]
-    public int controllerID = 98;
+    public int controllerID = 2;
 
     [SerializeField]
     [Header("メニューオブジェクトを入れる")]
     GameObject Menu;
+
+    [SerializeField]
+    [Header("シーン名")]
+    private SceneObject scene;
 
     bool onceFlag = true;
 
@@ -72,7 +76,7 @@ public class MenuManager : MonoBehaviour
     //--------------------------------------------------
     public void RoomSelect()
     {
-        SceneManager.LoadScene("RoomSample");
+        SceneManager.LoadScene(scene);
     }
 
     //--------------------------------------------------
