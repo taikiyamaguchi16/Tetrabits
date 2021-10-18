@@ -9,10 +9,11 @@ public class UnitTester : MonoBehaviour
     [Header("Unit Reference")]
     [SerializeField] List<GameObject> UnitTestObjects;
 
-    [Header("Canvas")]
-    [SerializeField] Camera monitorCamera;
-    [SerializeField] Camera unitTestCamera;
-    [SerializeField] List<Canvas> canvass;
+    //この機能はUIにRenderTextureを貼り付けるだけの機能に置き換えられました
+    //[Header("Canvas")]
+    //[SerializeField] Camera monitorCamera;
+    //[SerializeField] Camera unitTestCamera;
+    //[SerializeField] List<Canvas> canvass;
 
     [Header("Option")]
     [SerializeField] bool completeInactiveUnitTest;
@@ -38,28 +39,28 @@ public class UnitTester : MonoBehaviour
             }
 
             //カメラをモニター用に設定
-            SetCanvassWorldCamera(monitorCamera);
+            //SetCanvassWorldCamera(monitorCamera);
         }
         else
         {
             //UnitTest用の機能を起動
 
             //ユニットテスト用機能を起動
-            SetCanvassWorldCamera(unitTestCamera);
+            //SetCanvassWorldCamera(unitTestCamera);
         }
     }
 
     private void Update()
     {
-        Debug.Log("w:"+Screen.width +"h:"+ Screen.height);
+        //Debug.Log("w:"+Screen.width +"h:"+ Screen.height);
     }
 
-    void SetCanvassWorldCamera(Camera _camera)
-    {
-        foreach (var canvas in canvass)
-        {
-            canvas.renderMode = RenderMode.ScreenSpaceCamera;
-            canvas.worldCamera = _camera;
-        }
-    }
+    //void SetCanvassWorldCamera(Camera _camera)
+    //{
+    //    foreach (var canvas in canvass)
+    //    {
+    //        canvas.renderMode = RenderMode.ScreenSpaceCamera;
+    //        canvas.worldCamera = _camera;
+    //    }
+    //}
 }
