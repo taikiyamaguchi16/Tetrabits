@@ -85,7 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1702973491199788012}
   - component: {fileID: 308689872227147973}
-  - component: {fileID: 825227372224387211}
+  - component: {fileID: 850712527165945017}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &825227372224387211
+--- !u!114 &850712527165945017
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c1e024ee2ff3d4e9e72320c52b398d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zenmai: {fileID: 3277976033132010351}
+  zenmai: {fileID: 4672995016681740328}
   slider: {fileID: 308689872227147973}
   colorInRatios:
   - ratio: 1
@@ -466,7 +466,6 @@ GameObject:
   - component: {fileID: 7772201493524667846}
   - component: {fileID: 2907440472148125567}
   - component: {fileID: 7772201493524667833}
-  - component: {fileID: 3277976033132010351}
   - component: {fileID: 4314365688321649656}
   - component: {fileID: 8889787103556452775}
   - component: {fileID: 4930625805203139952}
@@ -474,6 +473,7 @@ GameObject:
   - component: {fileID: 8773637547542607913}
   - component: {fileID: 8550399356960404772}
   - component: {fileID: -544521293879256106}
+  - component: {fileID: 4672995016681740328}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -539,22 +539,6 @@ MonoBehaviour:
     moveSpd: 5
   jumpPower: 1500
   gravity: -100
---- !u!114 &3277976033132010351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7772201493524667844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52589b3f27a0d614fb2969d54c806d2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxZenmaiPower: 100
-  zenmaiPower: 0
-  decrease: 0.01
-  decreaseTrigger: 1
 --- !u!114 &4314365688321649656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,6 +625,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: -544521293879256106}
+  - {fileID: 850712527165945017}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -660,6 +645,22 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &4672995016681740328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7772201493524667844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52589b3f27a0d614fb2969d54c806d2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxZenmaiPower: 100
+  zenmaiPower: 0
+  decrease: 0.01
+  decreaseTrigger: 1
 --- !u!1 &7993158077866682890
 GameObject:
   m_ObjectHideFlags: 0
