@@ -266,6 +266,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8550399356960404772, guid: 064ecad0c7a18bc40b5b3827f3d495d4, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 064ecad0c7a18bc40b5b3827f3d495d4, type: 3}
 --- !u!1 &541253099
@@ -316,6 +320,9 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5671372375757631194, guid: e886f914f55bd254d8f6b7911c31ab35, type: 3}
   moveSpeed: 3
   shotIntervalTime: 1
+  selfDestroySeconds: 10
+  destroyGaugeSlider: {fileID: 0}
+  bombSelfDestroyCostSeconds: 3
 --- !u!212 &541253102
 SpriteRenderer:
   m_ObjectHideFlags: 0
