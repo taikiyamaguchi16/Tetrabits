@@ -40,7 +40,7 @@ public class RoomButton : MonoBehaviour
         var roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = MaxPlayers;
         PhotonNetwork.JoinOrCreateRoom(RoomName, roomOptions, TypedLobby.Default);
-        SceneManager.LoadScene(scene);
+       // SceneManager.LoadScene(scene);
     }
 
     public void SetPlayerCount(int playerCount)
