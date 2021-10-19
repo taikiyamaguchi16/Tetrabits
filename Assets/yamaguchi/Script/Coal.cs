@@ -12,33 +12,44 @@ public class Coal : MonoBehaviourPunCallbacks,IPlayerAction
     //保有されているか
     public bool isOwned;
 
-    private PlayerActionCtrl keepSc;
+    private BatteryHolder ownerSc;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<BoxCollider>();
+        isOwned = false;
     }
 
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
-        keepSc = _desc.target.GetComponent<PlayerActionCtrl>();
-        Debug.Log(name + "実行");
-
-        Debug.Log(name + "成功");
-       // keepSc.ChangeHolding(this);
-
-        rb.isKinematic = true;
-        col.enabled = false;
-        this.transform.parent = _desc.target.transform;
+        if (!isOwned)
+            PickUp(_desc);
+        else
+            Dump(_desc);
     }
 
-    public void Dump()
+    public void Dump(PlayerActionDesc _desc)
     {
-        this.transform.parent = null;
-        rb.isKinematic = false;
-        col.enabled = true;
-        //keepSc.ChangeHolding(null);
+        if (_desc.target == ownerSc.gameObject)
+        {
+            ownerSc.SetBattery(null);
+            rb.isKinematic = false;
+            // col.enabled = true;
+            this.transform.parent = null;
+            isOwned = false;
+        }
+    }
+
+    private void PickUp(PlayerActionDesc _desc)
+    {
+        ownerSc = _desc.target.GetComponent<BatteryHolder>();
+        ownerSc.SetBattery(this.gameObject);
+        rb.isKinematic = true;
+       // col.enabled = false;
+        this.transform.parent = _desc.target.transform;
+        //保有状態に切り替え
+        isOwned = true;
     }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
 }
