@@ -47,7 +47,8 @@ public class TitleManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            //gameSwitcher.SwitchGameInGameScene(cursor.GetSelectedObj().GetComponent<SceneShift>().GetScene());
+            if(gameSwitcher)
+                gameSwitcher.SwitchGameInGameScene(cursor.GetSelectedObj().GetComponent<SceneShift>().GetScene());
         }
     }
 }
