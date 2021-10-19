@@ -24,10 +24,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
 
     // アクション候補リスト
     List<GameObject> candidates = new List<GameObject>();
-
-    //保有しているオブジェクト
-    private GameObject ownObj;
-
+    
     //自身の情報を送る(仮)
     PlayerActionDesc desc;
 
@@ -45,13 +42,10 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
         {
             playerMove.movable = true;  // プレイヤーを行動可能に
 
-            if (Input.GetKey("e") || XInputManager.GetButtonPress(playerMove.controllerID, XButtonType.B))  // アクションボタン
+            if (Input.GetKeyDown("e") || XInputManager.GetButtonPress(playerMove.controllerID, XButtonType.B))  // アクションボタン
             {
-                if (ownObj != null)
-                    candidates.Remove(ownObj.gameObject);
                 if (candidates.Count > 0 && runningAction == null)
                 {
-                   
                     // 一番近いオブジェクトを検索
                     GameObject nearest = candidates[0];
                     foreach (var can in candidates)
@@ -65,9 +59,8 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     runningAction = nearest.GetComponent<IPlayerAction>();
                     // アクション開始
                     runningAction.StartPlayerAction(desc);
-                   
+                    candidates.Clear(); // リストクリア  
                 }
-                //保有しているオブジェクトがあったら捨てる
                 playerMove.movable = false; // プレイヤー行動停止
             }
             else if (Input.GetKeyUp("e") || XInputManager.GetButtonRelease(playerMove.controllerID, XButtonType.B))   // アクションボタンリリース
@@ -78,9 +71,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     runningAction.EndPlayerAction(desc);
                     runningAction = null;
                 }
-            }
-
-            candidates.Clear(); // リストクリア
+            }    
         }
     }
 
@@ -90,13 +81,5 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
         {
             candidates.Add(other.gameObject);  // アクション候補のリストに追加
         }
-    }
-    //オブジェクトを保有しているかどうか
-    public bool GetIsOwn()
-    {
-        if (ownObj != null)
-            return true;
-        else
-            return false;
     }
 }

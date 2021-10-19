@@ -474,6 +474,7 @@ GameObject:
   - component: {fileID: 8550399356960404772}
   - component: {fileID: -544521293879256106}
   - component: {fileID: 4672995016681740328}
+  - component: {fileID: -674107463794023483}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -578,7 +579,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMove: {fileID: 7772201493524667833}
-  cantDump: 0
 --- !u!65 &5409381799302414694
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -662,6 +662,18 @@ MonoBehaviour:
   zenmaiPower: 0
   decrease: 0.01
   decreaseTrigger: 1
+--- !u!114 &-674107463794023483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7772201493524667844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8ceaeebe2a93824aa08644166a7e308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7993158077866682890
 GameObject:
   m_ObjectHideFlags: 0
