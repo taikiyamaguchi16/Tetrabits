@@ -18,5 +18,6 @@ public class CameraPositionController : MonoBehaviour
         cameraObject.transform.position = new Vector3(this.transform.position.x,
             this.transform.position.y,
             cameraObject.transform.position.z);
+        cameraObject.transform.rotation = this.transform.rotation;
     }
 }
