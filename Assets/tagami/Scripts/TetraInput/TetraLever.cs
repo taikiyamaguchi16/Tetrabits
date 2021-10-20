@@ -69,4 +69,8 @@ public class TetraLever : MonoBehaviour, IPlayerAction
     }
 
     public void EndPlayerAction(PlayerActionDesc _desc) { }
+    public int GetPriority()
+    {
+        return 50;
+    }
 }

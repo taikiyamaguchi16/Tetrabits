@@ -15,7 +15,6 @@ public class BatteryHolder : MonoBehaviour
     //
     public void SetBattery(GameObject _battery)
     {
-        if (_battery != null)
-            ownObj = _battery;
+        ownObj = _battery;
     }
 }

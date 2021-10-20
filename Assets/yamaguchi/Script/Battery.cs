@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Coal : MonoBehaviourPunCallbacks,IPlayerAction
+
+public class Battery : MonoBehaviourPunCallbacks,IPlayerAction
 {
     private Rigidbody rb;
     private BoxCollider col;
@@ -11,6 +12,8 @@ public class Coal : MonoBehaviourPunCallbacks,IPlayerAction
     [SerializeField, ReadOnly]
     //保有されているか
     public bool isOwned;
+    [SerializeField]
+    private int priority;
 
     private BatteryHolder ownerSc;
 
@@ -28,14 +31,19 @@ public class Coal : MonoBehaviourPunCallbacks,IPlayerAction
         else
             Dump(_desc);
     }
+    public void EndPlayerAction(PlayerActionDesc _desc) { }
+    public int GetPriority()
+    {
+        return priority;
+    }
 
     public void Dump(PlayerActionDesc _desc)
     {
-        if (_desc.target == ownerSc.gameObject)
+        if (_desc.playerObj == ownerSc.gameObject)
         {
             ownerSc.SetBattery(null);
             rb.isKinematic = false;
-            // col.enabled = true;
+            col.enabled = true;
             this.transform.parent = null;
             isOwned = false;
         }
@@ -43,13 +51,12 @@ public class Coal : MonoBehaviourPunCallbacks,IPlayerAction
 
     private void PickUp(PlayerActionDesc _desc)
     {
-        ownerSc = _desc.target.GetComponent<BatteryHolder>();
+        ownerSc = _desc.playerObj.GetComponent<BatteryHolder>();
         ownerSc.SetBattery(this.gameObject);
         rb.isKinematic = true;
-       // col.enabled = false;
-        this.transform.parent = _desc.target.transform;
+        col.enabled = false;
+        this.transform.parent = _desc.playerObj.transform;
         //保有状態に切り替え
         isOwned = true;
     }
-    public void EndPlayerAction(PlayerActionDesc _desc) { }
 }
