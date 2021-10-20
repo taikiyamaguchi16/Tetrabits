@@ -647,6 +647,8 @@ GameObject:
   - component: {fileID: 497115268}
   - component: {fileID: 497115267}
   - component: {fileID: 497115266}
+  - component: {fileID: 497115270}
+  - component: {fileID: 497115272}
   m_Layer: 0
   m_Name: Display
   m_TagString: Untagged
@@ -731,6 +733,62 @@ Transform:
   m_Father: {fileID: 773539374}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
+--- !u!114 &497115270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497115265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd1273975aeb02e4dbe272186c717c55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: b84fc670b8ff30f4a8a71418ccb3d321, type: 2}
+  noiseX: 0
+  rgbNoise: 0
+  sinNoiseScale: 0
+  sinNoiseWidth: 0
+  sinNoiseOffset: 0
+  offset: {x: 0, y: 0}
+  scanLineBright: 0.5
+  scanLineTail: 1.85
+  scanLineSpeed: 0.5
+--- !u!114 &497115272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497115265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb89fe8d55050d34a894f82607927bb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crt: {fileID: 497115270}
+  noiseInterval:
+    min: 1
+    max: 5
+  noiseDuration:
+    min: 0.1
+    max: 1
+  noiseX:
+    min: 0.1
+    max: 0.5
+  rgbNoise:
+    min: 0.1
+    max: 0.5
+  sinNoiseScale:
+    min: 0.1
+    max: 0.5
+  sinNoiseWidth:
+    min: 0.1
+    max: 0.5
+  sinNoiseOffset:
+    min: 0.1
+    max: 0.5
 --- !u!1 &773539373
 GameObject:
   m_ObjectHideFlags: 0
