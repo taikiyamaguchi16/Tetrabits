@@ -1946,13 +1946,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a08f87b69b584ce45bb58ea7dad3b017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabToSpawn: {fileID: 7772201493524667844, guid: 064ecad0c7a18bc40b5b3827f3d495d4, type: 3}
-  spawnPosition: {x: 0, y: 5, z: 0}
-  spawnEuler: {x: 0, y: 0, z: 0}
-  howToSpawn: 0
-  intervalSeconds: 1
-  spawnWhenStart: 1
-  spawnable: 1
+  spawnInfo:
+    prefabToSpawn: {fileID: 0}
+    spawnTrans: {fileID: 0}
+    spawnPosition: {x: 0, y: 0, z: 0}
+    spawnEuler: {x: 0, y: 0, z: 0}
+    howToSpawn: 0
+    intervalSeconds: 1
+    timer: 0
+    manual: 1
+    spawnWhenStart: 1
+    spawnable: 1
 --- !u!4 &1817258723
 Transform:
   m_ObjectHideFlags: 0
@@ -2025,7 +2029,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameInGameSwitchByKeys:
   - sceneObject:
-      m_SceneName: test_game
+      m_SceneName: RoomSample
     keyCode: 108
   - sceneObject:
       m_SceneName: ShootingProto

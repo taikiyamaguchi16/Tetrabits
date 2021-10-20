@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using UnityEngine.EventSystems;
 
-public class NameInput : MonoBehaviourPunCallbacks
+public class NameInput : MonoBehaviour
 {
     public InputField inputField;
     public Text text;
+
+    [SerializeField]
+    NameManager nameManager;
+
+    [SerializeField]
+    MatchmakingView matchmakingView;
+
 
     // Start is called before the first frame update
     void Start()
@@ -38,5 +46,10 @@ public class NameInput : MonoBehaviourPunCallbacks
     {
         // プレイヤー自身の名前を設定する
         PhotonNetwork.NickName = text.text;
+
+        // 入力確定後に消す
+        nameManager.NameInputExit();
+
+        matchmakingView.GetComponent<CanvasCheck>().SetOnceFlag(true);
     }
 }

@@ -29,15 +29,41 @@ public class NameManager : MonoBehaviourPunCallbacks
     }
 
     //--------------------------------------------------
-    // OnJoinedRoom
-    // ゲームサーバーへの接続が成功した時に呼ばれるコールバック
+    // OnJoinedLobby
+    // ロビーへの接続が成功した時に呼ばれるコールバック
     //--------------------------------------------------
-    public override void OnJoinedRoom()
+    public override void OnJoinedLobby()
     {
         inputField.SetActive(true);
 
         text.SetActive(true);
 
         nameInput.SetActive(true);
+    }
+
+    //--------------------------------------------------
+    // OnJoinedRoom
+    // ルームへの接続が成功した時に呼ばれるコールバック
+    //--------------------------------------------------
+    //public override void OnJoinedRoom()
+    //{
+    //    inputField.SetActive(true);
+
+    //    text.SetActive(true);
+
+    //    nameInput.SetActive(true);
+    //}
+
+    //--------------------------------------------------
+    // NameInputExit
+    // 名前入力完了後にInput系をすべて非表示
+    //--------------------------------------------------
+    public void NameInputExit()
+    {
+        inputField.SetActive(false);
+
+        text.SetActive(false);
+
+        nameInput.SetActive(false);
     }
 }

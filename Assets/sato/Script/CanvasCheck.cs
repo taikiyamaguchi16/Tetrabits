@@ -91,8 +91,6 @@ public class CanvasCheck : MonoBehaviour
     public void SetOnceFlag(bool _onceflag)
     {
         onceFlag = _onceflag;
-
-        Debug.Log("onceFlag" + _onceflag);
     }
 
     //--------------------------------------------------
