@@ -40,4 +40,9 @@ public class RecoverZenmaiPower : MonoBehaviour, IPlayerAction
         windFlag = false;
         zenmai.decreaseTrigger = true;
     }
+
+    int IPlayerAction.GetPriority()
+    {
+        return 50;
+    }
 }
