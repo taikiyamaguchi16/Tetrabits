@@ -232,8 +232,9 @@ GameObject:
   - component: {fileID: 133132552}
   - component: {fileID: 133132550}
   - component: {fileID: 133132551}
+  - component: {fileID: 133132556}
   m_Layer: 8
-  m_Name: Cube
+  m_Name: CassetHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -261,9 +262,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 133132549}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b1adedf2676cf842ab88779dcd88120, type: 3}
+  m_Script: {fileID: 11500000, guid: f2dff90cef95e9849a21414d6b9f6c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cassetteManager: {fileID: 133132556}
 --- !u!65 &133132552
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -341,6 +343,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &133132556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133132549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c46c2e78e8813a448e0463c1801e6cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noConditions: 1
+  cassetteList:
+  - {fileID: 1091378608}
+  - {fileID: 1149707883}
+  - {fileID: 528850183}
+  cassetHolder: {fileID: 133132551}
 --- !u!1 &221174286
 GameObject:
   m_ObjectHideFlags: 0
@@ -876,7 +896,8 @@ MonoBehaviour:
   isOwned: 0
   priority: 50
   loadSceneObj:
-    m_SceneName: 
+    m_SceneName: ShootingProto
+  isClear: 0
 --- !u!65 &528850184
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1840,7 +1861,8 @@ MonoBehaviour:
   isOwned: 0
   priority: 50
   loadSceneObj:
-    m_SceneName: 
+    m_SceneName: ShootingProto
+  isClear: 0
 --- !u!1 &1121150066
 GameObject:
   m_ObjectHideFlags: 0
@@ -1976,7 +1998,8 @@ MonoBehaviour:
   isOwned: 0
   priority: 50
   loadSceneObj:
-    m_SceneName: 
+    m_SceneName: ShootingProto
+  isClear: 0
 --- !u!65 &1149707884
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2524,6 +2547,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c46c2e78e8813a448e0463c1801e6cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noConditions: 0
+  cassetteList: []
+  cassetHolder: {fileID: 0}
 --- !u!114 &1817258725
 MonoBehaviour:
   m_ObjectHideFlags: 0

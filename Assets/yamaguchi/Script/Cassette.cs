@@ -16,6 +16,9 @@ public class Cassette : MonoBehaviour, IPlayerAction
     [SerializeField]
     SceneObject loadSceneObj;
 
+    [SerializeField]
+    bool isClear;
+
     private ItemPocket ownerSc;
 
     void Start()
@@ -23,6 +26,7 @@ public class Cassette : MonoBehaviour, IPlayerAction
         rb = GetComponent<Rigidbody>();
         col = GetComponent<BoxCollider>();
         isOwned = false;
+        isClear = false;
     }
 
     public void StartPlayerAction(PlayerActionDesc _desc)
@@ -48,7 +52,7 @@ public class Cassette : MonoBehaviour, IPlayerAction
     {
         if (_obj == ownerSc.gameObject)
         {
-            ownerSc.SetItem(null);
+            ownerSc.SetItem(null);  
             rb.isKinematic = false;
             col.enabled = true;
             this.transform.parent = null;
@@ -70,5 +74,20 @@ public class Cassette : MonoBehaviour, IPlayerAction
         this.transform.parent = _obj.transform;
         //保有状態に切り替え
         isOwned = true;
+    }
+
+    public SceneObject GetLoadSceneObj()
+    {
+        return loadSceneObj;
+    }
+
+    public void SetIsClearOn()
+    {
+        isClear = true;
+    }
+
+    public bool GetIsClear()
+    {
+        return isClear;
     }
 }
