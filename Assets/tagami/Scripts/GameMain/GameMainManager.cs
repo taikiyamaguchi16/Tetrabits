@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class GameMainManager : MonoBehaviour
 {
+    [Header("Require Reference")]
+    [SerializeField] CassetteManager cassetteManager;
+
+    [SerializeField] SceneObject resultScene;
+
     // Update is called once per frame
     void Update()
     {
@@ -12,14 +17,23 @@ public class GameMainManager : MonoBehaviour
         {
             Debug.Log(GameInGameManager.sCurrentGameInGameManager.gameName + "をクリアしました！！！！");
 
-            //ゲームを落とす
-            GetComponent<GameInGameSwitcher>().SwitchGameInGameScene("");
-
             //カセット吐き出したり
+            cassetteManager.ActiveCassetIsClearOn();
 
             //タイマー計測したり
 
             //すべてクリアしたら結果画面へ
+            if (cassetteManager.CheckAllCassette())
+            {
+                GetComponent<GameInGameSwitcher>().SwitchGameInGameScene(resultScene);
+            }
+            else
+            { //ゲームを落とす
+                GetComponent<GameInGameSwitcher>().SwitchGameInGameScene("");
+
+                //カセット再表示
+                cassetteManager.AppearAllCassette();
+            }
         }
     }
 

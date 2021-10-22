@@ -14,6 +14,7 @@ public class TetraInput : MonoBehaviour
 
     [Header("Debug Option")]
     [SerializeField] bool keyDebug;
+    [SerializeField] Color guiColor;
 
     public static TetraButton sTetraButton { private set; get; }
     public static TetraLever sTetraLever { private set; get; }
@@ -26,7 +27,7 @@ public class TetraInput : MonoBehaviour
         sTetraLever = tetraLever;
         sTetraPad = tetraPad;
 
-        if(keyDebug)
+        if (keyDebug)
         {
             tetraButton.keyDebug = true;
             tetraLever.keyDebug = true;
@@ -40,8 +41,13 @@ public class TetraInput : MonoBehaviour
         guis.Add("tetra button press : " + tetraButton.GetPress());
         guis.Add("tetra lever powered on : " + tetraLever.GetPoweredOn());
         guis.Add("tetra pad vector : " + tetraPad.GetVector());
+        guis.Add("objects on pad");
+        foreach (var go in tetraPad.GetObjectsOnPad())
+        {
+            guis.Add(go.name);
+        }
 
-        GUI.color = Color.black;
+        GUI.color = guiColor;
         for (int i = 0; i < guis.Count; i++)
         {
             GUI.Label(new Rect(10, 50 + 12 * i, 500, 50), guis[i]);
