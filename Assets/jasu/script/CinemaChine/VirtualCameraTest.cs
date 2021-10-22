@@ -5,17 +5,11 @@ using UnityEngine;
 public class VirtualCameraTest : MonoBehaviour
 {
     [SerializeField]
-    int testnum;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    int testNum;
 
     // Update is called once per frame
     void Update()
     {
-        VirtualCameraManager.OnlyActive(testnum);
+        VirtualCameraManager.OnlyActive(testNum);
     }
 }
