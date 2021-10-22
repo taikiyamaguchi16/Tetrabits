@@ -7,7 +7,7 @@ public class CassetteManager : MonoBehaviourPunCallbacks
 {
     //出現条件なし設定
     [SerializeField]
-    private bool noConditions;
+    private bool noCassetteAppearConditions;
     [SerializeField]
     private List<Cassette> cassetteList = new List<Cassette> { };
 
@@ -18,14 +18,13 @@ public class CassetteManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        if(noConditions)
+        foreach (var ca in cassetteList)
         {
-            foreach (var　ca in cassetteList)
+            if (noCassetteAppearConditions)
             {
                 ca.gameObject.SetActive(true);
-                ca.gameObject.transform.parent = null;
-                
             }
+            ca.gameObject.transform.parent = null;
         }
     }
 
@@ -81,6 +80,5 @@ public class CassetteManager : MonoBehaviourPunCallbacks
 
             activeCassette.GetComponent<Rigidbody>().AddForce(-this.transform.forward * 3f + Vector3.up * 15f,ForceMode.Impulse);
         }
-        Debug.Log("ここまで");
     }
 }

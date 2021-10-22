@@ -5,7 +5,7 @@ using UnityEngine;
 public class Cassette : MonoBehaviour, IPlayerAction
 {
     private Rigidbody rb;
-    private BoxCollider col;
+    private Collider col;
     // Start is called before the first frame update
     [SerializeField, ReadOnly]
     //保有されているか
