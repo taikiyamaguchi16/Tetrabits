@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneShift : MonoBehaviour
+public class SceneHolder : MonoBehaviour
 {
     [SerializeField]
     SceneObject sceneObject;
