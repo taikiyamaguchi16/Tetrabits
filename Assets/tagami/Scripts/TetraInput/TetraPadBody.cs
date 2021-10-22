@@ -13,7 +13,14 @@ public class TetraPadBody : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        foreach (var obj in padOnList)
+        {
+            if (obj == collision.gameObject)
+                return;
+        }
+
         padOnList.Add(collision.gameObject);
+
     }
 
     private void OnCollisionExit(Collision collision)

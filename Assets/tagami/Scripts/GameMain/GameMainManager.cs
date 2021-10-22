@@ -23,8 +23,9 @@ public class GameMainManager : MonoBehaviour
             //タイマー計測したり
 
             //すべてクリアしたら結果画面へ
-            if (cassetteManager.CheckAllCassette())
+            if (cassetteManager.CheckAllCassette()||true)
             {
+                Debug.LogWarning("強制全クリ発動！！");
                 GetComponent<GameInGameSwitcher>().SwitchGameInGameScene(resultScene);
             }
             else
