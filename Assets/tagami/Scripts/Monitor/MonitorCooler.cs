@@ -36,4 +36,9 @@ public class MonitorCooler : MonoBehaviour,IPlayerAction
     {
         running = false;
     }
+
+    public int GetPriority()
+    {
+        return 50;
+    }
 }
