@@ -8,27 +8,36 @@ public class GimmickController : MonoBehaviour
     Tilemap tilemap;
     TilemapCollider2D tilemapCollider;
 
+    bool leverState = false;
+
     // Start is called before the first frame update
     void Start()
     {
         tilemap = this.gameObject.GetComponent<Tilemap>();
         tilemapCollider = this.gameObject.GetComponent<TilemapCollider2D>();
-        tilemap.color = new Color(1, 1, 1, 0.1f);
-        tilemapCollider.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (TetraInput.sTetraLever.GetPoweredOn())
+        if(leverState!= TetraInput.sTetraLever.GetPoweredOn())
         {
-            tilemap.color = new Color(1, 1, 1, 1);
-            tilemapCollider.enabled = true;
+            SwitchGimmick();
         }
-        else if (!TetraInput.sTetraLever.GetPoweredOn())
+        leverState = TetraInput.sTetraLever.GetPoweredOn();
+    }
+
+    void SwitchGimmick()
+    {
+        if(tilemapCollider.enabled)
         {
             tilemap.color = new Color(1, 1, 1, 0.1f);
             tilemapCollider.enabled = false;
+        }
+        else
+        {
+            tilemap.color = new Color(1, 1, 1, 1);
+            tilemapCollider.enabled = true;
         }
     }
 }

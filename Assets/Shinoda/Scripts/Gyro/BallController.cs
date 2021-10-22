@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    Rigidbody2D rigidbody;
+    Rigidbody2D rb;
 
     [SerializeField] float rotateScale = 0.1f;
     [SerializeField] float stopTime = 1.0f;
@@ -13,7 +13,7 @@ public class BallController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
+        rb = this.gameObject.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -32,10 +32,10 @@ public class BallController : MonoBehaviour
 
         if (TetraInput.sTetraButton.GetTrigger())
         {
-            rigidbody.velocity = Vector2.zero;
+            rb.velocity = Vector2.zero;
         }
 
 
-        rigidbody.AddForce(-(this.transform.up) * gravityScale);
+        rb.AddForce(-(this.transform.up) * gravityScale);
     }
 }
