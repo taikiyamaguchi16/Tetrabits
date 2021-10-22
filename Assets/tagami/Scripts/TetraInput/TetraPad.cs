@@ -18,6 +18,8 @@ public class TetraPad : MonoBehaviour
         padVector = Vector2.zero;
         foreach (var obj in tetraPadBody.padOnList)
         {
+            if (!obj) continue;
+
             var localVec = obj.transform.position - transform.position;
             localVec.Normalize();
             padVector.x += localVec.x;
@@ -45,6 +47,8 @@ public class TetraPad : MonoBehaviour
             }
         }
     }
+
+    public List<GameObject> GetObjectsOnPad() { return tetraPadBody.padOnList; }
 
     public Vector2 GetVector(){ return padVector; }
 }
