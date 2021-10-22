@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TitleManager : MonoBehaviour
 {
@@ -47,8 +48,10 @@ public class TitleManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if(gameSwitcher)
-                gameSwitcher.SwitchGameInGameScene(cursor.GetSelectedObj().GetComponent<SceneShift>().GetScene());
+            if (gameSwitcher)
+                gameSwitcher.SwitchGameInGameScene(cursor.GetSelectedObj().GetComponent<SceneHolder>().GetScene());
+            else
+                SceneManager.LoadScene(cursor.GetSelectedObj().GetComponent<SceneHolder>().GetScene());
         }
     }
 }
