@@ -8,12 +8,15 @@ using UnityEngine.UI;
 public class NameManager : MonoBehaviourPunCallbacks
 {
     [SerializeField]
+    [Header("InputField‚ð“ü‚ê‚é")]
     GameObject inputField;
 
     [SerializeField]
+    [Header("Name‚ð“ü‚ê‚é")]
     GameObject text;
 
     [SerializeField]
+    [Header("NameInput‚ð“ü‚ê‚é")]
     GameObject nameInput;
 
     // Start is called before the first frame update
