@@ -50,8 +50,16 @@ public class CameraAction : MonoBehaviourPunCallbacks
     float distance;
 
     // 補正完了かどうか
+    bool isInterpolate = false;
+
+    // 補間用
+    float timer = 0.0f;
+    bool isTimer = false;
+
+    // 補間確認用
     [SerializeField]
-    bool isInterplate = false;
+    [Header("補間確認用")]
+    bool test = false;
 
     // Start is called before the first frame update
     void Start()
@@ -61,20 +69,31 @@ public class CameraAction : MonoBehaviourPunCallbacks
         {
             // カメラの初期位置を保存
             startPos = targetCamera.transform.position;
+
+            // 二点間の距離を計算
+            distance = Vector3.Distance(startPos, endPos);
         }
         else
         {
             targetCamera.transform.position = startPos;
-        }
 
-        // 二点間の距離を計算
-        distance = Vector3.Distance(startPos, endPos);
+            // 二点間の距離を計算
+            distance = Vector3.Distance(targetCamera.transform.position, endPos);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         InterpolateCamera();
+
+        TimerCount();
+
+        if (test)
+        {
+            isInterpolate = true;
+            isTimer = true;
+        }
     }
 
     //--------------------------------------------------
@@ -83,10 +102,10 @@ public class CameraAction : MonoBehaviourPunCallbacks
     //--------------------------------------------------
     void InterpolateCamera()
     {
-        if (isInterplate)
+        if (isInterpolate)
         {
             // 現在位置
-            float presentPos = (Time.time * speed) / distance;
+            float presentPos = (timer * speed) / distance;
 
             // 線形補間
             if (interpolateSwitch)
@@ -106,8 +125,23 @@ public class CameraAction : MonoBehaviourPunCallbacks
                 targetCamera.transform.position.y >= endPos.y &&
                 targetCamera.transform.position.z >= endPos.z)
             {
-                isInterplate = false;
+                isInterpolate = false;
+                isTimer = false;
+                timer = 0.0f;
             }
+        }
+    }
+
+    //--------------------------------------------------
+    // TimerCount
+    // 補間用のタイマカウントアップ関数
+    //--------------------------------------------------
+    void TimerCount()
+    {
+        if (isTimer)
+        {
+            // タイマ加算
+            timer += Time.deltaTime;
         }
     }
 
@@ -117,11 +151,11 @@ public class CameraAction : MonoBehaviourPunCallbacks
     //--------------------------------------------------
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        Debug.Log("liauhguglaouglluirhgalhguaigli");
         // 設定した人数以上になれば
         if(PhotonNetwork.PlayerList.Length <= numUpperLimit && PhotonNetwork.PlayerList.Length >= numLowerLimit)
         {
-            isInterplate = true;
+            isInterpolate = true;
+            isTimer = true;
         }
     }
 }
