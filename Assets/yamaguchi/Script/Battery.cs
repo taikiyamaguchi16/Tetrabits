@@ -7,15 +7,21 @@ using Photon.Pun;
 public class Battery : MonoBehaviourPunCallbacks,IPlayerAction
 {
     private Rigidbody rb;
-    private BoxCollider col;
-    // Start is called before the first frame update
+    private Collider col;
     [SerializeField, ReadOnly]
     //保有されているか
     public bool isOwned;
+
     [SerializeField]
     private int priority;
+    
     //電池残量
-    private float level;
+    [SerializeField, ReadOnly]
+    private float level = 100f;
+    
+    //消費電力
+    [SerializeField]
+    float powerConsumption;
 
     private ItemPocket ownerSc;
 
@@ -23,7 +29,7 @@ public class Battery : MonoBehaviourPunCallbacks,IPlayerAction
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<BoxCollider>();
-        isOwned = false;       
+        isOwned = false;        
     }
 
     public void StartPlayerAction(PlayerActionDesc _desc)
@@ -39,6 +45,13 @@ public class Battery : MonoBehaviourPunCallbacks,IPlayerAction
                 //photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj);
             Dump(_desc.playerObj);
         }
+    }
+
+    private void Update()
+    {
+        level -= powerConsumption * Time.deltaTime;
+        if (level < 0)
+            level = 0f;
     }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()
@@ -63,6 +76,9 @@ public class Battery : MonoBehaviourPunCallbacks,IPlayerAction
     [PunRPC]
     public void PickUp(GameObject _obj)
     {
+        //持たれたとき用の角度
+        this.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+
         priority = 100;
         ownerSc = _obj.GetComponent<ItemPocket>();
         ownerSc.SetItem(this.gameObject);
