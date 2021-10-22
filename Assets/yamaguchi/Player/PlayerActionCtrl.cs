@@ -9,11 +9,6 @@ public struct PlayerActionDesc
 {
    public GameObject playerObj;
 }
-public struct CheckPriorityDesc
-{
-    private int pri;
-    public GameObject ob;
-}
 
 // アクション用インターフェース
 public interface IPlayerAction
@@ -31,7 +26,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
     PlayerMove playerMove;
 
     [SerializeField]
-    BatteryHolder holder;
+    ItemPocket holder;
     // アクション候補リスト
     List<GameObject> candidates = new List<GameObject>();
     
@@ -55,13 +50,14 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
             if (Input.GetKeyDown("e") || XInputManager.GetButtonPress(playerMove.controllerID, XButtonType.B))  // アクションボタン
             {
                 //持ち運んでいるオブジェクトがある場合それをアクション候補に加える
-                GameObject carryObj = holder.GetBattery();
+                GameObject carryObj = holder.GetItem();
                 if (carryObj != null)
-                    candidates.Add(carryObj);
+                    if (!candidates.Contains(carryObj))
+                        candidates.Add(carryObj);
 
                 if (candidates.Count > 0 && runningAction == null)
                 {
-                    //PriorityCheck();
+                    PriorityCheck();
                     // 一番近いオブジェクトを検索
                     GameObject nearest = candidates[0];
 
@@ -85,45 +81,68 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                 {
                     // アクション終了
                     runningAction.EndPlayerAction(desc);
-                    runningAction = null;           
+                    runningAction = null;
+                    //candidates.Clear();
                 }
             }   
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        //candidates.Clear();
+        
         if (other.gameObject.GetComponent<IPlayerAction>() != null)
         {
-            candidates.Add(other.gameObject);  // アクション候補のリストに追加            
+            if (!candidates.Contains(other.gameObject))
+            {
+                candidates.Add(other.gameObject);  // アクション候補のリストに追加            
+            }
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+
+        if (other.gameObject.GetComponent<IPlayerAction>() != null)
+        {
+            candidates.Remove(other.gameObject);  // アクション候補のリスト             
+        }
+    }
     private void PriorityCheck()
     {
         //毎回ゲットコンポーネントしないようにlist作成
         List<IPlayerAction> intList = new List<IPlayerAction> { };
+        //一旦オブジェクトを指定してから消す
+        List<GameObject> keepList = new List<GameObject> { };
+        //Debug.Log(candidates.Count + "数は");
         foreach (var can in candidates)
         {
             intList.Add(can.GetComponent<IPlayerAction>());
         }
-        Debug.Log(candidates.Count);
+       
         IPlayerAction max = intList[0];
         for (int i = 1; i < intList.Count; i++)
         {
-            if (intList[i].GetPriority() < max.GetPriority())
+            //if (intList[i].GetPriority() == max.GetPriority())
+            //    Debug.Log("同じ");
+           　if (intList[i].GetPriority() < max.GetPriority())
             {
-                //アクション候補から優先度の低いものを排除
-                Debug.Log(intList.IndexOf(intList[i]) + "を排除");
-                candidates.RemoveAt(intList.IndexOf(intList[i]));
+                //アクション候補から優先度の低いものを排除                 
+                keepList.Add(candidates[i]);
             }
             else if (intList[i].GetPriority() > max.GetPriority())
             {
-                //アクション候補から優先度の低いものを排除
-                candidates.RemoveAt(intList.IndexOf(max));
+                //アクション候補から優先度の低いものを排除            
+                keepList.Add(candidates[intList.IndexOf(max)]);
                 max = intList[i];
             }
-        }  
+        }
+
+        foreach (var kp in keepList)
+        {
+            candidates.Remove(kp);
+        }
     }
+
+
 }
