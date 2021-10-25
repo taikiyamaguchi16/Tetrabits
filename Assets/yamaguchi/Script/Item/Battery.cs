@@ -34,8 +34,8 @@ public class Battery : MonoBehaviourPunCallbacks,IPlayerAction
 
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
-        if (photonView.IsMine)
-        {
+        //if (photonView.IsMine)
+        //{
             if (!isOwned)
             {
                 PickUp(_desc.playerObj);
@@ -44,7 +44,7 @@ public class Battery : MonoBehaviourPunCallbacks,IPlayerAction
             else
                 //photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj);
             Dump(_desc.playerObj);
-        }
+       // }
     }
 
     private void Update()

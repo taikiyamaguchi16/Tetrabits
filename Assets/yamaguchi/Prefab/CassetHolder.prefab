@@ -181,8 +181,8 @@ GameObject:
   - component: {fileID: 9011352896551817300}
   - component: {fileID: 9011352896551817301}
   - component: {fileID: 9011352896551817307}
-  - component: {fileID: 9011352896551817306}
   - component: {fileID: 9011352896551817297}
+  - component: {fileID: 3607922917820597422}
   m_Layer: 8
   m_Name: CassetHolder
   m_TagString: Untagged
@@ -283,19 +283,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pocketPos: {fileID: 9011352896359053929}
---- !u!114 &9011352896551817306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9011352896551817304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2dff90cef95e9849a21414d6b9f6c8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cassetteManager: {fileID: 9011352896551817297}
 --- !u!114 &9011352896551817297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,12 +295,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c46c2e78e8813a448e0463c1801e6cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noConditions: 1
+  noCassetteAppearConditions: 0
   cassetteList:
   - {fileID: 9011352897720089837}
   - {fileID: 9011352897677477686}
   - {fileID: 9011352896150862938}
-  cassetHolder: {fileID: 9011352896551817306}
+  cassetHolder: {fileID: 3607922917820597422}
+--- !u!114 &3607922917820597422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9011352896551817304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c694ce8c1d909a4c8385ac641318da2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cassetteManager: {fileID: 9011352896551817297}
 --- !u!1001 &9011352896150862936
 PrefabInstance:
   m_ObjectHideFlags: 0
