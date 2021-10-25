@@ -24,7 +24,7 @@ public class Cursor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow) || XInputAnyButton.GetAnyButtonTrigger(XButtonType.LThumbStickUp))
         {
             selectedNum--;
             if (selectedNum < 0)
@@ -32,7 +32,7 @@ public class Cursor : MonoBehaviour
             SetPosSelected();
         }
 
-        if(Input.GetKeyDown(KeyCode.DownArrow))
+        if(Input.GetKeyDown(KeyCode.DownArrow) || XInputAnyButton.GetAnyButtonTrigger(XButtonType.LThumbStickDown))
         {
             selectedNum++;
             if (selectedNum > targetList.Count - 1)
