@@ -28,6 +28,9 @@ public class GameInGameResultManager : MonoBehaviour
         {
             var managerObj = GameObject.Find("GameMainManager");
             managerObj.GetComponent<GameInGameSwitcher>().SwitchGameInGameScene(nextScene);
+
+            Debug.LogWarning("Playerぶっころします");
+            Destroy(GameObject.Find("Players"));
         }
     }
 }
