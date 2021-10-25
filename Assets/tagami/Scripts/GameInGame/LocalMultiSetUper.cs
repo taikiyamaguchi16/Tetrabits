@@ -22,6 +22,8 @@ public class LocalMultiSetUper : MonoBehaviour
         //とりあえずFindでテスト
         var cassetHolderObj = GameObject.Find("CassetHolder");
         cassetHolderObj.GetComponent<CassetteManager>().AppearAllCassette();
+
+        VirtualCameraManager.OnlyActive(1);
     }
 
     // Update is called once per frame
