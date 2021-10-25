@@ -18,6 +18,8 @@ public class TitleManager : MonoBehaviour
     
     GameInGameSwitcher gameSwitcher = null;
 
+    CRTRamdomNoise crtNoise = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,27 +36,48 @@ public class TitleManager : MonoBehaviour
             gameSwitcher = mainManager.GetComponent<GameInGameSwitcher>();
         else
             Debug.Log("GameMainManager取得失敗");
+
+        GameObject display = GameObject.Find("Display");
+        if (display)
+            crtNoise = display.GetComponent<CRTRamdomNoise>();
+        else
+            Debug.Log("Display取得失敗");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!modeSelectFlag && Input.anyKey && !Input.GetKey(KeyCode.E))
+        if (modeSelectFlag)
         {
-            modeSelectFlag = true;
-            beforeObj.DestroyObject();
-            foreach(GameObject after in afterObjList)
+            if(crtNoise != null)
             {
-                after.SetActive(true);
+                crtNoise.noiseActive = true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space) || XInputAnyButton.GetAnyButtonTrigger(XButtonType.A))
+            {
+                if (gameSwitcher)
+                    gameSwitcher.SwitchGameInGameScene(cursor.GetSelectedObj().GetComponent<SceneHolder>().GetScene());
+                else
+                    SceneManager.LoadScene(cursor.GetSelectedObj().GetComponent<SceneHolder>().GetScene());
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        else
         {
-            if (gameSwitcher)
-                gameSwitcher.SwitchGameInGameScene(cursor.GetSelectedObj().GetComponent<SceneHolder>().GetScene());
-            else
-                SceneManager.LoadScene(cursor.GetSelectedObj().GetComponent<SceneHolder>().GetScene());
+            if (crtNoise != null)
+            {
+                crtNoise.noiseActive = false;
+            }
+
+            if (Input.anyKeyDown || XInputAnyButton.GetAnyButtonTrigger())
+            {
+                modeSelectFlag = true;
+                beforeObj.DestroyObject();
+                foreach (GameObject after in afterObjList)
+                {
+                    after.SetActive(true);
+                }
+            }
         }
     }
 }
