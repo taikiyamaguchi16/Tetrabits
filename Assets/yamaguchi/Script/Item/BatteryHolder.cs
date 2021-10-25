@@ -30,12 +30,10 @@ public class BatteryHolder : MonoBehaviour, IPlayerAction
 
                 //自分がバッテリを持っていた場合swapする
                 if (checkbattery != null)
-                {
-                    //checkbattery.Dump(this.gameObject);
                     checkbattery.PickUp(_desc.playerObj);
-                }
+                
             }
-            //バッテリー出なかった場合元に戻す
+            //バッテリーでなかった場合元に戻す
             else
                 ownBattery = checkbattery;
         }
