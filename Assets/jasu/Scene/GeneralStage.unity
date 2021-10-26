@@ -948,7 +948,6 @@ MonoBehaviour:
   scanLineBright: 0.5
   scanLineTail: 1.85
   scanLineSpeed: 0.5
-  noiseOnOff: 1
 --- !u!114 &497115272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -962,27 +961,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   crt: {fileID: 497115270}
-  noiseInterval:
-    min: 1
-    max: 5
-  noiseDuration:
-    min: 0.1
-    max: 1
-  noiseX:
-    min: 0.1
-    max: 0.5
-  rgbNoise:
-    min: 0.1
-    max: 0.5
-  sinNoiseScale:
-    min: 0.1
-    max: 0.5
-  sinNoiseWidth:
-    min: 0.1
-    max: 0.5
-  sinNoiseOffset:
-    min: 0.1
-    max: 0.5
+  noiseActive: 0
+  stopNoiseInDuration: 0
+  noiseDuration: 0
+  noiseX: 0
+  rgbNoise: 0
+  sinNoiseScale: 0
+  sinNoiseWidth: 0
+  sinNoiseOffset: 0
+  randomNoiseInterval:
+    min: 0
+    max: 0
+  randomNoiseDuration:
+    min: 0
+    max: 0
+  noiseXRandom:
+    min: 0
+    max: 0
+  rgbNoiseRandom:
+    min: 0
+    max: 0
+  sinNoiseScaleRandom:
+    min: 0
+    max: 0
+  sinNoiseWidthRandom:
+    min: 0
+    max: 0
+  sinNoiseOffsetRandom:
+    min: 0
+    max: 0
 --- !u!1 &557412281
 GameObject:
   m_ObjectHideFlags: 0
@@ -2842,6 +2849,7 @@ GameObject:
   - component: {fileID: 1838993392}
   - component: {fileID: 1838993391}
   - component: {fileID: 1838993390}
+  - component: {fileID: 1838993393}
   m_Layer: 0
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -2942,6 +2950,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1838993393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838993389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!4 &1931276572 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5568306287210744423, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
