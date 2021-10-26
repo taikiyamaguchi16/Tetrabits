@@ -18,6 +18,6 @@ public class BatteryLevelBar : MonoBehaviour
     void Update()
     {
         slider.value = batteryHolder.GetBatterylevel();
-        Debug.Log(batteryHolder.GetBatterylevel());
+       // Debug.Log(batteryHolder.GetBatterylevel());
     }
 }

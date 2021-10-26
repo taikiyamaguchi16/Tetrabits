@@ -34,7 +34,7 @@ public class CommonBullet2D : MonoBehaviour
 
             //自身弾の消去
             Destroy(gameObject);
-            MonitorManager.DealDamageToMonitor(1);
+            MonitorManager.DealDamageToMonitor("small");
         }
     }
 

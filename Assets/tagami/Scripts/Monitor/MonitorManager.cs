@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class MonitorManager : MonoBehaviour
 {
     [Header("Required Reference")]
@@ -13,14 +12,21 @@ public class MonitorManager : MonoBehaviour
     [SerializeField] float monitorHpMax = 100;
     float monitorHp;
 
+
     [System.Serializable]
-    struct MonitorStatus
+    struct MonitorStageStatus
     {
         public GameObject monitorModelObject;
     }
-    [SerializeField] List<MonitorStatus> monitorStatuses;
+    [Header("MonitorStage")]
+    [SerializeField] List<MonitorStageStatus> monitorStatuses;
     int currentMonitorStatusIndex = 0;
 
+    [System.Serializable]
+    struct KeyGameObject { public string key; public GameObject go; }
+    [Header("Cooling Target Prefabs")]
+    [SerializeField] List<KeyGameObject> coolingTargetPrefabs;
+    List<GameObject> createdCoolingTargets;
 
     [Header("Option")]
     [SerializeField] Slider monitorHpBarSlider;
@@ -36,6 +42,8 @@ public class MonitorManager : MonoBehaviour
 
         //初期回復
         monitorHp = monitorHpMax;
+        //List作成
+        createdCoolingTargets = new List<GameObject>();
     }
 
     private void Update()
@@ -63,19 +71,40 @@ public class MonitorManager : MonoBehaviour
         monitorHp = monitorHpMax;
     }
 
-    public void RepairMonitor(float _healHp)
+    public void RepairMonitor(float _repairHp)
     {
-        monitorHp += _healHp;
+        monitorHp += _repairHp;
         if (monitorHp >= monitorHpMax)
         {
             monitorHp = monitorHpMax;
         }
     }
 
-    void DealDamage(float _damage)
+    void DealDamage(string _damageId)
     {
+        GameObject prefab = null;
+        foreach (var keyObj in coolingTargetPrefabs)
+        {
+            if (keyObj.key == _damageId)
+            {
+                prefab = keyObj.go;
+            }
+        }
+        if (!prefab)
+        {
+            Debug.LogError(_damageId + "：冷却用ダメージのPrefabを発見できませんでした");
+            return;
+        }
+
+        //ダメージ発生 生成場所どーしよ
+        var createdObj = Instantiate(prefab, new Vector3(Random.Range(-20, 20), Random.Range(5, 20), 49), Quaternion.identity);
+        //生成登録
+        createdCoolingTargets.Add(createdObj);
+
         //ダメージ処理
-        monitorHp -= _damage;
+        monitorHp -= createdObj.GetComponent<CoolingTargetStatus>().damageToMonitor;
+
+        //ダメージ段階進行処理
         if (monitorHp <= 0)
         {
             if (currentMonitorStatusIndex >= (monitorStatuses.Count - 1))
@@ -93,21 +122,34 @@ public class MonitorManager : MonoBehaviour
             //現在のIndexを更新
             currentMonitorStatusIndex++;
 
-            //いくつかの決まった箇所に邪魔オブジェクトを配置
-
             //HP全回復
             monitorHp = monitorHpMax;
+            //冷却ターゲット消去
+            foreach(var obj in createdCoolingTargets)
+            {
+                if(obj)
+                {
+                    Destroy(obj);
+                }
+            }
+            createdCoolingTargets.Clear();
         }
+
     }
 
     //static
     static MonitorManager sMonitorManager;
 
+    [System.Obsolete("DealDamageToMonitor(float) is deprecated, please use DealDamageToMonitor(string) instead.")]
     public static void DealDamageToMonitor(float _damage)
+    {
+    }
+
+    public static void DealDamageToMonitor(string _damageId)
     {
         if (sMonitorManager)
         {
-            sMonitorManager.DealDamage(_damage);
+            sMonitorManager.DealDamage(_damageId);
         }
     }
 }
