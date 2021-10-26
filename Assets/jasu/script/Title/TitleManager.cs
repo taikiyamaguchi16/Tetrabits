@@ -18,7 +18,7 @@ public class TitleManager : MonoBehaviour
     
     GameInGameSwitcher gameSwitcher = null;
 
-    CRTRamdomNoise crtNoise = null;
+    CRTNoise crtNoise = null;
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +39,7 @@ public class TitleManager : MonoBehaviour
 
         GameObject display = GameObject.Find("Display");
         if (display)
-            crtNoise = display.GetComponent<CRTRamdomNoise>();
+            crtNoise = display.GetComponent<CRTNoise>();
         else
             Debug.Log("Display取得失敗");
     }
@@ -57,9 +57,17 @@ public class TitleManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) || XInputAnyButton.GetAnyButtonTrigger(XButtonType.A))
             {
                 if (gameSwitcher)
+                {
+                    crtNoise.stopNoiseInDuration = true;
+                    crtNoise.SetRandomNoiseActive(false);
                     gameSwitcher.SwitchGameInGameScene(cursor.GetSelectedObj().GetComponent<SceneHolder>().GetScene());
+                }
                 else
+                {
+                    crtNoise.stopNoiseInDuration = true;
+                    crtNoise.SetRandomNoiseActive(false);
                     SceneManager.LoadScene(cursor.GetSelectedObj().GetComponent<SceneHolder>().GetScene());
+                }
             }
         }
         else
