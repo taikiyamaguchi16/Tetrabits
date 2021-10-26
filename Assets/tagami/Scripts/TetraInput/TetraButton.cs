@@ -7,6 +7,7 @@ public class TetraButton : MonoBehaviour
     [Header("Reference")]
     [SerializeField] GameObject buttonObj;
     [SerializeField] GameObject foundationObj;
+    [SerializeField] BatteryHolder batteryHolder;
 
     [Header("Option")]
     [SerializeField, Tooltip("ボタン押し返し力")] float ySpring = 100.0f;
@@ -32,8 +33,15 @@ public class TetraButton : MonoBehaviour
         //更新
         oldButtonState = buttonState;
 
-        //ベースより位置が低くなった時TRUE?
-        buttonState = buttonObj.transform.position.y < foundationObj.transform.position.y || (keyDebug && Input.GetKey(KeyCode.E));
+        if ((batteryHolder && batteryHolder.GetBatterylevel() > 0) || keyDebug)
+        {
+            //ベースより位置が低くなった時TRUE?
+            buttonState = buttonObj.transform.position.y < foundationObj.transform.position.y || (keyDebug && Input.GetKey(KeyCode.E));
+        }
+        else
+        {
+            buttonState = false;
+        }
     }
 
     public bool GetPress() { return buttonState; }

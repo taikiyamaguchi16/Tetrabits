@@ -6,6 +6,7 @@ public class TetraPad : MonoBehaviour
 {
     [Header("Reference")]
     [SerializeField] TetraPadBody tetraPadBody;
+    [SerializeField] BatteryHolder batteryHolder;
 
     [System.NonSerialized]
     public bool keyDebug = false;
@@ -14,22 +15,25 @@ public class TetraPad : MonoBehaviour
 
     private void Update()
     {
-        //リストから合算ベクトルを作成
         padVector = Vector2.zero;
-        foreach (var obj in tetraPadBody.padOnList)
-        {
-            if (!obj) continue;
 
-            var localVec = obj.transform.position - transform.position;
-            localVec.Normalize();
-            padVector.x += localVec.x;
-            padVector.y += localVec.z;
+        if (batteryHolder && batteryHolder.GetBatterylevel() > 0)
+        {
+            //リストから合算ベクトルを作成           
+            foreach (var obj in tetraPadBody.padOnList)
+            {
+                if (!obj) continue;
+
+                var localVec = obj.transform.position - transform.position;
+                localVec.Normalize();
+                padVector.x += localVec.x;
+                padVector.y += localVec.z;
+            }
         }
 
-        if(keyDebug)
+        if (keyDebug)
         {
-            padVector = Vector2.zero;
-            if(Input.GetKey(KeyCode.UpArrow)|| Input.GetKey(KeyCode.W))
+            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
             {
                 padVector.y += 1.0f;
             }
@@ -50,5 +54,5 @@ public class TetraPad : MonoBehaviour
 
     public List<GameObject> GetObjectsOnPad() { return tetraPadBody.padOnList; }
 
-    public Vector2 GetVector(){ return padVector; }
+    public Vector2 GetVector() { return padVector; }
 }
