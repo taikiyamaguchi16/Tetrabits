@@ -29,7 +29,8 @@ public class Battery : MonoBehaviourPunCallbacks,IPlayerAction
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<BoxCollider>();
-        isOwned = false;        
+        isOwned = false;
+        level = 100f;
     }
 
     public void StartPlayerAction(PlayerActionDesc _desc)
