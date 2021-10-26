@@ -44,6 +44,7 @@ public class TetraInput : MonoBehaviour
         guis.Add("objects on pad");
         foreach (var go in tetraPad.GetObjectsOnPad())
         {
+            if(go)
             guis.Add(go.name);
         }
 
