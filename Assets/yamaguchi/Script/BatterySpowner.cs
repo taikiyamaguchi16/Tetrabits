@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class BatterySpowner : MonoBehaviour, IPlayerAction
+public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
 {
 
     [SerializeField]
@@ -16,11 +17,14 @@ public class BatterySpowner : MonoBehaviour, IPlayerAction
 
     private float elpsedTime;
     // Start is called before the first frame update
-    void Start()
+    public override void OnJoinedRoom()
     {
+
         pocket = GetComponent<ItemPocket>();
 
-        var b_obj = GameObject.Instantiate(spownObj);
+        //var b_obj = GameObject.Instantiate(spownObj);
+        var b_obj = PhotonNetwork.Instantiate(spownObj.name, Vector3.zero, Quaternion.identity);
+
         pocket.SetItem(b_obj);
         ownBattery = b_obj.GetComponent<Battery>();
 
@@ -35,7 +39,8 @@ public class BatterySpowner : MonoBehaviour, IPlayerAction
             elpsedTime += Time.deltaTime;
             if (spownBatteryTime < elpsedTime)
             {
-                var b_obj = GameObject.Instantiate(spownObj);
+                //var b_obj = GameObject.Instantiate(spownObj);
+                var b_obj = PhotonNetwork.Instantiate(spownObj.name, Vector3.zero, Quaternion.identity);
                 pocket.SetItem(b_obj);
                 ownBattery = b_obj.GetComponent<Battery>();
 
