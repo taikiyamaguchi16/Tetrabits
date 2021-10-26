@@ -41,19 +41,14 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        if (PhotonNetwork.OfflineMode)
-        {
-            PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions(), TypedLobby.Default);
-        }
+        if(isOffline)
+           PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions(), TypedLobby.Default);
         else
-        {
-            PhotonNetwork.JoinLobby();
-        }
+           PhotonNetwork.JoinLobby();
     }
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("入室しました");
         var position = new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f));
         //PhotonNetwork.Instantiate("Avatar", position, Quaternion.identity);
 

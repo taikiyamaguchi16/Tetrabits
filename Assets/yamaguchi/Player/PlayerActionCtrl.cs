@@ -53,8 +53,10 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                 GameObject carryObj = holder.GetItem();
                 if (carryObj != null)
                     if (!candidates.Contains(carryObj))
+                    {
                         candidates.Add(carryObj);
-
+                        
+                    }
                 if (candidates.Count > 0 && runningAction == null)
                 {
                     PriorityCheck();

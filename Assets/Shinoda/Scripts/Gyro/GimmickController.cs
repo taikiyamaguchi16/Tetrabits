@@ -1,20 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class GimmickController : MonoBehaviour
 {
-    Tilemap tilemap;
-    TilemapCollider2D tilemapCollider;
+    SpriteRenderer spriteRenderer;
+    BoxCollider2D boxCollider;
 
     bool leverState = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        tilemap = this.gameObject.GetComponent<Tilemap>();
-        tilemapCollider = this.gameObject.GetComponent<TilemapCollider2D>();
+        spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+        boxCollider = this.gameObject.GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -29,15 +28,15 @@ public class GimmickController : MonoBehaviour
 
     void SwitchGimmick()
     {
-        if(tilemapCollider.enabled)
+        if(boxCollider.enabled)
         {
-            tilemap.color = new Color(1, 1, 1, 0.1f);
-            tilemapCollider.enabled = false;
+            spriteRenderer.color = new Color(1, 1, 1, 0.1f);
+            boxCollider.enabled = false;
         }
         else
         {
-            tilemap.color = new Color(1, 1, 1, 1);
-            tilemapCollider.enabled = true;
+            spriteRenderer.color = new Color(1, 1, 1, 1);
+            boxCollider.enabled = true;
         }
     }
 }
