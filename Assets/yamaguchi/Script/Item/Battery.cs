@@ -25,7 +25,7 @@ public class Battery : MonoBehaviourPunCallbacks,IPlayerAction
 
     private ItemPocket ownerSc;
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<BoxCollider>();
@@ -50,7 +50,7 @@ public class Battery : MonoBehaviourPunCallbacks,IPlayerAction
 
     private void Update()
     {
-        Debug.Log(photonView.ViewID);
+        //Debug.Log(photonView.ViewID);
         level -= powerConsumption * Time.deltaTime;
         if (level < 0)
             level = 0f;
@@ -78,8 +78,6 @@ public class Battery : MonoBehaviourPunCallbacks,IPlayerAction
     [PunRPC]
     public void PickUp(GameObject _obj)
     {
-        //持たれたとき用の角度
-        this.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
         priority = 100;
         ownerSc = _obj.GetComponent<ItemPocket>();
         ownerSc.SetItem(this.gameObject);

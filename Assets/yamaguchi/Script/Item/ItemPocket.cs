@@ -21,6 +21,7 @@ public class ItemPocket : MonoBehaviour
         if (_item != null)
         {
             ownObj.transform.position = pocketPos.position;
+            ownObj.transform.eulerAngles = pocketPos.eulerAngles;
 
         }
       //  ownBattery = ownObj.GetComponent<Battery>();
