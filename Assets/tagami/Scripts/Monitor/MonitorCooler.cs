@@ -10,18 +10,12 @@ public class MonitorCooler : MonoBehaviour, IPlayerAction
     [SerializeField] Transform rotateTarget;
 
     [Header("Status")]
+    [SerializeField] float damageToCoolingTargetPerSeconds = 1.0f;
     [SerializeField] float repairMonitorPerSeconds = 0.1f;
     [SerializeField] float rotateAnglePerSeconds = 10.0f;
 
     int controlXinputIndex = 0;
-
     bool running = false;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -31,10 +25,7 @@ public class MonitorCooler : MonoBehaviour, IPlayerAction
             if (!coolingEffect.isPlaying)
             {
                 coolingEffect.Play();
-                Debug.Log("Effect Play");
             }
-
-            monitorManager.RepairMonitor(repairMonitorPerSeconds * Time.deltaTime);
 
             //Inputどうしよ
             if (XInputManager.GetButtonPress(controlXinputIndex, XButtonType.LThumbStickLeft))
@@ -54,15 +45,19 @@ public class MonitorCooler : MonoBehaviour, IPlayerAction
                 rotateTarget.rotation *= Quaternion.AngleAxis(rotateAnglePerSeconds * Time.deltaTime, Vector3.right);
             }
 
-            //レイとばす
+            //レイとばして冷却ターゲット削除
             Debug.DrawRay(rotateTarget.position, rotateTarget.forward, Color.red);
             RaycastHit hit;
-            if (Physics.Raycast(new Ray(rotateTarget.position,rotateTarget.forward), out hit, 1000.0f))
+            if (Physics.Raycast(new Ray(rotateTarget.position, rotateTarget.forward), out hit, 1000.0f))
             {
                 Debug.Log(hit.collider.gameObject.name);
-                if(hit.collider.CompareTag("CoolingTarget"))
+                if (hit.collider.CompareTag("CoolingTarget"))
                 {
-                    Destroy(hit.collider.gameObject);
+                    if (hit.collider.gameObject.GetComponent<CoolingTargetStatus>().TryToKill(damageToCoolingTargetPerSeconds * Time.deltaTime))
+                    {
+                        monitorManager.RepairMonitor(hit.collider.gameObject.GetComponent<CoolingTargetStatus>().damageToMonitor);
+                        Destroy(hit.collider.gameObject);
+                    }
                 }
             }
 
