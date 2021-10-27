@@ -8,6 +8,8 @@ public class JetController : MonoBehaviour
     [Header("Reference")]
     [SerializeField] GameObject bulletPrefab;
 
+    [SerializeField] SceneObject nextScene;
+
     [Header("Status")]
     [SerializeField] float moveSpeed = 1.0f;
 
@@ -28,6 +30,12 @@ public class JetController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            GameInGameUtil.SwitchGameInGameScene(nextScene);
+        }
+
+
         //**********************************************************
         //ボタン
         if (TetraInput.sTetraButton.GetTrigger())
