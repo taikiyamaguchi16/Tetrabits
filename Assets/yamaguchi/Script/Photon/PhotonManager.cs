@@ -37,14 +37,18 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         //PhotonNetwork.NickName = "Player";
          PhotonNetwork.ConnectUsingSettings();
+       // PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions(), TypedLobby.Default);
     }
 
     public override void OnConnectedToMaster()
     {
-       // if(isOffline)
-           PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions(), TypedLobby.Default);
-        //else
-           //PhotonNetwork.JoinLobby();
+        if (isOffline)
+        {
+            //Debug.Log("入室");
+            PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions(), TypedLobby.Default);
+        }
+        else
+            PhotonNetwork.JoinLobby();
     }
 
     public override void OnJoinedRoom()
