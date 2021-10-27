@@ -14,7 +14,7 @@ public class TitleManager : MonoBehaviour
     bool modeSelectFlag = false;
 
     [SerializeField]
-    Cursor cursor;
+    TitleUICursor cursor;
     
     GameInGameSwitcher gameSwitcher = null;
 
@@ -60,13 +60,13 @@ public class TitleManager : MonoBehaviour
                 {
                     crtNoise.stopNoiseInDuration = true;
                     crtNoise.SetRandomNoiseActive(false);
-                    gameSwitcher.SwitchGameInGameScene(cursor.GetSelectedObj().GetComponent<SceneHolder>().GetScene());
+                    gameSwitcher.SwitchGameInGameScene(cursor.GetSelectedObj().GetComponent<ShiftSceneHolder>().GetScene());
                 }
                 else
                 {
                     crtNoise.stopNoiseInDuration = true;
                     crtNoise.SetRandomNoiseActive(false);
-                    SceneManager.LoadScene(cursor.GetSelectedObj().GetComponent<SceneHolder>().GetScene());
+                    SceneManager.LoadScene(cursor.GetSelectedObj().GetComponent<ShiftSceneHolder>().GetScene());
                 }
             }
         }
