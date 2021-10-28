@@ -6,12 +6,12 @@ using UnityEngine.SceneManagement;
 public class GoalControllr : MonoBehaviour
 {
     [SerializeField] SceneObject nextScene = null;
-    GameInGameSwitcher gameInGameSwitcherComponent;
+    //GameInGameSwitcher gameInGameSwitcherComponent;
 
     // Start is called before the first frame update
     void Start()
     {
-        gameInGameSwitcherComponent = GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>();
+        //gameInGameSwitcherComponent = GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>();
     }
 
     // Update is called once per frame
@@ -23,6 +23,7 @@ public class GoalControllr : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (nextScene == null) GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
-        else gameInGameSwitcherComponent.SwitchGameInGameScene(nextScene);
+        else GameInGameUtil.SwitchGameInGameScene(nextScene);
+        //else gameInGameSwitcherComponent.SwitchGameInGameScene(nextScene);
     }
 }
