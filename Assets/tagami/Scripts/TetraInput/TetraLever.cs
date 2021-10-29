@@ -64,7 +64,7 @@ public class TetraLever : MonoBehaviour, IPlayerAction
     }
 
     [ContextMenu("Switch!")]
-    void Switch()
+    private void Switch()
     {
         if ((batteryHolder && batteryHolder.GetBatterylevel() > 0)||keyDebug)
         {

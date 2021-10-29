@@ -97,7 +97,7 @@ public class MonitorManager : MonoBehaviour
         }
 
         //ダメージ発生 生成場所どーしよ
-        var createdObj = Instantiate(prefab, new Vector3(Random.Range(-20, 20), Random.Range(5, 20), 49), Quaternion.identity);
+        var createdObj = Instantiate(prefab, new Vector3(Random.Range(-20, 20), Random.Range(5, 20), 44), Quaternion.identity);
         //生成登録
         createdCoolingTargets.Add(createdObj);
 

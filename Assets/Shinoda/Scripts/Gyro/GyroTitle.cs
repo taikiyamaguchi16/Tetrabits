@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GoalControllr : MonoBehaviour
+public class GyroTitle : MonoBehaviour
 {
-    [SerializeField] SceneObject nextScene = null;
+    [SerializeField] SceneObject nextScene;
     GameInGameSwitcher gameInGameSwitcherComponent;
 
     // Start is called before the first frame update
@@ -17,12 +17,9 @@ public class GoalControllr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (nextScene == null) GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
-        else gameInGameSwitcherComponent.SwitchGameInGameScene(nextScene);
+        if (TetraInput.sTetraButton.GetTrigger())
+        {
+            gameInGameSwitcherComponent.SwitchGameInGameScene(nextScene);
+        }
     }
 }

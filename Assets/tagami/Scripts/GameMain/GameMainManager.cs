@@ -7,7 +7,14 @@ public class GameMainManager : MonoBehaviour
     [Header("Require Reference")]
     [SerializeField] CassetteManager cassetteManager;
 
+    [Header("Scene")]
+    [SerializeField] SceneObject titleScene;
     [SerializeField] SceneObject resultScene;
+
+    private void Start()
+    {
+        GetComponent<GameInGameSwitcher>().SwitchGameInGameScene(titleScene);
+    }
 
     // Update is called once per frame
     void Update()
