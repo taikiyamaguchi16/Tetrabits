@@ -92,7 +92,7 @@ public class MonitorManager : MonoBehaviour
         }
         if (!prefab)
         {
-            Debug.LogError(_damageId + "：冷却用ダメージのPrefabを発見できませんでした");
+            Debug.LogError("id:"+_damageId + "用の冷却用ダメージPrefabは登録されていません");
             return;
         }
 
