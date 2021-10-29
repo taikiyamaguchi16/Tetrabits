@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 
 
-public class Battery : MonoBehaviourPunCallbacks,IPlayerAction
+public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 {
     private Rigidbody rb;
     private Collider col;
@@ -14,11 +14,11 @@ public class Battery : MonoBehaviourPunCallbacks,IPlayerAction
 
     [SerializeField]
     private int priority;
-    
+
     //電池残量
     [SerializeField, ReadOnly]
     private float level = 100f;
-    
+
     //消費電力
     [SerializeField]
     float powerConsumption;
@@ -44,17 +44,10 @@ public class Battery : MonoBehaviourPunCallbacks,IPlayerAction
             }
             else
                 //photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj);
-            Dump(_desc.playerObj);
+                Dump(_desc.playerObj);
         }
     }
 
-    private void Update()
-    {
-        //Debug.Log(photonView.ViewID);
-        level -= powerConsumption * Time.deltaTime;
-        if (level < 0)
-            level = 0f;
-    }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()
     {
@@ -91,5 +84,12 @@ public class Battery : MonoBehaviourPunCallbacks,IPlayerAction
     public float GetLevel()
     {
         return level;
+    }
+
+    public void BatteryConsumption()
+    {
+        level -= powerConsumption * Time.deltaTime;
+        if (level < 0)
+            level = 0f;
     }
 }
