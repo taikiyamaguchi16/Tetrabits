@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameInGameSwitcher : MonoBehaviour
-{  
+{
     [System.Serializable]
     struct SceneObjectAndKeyCode
     {
@@ -16,14 +16,14 @@ public class GameInGameSwitcher : MonoBehaviour
     List<SceneObjectAndKeyCode> gameInGameSwitchByKeys;
 
     //現在のゲーム内ゲーム名
-    string currentGameInGameSceneName="";
+    string currentGameInGameSceneName = "";
 
     // Update is called once per frame
     void Update()
     {
-        foreach(var val in gameInGameSwitchByKeys)
+        foreach (var val in gameInGameSwitchByKeys)
         {
-            if(Input.GetKeyDown(val.keyCode))
+            if (Input.GetKeyDown(val.keyCode))
             {
                 SwitchGameInGameScene(val.sceneObject);
             }
@@ -44,7 +44,7 @@ public class GameInGameSwitcher : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Scene名が設定されていないので、次のシーンへ移行できません");
+            Debug.LogWarning("現在のシーン：" + currentGameInGameSceneName + "を削除しましたが、次のScene名が設定されていないので、移行できません");
         }
 
         //シーン名更新
