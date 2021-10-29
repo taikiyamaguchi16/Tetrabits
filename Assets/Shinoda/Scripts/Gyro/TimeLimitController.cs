@@ -8,7 +8,7 @@ public class TimeLimitController : MonoBehaviour
     [SerializeField, Tooltip("チェック入れたらスリップのやつ")] bool isSlip;
     [SerializeField, Tooltip("スリップの間隔")] float slipRecast;
     [SerializeField,Tooltip("制限時間")] float limit;
-    [SerializeField, Tooltip("ダメージ量")] float damage;
+    [SerializeField, Tooltip("ダメージ量")] string damage = "small";
 
     Text timeText;
 
