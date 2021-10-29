@@ -41,8 +41,17 @@ public class ButtonSelected : MonoBehaviour
     //--------------------------------------------------
     void Update()
     {
+        CursorMove();
+    }
+
+    //--------------------------------------------------
+    // CursorMove
+    // カーソルの移動処理
+    //--------------------------------------------------
+    void CursorMove()
+    {
         // カーソル位置をイベントシステムで選択されている位置に指定
-        if(EventSystem.current.currentSelectedGameObject != null)
+        if (EventSystem.current.currentSelectedGameObject != null)
         {
             transform.position = EventSystem.current.currentSelectedGameObject.transform.position;
         }
@@ -58,14 +67,14 @@ public class ButtonSelected : MonoBehaviour
         // 現在位置に変更が加われば
         if (currentPos != transform.position)
         {
-            // 現在位置フラグをfalse、SE再生
+            // 現在位置フラグをfalse
             currentFlag = false;
         }
     }
 
     //--------------------------------------------------
     // PadInput
-    // パッドの入力記述
+    // パッドの入力記述(現状使ってない)
     //--------------------------------------------------
     private void PadInput()
     {
@@ -101,7 +110,7 @@ public class ButtonSelected : MonoBehaviour
             {
                 cursorNum++;
 
-                this.transform.position = Button[cursorNum].transform.position;
+                transform.position = Button[cursorNum].transform.position;
             }
         }
 
@@ -113,7 +122,7 @@ public class ButtonSelected : MonoBehaviour
             {
                 cursorNum--;
 
-                this.transform.position = Button[cursorNum].transform.position;
+                transform.position = Button[cursorNum].transform.position;
             }
         }
     }
