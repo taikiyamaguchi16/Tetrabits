@@ -65,6 +65,9 @@ public class CRTNoise : MonoBehaviour
 
     bool noising = false;
 
+    // 
+    bool afterNoise = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -119,8 +122,17 @@ public class CRTNoise : MonoBehaviour
                     noiseTimer -= Time.deltaTime;
                     if (noiseTimer <= 0)
                     {
+                        if (afterNoise)
+                        {
+                            RamdomNoise();
+                        }
+                        else
+                        {
+                            noiseActive = false;
+                        }
+
                         stopNoiseInDuration = false;
-                        RamdomNoise();
+                        
                         crt.NoiseX = 0f;
                         crt.RGBNoise = 0f;
                         crt.SinNoiseScale = 0f;
@@ -169,19 +181,18 @@ public class CRTNoise : MonoBehaviour
         stopNoiseInDuration = false;
     }
 
-    public void AlWaysNoiseWithTimeLimit()
+    public void AlWaysNoiseWithTimeLimit(bool _afterNoise)
     {
         noiseActive = true;
         randomNoiseActive = false;
         stopNoiseInDuration = true;
+        afterNoise = _afterNoise;
         noiseTimer = noiseDuration;
     }
 
-    public void AlWaysNoiseWithTimeLimit(float _noiseDuration)
+    public void AlWaysNoiseWithTimeLimit(float _noiseDuration, bool _afterNoise)
     {
-        noiseActive = true;
-        randomNoiseActive = false;
-        stopNoiseInDuration = true;
+        AlWaysNoiseWithTimeLimit(_afterNoise);
         noiseTimer = _noiseDuration;
     }
 
