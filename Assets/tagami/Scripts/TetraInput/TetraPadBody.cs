@@ -11,6 +11,11 @@ public class TetraPadBody : MonoBehaviour
         padOnList = new List<GameObject>();
     }
 
+    private void Update()
+    {
+        padOnList.RemoveAll(s => !s);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         foreach (var obj in padOnList)

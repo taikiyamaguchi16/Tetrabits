@@ -6,6 +6,7 @@ public class TetraLever : MonoBehaviour, IPlayerAction
 {
     [Header("Reference")]
     [SerializeField] GameObject fulcrumObj;
+    [SerializeField] BatteryHolder batteryHolder;
 
     [Header("Option")]
     [SerializeField] float switchingTime = 1.0f;
@@ -33,6 +34,15 @@ public class TetraLever : MonoBehaviour, IPlayerAction
         //前回の情報を保存
         oldLeverState = leverState;
 
+        if (!keyDebug && batteryHolder && batteryHolder.GetBatterylevel() <= 0)
+        {
+            leverState = false;
+        }
+        if (keyDebug && Input.GetKeyDown(KeyCode.Return))
+        {
+            Switch();
+        }
+
         //leverStateによって支点の回転を決める
         if (leverState)
         {
@@ -51,15 +61,16 @@ public class TetraLever : MonoBehaviour, IPlayerAction
             }
         }
         fulcrumObj.transform.rotation = Quaternion.Slerp(offQt, onQt, switchTimer / switchingTime);
-
-        if (keyDebug && Input.GetKeyDown(KeyCode.Return))
-        {
-            Switch();
-        }
     }
 
     [ContextMenu("Switch!")]
-    void Switch() { leverState = !leverState; }
+    private void Switch()
+    {
+        if ((batteryHolder && batteryHolder.GetBatterylevel() > 0)||keyDebug)
+        {
+            leverState = !leverState;
+        }
+    }
 
     public bool GetPoweredOn() { return leverState; }
 

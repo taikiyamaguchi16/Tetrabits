@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DamageController : MonoBehaviour
 {
+    [SerializeField] string damage = "small";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +20,6 @@ public class DamageController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        MonitorManager.DealDamageToMonitor(1);
+        MonitorManager.DealDamageToMonitor(damage);
     }
 }

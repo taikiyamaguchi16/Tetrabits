@@ -395,7 +395,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monitorManager: {fileID: 773539375}
+  coolingEffect: {fileID: 0}
+  rotateTarget: {fileID: 0}
+  damageToCoolingTargetPerSeconds: 1
   repairMonitorPerSeconds: 0.1
+  rotateAnglePerSeconds: 10
 --- !u!65 &198004687
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1240,6 +1244,7 @@ MonoBehaviour:
   - monitorModelObject: {fileID: 303481909}
   - monitorModelObject: {fileID: 1592582563}
   - monitorModelObject: {fileID: 1336631067}
+  coolingTargetPrefabs: []
   monitorHpBarSlider: {fileID: 546884201}
 --- !u!1 &903893025
 GameObject:
@@ -1412,7 +1417,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameInGameSwitchByKeys:
   - sceneObject:
-      m_SceneName: GyroGame
+      m_SceneName: GyroTitle
     keyCode: 108
 --- !u!4 &1213106694
 Transform:
@@ -1454,6 +1459,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1539409170209294391e746ed22d8b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cassetteManager: {fileID: 0}
+  titleScene:
+    m_SceneName: 
+  resultScene:
+    m_SceneName: 
 --- !u!1 &1224420217
 GameObject:
   m_ObjectHideFlags: 0

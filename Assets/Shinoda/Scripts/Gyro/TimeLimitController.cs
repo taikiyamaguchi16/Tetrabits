@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TimeLimitController : MonoBehaviour
 {
     [SerializeField, Tooltip("チェック入れたらスリップのやつ")] bool isSlip;
     [SerializeField, Tooltip("スリップの間隔")] float slipRecast;
     [SerializeField,Tooltip("制限時間")] float limit;
-    [SerializeField, Tooltip("ダメージ量")] float damage;
+    [SerializeField, Tooltip("ダメージ量")] string damage = "small";
+
+    Text timeText;
 
     float timeCount = 0f;
     float slipCount = 0f;
@@ -15,7 +18,7 @@ public class TimeLimitController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        timeText = transform.Find("TimeText").GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -39,5 +42,7 @@ public class TimeLimitController : MonoBehaviour
                 timeCount = 0;
             }
         }
+
+        timeText.text = (limit - timeCount).ToString("f0");
     }
 }

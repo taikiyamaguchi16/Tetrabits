@@ -9,4 +9,17 @@ public class GameInGameUtil
     {
         SceneManager.MoveGameObjectToScene(_go, _owner.scene);
     }
+
+    public static void SwitchGameInGameScene(string _nextGameInGameScene)
+    {
+        var managerObj = GameObject.Find("GameMainManager");
+        if (managerObj)
+        {
+            managerObj.GetComponent<GameInGameSwitcher>().SwitchGameInGameScene(_nextGameInGameScene);
+        }
+        else
+        {
+            Debug.LogWarning("GameMainManagerが見つかりませんでした");
+        }
+    }
 }
