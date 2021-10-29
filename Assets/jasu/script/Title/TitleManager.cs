@@ -59,13 +59,13 @@ public class TitleManager : MonoBehaviour
                 if (gameSwitcher)
                 {
                     crtNoise.stopNoiseInDuration = true;
-                    crtNoise.SetRandomNoiseActive(false);
+                    crtNoise.AlWaysNoiseWithTimeLimit();
                     gameSwitcher.SwitchGameInGameScene(cursor.GetSelectedObj().GetComponent<ShiftSceneHolder>().GetScene());
                 }
                 else
                 {
                     crtNoise.stopNoiseInDuration = true;
-                    crtNoise.SetRandomNoiseActive(false);
+                    crtNoise.AlWaysNoiseWithTimeLimit();
                     SceneManager.LoadScene(cursor.GetSelectedObj().GetComponent<ShiftSceneHolder>().GetScene());
                 }
             }

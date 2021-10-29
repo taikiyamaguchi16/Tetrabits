@@ -108,19 +108,19 @@ public class CRTNoise : MonoBehaviour
             }
             else　// 常にノイズ
             {
+                crt.NoiseX = noiseX;
+                crt.RGBNoise = rgbNoise;
+                crt.SinNoiseScale = sinNoiseScale;
+                crt.SinNoiseWidth = sinNoiseWidth;
+                crt.SinNoiseOffset = sinNoiseOffset;
+
                 if (stopNoiseInDuration)
                 {
-                    crt.NoiseX = noiseX;
-                    crt.RGBNoise = rgbNoise;
-                    crt.SinNoiseScale = sinNoiseScale;
-                    crt.SinNoiseWidth = sinNoiseWidth;
-                    crt.SinNoiseOffset = sinNoiseOffset;
-
                     noiseTimer -= Time.deltaTime;
                     if (noiseTimer <= 0)
                     {
                         stopNoiseInDuration = false;
-                        SetRandomNoiseActive(true);
+                        RamdomNoise();
                         crt.NoiseX = 0f;
                         crt.RGBNoise = 0f;
                         crt.SinNoiseScale = 0f;
@@ -141,10 +141,52 @@ public class CRTNoise : MonoBehaviour
         }
     }
 
-    public void SetRandomNoiseActive(bool _active)
+    //public void SetRandomNoiseActive(bool _active)
+    //{
+    //    randomNoiseTimer = Random.Range(randomNoiseDuration.min, randomNoiseDuration.max);
+    //    noiseTimer = noiseDuration;
+    //    randomNoiseActive = _active;
+    //}
+
+    public void RamdomNoise()
     {
+        noiseActive = true;
+        randomNoiseActive = true;
+        noising = false;
         randomNoiseTimer = Random.Range(randomNoiseDuration.min, randomNoiseDuration.max);
+
+        crt.NoiseX = 0f;
+        crt.RGBNoise = 0f;
+        crt.SinNoiseScale = 0f;
+        crt.SinNoiseWidth = 0f;
+        crt.SinNoiseOffset = 0f;
+    }
+
+    public void AlWaysNoise()
+    {
+        noiseActive = true;
+        randomNoiseActive = false;
+        stopNoiseInDuration = false;
+    }
+
+    public void AlWaysNoiseWithTimeLimit()
+    {
+        noiseActive = true;
+        randomNoiseActive = false;
+        stopNoiseInDuration = true;
         noiseTimer = noiseDuration;
-        randomNoiseActive = _active;
+    }
+
+    public void AlWaysNoiseWithTimeLimit(float _noiseDuration)
+    {
+        noiseActive = true;
+        randomNoiseActive = false;
+        stopNoiseInDuration = true;
+        noiseTimer = _noiseDuration;
+    }
+
+    public void SetNoiseActive(bool _active)
+    {
+        noiseActive = _active;
     }
 }
