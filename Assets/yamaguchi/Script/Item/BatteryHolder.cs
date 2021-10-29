@@ -14,6 +14,12 @@ public class BatteryHolder : MonoBehaviour, IPlayerAction
         pocket = GetComponent<ItemPocket>();
     }
 
+    private void Update()
+    {
+        if (ownBattery != null)
+            ownBattery.BatteryConsumption();
+    }
+
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
         ItemPocket otherPocket = _desc.playerObj.GetComponent<ItemPocket>();
