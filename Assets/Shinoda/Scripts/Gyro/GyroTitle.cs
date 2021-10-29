@@ -6,12 +6,12 @@ using UnityEngine.SceneManagement;
 public class GyroTitle : MonoBehaviour
 {
     [SerializeField] SceneObject nextScene;
-    GameInGameSwitcher gameInGameSwitcherComponent;
+    //GameInGameSwitcher gameInGameSwitcherComponent;
 
     // Start is called before the first frame update
     void Start()
     {
-        gameInGameSwitcherComponent = GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>();
+        //gameInGameSwitcherComponent = GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>();
     }
 
     // Update is called once per frame
@@ -19,7 +19,8 @@ public class GyroTitle : MonoBehaviour
     {
         if (TetraInput.sTetraButton.GetTrigger())
         {
-            gameInGameSwitcherComponent.SwitchGameInGameScene(nextScene);
+            //gameInGameSwitcherComponent.SwitchGameInGameScene(nextScene);
+            GameInGameUtil.SwitchGameInGameScene(nextScene);
         }
     }
 }
