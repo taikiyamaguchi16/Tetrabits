@@ -64,8 +64,11 @@ public class TitleManager : MonoBehaviour
                 }
                 else
                 {
-                    crtNoise.stopNoiseInDuration = true;
-                    crtNoise.AlWaysNoiseWithTimeLimit(true);
+                    if(crtNoise != null)
+                    {
+                        crtNoise.stopNoiseInDuration = true;
+                        crtNoise.AlWaysNoiseWithTimeLimit(true);
+                    }
                     SceneManager.LoadScene(cursor.GetSelectedObj().GetComponent<ShiftSceneHolder>().GetScene());
                 }
             }
