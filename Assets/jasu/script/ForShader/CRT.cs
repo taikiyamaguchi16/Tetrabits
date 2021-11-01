@@ -51,6 +51,10 @@ public class CRT : MonoBehaviour
     float scanLineSpeed = 0.5f;
     public float ScanLineSpeed { get { return scanLineSpeed; } set { scanLineSpeed = value; } }
 
+    [SerializeField]
+    float darknessAtEdge = 1.2f;
+    public float DarknessAtEdge { get { return darknessAtEdge; } set { darknessAtEdge = value; } }
+
     // Use this for initialization
     void OnRenderImage(RenderTexture src, RenderTexture dest)
     {
