@@ -7,32 +7,25 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Toon_material
-  m_Shader: {fileID: -6465566751694194690, guid: 2bf8b6bad5bdd2847bb7ed3079355c64, type: 3}
+  m_Name: Unlit_material
+  m_Shader: {fileID: 4800000, guid: 650dd9526735d5b46b79224bc6e94025, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_19A78E35:
-        m_Texture: {fileID: 2800000, guid: 90c9daa3384516847a80278ec015c6fa, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_B07FC5F0:
-        m_Texture: {fileID: 2800000, guid: 21015c13438eb36478336045aeb24436, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_B147ECF:
-        m_Texture: {fileID: 2800000, guid: 7f0bd56e857f1264f8f4b1338e9c29c5, type: 3}
+    - Texture2D_427BC8D2:
+        m_Texture: {fileID: 2800000, guid: a103fa571a9a5b542809b8bfa3288fa4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 7f0bd56e857f1264f8f4b1338e9c29c5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -44,7 +37,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 7f0bd56e857f1264f8f4b1338e9c29c5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -55,33 +48,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_A0EB563E_Texture_1:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Texture2DAsset_91C56DC6_Out_0:
-        m_Texture: {fileID: 2800000, guid: 21015c13438eb36478336045aeb24436, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Texture2DAsset_D159A9F9_Out_0:
-        m_Texture: {fileID: 2800000, guid: 8b4af2978e04e1145aaa2139b77fdab2, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_1B2577D7: 3.97
-    - Vector1_242C9891: 0.7
-    - Vector1_3F77DF14: 0.683
-    - Vector1_81088C75: 32
-    - Vector1_99B978: 0.1
-    - Vector1_B044D573: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
-    - _CellShading: 255
     - _Cull: 2
     - _Cutoff: 0.5
     - _DstBlend: 0
@@ -93,6 +67,7 @@ Material:
     - _OcclusionStrength: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _SampleGI: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -101,21 +76,13 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_34F1FC1B: {r: 0, g: 0, b: 0, a: 0}
-    - Color_70EBBDEE: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 0}
-    - Color_B2C739F7: {r: 0, g: 0, b: 0, a: 0}
-    - Color_C2041153: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 0}
-    - Color_CFC87909: {r: 8, g: 8, b: 8, a: 0}
-    - Color_D238CD2D: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 0}
-    - Color_DEE0E45B: {r: 0, g: 0, b: 0, a: 0}
-    - Color_F57A70D0: {r: 0.754717, g: 0.754717, b: 0.754717, a: 0}
-    - Vector3_688FE30E: {r: 0.5, g: 0, b: 0, a: 0}
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - Color_9B14AD8D: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseColor: {r: 0.62352943, g: 0.62352943, b: 0.62352943, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &9109792980901999473
+--- !u!114 &6098105951845056011
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
