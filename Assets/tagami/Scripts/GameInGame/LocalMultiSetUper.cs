@@ -21,6 +21,11 @@ public class LocalMultiSetUper : MonoBehaviour
         //カセット表示オン
         //とりあえずFindでテスト
         var cassetHolderObj = GameObject.Find("CassetHolder");
+        if (!cassetHolderObj)
+        {
+            cassetHolderObj = GameObject.Find("cassette_socket");
+        }
+
         cassetHolderObj.GetComponent<CassetteManager>().AppearAllCassette();
 
         VirtualCameraManager.OnlyActive(1);

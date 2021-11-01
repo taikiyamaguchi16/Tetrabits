@@ -44,7 +44,7 @@ public class TetraButton : MonoBehaviour
                 buttonState = (buttonRb.transform.localPosition.y - foundationJoint.transform.localPosition.y) < pressableDifferenceY;
                 if (GetTrigger())
                 {
-                    Debug.Log("button.y-土台.y:" + (buttonRb.transform.localPosition.y - foundationJoint.transform.localPosition.y) + "< difference:" + pressableDifferenceY);
+                    Debug.Log("ボタン.y-土台.y:" + (buttonRb.transform.localPosition.y - foundationJoint.transform.localPosition.y) + "< difference:" + pressableDifferenceY);
                 }
             }
         }
