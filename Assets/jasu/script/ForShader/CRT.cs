@@ -80,5 +80,6 @@ public class CRT : MonoBehaviour
         material.SetFloat("_ScanLineTail", scanLineTail);
         material.SetFloat("_ScanLineBright", scanLineBright);
         material.SetVector("_Offset", offset);
+        material.SetFloat("_DarknessAtEdge", darknessAtEdge);
     }
 }
