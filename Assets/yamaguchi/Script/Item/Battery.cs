@@ -39,12 +39,13 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         {
             if (!isOwned)
             {
-                PickUp(_desc.playerObj);
-                //photonView.RPC(nameof(PickUp), RpcTarget.All);
+                //PickUp(_desc.playerObj);
+                Debug.Log(_desc.playerObj.GetPhotonView().ViewID);
+                photonView.RPC(nameof(PickUp2), RpcTarget.All,_desc.playerObj.GetPhotonView().ViewID);
             }
             else
-                //photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj);
-                Dump(_desc.playerObj);
+                photonView.RPC(nameof(Dump2), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
+                //Dump(_desc.playerObj);
         }
     }
 
@@ -80,7 +81,35 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         //保有状態に切り替え
         isOwned = true;
     }
+    [PunRPC]
+    public void PickUp2(int _id)
+    {
+        GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
 
+        priority = 100;
+        ownerSc = _obj.GetComponent<ItemPocket>();
+        ownerSc.SetItem(this.gameObject);
+        rb.isKinematic = true;
+        col.enabled = false;
+        this.transform.parent = _obj.transform;
+        //保有状態に切り替え
+        isOwned = true;
+    }
+
+    [PunRPC]
+    public void Dump2(int _id)
+    {
+        GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
+        if (_obj == ownerSc.gameObject)
+        {
+            ownerSc.SetItem(null);
+            rb.isKinematic = false;
+            col.enabled = true;
+            this.transform.parent = null;
+            isOwned = false;
+            priority = 40;
+        }
+    }
     public float GetLevel()
     {
         return level;
