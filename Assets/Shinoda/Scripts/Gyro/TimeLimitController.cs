@@ -43,6 +43,7 @@ public class TimeLimitController : MonoBehaviour
             }
         }
 
-        timeText.text = (limit - timeCount).ToString("f0");
+        if (limit - timeCount > 0) timeText.text = (limit - timeCount).ToString("f0");
+        else timeText.text = "0";
     }
 }

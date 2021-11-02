@@ -50,7 +50,7 @@ public class MonitorCooler : MonoBehaviour, IPlayerAction
             RaycastHit hit;
             if (Physics.Raycast(new Ray(rotateTarget.position, rotateTarget.forward), out hit, 1000.0f))
             {
-                Debug.Log(hit.collider.gameObject.name);
+                //Debug.Log(hit.collider.gameObject.name);
                 if (hit.collider.CompareTag("CoolingTarget"))
                 {
                     if (hit.collider.gameObject.GetComponent<CoolingTargetStatus>().TryToKill(damageToCoolingTargetPerSeconds * Time.deltaTime))
