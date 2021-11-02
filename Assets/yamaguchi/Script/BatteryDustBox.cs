@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class BatteryDustBox : MonoBehaviour, IPlayerAction
 {
@@ -28,7 +29,7 @@ public class BatteryDustBox : MonoBehaviour, IPlayerAction
                 ownBattery.PickUp(this.gameObject);
                 otherPocket.SetItem(null);
 
-                Destroy(ownBattery.gameObject);
+                PhotonNetwork.Destroy(ownBattery.photonView);
                 ownBattery = null;
             }
             //バッテリーでなかった場合元に戻す

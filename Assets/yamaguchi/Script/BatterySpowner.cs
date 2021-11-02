@@ -20,18 +20,26 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
 
     [SerializeField]
     ParticleSystem smokeEfect;
+
+    private bool canSpawn;
     // Start is called before the first frame update
 
+    public void Start()
+    {
+        canSpawn = false;
+    }
     public override void OnJoinedRoom()
     {
         pocket = GetComponent<ItemPocket>();
         //エフェクトの再生
         smokeEfect.Play();
+
+        canSpawn = true;
     }
 
     private void Update()
     {
-        if (ownBattery == null)
+        if (ownBattery == null&&canSpawn)
         {
             elpsedTime += Time.deltaTime;
             if (spownBatteryTime < elpsedTime)
@@ -90,6 +98,5 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
         elpsedTime = 0f;
 
         smokeEfect.time = 0f;
-
     }
 }

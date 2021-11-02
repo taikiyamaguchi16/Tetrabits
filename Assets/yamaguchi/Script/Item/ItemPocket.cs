@@ -14,7 +14,6 @@ public class ItemPocket : MonoBehaviour
     {
         return ownObj;
     }
-    //
     public void SetItem(GameObject _item)
     {
         ownObj = _item;
@@ -24,7 +23,6 @@ public class ItemPocket : MonoBehaviour
             ownObj.transform.eulerAngles = pocketPos.eulerAngles;
 
         }
-      //  ownBattery = ownObj.GetComponent<Battery>();
     }
     
 }

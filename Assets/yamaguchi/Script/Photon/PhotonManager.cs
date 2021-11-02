@@ -6,7 +6,10 @@ using ExitGames.Client.Photon;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
-    public bool isOffline = false;
+    public bool isOffline;
+
+    [SerializeField]
+    bool networkDebugMode;
 
     public void Connect()
     {
@@ -34,12 +37,17 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     }
 
     private void Start()
-    {       
-        if (isOffline)
-            PhotonNetwork.OfflineMode = true;
-        else
-            PhotonNetwork.ConnectUsingSettings();
-        // PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions(), TypedLobby.Default);
+    {
+        if (networkDebugMode)
+        {
+            if (isOffline)
+            {
+                Debug.Log("オフライン実行");
+                PhotonNetwork.OfflineMode = true;
+            }
+            else
+                PhotonNetwork.ConnectUsingSettings();
+        }
     }
 
     public override void OnConnectedToMaster()

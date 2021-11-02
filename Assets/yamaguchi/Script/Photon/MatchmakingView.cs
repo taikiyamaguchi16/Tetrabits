@@ -11,6 +11,8 @@ public class MatchmakingView : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        PhotonNetwork.ConnectUsingSettings();
+
         canvasGroup = GetComponent<CanvasGroup>();
         // ロビーに参加するまでは、全てのルーム参加ボタンを押せないようにする
         canvasGroup.interactable = false;
