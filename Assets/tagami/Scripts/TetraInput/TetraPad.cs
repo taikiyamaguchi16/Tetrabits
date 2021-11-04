@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class TetraPad : MonoBehaviour
 {
+    [Header("Require External Reference")]    
+    [SerializeField] BatteryHolder batteryHolder;
+
     [Header("Reference")]
     [SerializeField] TetraPadBody tetraPadBody;
-    [SerializeField] BatteryHolder batteryHolder;
+   
 
     [System.NonSerialized]
     public bool keyDebug = false;
@@ -20,7 +23,7 @@ public class TetraPad : MonoBehaviour
         if (batteryHolder && batteryHolder.GetBatterylevel() > 0)
         {
             //リストから合算ベクトルを作成           
-            foreach (var obj in tetraPadBody.padOnList)
+            foreach (var obj in tetraPadBody.onPadObjects)
             {
                 if (!obj) continue;
 
@@ -52,7 +55,7 @@ public class TetraPad : MonoBehaviour
         }
     }
 
-    public List<GameObject> GetObjectsOnPad() { return tetraPadBody.padOnList; }
+    public List<GameObject> GetObjectsOnPad() { return tetraPadBody.onPadObjects; }
 
     public Vector2 GetVector() { return padVector; }
 }
