@@ -50,6 +50,16 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         }
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.H))
+        {
+            PhotonNetwork.Disconnect();
+            GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().SwitchGameInGameScene("Title_fake");
+            NetworkObjContainer.NetworkObjDictionary.Clear();
+        }
+    }
+
     public override void OnConnectedToMaster()
     {
         if (isOffline)

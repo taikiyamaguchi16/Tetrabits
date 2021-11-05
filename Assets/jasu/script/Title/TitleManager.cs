@@ -58,8 +58,8 @@ public class TitleManager : MonoBehaviour
             {
                 if (gameSwitcher)
                 {
-                    crtNoise.stopNoiseInDuration = true;
-                    crtNoise.AlWaysNoiseWithTimeLimit(true);
+                   // crtNoise.stopNoiseInDuration = true;
+                  //  crtNoise.AlWaysNoiseWithTimeLimit(true);
                     gameSwitcher.SwitchGameInGameScene(cursor.GetSelectedObj().GetComponent<ShiftSceneHolder>().GetScene());
                 }
                 else
