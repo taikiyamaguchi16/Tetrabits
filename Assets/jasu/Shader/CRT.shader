@@ -14,6 +14,7 @@ Shader "Custom/CRT"
 		_ScanLineBright("Bright", Float) = 0
 		_ScanLineTail("Tail", Float) = 0.5
 		_ScanLineSpeed("TailSpeed", Float) = 100
+		_DarknessAtEdge("DarknessAtEdge", Float) = 1.2
 	}
 		SubShader
 		{
@@ -67,6 +68,7 @@ Shader "Custom/CRT"
 				float _ScanLineBright;
 				float _ScanLineTail;
 				float _ScanLineSpeed;
+				float _DarknessAtEdge;
 
 				fixed4 frag(v2f i) : SV_Target
 				{
@@ -124,7 +126,8 @@ Shader "Custom/CRT"
 					col *= tail;
 
 					// 画面端を暗くする
-					col *= 1 - vignet * 1.3;
+					//col *= 1 - vignet * 1.3;
+					col *= 1 - vignet * _DarknessAtEdge;
 
 					return float4(col, 1);
 				}

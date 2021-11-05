@@ -8,7 +8,6 @@
 // <author>developer@exitgames.com</author>
 // ----------------------------------------------------------------------------
 
-
 namespace Photon.Pun
 {
     using System.Diagnostics;
@@ -26,9 +25,7 @@ namespace Photon.Pun
     #if UNITY_EDITOR
     using UnityEditor;
     using System.IO;
-    #endif
-
-
+#endif
     public struct InstantiateParameters
     {
         public int[] viewIDs;
@@ -65,7 +62,6 @@ namespace Photon.Pun
     {
         /// <summary>Version number of PUN. Used in the AppVersion, which separates your playerbase in matchmaking.</summary>
         public const string PunVersion = "2.34.1";
-
         /// <summary>Version number of your game. Setting this updates the AppVersion, which separates your playerbase in matchmaking.</summary>
         /// <remarks>
         /// In PUN, the GameVersion is only one component of the LoadBalancingClient.AppVersion.
@@ -2451,11 +2447,10 @@ namespace Photon.Pun
             }
         }
 
-
         public static GameObject Instantiate(string prefabName, Vector3 position, Quaternion rotation, byte group = 0, object[] data = null)
         {
             if (CurrentRoom == null)
-            {
+            {                
                 Debug.LogError("Can not Instantiate before the client joined/created a room. State: "+PhotonNetwork.NetworkClientState);
                 return null;
             }
@@ -2732,6 +2727,8 @@ namespace Photon.Pun
         {
             if (targetView != null)
             {
+                //独自のネットワーク用コンテナからオブジェクトを削除
+                NetworkObjContainer.NetworkObjDictionary.Remove(targetView.ViewID);
                 RemoveInstantiatedGO(targetView.gameObject, !InRoom);
             }
             else
