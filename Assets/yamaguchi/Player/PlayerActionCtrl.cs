@@ -36,7 +36,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
     // 実行中アクション
     IPlayerAction runningAction = null;
 
-    private void Start()
+    private void Awake()
     {
         desc.playerObj = this.gameObject;
     }
@@ -72,6 +72,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
 
                     // IAction持ちの一番近いやつ取得
                     runningAction = nearest.GetComponent<IPlayerAction>();
+                    Debug.Log(nearest.name+"　のアクションを実行");
                     // アクション開始
                     runningAction.StartPlayerAction(desc);         
                 }

@@ -1098,7 +1098,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameInGameSwitchByKeys:
   - sceneObject:
-      m_SceneName: Title
+      m_SceneName: Title_fake
     keyCode: 116
 --- !u!114 &500665940
 MonoBehaviour:
@@ -1114,7 +1114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cassetteManager: {fileID: 1369148308}
   titleScene:
-    m_SceneName: Title
+    m_SceneName: Title_fake
   resultScene:
     m_SceneName: GameInGameResult
 --- !u!114 &500665941
@@ -3875,7 +3875,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4824064673026487570, guid: f5303d109921485409daf5feb12495bd, type: 3}
       propertyPath: m_Name
-      value: cassette_socket
+      value: cassette_socket2
       objectReference: {fileID: 0}
     - target: {fileID: 8398044570937478855, guid: f5303d109921485409daf5feb12495bd, type: 3}
       propertyPath: m_RootOrder

@@ -13,7 +13,7 @@ public class OnlineWaitRoomSetUper : MonoBehaviour
         var cassetHolderObj = GameObject.Find("CassetHolder");
         if (!cassetHolderObj)
         {
-            cassetHolderObj = GameObject.Find("cassette_socket");
+            cassetHolderObj = GameObject.Find("cassette_socket2");
         }
 
         cassetHolderObj.GetComponent<CassetteManager>().AppearAllCassette();

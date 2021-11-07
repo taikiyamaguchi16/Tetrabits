@@ -34,11 +34,16 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
         //エフェクトの再生
         smokeEfect.Play();
 
-        canSpawn = true;
+        //canSpawn = true;
     }
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Y))
+        {
+            smokeEfect.Play();
+            canSpawn = true;
+        }
         if (ownBattery == null&&canSpawn)
         {
             elpsedTime += Time.deltaTime;
@@ -64,10 +69,14 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
             //プレイヤーが何も持っていない場合
             if (otherPocket.GetItem() == null)
             {
+                Debug.Log("プレイヤー何も持ってない");
                 //バッテリーが生成されていた場合
                 if (ownBattery != null)
                 {
-                    ownBattery.PickUp(_desc.playerObj);
+                    Debug.Log("生成されている");
+                    //ownBattery.PickUp(_desc.playerObj);
+                    ownBattery.CallPickUp(_desc.playerObj.GetPhotonView().ViewID);
+
                     pocket.SetItem(null);
                     ownBattery = null;
                 }
@@ -91,12 +100,24 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
 
     private void SpawonBattery()
     {
-        //var b_obj = GameObject.Instantiate(spownObj);
-        var b_obj = PhotonNetwork.Instantiate(spownObj.name, Vector3.zero, Quaternion.identity);
-        ownBattery = b_obj.GetComponent<Battery>();
-        ownBattery.PickUp(this.gameObject);
-        elpsedTime = 0f;
+        //ルームに入っていたら生成
+        if (PhotonNetwork.IsMasterClient)
+        {
+            var b_obj = PhotonNetwork.InstantiateRoomObject(spownObj.name, Vector3.zero, Quaternion.identity);
+            ownBattery = b_obj.GetComponent<Battery>();
 
-        smokeEfect.time = 0f;
+            //ownBattery.PickUp(this.gameObject);
+            photonView.RPC(nameof(CallSpawonBattery), RpcTarget.All, b_obj.GetPhotonView().ViewID);
+            ownBattery.CallPickUp(photonView.ViewID);
+
+            elpsedTime = 0f;
+            smokeEfect.time = 0f;
+        }
+    }
+
+    [PunRPC]
+    public void CallSpawonBattery(int _id)
+    {
+        ownBattery = NetworkObjContainer.NetworkObjDictionary[_id].GetComponent<Battery>();
     }
 }
