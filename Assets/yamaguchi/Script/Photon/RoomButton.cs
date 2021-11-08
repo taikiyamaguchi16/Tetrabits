@@ -41,7 +41,7 @@ public class RoomButton : MonoBehaviour
         roomOptions.MaxPlayers = MaxPlayers;
         PhotonNetwork.JoinOrCreateRoom(RoomName, roomOptions, TypedLobby.Default);
 
-        GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().SwitchGameInGameScene(scene);
+        GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().RPCSwitchGameInGameScene(scene);
         //SceneManager.LoadScene(scene);
     }
 
