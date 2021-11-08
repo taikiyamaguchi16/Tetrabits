@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-
 public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 {
     private Rigidbody rb;
@@ -89,7 +88,6 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     public void PickUp(int _id)
     {
         GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
-
         priority = 100;
         ownerSc = _obj.GetComponent<ItemPocket>();
         ownerSc.SetItem(this.gameObject);
