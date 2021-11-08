@@ -28,13 +28,13 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
     {
         canSpawn = false;
     }
-    public override void OnJoinedRoom()
+    public  void StartSpawn()
     {
         pocket = GetComponent<ItemPocket>();
         //エフェクトの再生
         smokeEfect.Play();
 
-        //canSpawn = true;
+        canSpawn = true;
     }
 
     private void Update()
