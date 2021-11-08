@@ -4,32 +4,57 @@ using UnityEngine;
 
 public class TetraPadBody : MonoBehaviour
 {
-    public List<GameObject> padOnList { private set; get; }
+    [Header("Reference")]
+    [SerializeField] Transform spriteMaskTransform;
+    [SerializeField] GameObject touchedPadEffectPrefab;
+
+    public List<GameObject> onPadObjects { private set; get; }
 
     private void Awake()
     {
-        padOnList = new List<GameObject>();
+        onPadObjects = new List<GameObject>();
     }
 
     private void Update()
     {
-        padOnList.RemoveAll(s => !s);
+        //存在しないオブジェクトは除去
+        onPadObjects.RemoveAll(s => !s);
+    }
+
+    private void FixedUpdate()
+    {
+        //物理処理前にクリアしておく
+        onPadObjects.Clear();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        foreach (var obj in padOnList)
+        TryToAddOnPadObject(collision.gameObject);
+
+        //エフェクト生成
+        var effectObj = Instantiate(touchedPadEffectPrefab);
+        effectObj.transform.position = new Vector3(collision.transform.position.x, spriteMaskTransform.position.y, collision.transform.position.z);
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        TryToAddOnPadObject(collision.gameObject);
+    }
+
+    private bool TryToAddOnPadObject(GameObject _go)
+    {
+        foreach (var obj in onPadObjects)
         {
-            if (obj == collision.gameObject)
-                return;
+            if (obj == _go)
+                return false;
         }
 
-        padOnList.Add(collision.gameObject);
-
+        onPadObjects.Add(_go);
+        return true;
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        padOnList.Remove(collision.gameObject);
+        onPadObjects.Remove(collision.gameObject);
     }
 }
