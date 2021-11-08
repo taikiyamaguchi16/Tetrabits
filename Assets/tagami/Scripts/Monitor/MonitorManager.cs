@@ -110,7 +110,7 @@ public class MonitorManager : MonoBehaviour
             if (currentMonitorStatusIndex >= (monitorStatuses.Count - 1))
             {//ゲームオーバー処理
                 Debug.Log("GameOver");
-                gameInGameSwitcher.RPCSwitchGameInGameScene("");
+                gameInGameSwitcher.CallSwitchGameInGameScene("");
                 return;
             }
 
