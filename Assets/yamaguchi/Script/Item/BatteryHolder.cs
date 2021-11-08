@@ -32,7 +32,6 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
             //渡されたのがバッテリーだった場合
             if (ownBattery != null)
             {
-                //ownBattery.PickUp(this.gameObject);
                 ownBattery.CallPickUp(photonView.ViewID);
 
                 otherPocket.SetItem(null);
