@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
-public class GameInGameUtil
+public class GameInGameUtil : MonoBehaviourPunCallbacks
 {
     public static void MoveGameObjectToOwnerScene(GameObject _go, GameObject _owner)
     {
@@ -15,11 +16,27 @@ public class GameInGameUtil
         var managerObj = GameObject.Find("GameMainManager");
         if (managerObj)
         {
-            managerObj.GetComponent<GameInGameSwitcher>().SwitchGameInGameScene(_nextGameInGameScene);
+            var photonView = managerObj.GetComponent<PhotonView>();
+            var switcher = managerObj.GetComponent<GameInGameSwitcher>();
+
+            if (photonView && switcher)
+            {
+                photonView.RPC(nameof(CallManagerSwitchGameInGameScene), RpcTarget.All, switcher, _nextGameInGameScene);
+            }
+            else
+            {
+                Debug.LogError("photonViewかGameInGameSwitcherを取得できませんでした");
+            }
         }
         else
         {
             Debug.LogWarning("GameMainManagerが見つかりませんでした");
         }
+    }
+
+    [PunRPC]
+    private void CallManagerSwitchGameInGameScene(GameInGameSwitcher _switcher, string _nextSceneName)
+    {
+        _switcher.SwitchGameInGameScene(_nextSceneName);
     }
 }

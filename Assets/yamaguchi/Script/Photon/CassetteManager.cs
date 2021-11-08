@@ -76,7 +76,7 @@ public class CassetteManager : MonoBehaviourPunCallbacks
         {
             activeCassette.SetIsClearOn();
             AppearAllCassette();
-            activeCassette.Dump(this.gameObject);
+            activeCassette.CallDumpCassette(photonView.ViewID);
 
             activeCassette.GetComponent<Rigidbody>().AddForce(-this.transform.forward * 3f + Vector3.up * 15f,ForceMode.Impulse);
         }

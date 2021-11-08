@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class BatteryHolder : MonoBehaviour, IPlayerAction
+public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
 {
     private Battery ownBattery;
 
@@ -32,13 +32,16 @@ public class BatteryHolder : MonoBehaviour, IPlayerAction
             //渡されたのがバッテリーだった場合
             if (ownBattery != null)
             {
-                ownBattery.PickUp(this.gameObject);
+                ownBattery.CallPickUp(photonView.ViewID);
+
                 otherPocket.SetItem(null);
 
                 //自分がバッテリを持っていた場合swapする
                 if (checkbattery != null)
-                    checkbattery.PickUp(_desc.playerObj);
-                
+                {
+                    //checkbattery.PickUp(_desc.playerObj);
+                    ownBattery.CallPickUp(_desc.playerObj.GetPhotonView().ViewID);
+                }
             }
             //バッテリーでなかった場合元に戻す
             else
@@ -49,8 +52,10 @@ public class BatteryHolder : MonoBehaviour, IPlayerAction
         {           
             //自分がバッテリを持っていた場合swapする
             if (ownBattery != null)
-            {       
-                ownBattery.PickUp(_desc.playerObj);             
+            {
+                //ownBattery.PickUp(_desc.playerObj);  
+                ownBattery.CallPickUp(_desc.playerObj.GetPhotonView().ViewID);
+
                 pocket.SetItem(null);
                 ownBattery = null;
             }

@@ -58,14 +58,17 @@ public class TitleManager : MonoBehaviour
             {
                 if (gameSwitcher)
                 {
-                    crtNoise.stopNoiseInDuration = true;
-                    crtNoise.AlWaysNoiseWithTimeLimit();
+                   // crtNoise.stopNoiseInDuration = true;
+                  //  crtNoise.AlWaysNoiseWithTimeLimit(true);
                     gameSwitcher.SwitchGameInGameScene(cursor.GetSelectedObj().GetComponent<ShiftSceneHolder>().GetScene());
                 }
                 else
                 {
-                    crtNoise.stopNoiseInDuration = true;
-                    crtNoise.AlWaysNoiseWithTimeLimit();
+                    if(crtNoise != null)
+                    {
+                        crtNoise.stopNoiseInDuration = true;
+                        crtNoise.AlWaysNoiseWithTimeLimit(true);
+                    }
                     SceneManager.LoadScene(cursor.GetSelectedObj().GetComponent<ShiftSceneHolder>().GetScene());
                 }
             }

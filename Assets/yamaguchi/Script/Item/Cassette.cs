@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Cassette : MonoBehaviour, IPlayerAction
+public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
 {
     private Rigidbody rb;
     private Collider col;
@@ -31,16 +32,15 @@ public class Cassette : MonoBehaviour, IPlayerAction
 
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
-
-        if (!isOwned)
+        if (photonView.IsMine)
         {
-            PickUp(_desc.playerObj);
-            //photonView.RPC(nameof(PickUp), RpcTarget.All);
+            if (!isOwned)
+            {
+                photonView.RPC(nameof(PickUp), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
+            }
+            else
+                photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
         }
-        else
-            //photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj);
-            Dump(_desc.playerObj);
-
     }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()
@@ -48,8 +48,21 @@ public class Cassette : MonoBehaviour, IPlayerAction
         return priority;
     }
 
-    public void Dump(GameObject _obj)
+    public void CallPickUpCassette(int _id)
     {
+        photonView.RPC(nameof(PickUp), RpcTarget.All, _id);
+    }
+
+    public void CallDumpCassette(int _id)
+    {
+        photonView.RPC(nameof(Dump), RpcTarget.All, _id);
+    }
+
+
+    [PunRPC]
+    public void Dump(int _id)
+    {
+        GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
         if (_obj == ownerSc.gameObject)
         {
             ownerSc.SetItem(null);  
@@ -61,8 +74,12 @@ public class Cassette : MonoBehaviour, IPlayerAction
         }
     }
 
-    public void PickUp(GameObject _obj)
+    [PunRPC]
+    public void PickUp(int _id)
     {
+
+        GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
+
         //持たれたとき用の角度
         this.transform.rotation = Quaternion.Euler(90f, 0f, 180f);
 
