@@ -21,6 +21,7 @@ public class GameInGameUtil : MonoBehaviourPunCallbacks
 
             if (photonView && switcher)
             {
+                Debug.Log("RPC呼び出し：CallManagerSwitchGameInGameScene");
                 photonView.RPC(nameof(CallManagerSwitchGameInGameScene), RpcTarget.All, switcher, _nextGameInGameScene);
             }
             else
@@ -30,7 +31,7 @@ public class GameInGameUtil : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.LogWarning("GameMainManagerが見つかりませんでした");
+            Debug.LogError("GameMainManagerが見つかりませんでした");
         }
     }
 
