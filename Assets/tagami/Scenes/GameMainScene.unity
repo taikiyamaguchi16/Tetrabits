@@ -123,6 +123,36 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &6254257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6254258}
+  m_Layer: 0
+  m_Name: Wakiti
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6254258
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6254257}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1645611245}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &83331823
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2508,8 +2538,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 933173707}
-  m_LocalRotation: {x: 0.14176512, y: 0.000012370443, z: -0.00008637884, w: 0.9899004}
-  m_LocalPosition: {x: 0, y: 21.1, z: -28.87}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 14.5, z: 16.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1815132998}
@@ -3189,6 +3219,7 @@ GameObject:
   - component: {fileID: 1213106693}
   - component: {fileID: 1213106695}
   - component: {fileID: 1213106696}
+  - component: {fileID: 1213106697}
   m_Layer: 0
   m_Name: GameMainManager
   m_TagString: Untagged
@@ -3210,8 +3241,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameInGameSwitchByKeys:
   - sceneObject:
-      m_SceneName: Title
+      m_SceneName: Title_fake
     keyCode: 116
+  - sceneObject:
+      m_SceneName: GameInGameShooting
+    keyCode: 111
 --- !u!4 &1213106694
 Transform:
   m_ObjectHideFlags: 0
@@ -3254,9 +3288,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cassetteManager: {fileID: 1427029991}
   titleScene:
-    m_SceneName: Title
+    m_SceneName: Title_fake
   resultScene:
     m_SceneName: GameInGameResult
+--- !u!114 &1213106697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1213106692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 99999
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1226723607
 GameObject:
   m_ObjectHideFlags: 0
@@ -3709,7 +3765,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4824064673026487570, guid: f5303d109921485409daf5feb12495bd, type: 3}
       propertyPath: m_Name
-      value: cassette_socket
+      value: cassette_socket2
       objectReference: {fileID: 0}
     - target: {fileID: 8398044570937478855, guid: f5303d109921485409daf5feb12495bd, type: 3}
       propertyPath: m_RootOrder
@@ -4272,6 +4328,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1645611245}
   - component: {fileID: 1645611244}
+  - component: {fileID: 1645611246}
   m_Layer: 0
   m_Name: PhotonManager
   m_TagString: Untagged
@@ -4291,7 +4348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4fda01d70ab064fa4393d2683dff1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOffline: 1
+  isOffline: 0
+  networkDebugMode: 0
 --- !u!4 &1645611245
 Transform:
   m_ObjectHideFlags: 0
@@ -4300,12 +4358,36 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1645611243}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.757192, y: 24.082283, z: -1.2}
+  m_LocalPosition: {x: -3.62, y: 11.66, z: 9}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 6254258}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1645611246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645611243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a08f87b69b584ce45bb58ea7dad3b017, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnInfo:
+    prefabToSpawn: {fileID: 7772201493524667844, guid: 064ecad0c7a18bc40b5b3827f3d495d4, type: 3}
+    spawnTrans: {fileID: 6254258}
+    spawnPosition: {x: 0, y: 0, z: 0}
+    spawnEuler: {x: 0, y: 0, z: 0}
+    howToSpawn: 0
+    intervalSeconds: 1
+    timer: 0
+    manual: 1
+    spawnWhenStart: 1
+    spawnable: 1
 --- !u!1 &1646431484
 GameObject:
   m_ObjectHideFlags: 0
@@ -5619,6 +5701,10 @@ PrefabInstance:
       propertyPath: batteryHolder
       value: 
       objectReference: {fileID: 894389511}
+    - target: {fileID: 5568306287178356165, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
+      propertyPath: touchedPadEffectPrefab
+      value: 
+      objectReference: {fileID: 949335360584754000, guid: 4b13c70524374f7439dc15ffec3bac94, type: 3}
     - target: {fileID: 5568306287210744421, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
       propertyPath: m_Name
       value: TetraInput
