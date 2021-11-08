@@ -10,8 +10,11 @@ public class ShootingPlayer : MonoBehaviour
 
     [Header("Shot")]
     [SerializeField] GameObject playerBulletPrefab;
+    [SerializeField] float bulletSpeed = 10.0f;
     [SerializeField] float shotIntervalSeconds = 1.0f;
     float shotIntervalTimer;
+
+    int shotLevel = 1;
 
     Rigidbody2D myRb2D;
 
@@ -34,18 +37,38 @@ public class ShootingPlayer : MonoBehaviour
             if (shotIntervalTimer >= shotIntervalSeconds)
             {//発射
                 shotIntervalTimer = 0.0f;
-
-                //2wayとかに後で対応
-                var bullet = Instantiate(playerBulletPrefab);
-                bullet.transform.position = transform.position;
+                switch (shotLevel)
+                {
+                    case 1:
+                        ShotBullet(Vector3.right * bulletSpeed);
+                        break;
+                    case 2:
+                        ShotBullet((Vector3.right*5 + Vector3.up).normalized * bulletSpeed);
+                        ShotBullet((Vector3.right*5 + Vector3.down).normalized * bulletSpeed);
+                        break;
+                    case 3:
+                        ShotBullet((Vector3.right + Vector3.up).normalized * bulletSpeed);
+                        ShotBullet(Vector3.right * 10.0f);
+                        ShotBullet((Vector3.right + Vector3.down).normalized * bulletSpeed);
+                        break;
+                    default:
+                        Debug.LogError("対応していないショットレベル：" + shotLevel);
+                        break;
+                }
             }
 
         }
     }
 
+    private void ShotBullet(Vector3 _velocity)
+    {
+        var bullet = Instantiate(playerBulletPrefab, transform.position, Quaternion.identity);
+        bullet.GetComponent<Rigidbody2D>().velocity = _velocity;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
         {
             Debug.Log("Enemyタグオブジェクトにぶつかったので死にます");
         }
@@ -53,9 +76,20 @@ public class ShootingPlayer : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
         {
             Debug.Log("Enemyタグオブジェクトにぶつかったので死にます");
+        }
+
+        //レベルアップアイテム取得
+        if (collision.gameObject.CompareTag("LevelUpItem"))
+        {
+            shotLevel++;
+            if (shotLevel >= 3)
+            {
+                shotLevel = 3;
+            }
+            Destroy(collision.gameObject);
         }
     }
 }
