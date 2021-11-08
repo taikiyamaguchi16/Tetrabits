@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GimmickController : MonoBehaviour
 {
+    [SerializeField] Sprite offSprite;
+    [SerializeField] Sprite onSprite;
+
     SpriteRenderer spriteRenderer;
     BoxCollider2D boxCollider;
 
@@ -14,6 +17,9 @@ public class GimmickController : MonoBehaviour
     {
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         boxCollider = this.gameObject.GetComponent<BoxCollider2D>();
+
+        if (boxCollider.enabled) spriteRenderer.sprite = onSprite;
+        else spriteRenderer.sprite = offSprite;
     }
 
     // Update is called once per frame
@@ -28,14 +34,14 @@ public class GimmickController : MonoBehaviour
 
     void SwitchGimmick()
     {
-        if(boxCollider.enabled)
+        if (boxCollider.enabled)
         {
-            spriteRenderer.color = new Color(1, 1, 1, 0.1f);
+            spriteRenderer.sprite = offSprite;
             boxCollider.enabled = false;
         }
         else
         {
-            spriteRenderer.color = new Color(1, 1, 1, 1);
+            spriteRenderer.sprite = onSprite;
             boxCollider.enabled = true;
         }
     }
