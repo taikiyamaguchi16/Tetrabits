@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
-public class GameInGameSwitcher : MonoBehaviour
+public class GameInGameSwitcher : MonoBehaviourPunCallbacks
 {
     [System.Serializable]
     struct SceneObjectAndKeyCode
@@ -25,11 +26,19 @@ public class GameInGameSwitcher : MonoBehaviour
         {
             if (Input.GetKeyDown(val.keyCode))
             {
-                SwitchGameInGameScene(val.sceneObject);
+                GameInGameUtil.SwitchGameInGameScene(val.sceneObject);
+                //SwitchGameInGameScene(val.sceneObject);
             }
         }
     }
 
+    //ラッピング
+    public void CallSwitchGameInGameScene(string _nextSceneName)
+    {
+        photonView.RPC(nameof(SwitchGameInGameScene), RpcTarget.All, _nextSceneName);
+    }
+
+    [PunRPC]
     public void SwitchGameInGameScene(string _nextSceneName)
     {
         //現在のシーンを削除
