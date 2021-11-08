@@ -6,6 +6,11 @@ using Photon.Pun;
 
 public class GameInGameUtil : MonoBehaviourPunCallbacks
 {
+    //void Hoge()
+    //{
+    //    photonView;
+    //}
+
     public static void MoveGameObjectToOwnerScene(GameObject _go, GameObject _owner)
     {
         SceneManager.MoveGameObjectToScene(_go, _owner.scene);
@@ -16,18 +21,7 @@ public class GameInGameUtil : MonoBehaviourPunCallbacks
         var managerObj = GameObject.Find("GameMainManager");
         if (managerObj)
         {
-            var photonView = managerObj.GetComponent<PhotonView>();
-            var switcher = managerObj.GetComponent<GameInGameSwitcher>();
-
-            if (photonView && switcher)
-            {
-                Debug.Log("RPC呼び出し：CallManagerSwitchGameInGameScene");
-                photonView.RPC(nameof(CallManagerSwitchGameInGameScene), RpcTarget.All, switcher, _nextGameInGameScene);
-            }
-            else
-            {
-                Debug.LogError("photonViewかGameInGameSwitcherを取得できませんでした");
-            }
+            managerObj.GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene(_nextGameInGameScene);
         }
         else
         {
@@ -35,9 +29,17 @@ public class GameInGameUtil : MonoBehaviourPunCallbacks
         }
     }
 
-    [PunRPC]
-    private void CallManagerSwitchGameInGameScene(GameInGameSwitcher _switcher, string _nextSceneName)
-    {
-        _switcher.SwitchGameInGameScene(_nextSceneName);
-    }
+    //[PunRPC]
+    //private void CallManagerSwitchGameInGameScene(string _nextSceneName)
+    //{
+    //    var managerObj = GameObject.Find("GameMainManager");
+    //    if (managerObj)
+    //    {
+    //        managerObj.GetComponent<GameInGameSwitcher>().SwitchGameInGameScene(_nextSceneName);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("GameMainManagerが見つかりませんでした");
+    //    }
+    //}
 }
