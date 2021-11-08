@@ -69,12 +69,9 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
             //プレイヤーが何も持っていない場合
             if (otherPocket.GetItem() == null)
             {
-                Debug.Log("プレイヤー何も持ってない");
                 //バッテリーが生成されていた場合
                 if (ownBattery != null)
                 {
-                    Debug.Log("生成されている");
-                    //ownBattery.PickUp(_desc.playerObj);
                     ownBattery.CallPickUp(_desc.playerObj.GetPhotonView().ViewID);
 
                     pocket.SetItem(null);

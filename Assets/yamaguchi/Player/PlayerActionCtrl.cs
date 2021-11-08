@@ -72,7 +72,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
 
                     // IAction持ちの一番近いやつ取得
                     runningAction = nearest.GetComponent<IPlayerAction>();
-                    Debug.Log(nearest.name+"　のアクションを実行");
+                    //Debug.Log(nearest.name+"　のアクションを実行");
                     // アクション開始
                     runningAction.StartPlayerAction(desc);         
                 }

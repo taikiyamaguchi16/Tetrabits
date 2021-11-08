@@ -27,8 +27,9 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
             if (ownBattery != null)
             {
                 //ownBattery.PickUp(this.gameObject);
+                Debug.Log("あああ");
                 ownBattery.CallPickUp(photonView.ViewID);
-
+              
                 otherPocket.SetItem(null);
 
                 PhotonNetwork.Destroy(ownBattery.photonView);
