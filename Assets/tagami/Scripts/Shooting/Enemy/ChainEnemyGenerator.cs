@@ -56,6 +56,7 @@ public class ChainEnemyGenerator : MonoBehaviour
 
                 //生成
                 var obj = Instantiate(chainEnemyPrefab);
+                GameInGameUtil.MoveGameObjectToOwnerScene(obj, gameObject);
                 var chainEnemy = obj.GetComponent<ChainEnemy>();
                 chainEnemy.waypoints = waypoints;
                 chainEnemy.arrivalSeconds = arrivalSeconds;
