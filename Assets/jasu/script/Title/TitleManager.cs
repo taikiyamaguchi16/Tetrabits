@@ -60,7 +60,7 @@ public class TitleManager : MonoBehaviour
                 {
                    // crtNoise.stopNoiseInDuration = true;
                   //  crtNoise.AlWaysNoiseWithTimeLimit(true);
-                    gameSwitcher.SwitchGameInGameScene(cursor.GetSelectedObj().GetComponent<ShiftSceneHolder>().GetScene());
+                    gameSwitcher.CallSwitchGameInGameScene(cursor.GetSelectedObj().GetComponent<ShiftSceneHolder>().GetScene());
                 }
                 else
                 {
