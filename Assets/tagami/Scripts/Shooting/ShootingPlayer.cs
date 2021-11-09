@@ -70,7 +70,7 @@ public class ShootingPlayer : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
         {
-            Debug.Log("Enemyタグオブジェクトにぶつかったので死にます");
+            DealDamage();
         }
     }
 
@@ -78,7 +78,7 @@ public class ShootingPlayer : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
         {
-            Debug.Log("Enemyタグオブジェクトにぶつかったので死にます");
+            DealDamage();
         }
 
         //レベルアップアイテム取得
@@ -91,5 +91,11 @@ public class ShootingPlayer : MonoBehaviour
             }
             Destroy(collision.gameObject);
         }
+    }
+
+    private void DealDamage()
+    {
+        MonitorManager.DealDamageToMonitor("small");
+        Debug.Log("EnemyタグorEnemyBulletタグオブジェクトにぶつかった");
     }
 }
