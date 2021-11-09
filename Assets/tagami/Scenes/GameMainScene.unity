@@ -1949,6 +1949,7 @@ GameObject:
   m_Component:
   - component: {fileID: 773539374}
   - component: {fileID: 773539375}
+  - component: {fileID: 773539376}
   m_Layer: 0
   m_Name: Monitor
   m_TagString: Untagged
@@ -2002,6 +2003,28 @@ MonoBehaviour:
   - key: large
     go: {fileID: 1152768742167004558, guid: 8a0d9690dc4415c41a16c6c5d329ce4a, type: 3}
   monitorHpBarSlider: {fileID: 546884201}
+--- !u!114 &773539376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773539373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 99998
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &849653495
 GameObject:
   m_ObjectHideFlags: 0

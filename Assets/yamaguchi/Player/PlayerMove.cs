@@ -45,6 +45,8 @@ public class PlayerMove : MonoBehaviourPunCallbacks
     // 移動方向
     Vector3 moveDir = Vector3.zero;
 
+    ItemPocket myPocket;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -65,6 +67,8 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                 }
             }
         }
+
+        myPocket = GetComponent<ItemPocket>();
     }
 
     // Update is called once per frame
@@ -114,8 +118,11 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                 {
                     if (Input.GetKeyDown("space") || XInputManager.GetButtonTrigger(controllerID, XButtonType.A))
                     {
-                        jumpable = false;
-                        rb.AddForce(new Vector3(0, jumpPower, 0));
+                        if (myPocket.GetItem()==null)
+                        {
+                            jumpable = false;
+                            rb.AddForce(new Vector3(0, jumpPower, 0));
+                        }
                     }
                 }
             }

@@ -82,7 +82,7 @@ public class JetController : MonoBehaviour
         //SelfDestroy
         if (selfDestroyTimer >= selfDestroySeconds)
         {
-            MonitorManager.DealDamageToMonitor(3);
+            //MonitorManager.DealDamageToMonitor(3);
             selfDestroyTimer = 0.0f;//reset
         }
         //UpdateGauge

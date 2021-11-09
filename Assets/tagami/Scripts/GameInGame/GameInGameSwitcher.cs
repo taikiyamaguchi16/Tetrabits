@@ -35,11 +35,11 @@ public class GameInGameSwitcher : MonoBehaviourPunCallbacks
     //ラッピング
     public void CallSwitchGameInGameScene(string _nextSceneName)
     {
-        photonView.RPC(nameof(SwitchGameInGameScene), RpcTarget.All, _nextSceneName);
+        photonView.RPC(nameof(RPCSwitchGameInGameScene), RpcTarget.All, _nextSceneName);
     }
 
     [PunRPC]
-    public void SwitchGameInGameScene(string _nextSceneName)
+    public void RPCSwitchGameInGameScene(string _nextSceneName)
     {
         //現在のシーンを削除
         if (currentGameInGameSceneName.Length > 0)

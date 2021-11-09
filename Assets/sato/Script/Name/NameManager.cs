@@ -35,20 +35,7 @@ public class NameManager : MonoBehaviourPunCallbacks
     // OnJoinedLobby
     // ロビーへの接続が成功した時に呼ばれるコールバック
     //--------------------------------------------------
-    public override void OnJoinedLobby()
-    {
-        inputField.SetActive(true);
-
-        text.SetActive(true);
-
-        nameInput.SetActive(true);
-    }
-
-    //--------------------------------------------------
-    // OnJoinedRoom
-    // ルームへの接続が成功した時に呼ばれるコールバック
-    //--------------------------------------------------
-    //public override void OnJoinedRoom()
+    //public override void OnJoinedLobby()
     //{
     //    inputField.SetActive(true);
 
@@ -56,6 +43,19 @@ public class NameManager : MonoBehaviourPunCallbacks
 
     //    nameInput.SetActive(true);
     //}
+
+    //--------------------------------------------------
+    // OnJoinedRoom
+    // ルームへの接続が成功した時に呼ばれるコールバック
+    //--------------------------------------------------
+    public override void OnJoinedRoom()
+    {
+        inputField.SetActive(true);
+
+        text.SetActive(true);
+
+        nameInput.SetActive(true);
+    }
 
     //--------------------------------------------------
     // NameInputExit
