@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class TouchedPadEffect : MonoBehaviour
 {
     [Header("Status")]
@@ -13,12 +13,12 @@ public class TouchedPadEffect : MonoBehaviour
     Vector3 startLocalScale = Vector3.one;
     [SerializeField] Vector3 endLocalScale = Vector3.one;
 
-    //SpriteRenderer spriteRenderer;
+    SpriteRenderer spriteRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
-        //spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         startLocalScale = transform.localScale;
     }
@@ -41,8 +41,8 @@ public class TouchedPadEffect : MonoBehaviour
         transform.localScale = Vector3.Lerp(startLocalScale, endLocalScale, dt);
 
         //アルファ値変更
-        //var color = spriteRenderer.color;
-        //color.a = 1 - dt;
-        //spriteRenderer.color = color;
+        var color = spriteRenderer.color;
+        color.a = 1 - dt;
+        spriteRenderer.color = color;
     }
 }
