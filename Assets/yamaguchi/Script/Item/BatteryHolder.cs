@@ -32,16 +32,16 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
             //渡されたのがバッテリーだった場合
             if (ownBattery != null)
             {
-                ownBattery.CallPickUp(photonView.ViewID);
+                ownBattery.CallPickUp(photonView.ViewID);           
 
                 otherPocket.SetItem(null);
-
                 //自分がバッテリを持っていた場合swapする
                 if (checkbattery != null)
                 {
-                    //checkbattery.PickUp(_desc.playerObj);
                     ownBattery.CallPickUp(_desc.playerObj.GetPhotonView().ViewID);
                 }
+                //他のプレイヤーのホルダーにもバッテリーをセット
+                photonView.RPC(nameof(RPCSetOwnBattery), RpcTarget.All);
             }
             //バッテリーでなかった場合元に戻す
             else
@@ -50,18 +50,18 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
         //何も持っていなかった場合自分のを渡す
         else
         {           
-            //自分がバッテリを持っていた場合swapする
+            //自分がバッテリを持っていた場合渡す
             if (ownBattery != null)
             {
-                //ownBattery.PickUp(_desc.playerObj);  
                 ownBattery.CallPickUp(_desc.playerObj.GetPhotonView().ViewID);
 
                 pocket.SetItem(null);
                 ownBattery = null;
+
+                //他のプレイヤーのホルダーにもバッテリーを抜く
+                photonView.RPC(nameof(RPCReleaseBattery), RpcTarget.All);
             }
-        }
-
-
+        }       
     }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()
@@ -76,5 +76,19 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
             return ownBattery.GetLevel();
         else
             return 0f;
+    }
+
+    [PunRPC]
+    private void RPCSetOwnBattery()
+    {
+        if (pocket.GetItem() != null)
+            ownBattery = pocket.GetItem().GetComponent<Battery>();
+    }
+
+    [PunRPC]
+    private void RPCReleaseBattery()
+    {
+        pocket.SetItem(null);
+        ownBattery = null;
     }
 }
