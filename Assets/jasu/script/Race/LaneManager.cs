@@ -7,15 +7,13 @@ public class LaneManager : MonoBehaviour
     [SerializeField]
     GameObject[] lanes;
 
-    // Start is called before the first frame update
-    void Start()
+    public float GetLanePosX(int _laneId)
     {
-        
+        return lanes[_laneId].transform.position.x;
     }
 
-    // Update is called once per frame
-    void Update()
+    public int GetLaneNum()
     {
-        
+        return lanes.Length;
     }
 }

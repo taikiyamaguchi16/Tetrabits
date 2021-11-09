@@ -114,6 +114,7 @@ GameObject:
   - component: {fileID: 4178323175449870650}
   - component: {fileID: 2389715288856122480}
   - component: {fileID: 1212288837}
+  - component: {fileID: 1017778128}
   m_Layer: 0
   m_Name: PlayerInRace
   m_TagString: Untagged
@@ -152,7 +153,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 98
+  m_Constraints: 96
   m_CollisionDetection: 0
 --- !u!114 &1212288837
 MonoBehaviour:
@@ -172,6 +173,24 @@ MonoBehaviour:
   moveSpd: 80
   moveForceMultiplier: 3
   gravity: -200
+--- !u!114 &1017778128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4878758953354832212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a28a76a6aa29df43ab2337b27fe725b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 2389715288856122480}
+  laneManager: {fileID: 0}
+  colliderSensorFront: {fileID: 3070685040492917561}
+  colliderSensorBack: {fileID: 8578007734320314296}
+  padInputRangeY: 0.5
+  spd: 20
 --- !u!1 &7385125586062708462
 GameObject:
   m_ObjectHideFlags: 0
