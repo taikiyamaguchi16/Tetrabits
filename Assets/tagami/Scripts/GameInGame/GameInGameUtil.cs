@@ -29,6 +29,20 @@ public class GameInGameUtil : MonoBehaviourPunCallbacks
         }
     }
 
+    public static void SwitchGameInGameSceneOffline(string _nextGameInGameScene)
+    {
+        var managerObj = GameObject.Find("GameMainManager");
+        if (managerObj)
+        {
+            managerObj.GetComponent<GameInGameSwitcher>().RPCSwitchGameInGameScene(_nextGameInGameScene);
+        }
+        else
+        {
+            Debug.LogError("GameMainManagerが見つかりませんでした");
+        }
+    }
+
+
     //[PunRPC]
     //private void CallManagerSwitchGameInGameScene(string _nextSceneName)
     //{
