@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-
 public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 {
     private Rigidbody rb;
@@ -38,13 +37,11 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         if (photonView.IsMine)
         {
             if (!isOwned)
-            {
-                //PickUp(_desc.playerObj);  
+            { 
                 photonView.RPC(nameof(PickUp), RpcTarget.All,_desc.playerObj.GetPhotonView().ViewID);
             }
             else
                 photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
-                //Dump(_desc.playerObj);
         }
     }
 
@@ -91,7 +88,6 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     public void PickUp(int _id)
     {
         GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
-
         priority = 100;
         ownerSc = _obj.GetComponent<ItemPocket>();
         ownerSc.SetItem(this.gameObject);

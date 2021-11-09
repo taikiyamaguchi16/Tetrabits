@@ -55,7 +55,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         if(Input.GetKeyDown(KeyCode.H))
         {
             PhotonNetwork.Disconnect();
-            GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().SwitchGameInGameScene("Title_fake");
+            GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().RPCSwitchGameInGameScene("Title_fake");
             NetworkObjContainer.NetworkObjDictionary.Clear();
         }
     }

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class CassetteHolder : MonoBehaviour, IPlayerAction
+public class CassetteHolder : MonoBehaviourPunCallbacks, IPlayerAction
 {
     private Cassette ownCassette;
 
@@ -30,9 +31,11 @@ public class CassetteHolder : MonoBehaviour, IPlayerAction
             if (ownCassette != null&&!ownCassette.GetIsClear())
             {
                 //カセットに設定されているシーンの読み込み
-                sceneChanger.SwitchGameInGameScene(ownCassette.GetLoadSceneObj());
+                sceneChanger.CallSwitchGameInGameScene(ownCassette.GetLoadSceneObj());
                 //プレイヤーのアイテムを取得してセット
-                ownCassette.PickUp(this.gameObject);
+
+                ownCassette.CallPickUpCassette(photonView.ViewID);
+
                 otherPocket.SetItem(null);
 
                 //カセットの表示を消す

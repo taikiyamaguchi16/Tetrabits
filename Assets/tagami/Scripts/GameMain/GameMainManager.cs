@@ -13,7 +13,7 @@ public class GameMainManager : MonoBehaviour
 
     private void Start()
     {
-        GetComponent<GameInGameSwitcher>().SwitchGameInGameScene(titleScene);
+        GetComponent<GameInGameSwitcher>().RPCSwitchGameInGameScene(titleScene);
     }
 
     // Update is called once per frame
@@ -30,14 +30,14 @@ public class GameMainManager : MonoBehaviour
             //タイマー計測したり
 
             //すべてクリアしたら結果画面へ
-            if (cassetteManager.CheckAllCassette()||true)
+            if (cassetteManager.CheckAllCassette() || true)
             {
                 Debug.LogWarning("強制全クリ発動！！");
-                GetComponent<GameInGameSwitcher>().SwitchGameInGameScene(resultScene);
+                GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene(resultScene);
             }
             else
             { //ゲームを落とす
-                GetComponent<GameInGameSwitcher>().SwitchGameInGameScene("");
+                GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene("");
 
                 //カセット再表示
                 cassetteManager.AppearAllCassette();

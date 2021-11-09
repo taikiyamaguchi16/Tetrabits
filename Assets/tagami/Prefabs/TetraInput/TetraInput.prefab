@@ -342,8 +342,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 223babfd37a27b94c81584e1629b3209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tetraPadBody: {fileID: 5568306287178356165}
   batteryHolder: {fileID: 0}
+  tetraPadBody: {fileID: 5568306287178356165}
 --- !u!1 &5568306286399505660
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,6 +535,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49408b7f92ae849449ff9ee3bcdc9d21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteMaskTransform: {fileID: 365007529}
+  touchedPadEffectPrefab: {fileID: 949335360584754000, guid: 4b13c70524374f7439dc15ffec3bac94, type: 3}
 --- !u!1 &5568306287210744421
 GameObject:
   m_ObjectHideFlags: 0

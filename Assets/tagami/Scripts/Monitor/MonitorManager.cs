@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class MonitorManager : MonoBehaviour
+public class MonitorManager : MonoBehaviourPunCallbacks
 {
     [Header("Required Reference")]
     [SerializeField] GameInGameSwitcher gameInGameSwitcher;
@@ -80,7 +81,13 @@ public class MonitorManager : MonoBehaviour
         }
     }
 
-    void DealDamage(string _damageId)
+    void CallDealDamage(string _damageId)
+    {
+        photonView.RPC(nameof(RPCDealDamage), RpcTarget.All, _damageId);
+    }
+
+    [PunRPC]
+    void RPCDealDamage(string _damageId)
     {
         GameObject prefab = null;
         foreach (var keyObj in coolingTargetPrefabs)
@@ -110,7 +117,7 @@ public class MonitorManager : MonoBehaviour
             if (currentMonitorStatusIndex >= (monitorStatuses.Count - 1))
             {//ゲームオーバー処理
                 Debug.Log("GameOver");
-                gameInGameSwitcher.SwitchGameInGameScene("");
+                gameInGameSwitcher.CallSwitchGameInGameScene("");
                 return;
             }
 
@@ -140,16 +147,16 @@ public class MonitorManager : MonoBehaviour
     //static
     static MonitorManager sMonitorManager;
 
-    [System.Obsolete("DealDamageToMonitor(float) is deprecated, please use DealDamageToMonitor(string) instead.")]
-    public static void DealDamageToMonitor(float _damage)
-    {
-    }
+    //[System.Obsolete("DealDamageToMonitor(float) is deprecated, please use DealDamageToMonitor(string) instead.")]
+    //public static void DealDamageToMonitor(float _damage)
+    //{
+    //}
 
     public static void DealDamageToMonitor(string _damageId)
     {
         if (sMonitorManager)
         {
-            sMonitorManager.DealDamage(_damageId);
+            sMonitorManager.CallDealDamage(_damageId);
         }
     }
 }

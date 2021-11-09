@@ -22,7 +22,7 @@ public class SelectScene : MonoBehaviour
 
     public void LoadRoomSelect()
     {
-        GameInGameUtil.SwitchGameInGameScene(RoomSelect);
+        GameInGameUtil.SwitchGameInGameSceneOffline(RoomSelect);
     }
 
     public void LoadLocalMultiPlaySetUp()
