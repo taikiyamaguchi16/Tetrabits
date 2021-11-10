@@ -27,24 +27,24 @@ public class LookAtTarget : MonoBehaviour
     {
         if(targetTrans != null)
         {
-            Vector3 lookVec = transform.rotation.eulerAngles;
+            //Vector3 lookVec = targetTrans.position;
 
-            if (lookAtX)
-            {
-                lookVec.x = targetTrans.rotation.eulerAngles.x;
-            }
+            //if (!lookAtX)
+            //{
+            //    lookVec.x = transform.position.x;
+            //}
 
-            if (lookAtY)
-            {
-                lookVec.y = targetTrans.rotation.eulerAngles.y;
-            }
+            //if (!lookAtY)
+            //{
+            //    lookVec.y = transform.position.y;
+            //}
 
-            if (lookAtZ)
-            {
-                lookVec.z = targetTrans.rotation.eulerAngles.z;
-            }
+            //if (!lookAtZ)
+            //{
+            //    lookVec.z = transform.position.z;
+            //}
 
-            transform.rotation = Quaternion.Euler(lookVec);
+            //transform.
         }
     }
 }
