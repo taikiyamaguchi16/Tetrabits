@@ -13,8 +13,14 @@ public class ShootingPlayer : MonoBehaviour
     [SerializeField] float bulletSpeed = 10.0f;
     [SerializeField] float shotIntervalSeconds = 1.0f;
     float shotIntervalTimer;
+    
+    [Header("Shot Level")]
+    [SerializeField, Range(1, 3)] int shotLevel = 1;
+    [SerializeField] float dualShotWidth = 1.0f;
+    [SerializeField] float tripleShotWidth = 1.0f;
 
-    int shotLevel = 1;
+    //[Header("Bomb")]
+    //[SerializeField] GameObject bombPrefab;
 
 
     //damage    
@@ -34,6 +40,9 @@ public class ShootingPlayer : MonoBehaviour
     void Start()
     {
         myRb2D = GetComponent<Rigidbody2D>();
+
+        //無敵スタート
+        isInvincible = true;
     }
 
     // Update is called once per frame
@@ -52,16 +61,16 @@ public class ShootingPlayer : MonoBehaviour
                 switch (shotLevel)
                 {
                     case 1:
-                        ShotBullet(Vector3.right * bulletSpeed);
+                        ShotBullet(Vector3.zero, Vector3.right * bulletSpeed);
                         break;
                     case 2:
-                        ShotBullet((Vector3.right * 5 + Vector3.up).normalized * bulletSpeed);
-                        ShotBullet((Vector3.right * 5 + Vector3.down).normalized * bulletSpeed);
+                        ShotBullet(new Vector3(0.0f, dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
+                        ShotBullet(new Vector3(0.0f, -dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
                         break;
                     case 3:
-                        ShotBullet((Vector3.right + Vector3.up).normalized * bulletSpeed);
-                        ShotBullet(Vector3.right * 10.0f);
-                        ShotBullet((Vector3.right + Vector3.down).normalized * bulletSpeed);
+                        ShotBullet(Vector3.zero, (Vector3.right + Vector3.up * tripleShotWidth).normalized * bulletSpeed);
+                        ShotBullet(Vector3.zero, Vector3.right * bulletSpeed);
+                        ShotBullet(Vector3.zero, (Vector3.right + Vector3.down * tripleShotWidth).normalized * bulletSpeed);
                         break;
                     default:
                         Debug.LogError("対応していないショットレベル：" + shotLevel);
@@ -71,12 +80,21 @@ public class ShootingPlayer : MonoBehaviour
 
         }//lever on
 
+        if(TetraInput.sTetraButton.GetTrigger())
+        { //ボム
+            //敵の弾をすべて粉砕する
+            foreach(var obj in GameObject.FindGameObjectsWithTag("EnemyBullet"))
+            {
+                Destroy(obj);
+            }
+        }
+
         if (isInvincible)
         {
             invinvibleTimer += Time.deltaTime;
             if (invinvibleTimer >= invincibleSeconds)
             {//無敵終了
-                invinvibleTimer = invincibleSeconds;
+                invinvibleTimer = 0.0f;
                 isInvincible = false;
                 flashingRenderer.enabled = true;
             }
@@ -93,9 +111,9 @@ public class ShootingPlayer : MonoBehaviour
         }//無敵中処理
     }
 
-    private void ShotBullet(Vector3 _velocity)
+    private void ShotBullet(Vector3 _offset, Vector3 _velocity)
     {
-        var bullet = Instantiate(playerBulletPrefab, transform.position, Quaternion.identity);
+        var bullet = Instantiate(playerBulletPrefab, transform.position + _offset, Quaternion.identity);
         bullet.GetComponent<Rigidbody2D>().velocity = _velocity;
     }
 
@@ -128,12 +146,15 @@ public class ShootingPlayer : MonoBehaviour
 
     private void DealDamage()
     {
+        //無敵なので即終了
+        if (isInvincible) { return; }
+
+
         //レベル２以上ならレベルを一つ下げて一時無敵に
         if (shotLevel >= 2)
         {
             shotLevel--;
             isInvincible = true;
-            invinvibleTimer = 0.0f;
         }
         else
         {
@@ -141,7 +162,7 @@ public class ShootingPlayer : MonoBehaviour
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
 
             //一機減らす
-            ShootingGameManager.sShootingGameManager.MinusLife(transform.position);
+            ShootingGameManager.sShootingGameManager.DestroyedPlayer(transform.position);
 
             //破壊
             Destroy(gameObject);

@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class ReflectionBarrier : MonoBehaviour
 {
+    [SerializeField] GameObject enemyBulletPrefab;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-
             //跳ね返す
             Rigidbody2D outRb = null;
             if (collision.TryGetComponent(out outRb))

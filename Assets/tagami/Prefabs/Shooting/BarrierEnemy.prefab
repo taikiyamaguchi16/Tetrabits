@@ -341,6 +341,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4698605176374525830}
   - component: {fileID: 4698605176374525828}
+  - component: {fileID: -7282029159140507702}
   m_Layer: 0
   m_Name: BarrierEnemy
   m_TagString: Untagged
@@ -355,7 +356,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4698605176374525829}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
   m_LocalPosition: {x: 4.46, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -363,7 +364,7 @@ Transform:
   - {fileID: 4698605174461477289}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45}
 --- !u!114 &4698605176374525828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,4 +377,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76944552989d0e548856dc29608e7667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 50
+  rotationSpeed: 20
+--- !u!114 &-7282029159140507702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4698605176374525829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff29c1b58b46b1742a963a2fc5326bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bombItemPrefab: {fileID: 6066741890700599634, guid: b8a87e49207036649a3959c57fd9d805, type: 3}
+  bombDropPercent: 100
+  levelUpItemPrefab: {fileID: 6066741890700599634, guid: b8a87e49207036649a3959c57fd9d805, type: 3}
+  levelUpDropPercent: 0
