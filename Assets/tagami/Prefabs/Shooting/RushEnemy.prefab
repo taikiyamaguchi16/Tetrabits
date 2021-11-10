@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 8899467771135364290}
   - component: {fileID: 8899467771135364284}
   - component: {fileID: 8899467771135364291}
+  - component: {fileID: -8894647666460001911}
   m_Layer: 0
   m_Name: RushEnemy
   m_TagString: Enemy
@@ -198,3 +199,16 @@ MonoBehaviour:
   playerDeterctor: {fileID: 8899467770126046832}
   waitSeconds: 0.2
   rushMoveSpeed: 10
+--- !u!114 &-8894647666460001911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8899467771135364294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3587a1adb6e5abc42ba24700176ebfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  additionalDestroyObjects: []

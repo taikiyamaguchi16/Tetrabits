@@ -9,12 +9,6 @@ public class SinEnemy : MonoBehaviour
     [SerializeField] float moveSpeedY = 1.0f;
     [SerializeField] float verticalWidth = 1.0f;
 
-    [Header("Shot")]
-    [SerializeField] GameObject enemyBulletPrefab;
-    [SerializeField] float bulletSpeed = 1.0f;
-    [SerializeField] float shotIntervalSeconds = 1.0f;
-    float shotIntervalTimer;
-
     //位置
     float transformPositionX;
     float sinValue;
@@ -33,13 +27,6 @@ public class SinEnemy : MonoBehaviour
         sinValue += moveSpeedY * Time.deltaTime;
         transform.position = new Vector3(transformPositionX, Mathf.Sin(sinValue) * verticalWidth, 0.0f);
 
-        //弾発射
-        shotIntervalTimer += Time.deltaTime;
-        if (shotIntervalTimer >= shotIntervalSeconds)
-        {
-            shotIntervalTimer = 0.0f;
-            var bullet = Instantiate(enemyBulletPrefab, transform.position, Quaternion.identity);
-            bullet.GetComponent<Rigidbody2D>().velocity = -Vector2.right * bulletSpeed;
-        }
+       
     }
 }
