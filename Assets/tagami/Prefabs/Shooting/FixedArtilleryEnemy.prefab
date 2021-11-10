@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8488429785778894947}
   - component: {fileID: 8488429785778894948}
   - component: {fileID: 8488429785778894946}
+  - component: {fileID: -364505679309451566}
   - component: {fileID: 8488429785778894944}
   - component: {fileID: 8544080878406550885}
   m_Layer: 0
@@ -97,9 +98,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef54ad54cbd164a4b9c5f7145629af69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyBulletPrefab: {fileID: 4190101745959247044, guid: 0d0bc543efa0b3a4ba8bcc57a5207468, type: 3}
-  bulletSpeed: 5
-  shotIntervalSeconds: 1
+  enemyBulletPrefab: {fileID: 791794306420418939, guid: 1676aed78c5ae254bba4a40a78d72a1e, type: 3}
+  bulletSpeed: 1
+  shotIntervalSeconds: 2
+--- !u!114 &-364505679309451566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8488429785778894949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3587a1adb6e5abc42ba24700176ebfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  additionalDestroyObjects: []
 --- !u!50 &8488429785778894944
 Rigidbody2D:
   serializedVersion: 4
@@ -120,7 +134,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!58 &8544080878406550885
 CircleCollider2D:
   m_ObjectHideFlags: 0
