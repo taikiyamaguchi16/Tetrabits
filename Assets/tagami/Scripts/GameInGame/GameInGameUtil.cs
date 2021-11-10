@@ -4,12 +4,24 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 
-public class GameInGameUtil : MonoBehaviourPunCallbacks
+public class GameInGameUtil : MonoBehaviour
 {
-    //void Hoge()
-    //{
-    //    photonView;
-    //}
+    [SerializeField] bool isMasterClientOverride = true;
+
+    void Start()
+    {
+        sIsMasterClient = isMasterClientOverride;
+    }
+
+    //**********************************************************
+    //static
+
+    private static bool sIsMasterClient;
+
+    public static bool IsMasterClient()
+    {
+        return (PhotonNetwork.IsMasterClient || sIsMasterClient);
+    }
 
     public static void MoveGameObjectToOwnerScene(GameObject _go, GameObject _owner)
     {
@@ -41,19 +53,4 @@ public class GameInGameUtil : MonoBehaviourPunCallbacks
             Debug.LogError("GameMainManagerが見つかりませんでした");
         }
     }
-
-
-    //[PunRPC]
-    //private void CallManagerSwitchGameInGameScene(string _nextSceneName)
-    //{
-    //    var managerObj = GameObject.Find("GameMainManager");
-    //    if (managerObj)
-    //    {
-    //        managerObj.GetComponent<GameInGameSwitcher>().SwitchGameInGameScene(_nextSceneName);
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("GameMainManagerが見つかりませんでした");
-    //    }
-    //}
 }

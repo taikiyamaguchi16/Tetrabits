@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class CommonBullet2D : MonoBehaviour
+public class CommonBullet2D : MonoBehaviourPunCallbacks
 {
     [SerializeField] string targetTag = "Enemy";
 
@@ -22,6 +23,8 @@ public class CommonBullet2D : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!GameInGameUtil.IsMasterClient()) return;
+
         if (collision.gameObject.CompareTag(targetTag))
         {
             if(destroyGameClear)
