@@ -131,11 +131,13 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
     private void FixedUpdate()
     {
-        //rb.AddForce(moveDir * moveSpd, ForceMode.Force);
-        Vector3 moveVec = moveDir * moveSpd;
-        rb.velocity = new Vector3(moveVec.x, rb.velocity.y, moveVec.z);
+        if (photonView.IsMine)
+        {
+            Vector3 moveVec = moveDir * moveSpd;
+            rb.velocity = new Vector3(moveVec.x, rb.velocity.y, moveVec.z);
 
-        // 重力
-        rb.AddForce(new Vector3(0, gravity, 0));
+            // 重力
+            rb.AddForce(new Vector3(0, gravity, 0));
+        }
     }
 }
