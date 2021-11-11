@@ -47,6 +47,8 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
     ItemPocket myPocket;
 
+    private Animator playerAnim;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -69,6 +71,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
         }
 
         myPocket = GetComponent<ItemPocket>();
+        playerAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -92,16 +95,19 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                 if (Input.GetKey("w"))
                 {
                     moveDir += moveStandard.transform.forward;
+                    playerAnim.SetBool("BackWalk", true);
                 }
 
                 if (Input.GetKey("s"))
                 {
                     moveDir -= moveStandard.transform.forward;
+                    playerAnim.SetBool("Walk", true);
                 }
 
                 if (Input.GetKey("d"))
                 {
                     moveDir += moveStandard.transform.right;
+                    playerAnim.SetBool("SideWalk", true);
                 }
 
                 if (Input.GetKey("a"))
