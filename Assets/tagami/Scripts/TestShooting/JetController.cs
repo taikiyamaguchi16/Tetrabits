@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class JetController : MonoBehaviour
+using Photon.Pun;
+
+public class JetController : MonoBehaviourPunCallbacks
 {
     [Header("Reference")]
     [SerializeField] GameObject bulletPrefab;
 
-    [SerializeField] SceneObject nextScene;
+    // [SerializeField] SceneObject nextScene;
 
     [Header("Status")]
     [SerializeField] float moveSpeed = 1.0f;
@@ -24,16 +26,16 @@ public class JetController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        shotTimer = Random.Range(0.0f, shotIntervalTime);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            GameInGameUtil.SwitchGameInGameScene(nextScene);
-        }
+        //if(Input.GetKeyDown(KeyCode.R))
+        //{
+        //    GameInGameUtil.SwitchGameInGameScene(nextScene);
+        //}
 
 
         //**********************************************************
@@ -52,27 +54,30 @@ public class JetController : MonoBehaviour
         //レバー
         if (TetraInput.sTetraLever.GetPoweredOn())
         {
-            //弾発射
-            shotTimer += Time.deltaTime;
-            if (shotTimer >= shotIntervalTime)
+            if (PhotonNetwork.IsMasterClient)
             {
-                shotTimer = 0.0f;
-                //発射
-                var obj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-                obj.GetComponent<Rigidbody2D>().velocity = Vector2.right * 10.0f;
-                GameInGameUtil.MoveGameObjectToOwnerScene(obj, gameObject);
-                
-            }
+                //弾発射
+                shotTimer += Time.deltaTime;
+                if (shotTimer >= shotIntervalTime)
+                {
+                    shotTimer = 0.0f;
+                    //発射
+                    CallShotPlayerBullet();
+                    //var obj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                    //obj.GetComponent<Rigidbody2D>().velocity = Vector2.right * 10.0f;
+                    //GameInGameUtil.MoveGameObjectToOwnerScene(obj, gameObject);
+                }
 
-            //自爆のゲージためる
-            selfDestroyTimer += Time.deltaTime;
+                //自爆のゲージためる
+                selfDestroyTimer += Time.deltaTime;
+            }
         }
         else
         {
             shotTimer = 0.0f;
 
             selfDestroyTimer -= Time.deltaTime;
-            if(selfDestroyTimer<=0)
+            if (selfDestroyTimer <= 0)
             {
                 selfDestroyTimer = 0;
             }
@@ -86,13 +91,32 @@ public class JetController : MonoBehaviour
             selfDestroyTimer = 0.0f;//reset
         }
         //UpdateGauge
-        destroyGaugeSlider.value = (selfDestroyTimer / selfDestroySeconds)*100;
+        destroyGaugeSlider.value = (selfDestroyTimer / selfDestroySeconds) * 100;
 
         //**********************************************************
         //Move
-        Vector3 moveVec = Vector3.zero;
-        moveVec.x += TetraInput.sTetraPad.GetVector().x;
-        moveVec.y += TetraInput.sTetraPad.GetVector().y;
-        transform.position += moveVec * moveSpeed * Time.deltaTime;
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Vector3 moveVec = Vector3.zero;
+            moveVec.x += TetraInput.sTetraPad.GetVector().x;
+            moveVec.y += TetraInput.sTetraPad.GetVector().y;
+            transform.position += moveVec * moveSpeed * Time.deltaTime;
+        }
+    }
+
+
+    private void CallShotPlayerBullet()
+    {
+        photonView.RPC(nameof(RPCShotPlayerBullet), RpcTarget.AllViaServer);
+    }
+
+    [PunRPC]
+    public void RPCShotPlayerBullet()
+    {
+        var obj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        obj.GetComponent<Rigidbody2D>().velocity = Vector2.right * 10.0f;
+        GameInGameUtil.MoveGameObjectToOwnerScene(obj, gameObject);
     }
 }
+

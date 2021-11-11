@@ -569,6 +569,8 @@ GameObject:
   - component: {fileID: 858149147}
   - component: {fileID: 858149146}
   - component: {fileID: 858149145}
+  - component: {fileID: 858149148}
+  - component: {fileID: 858149149}
   m_Layer: 0
   m_Name: Jet
   m_TagString: Player
@@ -630,8 +632,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5671372375757631194, guid: e886f914f55bd254d8f6b7911c31ab35, type: 3}
-  nextScene:
-    m_SceneName: ShootingProto
   moveSpeed: 3
   shotIntervalTime: 1
   selfDestroySeconds: 10
@@ -688,6 +688,45 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &858149148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858149143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 858149149}
+  sceneViewId: 8000
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &858149149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858149143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &873383155
 GameObject:
   m_ObjectHideFlags: 0
@@ -895,6 +934,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1078692544}
   m_CullTransparentMesh: 0
+--- !u!1 &1108029446 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6126724861915281461, guid: 9ddd5ec0309f3934fadde18930f6a791, type: 3}
+  m_PrefabInstance: {fileID: 1858623751}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1215864265
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,7 +957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1215864266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1615,6 +1659,71 @@ MonoBehaviour:
   initTimerRandom: 1
   existLimit: 1
   instancedObjects: []
+--- !u!1001 &1858623751
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1561153118}
+    m_Modifications:
+    - target: {fileID: 6126724861915281459, guid: 9ddd5ec0309f3934fadde18930f6a791, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126724861915281459, guid: 9ddd5ec0309f3934fadde18930f6a791, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 806.58496
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126724861915281459, guid: 9ddd5ec0309f3934fadde18930f6a791, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 455.79343
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126724861915281459, guid: 9ddd5ec0309f3934fadde18930f6a791, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -34.71823
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126724861915281459, guid: 9ddd5ec0309f3934fadde18930f6a791, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126724861915281459, guid: 9ddd5ec0309f3934fadde18930f6a791, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126724861915281459, guid: 9ddd5ec0309f3934fadde18930f6a791, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126724861915281459, guid: 9ddd5ec0309f3934fadde18930f6a791, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126724861915281459, guid: 9ddd5ec0309f3934fadde18930f6a791, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126724861915281459, guid: 9ddd5ec0309f3934fadde18930f6a791, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126724861915281459, guid: 9ddd5ec0309f3934fadde18930f6a791, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126724861915281460, guid: 9ddd5ec0309f3934fadde18930f6a791, type: 3}
+      propertyPath: isOffline
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126724861915281460, guid: 9ddd5ec0309f3934fadde18930f6a791, type: 3}
+      propertyPath: networkDebugMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126724861915281461, guid: 9ddd5ec0309f3934fadde18930f6a791, type: 3}
+      propertyPath: m_Name
+      value: PhotonManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9ddd5ec0309f3934fadde18930f6a791, type: 3}
 --- !u!1001 &2095261914
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1666,6 +1775,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 583775346900599356, guid: e078650c2fa3b424ebf8535f1ae880dc, type: 3}
+      propertyPath: UnitTestObjects.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 583775346900599356, guid: e078650c2fa3b424ebf8535f1ae880dc, type: 3}
+      propertyPath: UnitTestObjects.Array.data[5]
+      value: 
+      objectReference: {fileID: 1108029446}
     - target: {fileID: 8712145136761352767, guid: e078650c2fa3b424ebf8535f1ae880dc, type: 3}
       propertyPath: m_Name
       value: GameInGameManager
