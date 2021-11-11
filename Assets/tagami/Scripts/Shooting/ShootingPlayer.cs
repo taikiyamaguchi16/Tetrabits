@@ -16,6 +16,18 @@ public class ShootingPlayer : MonoBehaviour
 
     int shotLevel = 1;
 
+
+    //damage    
+    [Header("Damage")]
+    [SerializeField] float invincibleSeconds = 1.0f;
+    float invinvibleTimer;
+    [SerializeField] Renderer flashingRenderer;
+    [SerializeField] float flashingIntervalSeconds = 0.1f;
+    float flashingIntervalTimer;
+    bool isInvincible;
+    [SerializeField] GameObject explosionPrefab;
+
+
     Rigidbody2D myRb2D;
 
     // Start is called before the first frame update
@@ -43,8 +55,8 @@ public class ShootingPlayer : MonoBehaviour
                         ShotBullet(Vector3.right * bulletSpeed);
                         break;
                     case 2:
-                        ShotBullet((Vector3.right*5 + Vector3.up).normalized * bulletSpeed);
-                        ShotBullet((Vector3.right*5 + Vector3.down).normalized * bulletSpeed);
+                        ShotBullet((Vector3.right * 5 + Vector3.up).normalized * bulletSpeed);
+                        ShotBullet((Vector3.right * 5 + Vector3.down).normalized * bulletSpeed);
                         break;
                     case 3:
                         ShotBullet((Vector3.right + Vector3.up).normalized * bulletSpeed);
@@ -57,7 +69,28 @@ public class ShootingPlayer : MonoBehaviour
                 }
             }
 
-        }
+        }//lever on
+
+        if (isInvincible)
+        {
+            invinvibleTimer += Time.deltaTime;
+            if (invinvibleTimer >= invincibleSeconds)
+            {//無敵終了
+                invinvibleTimer = invincibleSeconds;
+                isInvincible = false;
+                flashingRenderer.enabled = true;
+            }
+            else
+            {
+                flashingIntervalTimer += Time.deltaTime;
+                if (flashingIntervalTimer >= flashingIntervalSeconds)
+                {
+                    flashingIntervalTimer = 0.0f;
+                    //切り替え
+                    flashingRenderer.enabled = !flashingRenderer.enabled;
+                }
+            }
+        }//無敵中処理
     }
 
     private void ShotBullet(Vector3 _velocity)
@@ -95,6 +128,26 @@ public class ShootingPlayer : MonoBehaviour
 
     private void DealDamage()
     {
+        //レベル２以上ならレベルを一つ下げて一時無敵に
+        if (shotLevel >= 2)
+        {
+            shotLevel--;
+            isInvincible = true;
+            invinvibleTimer = 0.0f;
+        }
+        else
+        {
+            //爆発
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+
+            //一機減らす
+            ShootingGameManager.sShootingGameManager.MinusLife(transform.position);
+
+            //破壊
+            Destroy(gameObject);
+        }
+
+
         MonitorManager.DealDamageToMonitor("small");
         Debug.Log("EnemyタグorEnemyBulletタグオブジェクトにぶつかった");
     }
