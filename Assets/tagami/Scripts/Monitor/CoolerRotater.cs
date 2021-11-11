@@ -1,40 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class CoolerRotater : MonoBehaviour
+public class CoolerRotater : MonoBehaviourPunCallbacks
 {
-    Transform rotateTarget;
+    public Transform rotateTarget;
 
-  
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    float rotateAnglePerSeconds = 45;
 
     // Update is called once per frame
     void Update()
     {
-        int xinputIndex = 0;
-
-        if(XInputManager.GetButtonPress(xinputIndex,XButtonType.LThumbStickLeft))
+        if (photonView.IsMine)
         {
-            //rotateTarget.rotation *= Quaternion.AngleAxis(,);
-        }
-        if (XInputManager.GetButtonPress(xinputIndex, XButtonType.LThumbStickRight))
-        {
+            int controlXinputIndex = 0;
 
+            if (Input.GetKey(KeyCode.A) || XInputManager.GetButtonPress(controlXinputIndex, XButtonType.LThumbStickLeft))
+            {
+                rotateTarget.rotation *= Quaternion.AngleAxis(-rotateAnglePerSeconds * Time.deltaTime, Vector3.up);
+            }
+            if (Input.GetKey(KeyCode.D) || XInputManager.GetButtonPress(controlXinputIndex, XButtonType.LThumbStickRight))
+            {
+                rotateTarget.rotation *= Quaternion.AngleAxis(rotateAnglePerSeconds * Time.deltaTime, Vector3.up);
+            }
+            if (Input.GetKey(KeyCode.W) || XInputManager.GetButtonPress(controlXinputIndex, XButtonType.LThumbStickUp))
+            {
+                rotateTarget.rotation *= Quaternion.AngleAxis(-rotateAnglePerSeconds * Time.deltaTime, Vector3.right);
+            }
+            if (Input.GetKey(KeyCode.S) || XInputManager.GetButtonPress(controlXinputIndex, XButtonType.LThumbStickDown))
+            {
+                rotateTarget.rotation *= Quaternion.AngleAxis(rotateAnglePerSeconds * Time.deltaTime, Vector3.right);
+            }
         }
-        if (XInputManager.GetButtonPress(xinputIndex, XButtonType.LThumbStickUp))
-        {
-
-        }
-        if (XInputManager.GetButtonPress(xinputIndex, XButtonType.LThumbStickDown))
-        {
-
-        }
-
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class MonitorCooler : MonoBehaviour, IPlayerAction
+public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
 {
     [Header("Required Reference")]
     [SerializeField] MonitorManager monitorManager;
@@ -14,8 +15,9 @@ public class MonitorCooler : MonoBehaviour, IPlayerAction
     [SerializeField] float repairMonitorPerSeconds = 0.1f;
     [SerializeField] float rotateAnglePerSeconds = 10.0f;
 
-    int controlXinputIndex = 0;
+    //int controlXinputIndex = 0;
     bool running = false;
+    CoolerRotater runningRotator;
 
     // Update is called once per frame
     void Update()
@@ -25,24 +27,6 @@ public class MonitorCooler : MonoBehaviour, IPlayerAction
             if (!coolingEffect.isPlaying)
             {
                 coolingEffect.Play();
-            }
-
-            //Inputどうしよ
-            if (XInputManager.GetButtonPress(controlXinputIndex, XButtonType.LThumbStickLeft))
-            {
-                rotateTarget.rotation *= Quaternion.AngleAxis(-rotateAnglePerSeconds * Time.deltaTime, Vector3.up);
-            }
-            if (XInputManager.GetButtonPress(controlXinputIndex, XButtonType.LThumbStickRight))
-            {
-                rotateTarget.rotation *= Quaternion.AngleAxis(rotateAnglePerSeconds * Time.deltaTime, Vector3.up);
-            }
-            if (XInputManager.GetButtonPress(controlXinputIndex, XButtonType.LThumbStickUp))
-            {
-                rotateTarget.rotation *= Quaternion.AngleAxis(-rotateAnglePerSeconds * Time.deltaTime, Vector3.right);
-            }
-            if (XInputManager.GetButtonPress(controlXinputIndex, XButtonType.LThumbStickDown))
-            {
-                rotateTarget.rotation *= Quaternion.AngleAxis(rotateAnglePerSeconds * Time.deltaTime, Vector3.right);
             }
 
             //レイとばして冷却ターゲット削除
@@ -55,7 +39,10 @@ public class MonitorCooler : MonoBehaviour, IPlayerAction
                 {
                     if (hit.collider.gameObject.GetComponent<CoolingTargetStatus>().TryToKill(damageToCoolingTargetPerSeconds * Time.deltaTime))
                     {
-                        monitorManager.RepairMonitor(hit.collider.gameObject.GetComponent<CoolingTargetStatus>().damageToMonitor);
+                        if (PhotonNetwork.IsMasterClient)
+                        {
+                            monitorManager.CallRepairMonitor(hit.collider.gameObject.GetComponent<CoolingTargetStatus>().damageToMonitor);
+                        }
                         Destroy(hit.collider.gameObject);
                     }
                 }
@@ -73,26 +60,46 @@ public class MonitorCooler : MonoBehaviour, IPlayerAction
 
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
-        running = true;
+        //おそらくIsMineで呼ばれてるので同期関数をそのまま呼び出す
 
-        var playerMove = _desc.playerObj.GetComponent<PlayerMove>();
-        if (playerMove)
-        {
-            controlXinputIndex = playerMove.controllerID;
-        }
-        else
-        {
-            Debug.LogError("PlayerにPlayerMoveのスクリプトがアタッチされてない");
-        }
+        Debug.Log("CoolingDeviceのStartPlayerActionが呼ばれました");
+        CallSetRunning(true);
+
+        runningRotator = _desc.playerObj.AddComponent<CoolerRotater>();
+        runningRotator.rotateTarget = rotateTarget;
+
+
+        //var playerMove = _desc.playerObj.GetComponent<PlayerMove>();
+        //if (playerMove)
+        //{
+        //    controlXinputIndex = playerMove.controllerID;
+        //}
+        //else
+        //{
+        //    Debug.LogError("PlayerにPlayerMoveのスクリプトがアタッチされてない");
+        //}
     }
 
     public void EndPlayerAction(PlayerActionDesc _desc)
     {
-        running = false;
+        CallSetRunning(false);
+
+        Destroy(runningRotator);
     }
 
     public int GetPriority()
     {
         return 50;
     }
+
+    void CallSetRunning(bool _value)
+    {
+        photonView.RPC(nameof(RPCSetRunning), RpcTarget.AllViaServer, _value);
+    }
+    [PunRPC]
+    void RPCSetRunning(bool _value)
+    {
+        running = _value;
+    }
+
 }
