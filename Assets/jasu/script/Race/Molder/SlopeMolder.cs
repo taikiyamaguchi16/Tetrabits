@@ -34,10 +34,10 @@ public class SlopeMolder : MonoBehaviour
 
     [Header("パラメータ調整")]
 
-    [SerializeField, Tooltip("上の道の長さ")]
+    [SerializeField, Range(0.1f, 100f), Tooltip("上の道の長さ")]
     float roadLength = 5f;
 
-    [SerializeField, Tooltip("スロープの高さ")]
+    [SerializeField, Range(0.1f, 100f), Tooltip("スロープの高さ")]
     float height = 5f;
 
     [SerializeField, Range(2f, 90f)]
@@ -46,7 +46,8 @@ public class SlopeMolder : MonoBehaviour
     [SerializeField, Range(2f, 90f)]
     float downSlopeAngle = 45f;
 
-    private void OnEnable()
+    //private void OnEnable()
+    void Update()
     {
         if (!Application.isPlaying)
         {
