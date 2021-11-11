@@ -44,7 +44,7 @@ public class RoomButton : MonoBehaviour
 
         button = GetComponent<Button>();
         button.interactable = false;
-        button.onClick.AddListener(OnButtonClick);
+//        button.onClick.AddListener(OnButtonClick);
     }
 
     private void Update()
