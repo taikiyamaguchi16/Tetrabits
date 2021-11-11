@@ -111,7 +111,10 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
                 if (Input.GetKey("d"))
                 {
-                    moveDir += moveStandard.transform.right;  
+                    moveDir += moveStandard.transform.right;
+                    playerAnim.SetBool("Walk", false);
+                    playerAnim.SetBool("SideWalk", true);
+                    playerAnim.SetBool("BackWalk", false);
                 }
 
                 if (Input.GetKey("a"))
@@ -151,6 +154,15 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
             // 重力
             rb.AddForce(new Vector3(0, gravity, 0));
+
+            // キャラクターの大きさ。負数にすると反転される
+            Vector3 scale = transform.localScale;
+            if (rb.velocity.x > 1)      // 右方向に動いている
+                scale.x = -1;  // 通常方向(スプライトと同じ右向き)
+            else if (rb.velocity.x < -1) // 左方向に動いている
+                scale.x = 1; // 反転
+                              // 更新
+            transform.localScale = scale;
         }
     }
 }
