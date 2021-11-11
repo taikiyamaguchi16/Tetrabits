@@ -14,6 +14,11 @@ public class ShootingGameManager : MonoBehaviour
     [SerializeField] int lifeMax = 3;
     public int life { private set; get; }
 
+    [Header("Bomb")]
+    [SerializeField] int initialBombNum = 3;
+    //ボム
+    public int bombNum { private set; get; } = 0;
+
     //再開処理
     [Header("Restart")]
     [SerializeField] float restartSeconds = 1.0f;
@@ -28,6 +33,8 @@ public class ShootingGameManager : MonoBehaviour
             sShootingGameManager = this;
             //初期設定を行う
             life = lifeMax;
+            bombNum = initialBombNum;
+
 
             //破壊されない設定にする
             DontDestroyOnLoad(gameObject);
@@ -59,7 +66,7 @@ public class ShootingGameManager : MonoBehaviour
                 restart = false;
                 restartTimer = 0.0f;
                 //再開
-                var obj=Instantiate(playerPrefab, destroyedPlayerPosition, Quaternion.identity, transform);
+                var obj = Instantiate(playerPrefab, destroyedPlayerPosition, Quaternion.identity, transform);
                 Debug.Log(obj.name);
                 shootingCamera.enabled = true;
             }
@@ -83,7 +90,7 @@ public class ShootingGameManager : MonoBehaviour
         if (life <= 0)
         {
             //ゲームオーバーUI表示
-
+            MonitorManager.DealDamageToMonitor("large");
 
         }
         else
@@ -91,9 +98,16 @@ public class ShootingGameManager : MonoBehaviour
             //player再出現の処理準備
             restart = true;
 
-            //カメラの動きを止めておく
-            shootingCamera.enabled = false;
+            MonitorManager.DealDamageToMonitor("medium");
         }
+
+        //カメラの動きを止めておく
+        shootingCamera.enabled = false;
+    }
+
+    public void AddBomb(int _num)
+    {
+        bombNum += _num;
     }
 
 

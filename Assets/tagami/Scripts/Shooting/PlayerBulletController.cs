@@ -21,5 +21,18 @@ public class PlayerBulletController : MonoBehaviour
 
             Destroy(gameObject);
         }
+        if(collision.CompareTag("EnemyBullet"))
+        {
+            //ダメージを与える
+            var ishootingEnemys = collision.GetComponents<IShootingEnemy>();
+            if (ishootingEnemys.Length > 0)
+            {
+                foreach (var ishootingEnemy in ishootingEnemys)
+                {
+                    ishootingEnemy.OnDamaged();
+                }
+                Destroy(gameObject);
+            }
+        }
     }
 }

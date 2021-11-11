@@ -9,6 +9,15 @@ public class ShotLeftEnemyBullet : MonoBehaviour
     [SerializeField] float bulletSpeed = 1.0f;
     [SerializeField] float shotIntervalSeconds = 1.0f;
     float shotIntervalTimer;
+    [SerializeField] bool randomShotIntervalTimer;
+
+    void Start()
+    {
+        if(randomShotIntervalTimer)
+        {
+            shotIntervalTimer = Random.Range(0.0f, shotIntervalSeconds);
+        }
+    }
 
     // Update is called once per frame
     void Update()

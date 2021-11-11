@@ -8,7 +8,7 @@ public class ReflectionBarrier : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("PlayerBullet"))
         {
             //跳ね返す
             Rigidbody2D outRb = null;
@@ -16,8 +16,15 @@ public class ReflectionBarrier : MonoBehaviour
             {
                 //反転軸の作成
                 var normal = (collision.transform.position - transform.position).normalized;
-                //反転
-                outRb.velocity = Vector3.Reflect(outRb.velocity, normal);
+                //反転速度作成
+                var reflectionVelocity = Vector3.Reflect(outRb.velocity, normal);
+                
+                //敵弾生成
+                var obj=Instantiate(enemyBulletPrefab, collision.transform.position, Quaternion.identity);
+                obj.GetComponent<Rigidbody2D>().velocity = reflectionVelocity;
+
+                //プレイヤーの弾削除
+                Destroy(collision.gameObject);
             }
 
         }

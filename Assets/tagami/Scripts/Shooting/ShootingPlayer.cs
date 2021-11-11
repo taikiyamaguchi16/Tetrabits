@@ -13,14 +13,14 @@ public class ShootingPlayer : MonoBehaviour
     [SerializeField] float bulletSpeed = 10.0f;
     [SerializeField] float shotIntervalSeconds = 1.0f;
     float shotIntervalTimer;
-    
+
     [Header("Shot Level")]
     [SerializeField, Range(1, 3)] int shotLevel = 1;
     [SerializeField] float dualShotWidth = 1.0f;
     [SerializeField] float tripleShotWidth = 1.0f;
 
-    //[Header("Bomb")]
-    //[SerializeField] GameObject bombPrefab;
+    [Header("Bomb")]
+    [SerializeField] GameObject bombFieldPrefab;
 
 
     //damage    
@@ -80,13 +80,17 @@ public class ShootingPlayer : MonoBehaviour
 
         }//lever on
 
-        if(TetraInput.sTetraButton.GetTrigger())
+        if (TetraInput.sTetraButton.GetTrigger() && ShootingGameManager.sShootingGameManager.bombNum > 0)
         { //ボム
+            ShootingGameManager.sShootingGameManager.AddBomb(-1);
+
             //敵の弾をすべて粉砕する
-            foreach(var obj in GameObject.FindGameObjectsWithTag("EnemyBullet"))
-            {
-                Destroy(obj);
-            }
+            //foreach (var obj in GameObject.FindGameObjectsWithTag("EnemyBullet"))
+            //{
+            //    Destroy(obj);
+            //}
+            Instantiate(bombFieldPrefab, transform.position, Quaternion.identity);
+        
         }
 
         if (isInvincible)
@@ -132,15 +136,27 @@ public class ShootingPlayer : MonoBehaviour
             DealDamage();
         }
 
-        //レベルアップアイテム取得
+        //アイテム取得
         if (collision.gameObject.CompareTag("LevelUpItem"))
         {
-            shotLevel++;
-            if (shotLevel >= 3)
+            ShootingItemController item;
+            if (collision.TryGetComponent(out item))
             {
-                shotLevel = 3;
+                if (item.CompareItemId("levelup"))
+                {
+                    shotLevel++;
+                    if (shotLevel >= 3)
+                    {
+                        shotLevel = 3;
+                    }
+                }
+                else if (item.CompareItemId("bomb"))
+                {
+                    ShootingGameManager.sShootingGameManager.AddBomb(1);
+                }
+
+                Destroy(collision.gameObject);
             }
-            Destroy(collision.gameObject);
         }
     }
 

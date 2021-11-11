@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7501163456320466574}
   - component: {fileID: 926478692452852852}
   - component: {fileID: 926478692452852851}
+  - component: {fileID: 5946335217047606717}
   m_Layer: 0
   m_Name: SinEnemy
   m_TagString: Enemy
@@ -115,8 +116,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyBulletPrefab: {fileID: 4190101745959247044, guid: 0d0bc543efa0b3a4ba8bcc57a5207468, type: 3}
-  bulletSpeed: 1
+  bulletSpeed: 3
   shotIntervalSeconds: 1
+  randomShotIntervalTimer: 0
 --- !u!114 &7501163456320466574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,3 +169,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.7
+--- !u!114 &5946335217047606717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926478692452852815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff29c1b58b46b1742a963a2fc5326bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bombItemPrefab: {fileID: 9040590151488574267, guid: 4fa59e8ce244e294f9df500dafa75c22, type: 3}
+  bombDropPercent: 30
+  levelUpItemPrefab: {fileID: 6066741890700599634, guid: b8a87e49207036649a3959c57fd9d805, type: 3}
+  levelUpDropPercent: 30
