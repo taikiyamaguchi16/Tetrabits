@@ -15,10 +15,22 @@ public class SlopeEdit : MonoBehaviour
     GameObject upSlopeCol = null;
 
     [SerializeField]
+    GameObject upSlopeSprite = null;
+
+    [SerializeField]
     GameObject downSlope = null;
 
     [SerializeField]
     GameObject downSlopeCol = null;
+
+    [SerializeField]
+    GameObject downSlopeSprite = null;
+
+    [SerializeField]
+    GameObject roadSprite = null;
+
+    [SerializeField]
+    SpriteRenderer roadSpriteRenderer;
 
     [Header("パラメータ調整")]
 
@@ -29,7 +41,10 @@ public class SlopeEdit : MonoBehaviour
     float height = 5f;
 
     [SerializeField]
-    float slopeAngle = 45f;
+    float upSlopeAngle = 45f;
+
+    [SerializeField]
+    float downSlopeAngle = 45f;
 
     private void OnEnable()
     {
@@ -48,29 +63,69 @@ public class SlopeEdit : MonoBehaviour
 
             // 坂の角度
             Vector3 angle = upSlope.transform.localRotation.eulerAngles;
-            angle.x = -slopeAngle;
+            angle.x = -upSlopeAngle;
             upSlope.transform.localRotation = Quaternion.Euler(angle);
 
             angle = downSlope.transform.localRotation.eulerAngles;
-            angle.x = slopeAngle;
+            angle.x = downSlopeAngle;
             downSlope.transform.localRotation = Quaternion.Euler(angle);
             
             // 坂の長さ
             scale = upSlopeCol.transform.localScale;
-            scale.z = height / Mathf.Sin(slopeAngle * Mathf.Deg2Rad);
+            scale.z = height / Mathf.Sin(upSlopeAngle * Mathf.Deg2Rad);
             upSlopeCol.transform.localScale = scale;
+
+            scale = downSlopeCol.transform.localScale;
+            scale.z = height / Mathf.Sin(downSlopeAngle * Mathf.Deg2Rad);
             downSlopeCol.transform.localScale = scale;
 
             // 坂の位置
             pos = upSlope.transform.localPosition;
             pos.y = height / 2;
-            pos.z = -((upSlopeCol.transform.localScale.z / 2) * Mathf.Cos(slopeAngle * Mathf.Deg2Rad) + roadLength / 2);
+            pos.z = -((upSlopeCol.transform.localScale.z / 2) * Mathf.Cos(upSlopeAngle * Mathf.Deg2Rad) + roadLength / 2);
             upSlope.transform.localPosition = pos;
 
             pos = downSlope.transform.localPosition;
             pos.y = height / 2;
-            pos.z = (downSlopeCol.transform.localScale.z / 2) * Mathf.Cos(slopeAngle * Mathf.Deg2Rad) + roadLength / 2;
+            pos.z = (downSlopeCol.transform.localScale.z / 2) * Mathf.Cos(downSlopeAngle * Mathf.Deg2Rad) + roadLength / 2;
             downSlope.transform.localPosition = pos;
+
+            // スプライト対応
+            if(upSlopeSprite != null &&
+                downSlopeSprite != null)
+            {
+                // スケール
+                scale = upSlopeSprite.transform.localScale;
+                scale.x = Mathf.Cos(upSlopeAngle * Mathf.Deg2Rad) * upSlopeCol.transform.localScale.z;
+                scale.y = height;
+                upSlopeSprite.transform.localScale = scale;
+
+                scale = downSlopeSprite.transform.localScale;
+                scale.x = Mathf.Cos(downSlopeAngle * Mathf.Deg2Rad) * downSlopeCol.transform.localScale.z;
+                scale.y = height;
+                downSlopeSprite.transform.localScale = scale;
+
+                // 位置
+                pos = upSlopeSprite.transform.localPosition;
+                pos.y = height / 2;
+                pos.z = -((upSlopeCol.transform.localScale.z / 2) * Mathf.Cos(upSlopeAngle * Mathf.Deg2Rad) + roadLength / 2);
+                upSlopeSprite.transform.localPosition = pos;
+
+                pos = downSlopeSprite.transform.localPosition;
+                pos.y = height / 2;
+                pos.z = (downSlopeCol.transform.localScale.z / 2) * Mathf.Cos(downSlopeAngle * Mathf.Deg2Rad) + roadLength / 2;
+                downSlopeSprite.transform.localPosition = pos;
+            }
+
+            if(roadSprite != null &&
+                roadSpriteRenderer != null)
+            {
+                pos = roadSprite.transform.localPosition;
+                pos.y = height;
+                roadSprite.transform.localPosition = pos;
+                roadSpriteRenderer.size = new Vector2(roadLength / 5, roadSpriteRenderer.size.y);
+            }
+
         }
     }
 }
