@@ -88,13 +88,13 @@ public class DOButtonSelected : MonoBehaviour
         if (isUpDown)
         {
             // è„ì¸óÕ
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || XInputManager.GetThumbStickLeftY(controllerID) < 0)
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || XInputManager.GetThumbStickLeftY(controllerID) > 0)
             {
                 currentButtonNum--;
             }
 
             // â∫ì¸óÕ
-            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || XInputManager.GetThumbStickLeftY(controllerID) > 0)
+            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || XInputManager.GetThumbStickLeftY(controllerID) < 0)
             {
                 currentButtonNum++;
             }
@@ -103,13 +103,13 @@ public class DOButtonSelected : MonoBehaviour
         if (isLeftRight)
         {
             // ç∂ì¸óÕ
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) || XInputManager.GetThumbStickLeftX(controllerID) < 0)
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) || XInputManager.GetThumbStickLeftX(controllerID) > 0)
             {
                 currentButtonNum--;
             }
 
             // è„ì¸óÕ
-            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) || XInputManager.GetThumbStickLeftX(controllerID) > 0)
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) || XInputManager.GetThumbStickLeftX(controllerID) < 0)
             {
                 currentButtonNum++;
             }

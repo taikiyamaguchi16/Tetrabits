@@ -36,12 +36,13 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
     // 実行中アクション
     IPlayerAction runningAction = null;
 
+    [SerializeField]
     private Animator playerAnim;
 
     private void Awake()
     {
         desc.playerObj = this.gameObject;
-        playerAnim = GetComponent<Animator>();
+        //playerAnim = GetComponent<Animator>();
     }
     // Update is called once per frame
     void Update()
