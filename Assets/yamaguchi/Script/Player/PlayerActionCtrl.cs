@@ -36,9 +36,12 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
     // 実行中アクション
     IPlayerAction runningAction = null;
 
+    private Animator playerAnim;
+
     private void Awake()
     {
         desc.playerObj = this.gameObject;
+        playerAnim = GetComponent<Animator>();
     }
     // Update is called once per frame
     void Update()
@@ -74,7 +77,9 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     runningAction = nearest.GetComponent<IPlayerAction>();
                     //Debug.Log(nearest.name+"　のアクションを実行");
                     // アクション開始
-                    runningAction.StartPlayerAction(desc);         
+                    runningAction.StartPlayerAction(desc);
+
+                    playerAnim.SetBool("Action", true);
                 }
                 playerMove.movable = false; // プレイヤー行動停止
             }
