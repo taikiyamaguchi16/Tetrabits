@@ -47,6 +47,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
     ItemPocket myPocket;
 
+    [SerializeField]
     private Animator playerAnim;
 
     // Start is called before the first frame update
@@ -71,7 +72,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
         }
 
         myPocket = GetComponent<ItemPocket>();
-        playerAnim = GetComponent<Animator>();
+        //playerAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -95,24 +96,30 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                 if (Input.GetKey("w"))
                 {
                     moveDir += moveStandard.transform.forward;
-                    playerAnim.SetBool("BackWalk", true);
+                    playerAnim.SetBool("Walk", false);
+                    playerAnim.SetBool("SideWalk", false);
+                    playerAnim.SetBool("BackWalk", true);              
                 }
 
                 if (Input.GetKey("s"))
                 {
                     moveDir -= moveStandard.transform.forward;
                     playerAnim.SetBool("Walk", true);
+                    playerAnim.SetBool("SideWalk", false);
+                    playerAnim.SetBool("BackWalk", false);
                 }
 
                 if (Input.GetKey("d"))
                 {
-                    moveDir += moveStandard.transform.right;
-                    playerAnim.SetBool("SideWalk", true);
+                    moveDir += moveStandard.transform.right;  
                 }
 
                 if (Input.GetKey("a"))
                 {
                     moveDir -= moveStandard.transform.right;
+                    playerAnim.SetBool("Walk", false);
+                    playerAnim.SetBool("SideWalk", true);
+                    playerAnim.SetBool("BackWalk", false);
                 }
 
                 moveDir += moveStandard.transform.right * XInputManager.GetThumbStickLeftX(controllerID);
