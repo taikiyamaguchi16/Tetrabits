@@ -1,14 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class TetraButton : MonoBehaviour
+public class TetraButton : MonoBehaviourPunCallbacks
 {
-    [Header("Reference")]
+    [Header("Require Reference")]
+    [SerializeField] BatteryHolder batteryHolder;
+
+    [Header("Prefab Reference")]
     [SerializeField] ButtonBodyCollider buttonBodyCollider;
     [SerializeField] Rigidbody buttonRb;
-    [SerializeField] ConfigurableJoint foundationJoint;
-    [SerializeField] BatteryHolder batteryHolder;
+    [SerializeField] ConfigurableJoint foundationJoint;  
+    //[SerializeField] Transform buttonTransform;
+    //[SerializeField] Vector3 buttonPressedLocalPosition;
+    //Vector3 buttonReleasedLocalPosition;
+    //float buttonLocalPositionTimer;
 
     [Header("Option")]
     [SerializeField, Tooltip("ボタン押し返し力")] float pressedYSpring = 100.0f;
@@ -27,6 +34,36 @@ public class TetraButton : MonoBehaviour
         //更新
         oldButtonState = buttonState;
 
+        //if (buttonBodyCollider.collisionNum > 0)
+        //{
+        //    buttonState = true;
+        //}
+        //else
+        //{
+        //    buttonState = false;
+        //}
+
+        //if (buttonState)
+        //{
+        //    buttonLocalPositionTimer += Time.deltaTime;
+        //    if (buttonLocalPositionTimer >= 1.0f)
+        //    {
+        //        buttonLocalPositionTimer = 1.0f;
+        //    }
+
+        //}
+        //else
+        //{
+        //    buttonLocalPositionTimer -= Time.deltaTime;
+        //    if (buttonLocalPositionTimer <= 0.0f)
+        //    {
+        //        buttonLocalPositionTimer = 0.0f;
+        //    }
+        //}
+
+        //buttonTransform.localPosition = Vector3.Lerp(buttonReleasedLocalPosition, buttonPressedLocalPosition, buttonLocalPositionTimer);
+
+
         if ((batteryHolder && batteryHolder.GetBatterylevel() > 0) || keyDebug)
         {
             if (keyDebug)
@@ -35,7 +72,15 @@ public class TetraButton : MonoBehaviour
             }
             else
             {
-                buttonState = (buttonRb.transform.localPosition.y - foundationJoint.transform.localPosition.y) < pressableDifferenceY;
+                if (PhotonNetwork.IsMasterClient)
+                {//マスタークライアントでのみ処理を行う
+                    buttonState = (buttonRb.transform.localPosition.y - foundationJoint.transform.localPosition.y) < pressableDifferenceY;
+                    if(GetTrigger()||GetRelease())
+                    {
+                        CallSetButtonState(buttonState);
+                    }
+                }
+
                 if (GetTrigger())
                 {
                     Debug.Log("ボタン.y-土台.y:" + (buttonRb.transform.localPosition.y - foundationJoint.transform.localPosition.y) + "< difference:" + pressableDifferenceY);
@@ -51,8 +96,9 @@ public class TetraButton : MonoBehaviour
         if (buttonBodyCollider.collisionNum > 0)
         {
             SetYDrive(pressedYSpring);
+            buttonBodyCollider.triggerEnter = false;
         }
-        else
+        else if(buttonBodyCollider.triggerEnter)
         {
             SetYDrive(stdYSpring);
         }
@@ -66,6 +112,17 @@ public class TetraButton : MonoBehaviour
             drive.positionSpring = _spring;
             foundationJoint.yDrive = drive;
         }
+    }
+
+    void CallSetButtonState(bool _value)
+    {
+        photonView.RPC(nameof(RPCSetButtonState), RpcTarget.AllViaServer, _value);
+    }
+
+    [PunRPC]
+    void RPCSetButtonState(bool _value)
+    {
+        buttonState = _value;
     }
 
     public bool GetPress() { return buttonState; }
