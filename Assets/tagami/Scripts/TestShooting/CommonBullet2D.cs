@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class CommonBullet2D : MonoBehaviour
+public class CommonBullet2D : MonoBehaviourPunCallbacks
 {
     [SerializeField] string targetTag = "Enemy";
 
@@ -32,9 +33,13 @@ public class CommonBullet2D : MonoBehaviour
 
             //Destroy(collision.gameObject);
 
+            if (GameInGameUtil.IsMasterClient())
+            {//マスターのみが行う処理
+                MonitorManager.DealDamageToMonitor("small");
+            }
+
             //自身弾の消去
-            Destroy(gameObject);
-            MonitorManager.DealDamageToMonitor("small");
+            Destroy(gameObject);           
         }
     }
 

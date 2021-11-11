@@ -5,27 +5,38 @@ using UnityEngine;
 public class AngleOfViewActivator : MonoBehaviour
 {
     [Header("Require Reference")]
-    [SerializeField] Transform objectsParent;
+    [SerializeField] List<Transform> objectsParents;
 
 
     [Header("Prefab Reference")]
     [SerializeField] Transform rightAreaTransform;
 
-    private void Start()
+    private void Awake()
     {
-        for (int i = 0; i < objectsParent.childCount; i++)
+        if (objectsParents.Count <= 0)
         {
-            objectsParent.GetChild(i).gameObject.SetActive(false);
+            Debug.LogError("出現オブジェクトを設定してください");
+        }
+
+        foreach (var objectsParent in objectsParents)
+        {
+            for (int i = 0; i < objectsParent.childCount; i++)
+            {
+                objectsParent.GetChild(i).gameObject.SetActive(false);
+            }
         }
     }
 
     private void Update()
     {
-        for (int i = 0; i < objectsParent.childCount; i++)
+        foreach (var objectsParent in objectsParents)
         {
-            if (!objectsParent.GetChild(i).gameObject.activeSelf && objectsParent.GetChild(i).position.x <= rightAreaTransform.position.x)
+            for (int i = 0; i < objectsParent.childCount; i++)
             {
-                objectsParent.GetChild(i).gameObject.SetActive(true);
+                if (!objectsParent.GetChild(i).gameObject.activeSelf && objectsParent.GetChild(i).position.x <= rightAreaTransform.position.x)
+                {
+                    objectsParent.GetChild(i).gameObject.SetActive(true);
+                }
             }
         }
     }

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class TetraLever : MonoBehaviour, IPlayerAction
+public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
 {
     [Header("Reference")]
     [SerializeField] GameObject fulcrumObj;
@@ -18,21 +19,24 @@ public class TetraLever : MonoBehaviour, IPlayerAction
     Quaternion onQt;
     Quaternion offQt;
 
-    bool leverState;
-    bool oldLeverState;
+    protected bool leverState;
+    //bool oldLeverState;
 
     // Start is called before the first frame update
     void Start()
     {
-        onQt = fulcrumObj.transform.rotation * Quaternion.AngleAxis(30.0f, fulcrumObj.transform.forward);
-        offQt = fulcrumObj.transform.rotation * Quaternion.AngleAxis(-30.0f, fulcrumObj.transform.forward);
+        if (fulcrumObj)
+        {
+            onQt = fulcrumObj.transform.rotation * Quaternion.AngleAxis(30.0f, fulcrumObj.transform.forward);
+            offQt = fulcrumObj.transform.rotation * Quaternion.AngleAxis(-30.0f, fulcrumObj.transform.forward);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         //前回の情報を保存
-        oldLeverState = leverState;
+        //oldLeverState = leverState;
 
         if (!keyDebug && batteryHolder && batteryHolder.GetBatterylevel() <= 0)
         {
@@ -40,33 +44,42 @@ public class TetraLever : MonoBehaviour, IPlayerAction
         }
         if (keyDebug && Input.GetKeyDown(KeyCode.Return))
         {
-            Switch();
+            CallSwitch();
         }
 
-        //leverStateによって支点の回転を決める
-        if (leverState)
+        if (fulcrumObj)
         {
-            switchTimer += Time.deltaTime;
-            if (switchTimer >= switchingTime)
+            //leverStateによって支点の回転を決める
+            if (leverState)
             {
-                switchTimer = switchingTime;
+                switchTimer += Time.deltaTime;
+                if (switchTimer >= switchingTime)
+                {
+                    switchTimer = switchingTime;
+                }
             }
-        }
-        else
-        {
-            switchTimer -= Time.deltaTime;
-            if (switchTimer <= 0)
+            else
             {
-                switchTimer = 0;
+                switchTimer -= Time.deltaTime;
+                if (switchTimer <= 0)
+                {
+                    switchTimer = 0;
+                }
             }
+            fulcrumObj.transform.rotation = Quaternion.Slerp(offQt, onQt, switchTimer / switchingTime);
         }
-        fulcrumObj.transform.rotation = Quaternion.Slerp(offQt, onQt, switchTimer / switchingTime);
     }
 
-    [ContextMenu("Switch!")]
-    private void Switch()
+
+    private void CallSwitch()
     {
-        if ((batteryHolder && batteryHolder.GetBatterylevel() > 0)||keyDebug)
+        photonView.RPC(nameof(RPCSwitch), RpcTarget.AllViaServer);
+    }
+
+    [PunRPC]
+    public void RPCSwitch()
+    {
+        if ((batteryHolder && batteryHolder.GetBatterylevel() > 0) || keyDebug)
         {
             leverState = !leverState;
         }
@@ -76,7 +89,7 @@ public class TetraLever : MonoBehaviour, IPlayerAction
 
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
-        Switch();
+        CallSwitch();
     }
 
     public void EndPlayerAction(PlayerActionDesc _desc) { }

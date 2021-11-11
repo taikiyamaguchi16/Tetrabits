@@ -15,11 +15,13 @@ public class ButtonParent : DOManager
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void CallMove()
     {
+        gameObject.SetActive(true);
+
         // 現在位置から設定した位置に移動
         transform.DOLocalMove(moveRange, moveTime).SetRelative(true);
     }
