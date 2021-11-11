@@ -2304,7 +2304,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3656951884463339454, guid: 5fbb59a9f41007347b0cb1a1f38d4581, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 3656951884463339454, guid: 5fbb59a9f41007347b0cb1a1f38d4581, type: 3}
       propertyPath: m_LocalScale.x
@@ -3549,7 +3549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitTestObjects: []
-  completeInactiveUnitTest: 1
+  completeDestroyUnitTest: 1
 --- !u!114 &1213106696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5989,6 +5989,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 122388379}
     m_Modifications:
+    - target: {fileID: 45649508, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
+      propertyPath: sceneViewId
+      value: 856
+      objectReference: {fileID: 0}
     - target: {fileID: 5568306285539570050, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
       propertyPath: batteryHolder
       value: 
@@ -6001,17 +6005,9 @@ PrefabInstance:
       propertyPath: batteryHolder
       value: 
       objectReference: {fileID: 894389511}
-    - target: {fileID: 5568306287178356165, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
-      propertyPath: touchedPadEffectPrefab
-      value: 
-      objectReference: {fileID: 949335360584754000, guid: 4b13c70524374f7439dc15ffec3bac94, type: 3}
     - target: {fileID: 5568306287210744421, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
       propertyPath: m_Name
       value: TetraInput
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568306287210744422, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
-      propertyPath: keyDebug
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5568306287210744423, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
       propertyPath: m_RootOrder

@@ -14,7 +14,7 @@ public class TetraPad : MonoBehaviour
     [System.NonSerialized]
     public bool keyDebug = false;
 
-    Vector2 padVector;
+    protected Vector2 padVector;
 
     private void Update()
     {
@@ -55,7 +55,13 @@ public class TetraPad : MonoBehaviour
         }
     }
 
-    public List<GameObject> GetObjectsOnPad() { return tetraPadBody.onPadObjects; }
+    public List<GameObject> GetObjectsOnPad() {
+        if (tetraPadBody)
+        {
+            return tetraPadBody.onPadObjects;
+        }
+        return new List<GameObject>();
+    }
 
     public Vector2 GetVector() { return padVector; }
 }

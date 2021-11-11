@@ -110,7 +110,6 @@ public class JetController : MonoBehaviourPunCallbacks
     {
         photonView.RPC(nameof(RPCShotPlayerBullet), RpcTarget.AllViaServer);
     }
-
     [PunRPC]
     public void RPCShotPlayerBullet()
     {

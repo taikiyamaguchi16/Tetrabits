@@ -245,6 +245,7 @@ GameObject:
   - component: {fileID: 5568306285539570049}
   - component: {fileID: 5568306285539570050}
   - component: {fileID: 40944506}
+  - component: {fileID: 45649508}
   m_Layer: 0
   m_Name: TetraLever
   m_TagString: Untagged
@@ -296,6 +297,28 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2.5, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &45649508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5568306285539570048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &5568306285843535073
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,14 +668,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45d5290c2d704c948a9f58b0cb864386, type: 3}
---- !u!4 &784967733364921724 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2168097654423799622, guid: 45d5290c2d704c948a9f58b0cb864386, type: 3}
-  m_PrefabInstance: {fileID: 1509377311585456698}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2270563837890330209 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 824382401564716123, guid: 45d5290c2d704c948a9f58b0cb864386, type: 3}
+  m_PrefabInstance: {fileID: 1509377311585456698}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &784967733364921724 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2168097654423799622, guid: 45d5290c2d704c948a9f58b0cb864386, type: 3}
   m_PrefabInstance: {fileID: 1509377311585456698}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4021959857316428541

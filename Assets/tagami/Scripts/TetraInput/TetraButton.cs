@@ -18,14 +18,8 @@ public class TetraButton : MonoBehaviour
     [System.NonSerialized]
     public bool keyDebug = false;
 
-    bool buttonState;
-    bool oldButtonState;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    protected bool buttonState;
+    protected bool oldButtonState;
 
     // Update is called once per frame
     void Update()
@@ -56,14 +50,20 @@ public class TetraButton : MonoBehaviour
         //押し返し力の設定
         if (buttonBodyCollider.collisionNum > 0)
         {
-            var drive = foundationJoint.yDrive;
-            drive.positionSpring = pressedYSpring;
-            foundationJoint.yDrive = drive;
+            SetYDrive(pressedYSpring);
         }
         else
         {
+            SetYDrive(stdYSpring);
+        }
+    }
+
+    private void SetYDrive(float _spring)
+    {
+        if (foundationJoint)
+        {
             var drive = foundationJoint.yDrive;
-            drive.positionSpring = stdYSpring;
+            drive.positionSpring = _spring;
             foundationJoint.yDrive = drive;
         }
     }

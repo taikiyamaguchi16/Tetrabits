@@ -23,8 +23,6 @@ public class CommonBullet2D : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!GameInGameUtil.IsMasterClient()) return;
-
         if (collision.gameObject.CompareTag(targetTag))
         {
             if(destroyGameClear)
@@ -35,9 +33,13 @@ public class CommonBullet2D : MonoBehaviourPunCallbacks
 
             //Destroy(collision.gameObject);
 
+            if (GameInGameUtil.IsMasterClient())
+            {//マスターのみが行う処理
+                MonitorManager.DealDamageToMonitor("small");
+            }
+
             //自身弾の消去
-            Destroy(gameObject);
-            MonitorManager.DealDamageToMonitor("small");
+            Destroy(gameObject);           
         }
     }
 
