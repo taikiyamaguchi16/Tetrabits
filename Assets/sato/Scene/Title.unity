@@ -123,25 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &199188760 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6532526669140466502, guid: 983742d2ccb4bfc4b817b178ba047a1f, type: 3}
-  m_PrefabInstance: {fileID: 6532526669826984206}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &199188761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 199188760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc24cd1b1024df94eb792ab7ecb6ec6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cursor: {fileID: 1632978829}
---- !u!1001 &336205831
+--- !u!1001 &111536578
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -192,17 +174,39 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 583775346900599356, guid: e078650c2fa3b424ebf8535f1ae880dc, type: 3}
+      propertyPath: completeInactiveUnitTest
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8712145136761352767, guid: e078650c2fa3b424ebf8535f1ae880dc, type: 3}
       propertyPath: m_Name
       value: GameInGameManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e078650c2fa3b424ebf8535f1ae880dc, type: 3}
---- !u!20 &575924791 stripped
+--- !u!20 &127544551 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 1794991059069389242, guid: e078650c2fa3b424ebf8535f1ae880dc, type: 3}
-  m_PrefabInstance: {fileID: 336205831}
+  m_PrefabInstance: {fileID: 111536578}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &199188760 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6532526669140466502, guid: 983742d2ccb4bfc4b817b178ba047a1f, type: 3}
+  m_PrefabInstance: {fileID: 6532526669826984206}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &199188761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199188760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc24cd1b1024df94eb792ab7ecb6ec6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursor: {fileID: 1632978829}
 --- !u!1 &675662068
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,7 +415,7 @@ PrefabInstance:
     - target: {fileID: 6532526670051287478, guid: 983742d2ccb4bfc4b817b178ba047a1f, type: 3}
       propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 575924791}
+      objectReference: {fileID: 127544551}
     - target: {fileID: 6532526670051287479, guid: 983742d2ccb4bfc4b817b178ba047a1f, type: 3}
       propertyPath: m_Pivot.x
       value: 0
