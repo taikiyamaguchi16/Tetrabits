@@ -171,6 +171,7 @@ public class ShootingPlayer : MonoBehaviour
         {
             shotLevel--;
             isInvincible = true;
+            MonitorManager.DealDamageToMonitor("small");
         }
         else
         {
@@ -183,9 +184,7 @@ public class ShootingPlayer : MonoBehaviour
             //破壊
             Destroy(gameObject);
         }
-
-
-        MonitorManager.DealDamageToMonitor("small");
+        
         Debug.Log("EnemyタグorEnemyBulletタグオブジェクトにぶつかった");
     }
 }
