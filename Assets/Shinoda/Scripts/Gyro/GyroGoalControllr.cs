@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GoalControllr : MonoBehaviour
+public class GyroGoalControllr : MonoBehaviour
 {
     [SerializeField] SceneObject nextScene = null;
     //GameInGameSwitcher gameInGameSwitcherComponent;

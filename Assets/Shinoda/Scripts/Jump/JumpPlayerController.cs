@@ -6,20 +6,11 @@ public class JumpPlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
 
-    float moveSpeed;
     [SerializeField] float jumpForce = 10f;
 
     float gravityScale = 3f;
     bool isParasol = false;
     bool isJump = false;
-
-    enum MoveType
-    {
-        Stop,
-        Right,
-        Left,
-    }
-    MoveType move = MoveType.Stop;
 
     // Start is called before the first frame update
     void Start()
@@ -31,54 +22,31 @@ public class JumpPlayerController : MonoBehaviour
     void Update()
     {
         Vector2 padVec = TetraInput.sTetraPad.GetVector();
-
-        if (padVec.x > 0)
+        if (TetraInput.sTetraButton.GetTrigger())
         {
-            move = MoveType.Right;
-        }
-        else if (padVec.x < 0)
-        {
-            move = MoveType.Left;
-        }
-        else
-        {
-            move = MoveType.Stop;
-        }
-
-        if(TetraInput.sTetraButton.GetTrigger())
-        {
-            Jump();
+            Jump(padVec);
             isJump = true;
         }
 
-        if (TetraInput.sTetraLever.GetPoweredOn()) rb.gravityScale = 0.5f;
-        else rb.gravityScale = 1;
+        if (isJump && TetraInput.sTetraLever.GetPoweredOn())
+        {
+            rb.gravityScale = 0.5f;
+            isParasol = true;
+        }
+        else
+        {
+            rb.gravityScale = 1;
+            isParasol = false;
+        }
     }
 
     private void FixedUpdate()
     {
-        if (move == MoveType.Stop)
-        {
-            moveSpeed = 0;
-        }
-        else if (move == MoveType.Right)
-        {
-            moveSpeed = 3;
-        }
-        else if (move == MoveType.Left)
-        {
-            moveSpeed = -3;
-        }
-        rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
+
     }
 
-    void Jump()
+    void Jump(Vector2 _jumpDirection)
     {
-        rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        isJump = false;
+        rb.AddForce(_jumpDirection * jumpForce, ForceMode2D.Impulse);
     }
 }

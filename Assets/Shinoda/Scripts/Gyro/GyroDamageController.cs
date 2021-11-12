@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DamageController : MonoBehaviour
+public class GyroDamageController : MonoBehaviour
 {
     [SerializeField] string damage = "small";
 
