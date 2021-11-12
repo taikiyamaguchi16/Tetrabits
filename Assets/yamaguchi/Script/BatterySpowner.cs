@@ -60,7 +60,7 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
         }
     }
 
-    public void StartPlayerAction(PlayerActionDesc _desc)
+    public bool StartPlayerAction(PlayerActionDesc _desc)
     {
         //エフェクト再生中には取れないように
         if (smokeEfect.isStopped)
@@ -76,9 +76,12 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
 
                     pocket.SetItem(null);
                     ownBattery = null;
+
+                    return true;
                 }
             }
         }
+        return false;
     }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()

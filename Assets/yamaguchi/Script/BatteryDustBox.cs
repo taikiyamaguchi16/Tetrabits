@@ -14,7 +14,7 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
         pocket = GetComponent<ItemPocket>();
     }
 
-    public void StartPlayerAction(PlayerActionDesc _desc)
+    public bool StartPlayerAction(PlayerActionDesc _desc)
     {
         ItemPocket otherPocket = _desc.playerObj.GetComponent<ItemPocket>();
         //プレイヤーに自身が持ってたオブジェクトを渡すための一時保存用
@@ -27,16 +27,20 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
             if (ownBattery != null)
             {
                 ownBattery.CallPickUp(photonView.ViewID);
-              
+
                 otherPocket.SetItem(null);
 
                 PhotonNetwork.Destroy(ownBattery.photonView);
-                ownBattery = null;
+                ownBattery = null;                
             }
             //バッテリーでなかった場合元に戻す
             else
+            {
                 ownBattery = checkbattery;
+                return false;
+            }
         }
+        return true;
     }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()
