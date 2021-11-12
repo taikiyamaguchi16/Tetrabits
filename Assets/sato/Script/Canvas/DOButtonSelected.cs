@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using DG.Tweening;
 
 public class DOButtonSelected : MonoBehaviour
@@ -14,24 +15,25 @@ public class DOButtonSelected : MonoBehaviour
     [Tooltip("コントローラー番号")]
     public int controllerID = 99;
 
-    // カーソル位置を指定する番号
-    private int cursorNum;
-
-    // カーソルの入力時間管理
-    private float delayTime = 0.0f;
-
-    // 現在のカーソル位置
-    private Vector3 currentPos;
-
-    // 現在位置更新フラグ
-    private bool currentFlag = false;
-
-    [SerializeField]
-    [Tooltip("移動先の位置")]
-    Vector3 moveRange = Vector3.zero;
     [SerializeField]
     [Tooltip("何秒かけて移動させるか")]
     float moveTime = 0.0f;
+
+    // 現在選択中のボタンを判別する番号
+    private int currentButtonNum;
+
+    // ボタンの最大数を保存
+    private int buttonMax;
+
+    // 上下カーソル移動フラグ
+    [SerializeField]
+    [Header("カーソルを上下で動かすときにtrue")]
+    bool isUpDown = false;
+
+    // 左右カーソル移動フラグ
+    [SerializeField]
+    [Header("カーソルを左右で動かすときにtrue")]
+    bool isLeftRight = false;
 
     //--------------------------------------------------
     // Start
@@ -39,7 +41,24 @@ public class DOButtonSelected : MonoBehaviour
     //--------------------------------------------------
     void Start()
     {
+        // イベントシステムの最初のボタンを設定
+        if (EventSystem.current.currentSelectedGameObject != FirstSelect)
+        {
+            // イベントシステムのボタン設定をインスペクターで設定したボタンに設定する
+            EventSystem.current.SetSelectedGameObject(FirstSelect);
+        }
 
+        // 設定されているボタンの数を格納
+        buttonMax = Button.Length;
+
+        for (int i = 0; i < Button.Length; i++)
+        {
+            // 同じ名前のやつを見つけてその番号を取得
+            if (Button[i].name == FirstSelect.name)
+            {
+                currentButtonNum = i;
+            }
+        }
     }
 
     //--------------------------------------------------
@@ -58,24 +77,66 @@ public class DOButtonSelected : MonoBehaviour
     void CursorMove()
     {
         // カーソル位置をイベントシステムで選択されている位置に指定
-        if (EventSystem.current.currentSelectedGameObject != null)
+        //if (EventSystem.current.currentSelectedGameObject != null)
+        //{
+        //    transform.DOMove(EventSystem.current.currentSelectedGameObject.transform.position, moveTime);
+        //}
+
+        // イベントシステムのボタン設定を現在のボタンに設定する
+        EventSystem.current.SetSelectedGameObject(Button[currentButtonNum]);
+
+        if (isUpDown)
         {
-            transform.DOMove(EventSystem.current.currentSelectedGameObject.transform.position, moveTime);
+            // 上入力
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || XInputManager.GetThumbStickLeftY(controllerID) > 0)
+            {
+                currentButtonNum--;
+            }
+
+            // 下入力
+            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || XInputManager.GetThumbStickLeftY(controllerID) < 0)
+            {
+                currentButtonNum++;
+            }
         }
 
-        // 現在位置フラグがfalseの時
-        if (currentFlag == false)
+        if (isLeftRight)
         {
-            // 現在位置を更新
-            currentPos = transform.position;
-            currentFlag = true;
+            // 左入力
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) || XInputManager.GetThumbStickLeftX(controllerID) > 0)
+            {
+                currentButtonNum--;
+            }
+
+            // 上入力
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) || XInputManager.GetThumbStickLeftX(controllerID) < 0)
+            {
+                currentButtonNum++;
+            }
         }
 
-        // 現在位置に変更が加われば
-        if (currentPos != transform.position)
+        // ボタンの最大値を超えないように
+        if (currentButtonNum >= buttonMax)
         {
-            // 現在位置フラグをfalse
-            currentFlag = false;
+            currentButtonNum = 0;
         }
+
+        // ボタンが0いかにならないように
+        if (currentButtonNum < 0)
+        {
+            currentButtonNum = buttonMax - 1;
+        }
+
+        // 移動
+        transform.DOMove(Button[currentButtonNum].transform.position, moveTime);
+    }
+
+    //--------------------------------------------------
+    // GetCurrentButton
+    // カーソルが指定しているボタンを返す
+    //--------------------------------------------------
+    public Button GetCurrentButton()
+    {
+        return Button[currentButtonNum].GetComponent<Button>();
     }
 }

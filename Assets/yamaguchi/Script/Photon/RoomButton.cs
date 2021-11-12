@@ -44,7 +44,7 @@ public class RoomButton : MonoBehaviour
 
         button = GetComponent<Button>();
         button.interactable = false;
-        button.onClick.AddListener(OnButtonClick);
+//        button.onClick.AddListener(OnButtonClick);
     }
 
     private void Update()
@@ -85,7 +85,27 @@ public class RoomButton : MonoBehaviour
     }
 
 
-    private void OnButtonClick()
+    //private void OnButtonClick()
+    //{
+    //    if (roomPlayerCount < MaxPlayers)
+    //    {
+    //        // ルーム参加処理中は、全ての参加ボタンを押せないようにする
+    //        matchmakingView.OnJoiningRoom();
+
+    //        // ボタンに対応したルーム名のルームに参加する（ルームが存在しなければ作成してから参加する）
+    //        var roomOptions = new RoomOptions();
+    //        roomOptions.MaxPlayers = MaxPlayers;
+    //        PhotonNetwork.JoinOrCreateRoom(RoomName, roomOptions, TypedLobby.Default);
+
+    //        GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().RPCSwitchGameInGameScene(scene);
+    //    }
+    //    else
+    //    {//ルーム入れないよ！
+    //        //音鳴らす
+    //    }
+    //}
+
+    public void OnButtonClick()
     {
         if (roomPlayerCount < MaxPlayers)
         {
@@ -97,7 +117,7 @@ public class RoomButton : MonoBehaviour
             roomOptions.MaxPlayers = MaxPlayers;
             PhotonNetwork.JoinOrCreateRoom(RoomName, roomOptions, TypedLobby.Default);
 
-            GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene(scene);
+            GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().RPCSwitchGameInGameScene(scene);
         }
         else
         {//ルーム入れないよ！
