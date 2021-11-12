@@ -20,7 +20,7 @@ public class CassetteHolder : MonoBehaviourPunCallbacks, IPlayerAction
         sceneChanger = GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>();
     }
 
-    public void StartPlayerAction(PlayerActionDesc _desc)
+    public bool StartPlayerAction(PlayerActionDesc _desc)
     {
         ItemPocket otherPocket = _desc.playerObj.GetComponent<ItemPocket>();
 
@@ -42,8 +42,11 @@ public class CassetteHolder : MonoBehaviourPunCallbacks, IPlayerAction
                 cassetteManager.HideAllCassette();
                 //managerの現在のカセットを更新
                 cassetteManager.SetActiveCassette(ownCassette);
+
+                return true;
             }
         }
+        return false;
     }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()

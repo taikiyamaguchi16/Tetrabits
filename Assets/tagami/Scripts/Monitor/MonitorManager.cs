@@ -72,7 +72,15 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         monitorHp = monitorHpMax;
     }
 
-    public void RepairMonitor(float _repairHp)
+
+
+    public void CallRepairMonitor(float _repairHp)
+    {
+        photonView.RPC(nameof(RPCRepairMonitor), RpcTarget.AllViaServer, _repairHp);
+    }
+
+    [PunRPC]
+    public void RPCRepairMonitor(float _repairHp)
     {
         monitorHp += _repairHp;
         if (monitorHp >= monitorHpMax)
@@ -83,7 +91,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
 
     void CallDealDamage(string _damageId)
     {
-        photonView.RPC(nameof(RPCDealDamage), RpcTarget.All, _damageId, new Vector3(Random.Range(-20, 20), Random.Range(5, 20), 44));
+        photonView.RPC(nameof(RPCDealDamage), RpcTarget.AllViaServer, _damageId, new Vector3(Random.Range(-20, 20), Random.Range(5, 20), 44));
     }
 
     [PunRPC]

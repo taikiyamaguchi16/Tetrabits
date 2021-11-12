@@ -87,9 +87,10 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
 
     public bool GetPoweredOn() { return leverState; }
 
-    public void StartPlayerAction(PlayerActionDesc _desc)
+    public bool StartPlayerAction(PlayerActionDesc _desc)
     {
         CallSwitch();
+        return true;
     }
 
     public void EndPlayerAction(PlayerActionDesc _desc) { }
