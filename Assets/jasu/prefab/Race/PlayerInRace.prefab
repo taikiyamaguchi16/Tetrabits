@@ -115,6 +115,7 @@ GameObject:
   - component: {fileID: 2389715288856122480}
   - component: {fileID: 1212288837}
   - component: {fileID: 1017778128}
+  - component: {fileID: 6975201725847401227}
   m_Layer: 0
   m_Name: PlayerInRace
   m_TagString: Untagged
@@ -191,6 +192,19 @@ MonoBehaviour:
   colliderSensorBack: {fileID: 8578007734320314296}
   padInputRangeY: 0.5
   spd: 20
+--- !u!114 &6975201725847401227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4878758953354832212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 495e72e72a780a348bffc6a1294e084d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  raceStageMolder: {fileID: 0}
 --- !u!1 &7385125586062708462
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,7 +410,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7a90a7caaa4465a46a4d81f6e08da118, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

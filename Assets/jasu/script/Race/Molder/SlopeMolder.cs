@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteAlways]
-public class SlopeEdit : MonoBehaviour
+public class SlopeMolder : MonoBehaviour
 {
     [SerializeField]
     GameObject road = null;
@@ -40,10 +40,10 @@ public class SlopeEdit : MonoBehaviour
     [SerializeField, Tooltip("スロープの高さ")]
     float height = 5f;
 
-    [SerializeField]
+    [SerializeField, Range(2f, 90f)]
     float upSlopeAngle = 45f;
 
-    [SerializeField]
+    [SerializeField, Range(2f, 90f)]
     float downSlopeAngle = 45f;
 
     private void OnEnable()
