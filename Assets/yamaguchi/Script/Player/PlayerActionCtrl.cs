@@ -62,25 +62,27 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     if (!candidates.Contains(carryObj))                 
                         candidates.Add(carryObj);
 
-                int mugen = 0;
-                while (true)
-                {
-                    if (candidates.Count > 0 && runningAction == null)
-                    {
-                        PriorityCheck();
+                PriorityCheck();
+                PlayHighPriorityAction();
+                //int mugen = 0;
+                //while (true)
+                //{
+                //    if (candidates.Count > 0 && runningAction == null)
+                //    {
+                //        PriorityCheck();
 
-                        if (PlayHighPriorityAction())
-                        {
-                            break;
-                        }
-                    }
-                    else
-                        break;
+                //        if (PlayHighPriorityAction())
+                //        {
+                //            break;
+                //        }
+                //    }
+                //    else
+                //        break;
 
-                    mugen++;
-                    if (mugen > 100)
-                        break;
-                }
+                //    mugen++;
+                //    if (mugen > 100)
+                //        break;
+                //}
 
                 playerMove.movable = false; // プレイヤー行動停止
             }
@@ -146,6 +148,11 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     highPriorityList.Add(candidates[intList.IndexOf(max)]);
                     max = intList[i];
                 }
+
+                foreach (var kp in highPriorityList)
+                {
+                    candidates.Remove(kp);
+                }
             }
         }
     }
@@ -153,11 +160,11 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
     private bool PlayHighPriorityAction()
     {
         Debug.Log("チェック" + highPriorityList.Count);
-        if (highPriorityList.Count > 0)
+        if (candidates.Count > 0)
         {
             // 一番近いオブジェクトを検索
-            GameObject nearest = highPriorityList[0];
-            foreach (var can in highPriorityList)
+            GameObject nearest = candidates[0];
+            foreach (var can in candidates)
             {
                 if (Vector3.Distance(transform.position, can.transform.position) <
                     Vector3.Distance(transform.position, nearest.transform.position))
@@ -165,20 +172,21 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
             }
             // IAction持ちの一番近いやつ取得
             runningAction = nearest.GetComponent<IPlayerAction>();
+            runningAction.StartPlayerAction(desc);
             // アクション開始
-            if (runningAction.StartPlayerAction(desc))
-            {
-                Debug.Log("アクション実行");
-                return true;
-            }
-            else
-            {
-                Debug.Log("アクション実行なし");
-                foreach (var kp in highPriorityList)
-                {
-                    candidates.Remove(kp);
-                }
-            }
+            //if (runningAction.StartPlayerAction(desc))
+            //{
+            //    Debug.Log("アクション実行");
+            //    return true;
+            //}
+            //else
+            //{
+            //    Debug.Log("アクション実行なし");
+            //    foreach (var kp in highPriorityList)
+            //    {
+            //        candidates.Remove(kp);
+            //    }
+            //}
         }
         return false;
     }
