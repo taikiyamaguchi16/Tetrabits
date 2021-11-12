@@ -151,15 +151,17 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                 moveDir.Normalize();
 
                 if (jumpable == true)//着地しているとき
-                {
+                {                   
                     if (Input.GetKeyDown("space") || XInputManager.GetButtonTrigger(controllerID, XButtonType.A))
                     {
                         if (myPocket.GetItem()==null)
                         {
                             jumpable = false;
                             rb.AddForce(new Vector3(0, jumpPower, 0));
+                            playerAnim.SetTrigger("Jumping");
                         }
                     }
+                    
                 }
             }
         }
