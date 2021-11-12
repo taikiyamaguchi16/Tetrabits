@@ -43,13 +43,13 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
                 //他のプレイヤーのホルダーにもバッテリーをセット
                 photonView.RPC(nameof(RPCSetOwnBattery), RpcTarget.All);
 
-                return true;
+                //return true;
             }
             //バッテリーでなかった場合元に戻す
             else
             {
                 ownBattery = checkbattery;
-                return false;
+               // return false;
             }
         }
         //何も持っていなかった場合自分のを渡す
@@ -66,10 +66,10 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
                 //他のプレイヤーのホルダーのバッテリーを抜く
                 photonView.RPC(nameof(RPCReleaseBattery), RpcTarget.All);
 
-                return true;
+                //return true;
             }
         }
-        return false;
+        return true;
     }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()
