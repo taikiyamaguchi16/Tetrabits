@@ -7,6 +7,9 @@ public class LaneManager : MonoBehaviour
     [SerializeField]
     GameObject[] lanes;
 
+    [SerializeField]
+    RaceStageMolder raceStageMolder;
+
     public float GetLanePosX(int _laneId)
     {
         return lanes[_laneId].transform.position.x;
@@ -15,5 +18,10 @@ public class LaneManager : MonoBehaviour
     public int GetLaneNum()
     {
         return lanes.Length;
+    }
+
+    public float GetLaneWidth()
+    {
+        return raceStageMolder.GetRaceObjWidth;
     }
 }
