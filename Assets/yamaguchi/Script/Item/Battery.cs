@@ -32,7 +32,7 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         level = 100f;
     }
 
-    public void StartPlayerAction(PlayerActionDesc _desc)
+    public bool StartPlayerAction(PlayerActionDesc _desc)
     {
         if (photonView.IsMine)
         {
@@ -41,8 +41,9 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
                 photonView.RPC(nameof(PickUp), RpcTarget.All,_desc.playerObj.GetPhotonView().ViewID);
             }
             else
-                photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
+                photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);         
         }
+        return true;
     }
 
     public void EndPlayerAction(PlayerActionDesc _desc) { }

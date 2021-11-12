@@ -28,10 +28,12 @@ public class RecoverZenmaiPower : MonoBehaviour, IPlayerAction
     }
 
     // アクションインターフェース　スタート
-    void IPlayerAction.StartPlayerAction(PlayerActionDesc _desc)
+    bool IPlayerAction.StartPlayerAction(PlayerActionDesc _desc)
     {
         windFlag = true;
         zenmai.decreaseTrigger = false;
+
+        return true;
     }
 
     // アクションインターフェース　エンド
