@@ -653,6 +653,7 @@ GameObject:
   - component: {fileID: 198004688}
   - component: {fileID: 198004687}
   - component: {fileID: 198004686}
+  - component: {fileID: 198004690}
   m_Layer: 0
   m_Name: CoolingDevice
   m_TagString: Untagged
@@ -755,6 +756,28 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 198004684}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &198004690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198004684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 3
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &209234026
 GameObject:
   m_ObjectHideFlags: 0
@@ -1651,6 +1674,8 @@ GameObject:
   - component: {fileID: 643745080}
   - component: {fileID: 643745079}
   - component: {fileID: 643745078}
+  - component: {fileID: 643745082}
+  - component: {fileID: 643745081}
   m_Layer: 0
   m_Name: Mazzle
   m_TagString: Untagged
@@ -1735,6 +1760,45 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 643745076}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &643745081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643745076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!114 &643745082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643745076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 643745081}
+  sceneViewId: 4
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &654169614
 GameObject:
   m_ObjectHideFlags: 0
@@ -2304,7 +2368,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3656951884463339454, guid: 5fbb59a9f41007347b0cb1a1f38d4581, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 3656951884463339454, guid: 5fbb59a9f41007347b0cb1a1f38d4581, type: 3}
       propertyPath: m_LocalScale.x
@@ -3549,7 +3613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitTestObjects: []
-  completeInactiveUnitTest: 1
+  completeDestroyUnitTest: 1
 --- !u!114 &1213106696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5989,6 +6053,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 122388379}
     m_Modifications:
+    - target: {fileID: 45649508, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1176873340, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5568306285539570050, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
       propertyPath: batteryHolder
       value: 
@@ -6001,17 +6073,9 @@ PrefabInstance:
       propertyPath: batteryHolder
       value: 
       objectReference: {fileID: 894389511}
-    - target: {fileID: 5568306287178356165, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
-      propertyPath: touchedPadEffectPrefab
-      value: 
-      objectReference: {fileID: 949335360584754000, guid: 4b13c70524374f7439dc15ffec3bac94, type: 3}
     - target: {fileID: 5568306287210744421, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
       propertyPath: m_Name
       value: TetraInput
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568306287210744422, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
-      propertyPath: keyDebug
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5568306287210744423, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
       propertyPath: m_RootOrder

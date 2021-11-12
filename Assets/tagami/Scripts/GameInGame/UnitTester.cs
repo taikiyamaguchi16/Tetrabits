@@ -16,17 +16,16 @@ public class UnitTester : MonoBehaviour
     //[SerializeField] List<Canvas> canvass;
 
     [Header("Option")]
-    [SerializeField] bool completeInactiveUnitTest;
+    [SerializeField] bool completeDestroyUnitTest;
 
     // Start is called before the first frame update
     void Awake()
     {
         //ユニットテストの機能を切りたい場合
-        if(completeInactiveUnitTest)
+        if(completeDestroyUnitTest)
         {
             occupancy = true;   //占有状態にしておく
         }
-
         
         if (occupancy)
         {//占有状態の場合、UnitTest用の機能を削除
@@ -35,32 +34,12 @@ public class UnitTester : MonoBehaviour
             //このタイミングで削除する
             foreach (var obj in UnitTestObjects)
             {
-                obj.SetActive(false);
+                Destroy(obj);
             }
-
-            //カメラをモニター用に設定
-            //SetCanvassWorldCamera(monitorCamera);
         }
         else
-        {
-            //UnitTest用の機能を起動
+        {//UnitTest用の機能を起動
 
-            //ユニットテスト用機能を起動
-            //SetCanvassWorldCamera(unitTestCamera);
         }
     }
-
-    private void Update()
-    {
-        //Debug.Log("w:"+Screen.width +"h:"+ Screen.height);
-    }
-
-    //void SetCanvassWorldCamera(Camera _camera)
-    //{
-    //    foreach (var canvas in canvass)
-    //    {
-    //        canvas.renderMode = RenderMode.ScreenSpaceCamera;
-    //        canvas.worldCamera = _camera;
-    //    }
-    //}
 }

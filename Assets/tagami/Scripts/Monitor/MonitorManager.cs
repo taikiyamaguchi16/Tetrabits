@@ -72,7 +72,15 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         monitorHp = monitorHpMax;
     }
 
-    public void RepairMonitor(float _repairHp)
+
+
+    public void CallRepairMonitor(float _repairHp)
+    {
+        photonView.RPC(nameof(RPCRepairMonitor), RpcTarget.AllViaServer, _repairHp);
+    }
+
+    [PunRPC]
+    public void RPCRepairMonitor(float _repairHp)
     {
         monitorHp += _repairHp;
         if (monitorHp >= monitorHpMax)
@@ -83,11 +91,11 @@ public class MonitorManager : MonoBehaviourPunCallbacks
 
     void CallDealDamage(string _damageId)
     {
-        photonView.RPC(nameof(RPCDealDamage), RpcTarget.All, _damageId);
+        photonView.RPC(nameof(RPCDealDamage), RpcTarget.AllViaServer, _damageId, new Vector3(Random.Range(-20, 20), Random.Range(5, 20), 44));
     }
 
     [PunRPC]
-    void RPCDealDamage(string _damageId)
+    void RPCDealDamage(string _damageId, Vector3 _damagePosition)
     {
         GameObject prefab = null;
         foreach (var keyObj in coolingTargetPrefabs)
@@ -99,12 +107,12 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         }
         if (!prefab)
         {
-            Debug.LogError("damageId:"+_damageId + "  用の冷却用ダメージPrefabは登録されていません");
+            Debug.LogError("damageId:" + _damageId + "  用の冷却用ダメージPrefabは登録されていません");
             return;
         }
 
         //ダメージ発生 生成場所どーしよ
-        var createdObj = Instantiate(prefab, new Vector3(Random.Range(-20, 20), Random.Range(5, 20), 44), Quaternion.identity);
+        var createdObj = Instantiate(prefab, _damagePosition, Quaternion.identity);
         //生成登録
         createdCoolingTargets.Add(createdObj);
 
@@ -132,9 +140,9 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             //HP全回復
             monitorHp = monitorHpMax;
             //冷却ターゲット消去
-            foreach(var obj in createdCoolingTargets)
+            foreach (var obj in createdCoolingTargets)
             {
-                if(obj)
+                if (obj)
                 {
                     Destroy(obj);
                 }

@@ -2046,6 +2046,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1794991059916996611, guid: e078650c2fa3b424ebf8535f1ae880dc, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8712145136761352767, guid: e078650c2fa3b424ebf8535f1ae880dc, type: 3}
       propertyPath: m_Name
       value: GameInGameManager
@@ -3690,6 +3694,7 @@ GameObject:
   - component: {fileID: 1220606935}
   - component: {fileID: 1220606936}
   - component: {fileID: 1220606934}
+  - component: {fileID: 1220606937}
   m_Layer: 0
   m_Name: BattleshipBoss
   m_TagString: Enemy
@@ -3774,7 +3779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3587a1adb6e5abc42ba24700176ebfa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 30
+  hp: 300
   additionalDestroyObjects:
   - {fileID: 1113756014}
 --- !u!61 &1220606935
@@ -3815,6 +3820,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 198f3c12d9ae310449e60eae0b9ad03b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1220606937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220606931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91763d67c222d7c4a91d94d9bc89e4ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyBulletPrefab: {fileID: 4190101745959247044, guid: 0d0bc543efa0b3a4ba8bcc57a5207468, type: 3}
+  bulletSpeed: 10
+  shotIntervalSeconds: 0.5
+  randomShotIntervalTimer: 0
 --- !u!1001 &1231685944
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-
 public class TetraInput : MonoBehaviour
 {
     [Header("Reference")]
@@ -13,7 +10,7 @@ public class TetraInput : MonoBehaviour
     [SerializeField] TetraPad tetraPad;
 
     [Header("Debug Option")]
-    [SerializeField] bool keyDebug;
+    [SerializeField] bool dispGUI = true;
     [SerializeField] Color guiColor;
 
     public static TetraButton sTetraButton { private set; get; }
@@ -26,32 +23,29 @@ public class TetraInput : MonoBehaviour
         sTetraButton = tetraButton;
         sTetraLever = tetraLever;
         sTetraPad = tetraPad;
-
-        if (keyDebug)
-        {
-            tetraButton.keyDebug = true;
-            tetraLever.keyDebug = true;
-            tetraPad.keyDebug = true;
-        }
     }
 
     private void OnGUI()
     {
-        List<string> guis = new List<string>();
-        guis.Add("tetra button press : " + tetraButton.GetPress());
-        guis.Add("tetra lever powered on : " + tetraLever.GetPoweredOn());
-        guis.Add("tetra pad vector : " + tetraPad.GetVector());
-        guis.Add("objects on pad");
-        foreach (var go in tetraPad.GetObjectsOnPad())
+        if (dispGUI)
         {
-            if(go)
-            guis.Add(go.name);
-        }
+            List<string> guis = new List<string>();
+            guis.Add("tetra button press : " + tetraButton.GetPress());
+            guis.Add("tetra lever powered on : " + tetraLever.GetPoweredOn());
+            guis.Add("tetra pad vector : " + tetraPad.GetVector());
+            guis.Add("objects on pad");
 
-        GUI.color = guiColor;
-        for (int i = 0; i < guis.Count; i++)
-        {
-            GUI.Label(new Rect(10, 50 + 12 * i, 500, 50), guis[i]);
-        }
+            foreach (var go in tetraPad.GetObjectsOnPad())
+            {
+                if (go)
+                    guis.Add(go.name);
+            }
+
+            GUI.color = guiColor;
+            for (int i = 0; i < guis.Count; i++)
+            {
+                GUI.Label(new Rect(10, 50 + 12 * i, 500, 50), guis[i]);
+            }
+        }//disp
     }
 }
