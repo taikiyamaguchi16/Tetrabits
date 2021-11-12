@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TimeLimitController : MonoBehaviour
+public class GyroTimeLimitController : MonoBehaviour
 {
     [SerializeField, Tooltip("チェック入れたらスリップのやつ")] bool isSlip;
     [SerializeField, Tooltip("スリップの間隔")] float slipRecast;

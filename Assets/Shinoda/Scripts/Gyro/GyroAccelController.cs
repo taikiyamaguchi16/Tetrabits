@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AccelController : MonoBehaviour
+public class GyroAccelController : MonoBehaviour
 {
     [SerializeField] float accelScale = 1.5f;
     [SerializeField] float accelRecast = 3.0f;

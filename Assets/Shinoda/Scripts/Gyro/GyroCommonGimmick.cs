@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GimmickController : MonoBehaviour
+public class GyroCommonGimmick : MonoBehaviour
 {
     [SerializeField] Sprite offSprite;
     [SerializeField] Sprite onSprite;
