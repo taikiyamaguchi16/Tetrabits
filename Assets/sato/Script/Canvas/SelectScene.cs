@@ -11,23 +11,23 @@ public class SelectScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void LoadRoomSelect()
     {
-        GameInGameUtil.SwitchGameInGameScene(RoomSelect);
+        GameInGameUtil.SwitchGameInGameSceneOffline(RoomSelect);
     }
 
     public void LoadLocalMultiPlaySetUp()
     {
-        GameInGameUtil.SwitchGameInGameScene(LocalMultiPlaySetUp);
+        GameInGameUtil.SwitchGameInGameSceneOffline(LocalMultiPlaySetUp);
     }
 
     public void QuitGame()

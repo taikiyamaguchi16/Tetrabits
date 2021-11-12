@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class MonitorManager : MonoBehaviour
+public class MonitorManager : MonoBehaviourPunCallbacks
 {
     [Header("Required Reference")]
     [SerializeField] GameInGameSwitcher gameInGameSwitcher;
@@ -71,7 +72,15 @@ public class MonitorManager : MonoBehaviour
         monitorHp = monitorHpMax;
     }
 
-    public void RepairMonitor(float _repairHp)
+
+
+    public void CallRepairMonitor(float _repairHp)
+    {
+        photonView.RPC(nameof(RPCRepairMonitor), RpcTarget.AllViaServer, _repairHp);
+    }
+
+    [PunRPC]
+    public void RPCRepairMonitor(float _repairHp)
     {
         monitorHp += _repairHp;
         if (monitorHp >= monitorHpMax)
@@ -80,7 +89,13 @@ public class MonitorManager : MonoBehaviour
         }
     }
 
-    void DealDamage(string _damageId)
+    void CallDealDamage(string _damageId)
+    {
+        photonView.RPC(nameof(RPCDealDamage), RpcTarget.AllViaServer, _damageId, new Vector3(Random.Range(-20, 20), Random.Range(5, 20), 44));
+    }
+
+    [PunRPC]
+    void RPCDealDamage(string _damageId, Vector3 _damagePosition)
     {
         GameObject prefab = null;
         foreach (var keyObj in coolingTargetPrefabs)
@@ -92,12 +107,12 @@ public class MonitorManager : MonoBehaviour
         }
         if (!prefab)
         {
-            Debug.LogError("damageId:"+_damageId + "  用の冷却用ダメージPrefabは登録されていません");
+            Debug.LogError("damageId:" + _damageId + "  用の冷却用ダメージPrefabは登録されていません");
             return;
         }
 
         //ダメージ発生 生成場所どーしよ
-        var createdObj = Instantiate(prefab, new Vector3(Random.Range(-20, 20), Random.Range(5, 20), 44), Quaternion.identity);
+        var createdObj = Instantiate(prefab, _damagePosition, Quaternion.identity);
         //生成登録
         createdCoolingTargets.Add(createdObj);
 
@@ -110,7 +125,7 @@ public class MonitorManager : MonoBehaviour
             if (currentMonitorStatusIndex >= (monitorStatuses.Count - 1))
             {//ゲームオーバー処理
                 Debug.Log("GameOver");
-                gameInGameSwitcher.SwitchGameInGameScene("");
+                gameInGameSwitcher.CallSwitchGameInGameScene("");
                 return;
             }
 
@@ -125,9 +140,9 @@ public class MonitorManager : MonoBehaviour
             //HP全回復
             monitorHp = monitorHpMax;
             //冷却ターゲット消去
-            foreach(var obj in createdCoolingTargets)
+            foreach (var obj in createdCoolingTargets)
             {
-                if(obj)
+                if (obj)
                 {
                     Destroy(obj);
                 }
@@ -140,16 +155,16 @@ public class MonitorManager : MonoBehaviour
     //static
     static MonitorManager sMonitorManager;
 
-    [System.Obsolete("DealDamageToMonitor(float) is deprecated, please use DealDamageToMonitor(string) instead.")]
-    public static void DealDamageToMonitor(float _damage)
-    {
-    }
+    //[System.Obsolete("DealDamageToMonitor(float) is deprecated, please use DealDamageToMonitor(string) instead.")]
+    //public static void DealDamageToMonitor(float _damage)
+    //{
+    //}
 
     public static void DealDamageToMonitor(string _damageId)
     {
         if (sMonitorManager)
         {
-            sMonitorManager.DealDamage(_damageId);
+            sMonitorManager.CallDealDamage(_damageId);
         }
     }
 }

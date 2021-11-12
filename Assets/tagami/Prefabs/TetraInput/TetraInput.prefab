@@ -81,6 +81,140 @@ SpriteMask:
   m_BackSortingOrder: 0
   m_IsCustomRangeActive: 0
   m_SpriteSortPoint: 0
+--- !u!1 &484766083
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 484766084}
+  - component: {fileID: 484766085}
+  m_Layer: 0
+  m_Name: ButtonCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &484766084
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484766083}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.056, z: 0}
+  m_LocalScale: {x: 1.2, y: 0.4, z: 1.2}
+  m_Children: []
+  m_Father: {fileID: 784967733364921724}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &484766085
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484766083}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1819938556
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1819938557}
+  - component: {fileID: 1819938558}
+  m_Layer: 31
+  m_Name: ButtonStopper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1819938557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819938556}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.233, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5568306286399505661}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1819938558
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819938556}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &2106414988
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2106414989}
+  - component: {fileID: 2106414990}
+  m_Layer: 0
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2106414989
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106414988}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1672558768719101525}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &2106414990
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106414988}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2560703408005861790, guid: 3505fb8bc2d3bab4a9515bd899687b75, type: 3}
 --- !u!54 &8994264861844731939
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -89,7 +223,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199374303407527072}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.001
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
@@ -208,20 +342,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &456284363117392669
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2270563837890330209}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6959435501379785722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +365,7 @@ GameObject:
   - component: {fileID: 5568306285539570049}
   - component: {fileID: 5568306285539570050}
   - component: {fileID: 40944506}
+  - component: {fileID: 45649508}
   m_Layer: 0
   m_Name: TetraLever
   m_TagString: Untagged
@@ -296,6 +417,28 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2.5, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &45649508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5568306285539570048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &5568306285843535073
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,8 +485,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 223babfd37a27b94c81584e1629b3209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tetraPadBody: {fileID: 5568306287178356165}
   batteryHolder: {fileID: 0}
+  tetraPadBody: {fileID: 5568306287178356165}
 --- !u!1 &5568306286399505660
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,6 +497,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5568306286399505661}
   - component: {fileID: 5568306286399505662}
+  - component: {fileID: 1176873340}
   m_Layer: 0
   m_Name: TetraButton
   m_TagString: Untagged
@@ -369,11 +513,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5568306286399505660}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.4, y: 1.318, z: -5.07}
+  m_LocalPosition: {x: -6.4, y: 0.254, z: -5.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 784967733364921724}
   - {fileID: 1672558768719101525}
+  - {fileID: 1819938557}
   m_Father: {fileID: 5568306287210744423}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -389,13 +534,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0276202ecfe9ccb4db7c4937a99142f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  batteryHolder: {fileID: 0}
   buttonBodyCollider: {fileID: 6959435501379785722}
   buttonRb: {fileID: 1336086697509937431}
   foundationJoint: {fileID: 2845345281303665969}
-  batteryHolder: {fileID: 0}
-  pressedYSpring: 1
-  stdYSpring: 1000
-  pressableDifferenceY: -1.3
+  pressedYSpring: 5
+  stdYSpring: 300
+  pressableDifferenceY: -1
+--- !u!114 &1176873340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5568306286399505660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &5568306286960834374
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,6 +702,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49408b7f92ae849449ff9ee3bcdc9d21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteMaskTransform: {fileID: 365007529}
+  touchedPadEffectPrefab: {fileID: 949335360584754000, guid: 4b13c70524374f7439dc15ffec3bac94, type: 3}
 --- !u!1 &5568306287210744421
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,7 +753,7 @@ MonoBehaviour:
   tetraButton: {fileID: 5568306286399505662}
   tetraLever: {fileID: 5568306285539570050}
   tetraPad: {fileID: 5568306285843535074}
-  keyDebug: 0
+  dispGUI: 1
   guiColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &1509377311585456698
 PrefabInstance:

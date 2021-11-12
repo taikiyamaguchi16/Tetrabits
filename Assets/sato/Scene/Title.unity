@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &336205831
+--- !u!1001 &111536578
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -174,16 +174,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 583775346900599356, guid: e078650c2fa3b424ebf8535f1ae880dc, type: 3}
+      propertyPath: completeInactiveUnitTest
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8712145136761352767, guid: e078650c2fa3b424ebf8535f1ae880dc, type: 3}
       propertyPath: m_Name
       value: GameInGameManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e078650c2fa3b424ebf8535f1ae880dc, type: 3}
---- !u!20 &575924791 stripped
+--- !u!20 &127544551 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 1794991059069389242, guid: e078650c2fa3b424ebf8535f1ae880dc, type: 3}
-  m_PrefabInstance: {fileID: 336205831}
+  m_PrefabInstance: {fileID: 111536578}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &675662068
 GameObject:
@@ -215,10 +219,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
+  m_HorizontalAxis: null
+  m_VerticalAxis: null
+  m_SubmitButton: null
+  m_CancelButton: null
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
@@ -315,10 +319,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 199188761, guid: 983742d2ccb4bfc4b817b178ba047a1f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6532526669231473717, guid: 983742d2ccb4bfc4b817b178ba047a1f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 7.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 6532526669231473717, guid: 983742d2ccb4bfc4b817b178ba047a1f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.7
+      objectReference: {fileID: 0}
     - target: {fileID: 6532526670051287478, guid: 983742d2ccb4bfc4b817b178ba047a1f, type: 3}
       propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 575924791}
+      objectReference: {fileID: 127544551}
     - target: {fileID: 6532526670051287479, guid: 983742d2ccb4bfc4b817b178ba047a1f, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -407,5 +423,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TitleCanvas
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 199188761, guid: 983742d2ccb4bfc4b817b178ba047a1f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 983742d2ccb4bfc4b817b178ba047a1f, type: 3}

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
-public class GameInGameSwitcher : MonoBehaviour
+public class GameInGameSwitcher : MonoBehaviourPunCallbacks
 {
     [System.Serializable]
     struct SceneObjectAndKeyCode
@@ -25,21 +26,31 @@ public class GameInGameSwitcher : MonoBehaviour
         {
             if (Input.GetKeyDown(val.keyCode))
             {
-                SwitchGameInGameScene(val.sceneObject);
+                GameInGameUtil.SwitchGameInGameScene(val.sceneObject);
+                //SwitchGameInGameScene(val.sceneObject);
             }
         }
     }
 
-    public void SwitchGameInGameScene(string _nextSceneName)
+    //ラッピング
+    public void CallSwitchGameInGameScene(string _nextSceneName)
+    {
+        photonView.RPC(nameof(RPCSwitchGameInGameScene), RpcTarget.All, _nextSceneName);
+    }
+
+    [PunRPC]
+    public void RPCSwitchGameInGameScene(string _nextSceneName)
     {
         //現在のシーンを削除
         if (currentGameInGameSceneName.Length > 0)
         {
+            Debug.Log(currentGameInGameSceneName + "：シーンを削除します");
             SceneManager.UnloadSceneAsync(currentGameInGameSceneName);
         }
         //次のシーンへ移行
         if (_nextSceneName.Length > 0)
         {
+            Debug.Log(_nextSceneName + "：シーンへ移行します");
             SceneManager.LoadSceneAsync(_nextSceneName, LoadSceneMode.Additive);
         }
         else

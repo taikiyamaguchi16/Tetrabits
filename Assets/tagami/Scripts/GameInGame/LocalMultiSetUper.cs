@@ -21,9 +21,22 @@ public class LocalMultiSetUper : MonoBehaviour
         //カセット表示オン
         //とりあえずFindでテスト
         var cassetHolderObj = GameObject.Find("CassetHolder");
+        //if (!cassetHolderObj)
+        //{
+        //    cassetHolderObj = GameObject.Find("cassette_socket");
+        //}
         if (!cassetHolderObj)
         {
-            cassetHolderObj = GameObject.Find("cassette_socket");
+            cassetHolderObj = GameObject.Find("cassette_socket2");
+            if (!cassetHolderObj)
+            {
+                Debug.LogError("cassette_socket2がみつかりませんでした");
+            }
+        }
+
+        if(!cassetHolderObj.GetComponent<CassetteManager>())
+        {
+            Debug.LogError("CassetteManagerがみつかりませんでした");
         }
 
         cassetHolderObj.GetComponent<CassetteManager>().AppearAllCassette();
