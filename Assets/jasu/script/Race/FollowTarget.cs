@@ -19,6 +19,9 @@ public class FollowTarget : MonoBehaviour
     [SerializeField]
     bool followZ = true;
 
+    [SerializeField]
+    bool self = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +30,14 @@ public class FollowTarget : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        if (self)
+        {
+            Follow();
+        }
+    }
+
+    public void Follow()
     {
         Vector3 pos = offset;
         if (followX)
