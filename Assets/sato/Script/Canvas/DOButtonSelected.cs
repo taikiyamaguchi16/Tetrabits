@@ -35,6 +35,14 @@ public class DOButtonSelected : MonoBehaviour
     [Header("カーソルを左右で動かすときにtrue")]
     bool isLeftRight = false;
 
+    [SerializeField]
+    [Header("入力遅延時間設定")]
+    float inputDelay = 0.5f;
+
+    float delayTimer = 0.0f;
+
+    bool isInput = false;
+
     //--------------------------------------------------
     // Start
     // 初期化
@@ -68,6 +76,7 @@ public class DOButtonSelected : MonoBehaviour
     void Update()
     {
         CursorMove();
+        TimerCount();
     }
 
     //--------------------------------------------------
@@ -76,42 +85,50 @@ public class DOButtonSelected : MonoBehaviour
     //--------------------------------------------------
     void CursorMove()
     {
-        // カーソル位置をイベントシステムで選択されている位置に指定
-        //if (EventSystem.current.currentSelectedGameObject != null)
-        //{
-        //    transform.DOMove(EventSystem.current.currentSelectedGameObject.transform.position, moveTime);
-        //}
-
         // イベントシステムのボタン設定を現在のボタンに設定する
         EventSystem.current.SetSelectedGameObject(Button[currentButtonNum]);
 
         if (isUpDown)
         {
-            // 上入力
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || XInputManager.GetThumbStickLeftY(controllerID) > 0)
+            if (!isInput)
             {
-                currentButtonNum--;
-            }
+                // 上入力
+                if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || XInputManager.GetThumbStickLeftY(controllerID) > 0)
+                {
+                    currentButtonNum--;
 
-            // 下入力
-            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || XInputManager.GetThumbStickLeftY(controllerID) < 0)
-            {
-                currentButtonNum++;
+                    isInput = true;
+                }
+
+                // 下入力
+                if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || XInputManager.GetThumbStickLeftY(controllerID) < 0)
+                {
+                    currentButtonNum++;
+
+                    isInput = true;
+                }
             }
         }
 
         if (isLeftRight)
         {
-            // 左入力
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) || XInputManager.GetThumbStickLeftX(controllerID) > 0)
+            if (!isInput)
             {
-                currentButtonNum--;
-            }
+                // 左入力
+                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) || XInputManager.GetThumbStickLeftX(controllerID) < 0)
+                {
+                    currentButtonNum--;
 
-            // 上入力
-            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) || XInputManager.GetThumbStickLeftX(controllerID) < 0)
-            {
-                currentButtonNum++;
+                    isInput = true;
+                }
+
+                // 上入力
+                if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) || XInputManager.GetThumbStickLeftX(controllerID) > 0)
+                {
+                    currentButtonNum++;
+
+                    isInput = true;
+                }
             }
         }
 
@@ -121,7 +138,7 @@ public class DOButtonSelected : MonoBehaviour
             currentButtonNum = 0;
         }
 
-        // ボタンが0いかにならないように
+        // ボタンが0以下にならないように
         if (currentButtonNum < 0)
         {
             currentButtonNum = buttonMax - 1;
@@ -129,6 +146,24 @@ public class DOButtonSelected : MonoBehaviour
 
         // 移動
         transform.DOMove(Button[currentButtonNum].transform.position, moveTime);
+    }
+
+    //--------------------------------------------------
+    // TimerCount
+    // 入力遅延用のタイマカウントアップ関数
+    //--------------------------------------------------
+    void TimerCount()
+    {
+        if (isInput)
+        {
+            delayTimer += Time.deltaTime;
+        }
+
+        if(delayTimer > inputDelay)
+        {
+            delayTimer = 0.0f;
+            isInput = false;
+        }
     }
 
     //--------------------------------------------------
