@@ -13360,6 +13360,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1099890539}
     m_Modifications:
+    - target: {fileID: -6094582012326296392, guid: 3a99deec7dde51943b59c6a1800c1ab7, type: 3}
+      propertyPath: sceneViewId
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: -6094582012326296392, guid: 3a99deec7dde51943b59c6a1800c1ab7, type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6261697391292533264, guid: 3a99deec7dde51943b59c6a1800c1ab7, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -24194,8 +24202,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6472849260752548036, guid: c0018ba7f3b38e64bbdd01fe03658589, type: 3}
+      propertyPath: limit
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6472849260752548036, guid: c0018ba7f3b38e64bbdd01fe03658589, type: 3}
       propertyPath: damage
       value: small
+      objectReference: {fileID: 0}
+    - target: {fileID: 6472849260752548036, guid: c0018ba7f3b38e64bbdd01fe03658589, type: 3}
+      propertyPath: slipRecast
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6472849260752548063, guid: c0018ba7f3b38e64bbdd01fe03658589, type: 3}
       propertyPath: m_Name

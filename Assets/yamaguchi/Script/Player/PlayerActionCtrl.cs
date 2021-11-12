@@ -80,7 +80,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     // アクション開始
                     runningAction.StartPlayerAction(desc);
 
-                    playerAnim.SetBool("Action", true);
+                    //playerAnim.SetBool("Action", true);
                 }
                 playerMove.movable = false; // プレイヤー行動停止
             }
