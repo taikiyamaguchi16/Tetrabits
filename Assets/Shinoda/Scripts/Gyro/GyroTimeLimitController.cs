@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class GyroTimeLimitController : MonoBehaviour
 {
@@ -30,16 +31,22 @@ public class GyroTimeLimitController : MonoBehaviour
         {
             if (timeCount > limit && slipCount > slipRecast)
             {
-                MonitorManager.DealDamageToMonitor(damage);
-                slipCount = 0;
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    MonitorManager.DealDamageToMonitor(damage);
+                    slipCount = 0;
+                }
             }
         }
         else
         {
             if (timeCount > limit)
             {
-                MonitorManager.DealDamageToMonitor(damage);
-                timeCount = 0;
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    MonitorManager.DealDamageToMonitor(damage);
+                    timeCount = 0;
+                }
             }
         }
 
