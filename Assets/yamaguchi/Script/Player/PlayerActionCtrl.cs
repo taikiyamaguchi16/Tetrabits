@@ -62,27 +62,33 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     if (!candidates.Contains(carryObj))                 
                         candidates.Add(carryObj);
 
-                PriorityCheck();
-                PlayHighPriorityAction();
-                //int mugen = 0;
-                //while (true)
-                //{
-                //    if (candidates.Count > 0 && runningAction == null)
-                //    {
-                //        PriorityCheck();
+                foreach(var hi in candidates)
+                {
+                    highPriorityList.Add(hi);
+                }
+               // highPriorityList = candidates;
+                int mugen = 0;
+                while (true)
+                {
+                    Debug.Log("ここまで来てる");
+                    if (highPriorityList.Count > 0 && runningAction == null)
+                    {
+                        Debug.Log("なにかははいいてる");
+                        //PriorityCheck();
 
-                //        if (PlayHighPriorityAction())
-                //        {
-                //            break;
-                //        }
-                //    }
-                //    else
-                //        break;
+                        if (PriorityCheck())
+                        {
+                            highPriorityList.Clear();
+                            break;
+                        }
+                    }
+                    else
+                        break;
 
-                //    mugen++;
-                //    if (mugen > 100)
-                //        break;
-                //}
+                    mugen++;
+                    if (mugen > 5)
+                        break;
+                }
 
                 playerMove.movable = false; // プレイヤー行動停止
             }
@@ -119,74 +125,80 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
             candidates.Remove(other.gameObject);  // アクション候補のリスト             
         }
     }
-    private void PriorityCheck()
-    {
-        highPriorityList.Clear();
+    private bool PriorityCheck()
+    {       
         //毎回ゲットコンポーネントしないようにlist作成
         List<IPlayerAction> intList = new List<IPlayerAction> { };
-        foreach (var can in candidates)
-        {
+        foreach (var can in highPriorityList)
+        {     
             intList.Add(can.GetComponent<IPlayerAction>());
         }
        
         IPlayerAction max = intList[0];
-        if (intList.Count == 1)
-            highPriorityList.Add(candidates[0]);
-        else
+        
+        if (intList.Count > 1) 
         {
             for (int i = 1; i < intList.Count; i++)
             {
-                Debug.Log("追加しました");
                 if (intList[i].GetPriority() < max.GetPriority())
                 {
-                    //アクション候補から優先度の低いものを排除                 
-                    highPriorityList.Add(candidates[i]);
+                    //アクション候補から優先度の低いものを排除          
+                    //highPriorityList.Add(candidates[i]);
                 }
                 else if (intList[i].GetPriority() > max.GetPriority())
                 {
                     //アクション候補から優先度の低いものを排除            
-                    highPriorityList.Add(candidates[intList.IndexOf(max)]);
+                    //highPriorityList.Add(candidates[intList.IndexOf(max)]);
                     max = intList[i];
                 }
+            }  
+        }
+        runningAction = max;
 
-                foreach (var kp in highPriorityList)
-                {
-                    candidates.Remove(kp);
-                }
+        if (highPriorityList.Count > 0)
+        {         
+            //アクション開始
+            if (runningAction.StartPlayerAction(desc))
+            {
+                Debug.Log(highPriorityList[intList.IndexOf(max)] .name+ "　を実行");
+                return true;
+            }
+            else
+            {
+                highPriorityList.Remove(highPriorityList[intList.IndexOf(max)]);
+                runningAction = null;
             }
         }
+        return false;
     }
 
     private bool PlayHighPriorityAction()
     {
-        Debug.Log("チェック" + highPriorityList.Count);
-        if (candidates.Count > 0)
+        if (highPriorityList.Count > 0)
         {
             // 一番近いオブジェクトを検索
-            GameObject nearest = candidates[0];
-            foreach (var can in candidates)
-            {
-                if (Vector3.Distance(transform.position, can.transform.position) <
-                    Vector3.Distance(transform.position, nearest.transform.position))
-                    nearest = can;
-            }
+            GameObject nearest = highPriorityList[0];
+            //foreach (var can in highPriorityList)
+            //{
+            //    Debug.Log("アクション候補  " + can.name);
+            //    if (Vector3.Distance(transform.position, can.transform.position) <
+            //        Vector3.Distance(transform.position, nearest.transform.position))
+            //        nearest = can;
+            //}
             // IAction持ちの一番近いやつ取得
-            runningAction = nearest.GetComponent<IPlayerAction>();
-            runningAction.StartPlayerAction(desc);
-            // アクション開始
-            //if (runningAction.StartPlayerAction(desc))
-            //{
-            //    Debug.Log("アクション実行");
-            //    return true;
-            //}
-            //else
-            //{
-            //    Debug.Log("アクション実行なし");
-            //    foreach (var kp in highPriorityList)
-            //    {
-            //        candidates.Remove(kp);
-            //    }
-            //}
+
+            //runningAction = nearest.GetComponent<IPlayerAction>();
+            //runningAction.StartPlayerAction(desc);
+            //アクション開始
+            if (runningAction.StartPlayerAction(desc))
+            {
+                Debug.Log(nearest.name+"アクション実行");
+                return true;
+            }
+            else
+            {
+                
+            }
         }
         return false;
     }
