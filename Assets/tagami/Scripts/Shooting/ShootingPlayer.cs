@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Photon.Pun;
+
 [RequireComponent(typeof(Rigidbody2D))]
-public class ShootingPlayer : MonoBehaviour
+public class ShootingPlayer : MonoBehaviourPunCallbacks
 {
     [Header("Move")]
     [SerializeField] float moveSpeed = 1.0f;
@@ -32,7 +34,7 @@ public class ShootingPlayer : MonoBehaviour
     float flashingIntervalTimer;
     bool isInvincible;
     [SerializeField] GameObject explosionPrefab;
-
+    bool isDead;
 
     Rigidbody2D myRb2D;
 
@@ -43,6 +45,10 @@ public class ShootingPlayer : MonoBehaviour
 
         //無敵スタート
         isInvincible = true;
+
+        //自分の親を探す
+        var managerObj=GameObject.Find("ShootingGameManager");
+        transform.parent = managerObj.transform;
     }
 
     // Update is called once per frame
@@ -52,7 +58,7 @@ public class ShootingPlayer : MonoBehaviour
         myRb2D.velocity = TetraInput.sTetraPad.GetVector() * moveSpeed * Time.deltaTime;
 
         //弾発射処理
-        if (TetraInput.sTetraLever.GetPoweredOn())
+        if (PhotonNetwork.IsMasterClient && TetraInput.sTetraLever.GetPoweredOn())
         {
             shotIntervalTimer += Time.deltaTime;
             if (shotIntervalTimer >= shotIntervalSeconds)
@@ -61,23 +67,22 @@ public class ShootingPlayer : MonoBehaviour
                 switch (shotLevel)
                 {
                     case 1:
-                        ShotBullet(Vector3.zero, Vector3.right * bulletSpeed);
+                        CallShotBullet(Vector3.zero, Vector3.right * bulletSpeed);
                         break;
                     case 2:
-                        ShotBullet(new Vector3(0.0f, dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
-                        ShotBullet(new Vector3(0.0f, -dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
+                        CallShotBullet(new Vector3(0.0f, dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
+                        CallShotBullet(new Vector3(0.0f, -dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
                         break;
                     case 3:
-                        ShotBullet(Vector3.zero, (Vector3.right + Vector3.up * tripleShotWidth).normalized * bulletSpeed);
-                        ShotBullet(Vector3.zero, Vector3.right * bulletSpeed);
-                        ShotBullet(Vector3.zero, (Vector3.right + Vector3.down * tripleShotWidth).normalized * bulletSpeed);
+                        CallShotBullet(Vector3.zero, (Vector3.right + Vector3.up * tripleShotWidth).normalized * bulletSpeed);
+                        CallShotBullet(Vector3.zero, Vector3.right * bulletSpeed);
+                        CallShotBullet(Vector3.zero, (Vector3.right + Vector3.down * tripleShotWidth).normalized * bulletSpeed);
                         break;
                     default:
                         Debug.LogError("対応していないショットレベル：" + shotLevel);
                         break;
                 }
             }
-
         }//lever on
 
         if (TetraInput.sTetraButton.GetTrigger() && ShootingGameManager.sShootingGameManager.bombNum > 0)
@@ -90,7 +95,7 @@ public class ShootingPlayer : MonoBehaviour
             //    Destroy(obj);
             //}
             Instantiate(bombFieldPrefab, transform.position, Quaternion.identity);
-        
+
         }
 
         if (isInvincible)
@@ -113,9 +118,19 @@ public class ShootingPlayer : MonoBehaviour
                 }
             }
         }//無敵中処理
+
+        if(PhotonNetwork.IsMasterClient&&isDead)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
 
-    private void ShotBullet(Vector3 _offset, Vector3 _velocity)
+    public void CallShotBullet(Vector3 _offset, Vector3 _velocity)
+    {
+        photonView.RPC(nameof(RPCShotBullet), RpcTarget.AllViaServer, _offset, _velocity);
+    }
+    [PunRPC]
+    public void RPCShotBullet(Vector3 _offset, Vector3 _velocity)
     {
         var bullet = Instantiate(playerBulletPrefab, transform.position + _offset, Quaternion.identity);
         bullet.GetComponent<Rigidbody2D>().velocity = _velocity;
@@ -123,17 +138,27 @@ public class ShootingPlayer : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
         {
-            DealDamage();
+            if (!isInvincible)
+            {
+                CallDealDamageToPlayer();
+            }
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
         {
-            DealDamage();
+            if (!isInvincible)
+            {
+                CallDealDamageToPlayer();
+            }
         }
 
         //アイテム取得
@@ -144,15 +169,11 @@ public class ShootingPlayer : MonoBehaviour
             {
                 if (item.CompareItemId("levelup"))
                 {
-                    shotLevel++;
-                    if (shotLevel >= 3)
-                    {
-                        shotLevel = 3;
-                    }
+                    CallShotLevelUp();
                 }
                 else if (item.CompareItemId("bomb"))
                 {
-                    ShootingGameManager.sShootingGameManager.AddBomb(1);
+                    CallAddBomb();
                 }
 
                 Destroy(collision.gameObject);
@@ -160,18 +181,48 @@ public class ShootingPlayer : MonoBehaviour
         }
     }
 
-    private void DealDamage()
+    private void CallAddBomb()
     {
-        //無敵なので即終了
-        if (isInvincible) { return; }
+        photonView.RPC(nameof(RPCAddBomb), RpcTarget.AllViaServer);
+    }
+    [PunRPC]
+    public void RPCAddBomb()
+    {
+        ShootingGameManager.sShootingGameManager.AddBomb(1);
+    }
 
+    private void CallShotLevelUp()
+    {
+        photonView.RPC(nameof(RPCShotLevelUp),RpcTarget.AllViaServer);
+    }
+    [PunRPC]
+    public void RPCShotLevelUp()
+    {
+        shotLevel++;
+        if (shotLevel >= 3)
+        {
+            shotLevel = 3;
+        }
+    }
+
+    private void CallDealDamageToPlayer()
+    {
+        photonView.RPC(nameof(RPCDealDamageToPlayer), RpcTarget.All);
+    }
+    [PunRPC]
+    public void RPCDealDamageToPlayer()
+    {
+        Debug.Log("RPCDealDamageToPlayer");
+
+        //無敵判定にする
+        isInvincible = true;
 
         //レベル２以上ならレベルを一つ下げて一時無敵に
         if (shotLevel >= 2)
         {
             shotLevel--;
-            isInvincible = true;
-            MonitorManager.DealDamageToMonitor("small");
+            
+            //MonitorManager.DealDamageToMonitor("small");
         }
         else
         {
@@ -182,9 +233,7 @@ public class ShootingPlayer : MonoBehaviour
             ShootingGameManager.sShootingGameManager.DestroyedPlayer(transform.position);
 
             //破壊
-            Destroy(gameObject);
+            isDead = true;
         }
-        
-        Debug.Log("EnemyタグorEnemyBulletタグオブジェクトにぶつかった");
     }
 }
