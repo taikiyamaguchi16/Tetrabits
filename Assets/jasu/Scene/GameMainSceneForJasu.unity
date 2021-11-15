@@ -2164,8 +2164,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameInGameSwitchByKeys:
   - sceneObject:
-      m_SceneName: Title
+      m_SceneName: RaceGameTest
     keyCode: 116
+  - sceneObject:
+      m_SceneName: RaceGameTest
+    keyCode: 107
 --- !u!4 &1213106694
 Transform:
   m_ObjectHideFlags: 0
@@ -2193,7 +2196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitTestObjects: []
-  completeInactiveUnitTest: 1
+  completeDestroyUnitTest: 0
 --- !u!114 &1213106696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3080,6 +3083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOffline: 1
+  networkDebugMode: 0
 --- !u!4 &1645611245
 Transform:
   m_ObjectHideFlags: 0
@@ -4209,6 +4213,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 122388379}
     m_Modifications:
+    - target: {fileID: 45649508, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1176873340, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5568306285539570050, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
       propertyPath: batteryHolder
       value: 

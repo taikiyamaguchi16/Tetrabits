@@ -19,6 +19,9 @@ public class MoveBetweenLane : MonoBehaviour
     ColliderSensor colliderSensorBack = null;
 
     [SerializeField]
+    float outsideRange = 3f;
+
+    [SerializeField]
     float padInputRangeY = 0.5f;
 
     [SerializeField]
@@ -106,6 +109,18 @@ public class MoveBetweenLane : MonoBehaviour
         if(moveDir != 0)    // 入力時移動
         {
             rb.velocity = new Vector3(moveDir * spd, rb.velocity.y, rb.velocity.z);
+
+            if (belongingLaneId >= laneNum &&
+                transform.position.x < laneManager.GetLanePosX(laneNum) - outsideRange)
+            {
+                rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
+            }
+
+            if (belongingLaneId <= 0 &&
+                transform.position.x > laneManager.GetLanePosX(0) + outsideRange)
+            {
+                rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
+            }
         }
         else if(!arrivalLane)   // 所属レーンへの補正
         {

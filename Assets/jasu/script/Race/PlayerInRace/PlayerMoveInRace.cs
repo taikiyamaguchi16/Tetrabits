@@ -41,7 +41,6 @@ public class PlayerMoveInRace : MonoBehaviour
         moveInput = false;
         if ((colliderSensorFront.GetExistInCollider() ||
             colliderSensorBack.GetExistInCollider()) &&
-            //TetraInput.sTetraButton.GetPress())
             TetraInput.sTetraLever.GetPoweredOn())
         {
             moveInput = true;
