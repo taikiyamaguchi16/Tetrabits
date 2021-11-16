@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviourPunCallbacks
 {
     [Tooltip("コントローラー番号")]
-    public int controllerID = 2;
+    public int controllerID = 0;
 
     [SerializeField]
     [Header("メニューオブジェクトを入れる")]
