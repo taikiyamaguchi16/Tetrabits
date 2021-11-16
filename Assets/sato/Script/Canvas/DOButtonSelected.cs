@@ -13,7 +13,7 @@ public class DOButtonSelected : MonoBehaviour
     [SerializeField] private GameObject FirstSelect;
 
     [Tooltip("コントローラー番号")]
-    public int controllerID = 99;
+    public int controllerID = 0;
 
     [SerializeField]
     [Tooltip("何秒かけて移動させるか")]

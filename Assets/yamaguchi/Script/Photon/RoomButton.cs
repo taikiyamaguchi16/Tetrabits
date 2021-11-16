@@ -37,6 +37,10 @@ public class RoomButton : MonoBehaviour
     [SerializeField]
     Image Four;
 
+    [SerializeField]
+    [Header("Room入れる")]
+    GameObject Room;
+
     public void Init(MatchmakingView parentView, int roomId)
     {
         matchmakingView = parentView;
@@ -111,13 +115,14 @@ public class RoomButton : MonoBehaviour
         {
             // ルーム参加処理中は、全ての参加ボタンを押せないようにする
             matchmakingView.OnJoiningRoom();
+            Room.GetComponent<RoomCreateWait>().OnJoiningRoom();
 
             // ボタンに対応したルーム名のルームに参加する（ルームが存在しなければ作成してから参加する）
             var roomOptions = new RoomOptions();
             roomOptions.MaxPlayers = MaxPlayers;
             PhotonNetwork.JoinOrCreateRoom(RoomName, roomOptions, TypedLobby.Default);
 
-            GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().RPCSwitchGameInGameScene(scene);
+//            GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().RPCSwitchGameInGameScene(scene);
         }
         else
         {//ルーム入れないよ！
