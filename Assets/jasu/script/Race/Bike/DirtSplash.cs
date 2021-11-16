@@ -35,13 +35,14 @@ public class DirtSplash : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.transform.parent.tag == "FlatRoadInRace" &&
+        if(other.gameObject.transform.tag == "FlatRoadInRace" &&
             rb.velocity.y < 0f)
         {
             GameObject dirt = Instantiate(dirtPrefab, other.transform.parent.parent);
             Vector3 pos = Vector3.zero;
             dirt.transform.localPosition = pos;
             pos = dirt.transform.position;
+            pos.y = (other.transform.localPosition.y * 2) - 2.5f;
             pos.z = transform.position.z;
             dirt.transform.position = pos;
             Destroy(gameObject);
