@@ -12,12 +12,20 @@ public class NameManager : MonoBehaviourPunCallbacks
     GameObject inputField;
 
     [SerializeField]
-    [Header("Nameを入れる")]
-    GameObject text;
+    [Header("InputFieldの直下にあるtextを入れる")]
+    Text text;
 
     [SerializeField]
-    [Header("NameInputを入れる")]
-    GameObject nameInput;
+    [Header("画面の案内オブジェクトを入れる")]
+    GameObject TextObjects;
+
+    [SerializeField]
+    [Header("非表示にしたいキャンバスを入れる")]
+    GameObject deactiveObject;
+
+    [SerializeField]
+    [Header("名前入力後に移動したいシーン")]
+    SceneObject scene;
 
     // Start is called before the first frame update
     void Start()
@@ -50,23 +58,37 @@ public class NameManager : MonoBehaviourPunCallbacks
     //--------------------------------------------------
     public override void OnJoinedRoom()
     {
+        deactiveObject.SetActive(false);
+
         inputField.SetActive(true);
 
-        text.SetActive(true);
+        TextObjects.SetActive(true);
+    }
 
-        nameInput.SetActive(true);
+    //--------------------------------------------------
+    // OnLeftRoom
+    // ルーム退出時のコールバック
+    //--------------------------------------------------
+    public override void OnLeftRoom()
+    {
+        deactiveObject.SetActive(true);
+
+        inputField.SetActive(false);
+
+        TextObjects.SetActive(false);
+
+        Debug.Log("ルームから退出しました");
     }
 
     //--------------------------------------------------
     // NameInputExit
-    // 名前入力完了後にInput系をすべて非表示
+    // 名前確認承認時に実行
     //--------------------------------------------------
     public void NameInputExit()
     {
-        inputField.SetActive(false);
+        // プレイヤー自身の名前を設定する
+        PhotonNetwork.NickName = text.text;
 
-        text.SetActive(false);
-
-        nameInput.SetActive(false);
+        GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().RPCSwitchGameInGameScene(scene);
     }
 }

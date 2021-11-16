@@ -5,29 +5,20 @@ using UnityEngine.UI;
 using Photon.Pun;
 using UnityEngine.EventSystems;
 
-public class NameInput : MonoBehaviour
+public class NameInput : InputField
 {
-    [Header("InputFieldを入れる")]
-    public InputField inputField;
-
-    [Header("Nameを入れる")]
-    public Text text;
-
-    [SerializeField]
-    [Header("NameManagerを入れる")]
     NameManager nameManager;
 
-    [SerializeField]
-    [Header("MatchMakingViewを入れる")]
-    MatchmakingView matchmakingView;
+    // 名前入力が完了かどうか
+    bool isNameInput = false;
 
+    bool isNameVerify = false;
 
     // Start is called before the first frame update
-    void Start()
+    new void  Start()
     {
         // 各種コンポーネント取得
-        inputField = inputField.GetComponent<InputField>();
-        text = text.GetComponent<Text>();
+        nameManager = GameObject.Find("NameManager").GetComponent<NameManager>();
     }
 
     // Update is called once per frame
@@ -36,33 +27,71 @@ public class NameInput : MonoBehaviour
         // InputFieldがアクティブならフォーカスを合わせる
         if (gameObject.activeSelf)
         {
-            inputField.Select();
+            Select();
+        }
+
+        NameJudgment();
+    }
+
+    //--------------------------------------------------
+    // NameJudgment
+    // 名前入力を終わらせるか、継続するか
+    //--------------------------------------------------
+    void NameJudgment()
+    {
+        // 名前入力を終了してシーン切り替え
+        if (isNameVerify)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                nameManager.NameInputExit();
+            }
+        }
+
+        // 名前を確定するか変更するか
+        if (isNameInput)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                isNameVerify = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.Backspace))
+            {
+                ActivateInputField();
+
+                isNameInput = false;
+                isNameVerify = false;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            text = null;
+
+            isNameInput = false;
+            isNameVerify = false;
+
+            PhotonNetwork.LeaveRoom();
         }
     }
 
     // 入力中呼び出される
     public void InputText()
     {
-        //テキストにinputFieldの内容を反映
-        text.text = inputField.text;
-
-        // エンターキーで入力強制終了
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            inputField.OnDeselect(new BaseEventData(EventSystem.current));
-        }
+        
     }
 
     // 入力確定後呼び出される
     public void EditText()
     {
-        // プレイヤー自身の名前を設定する
-        PhotonNetwork.NickName = text.text;
+        isNameInput = true;
+    }
 
-        // 入力確定後に消す
-        nameManager.NameInputExit();
+    // 全選択解除
+    protected override void LateUpdate()
+    {
+        base.LateUpdate();
 
-        // ボタンにカーソルのフォーカスを合わせる
-        matchmakingView.GetComponent<CanvasCheck>().SetOnceFlag(true);
+        MoveTextEnd(false);
     }
 }
