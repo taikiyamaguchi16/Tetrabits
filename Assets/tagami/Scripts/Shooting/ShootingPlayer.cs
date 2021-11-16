@@ -221,8 +221,11 @@ public class ShootingPlayer : MonoBehaviourPunCallbacks
         if (shotLevel >= 2)
         {
             shotLevel--;
-            
-            //MonitorManager.DealDamageToMonitor("small");
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                MonitorManager.DealDamageToMonitor("small");
+            }
         }
         else
         {

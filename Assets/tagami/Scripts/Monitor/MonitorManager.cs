@@ -122,7 +122,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         //ダメージ段階進行処理
         if (monitorHp <= 0)
         {
-            if (currentMonitorStatusIndex >= (monitorStatuses.Count - 1))
+            if (currentMonitorStatusIndex >= (monitorStatuses.Count - 2))
             {//ゲームオーバー処理
                 Debug.Log("GameOver");
                 gameInGameSwitcher.CallSwitchGameInGameScene("");

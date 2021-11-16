@@ -100,13 +100,19 @@ public class ShootingGameManager : MonoBehaviour
         if (life <= 0)
         {
             //ゲームオーバーUI表示
-            MonitorManager.DealDamageToMonitor("large");
+            if (PhotonNetwork.IsMasterClient)
+            {
+                MonitorManager.DealDamageToMonitor("large");
+            }
         }
         else
         {
             //player再出現の処理準備
             restart = true;
-            MonitorManager.DealDamageToMonitor("medium");
+            if (PhotonNetwork.IsMasterClient)
+            {
+                MonitorManager.DealDamageToMonitor("medium");
+            }
         }
 
         //カメラの動きを止めておく
