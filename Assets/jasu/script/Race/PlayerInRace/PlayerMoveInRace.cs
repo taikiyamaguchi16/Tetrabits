@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMoveInRace : MonoBehaviour
 {
     [SerializeField]
-    Rigidbody rb;
+    public Rigidbody rb { get; private set; }
 
     [SerializeField]
     ColliderSensor colliderSensorFront = null;
@@ -14,16 +14,33 @@ public class PlayerMoveInRace : MonoBehaviour
     [SerializeField]
     ColliderSensor colliderSensorBack = null;
 
+    [SerializeField]
+    BikeSlipDown bikeSlipDown = null;
+
+    [SerializeField]
+    DirtSplashSpawnInInput dirtSplashSpawnInInput;
+
     [SerializeField,Tooltip("移動速度")]
     float moveSpd = 10f;
 
-    [SerializeField,Tooltip("移動速度の入力に対する追従度")]
-    float moveForceMultiplier = 5f;
+    [SerializeField, Tooltip("坂を上る時移動速度にかける倍率")]
+    float moveSlopeMultiply = 2f;
+
+    [SerializeField,Tooltip("移動速度の入力に対する追従度, 値が大きいとキビキビ動く")]
+    float moveForceMultiplyStart = 5f;
+
+    [SerializeField, Tooltip("移動速度の入力に対する追従度, 値が大きいとキビキビ動く")]
+    float moveForceMultiplyStop = 5f;
 
     bool moveInput = false;
 
     [SerializeField]
     float gravity = -100f; // 重力
+
+    Vector3 normalVec = Vector3.zero;
+
+    [SerializeField]
+    Vector3 moveVec = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -39,9 +56,7 @@ public class PlayerMoveInRace : MonoBehaviour
     {
         // 移動入力
         moveInput = false;
-        if ((colliderSensorFront.GetExistInCollider() ||
-            colliderSensorBack.GetExistInCollider()) &&
-            TetraInput.sTetraLever.GetPoweredOn())
+        if (TetraInput.sTetraLever.GetPoweredOn() && !bikeSlipDown.isSliping)
         {
             moveInput = true;
         }
@@ -49,20 +64,78 @@ public class PlayerMoveInRace : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //if (colliderSensorFront.GetExistInCollider() ||
+        //    colliderSensorBack.GetExistInCollider())
+        //{
+        //    normalVec = Vector3.zero;
+        //}
+
         // 移動
-        Vector3 moveVec = Vector3.zero;
+        //Vector3 moveVec = Vector3.zero;
+        moveVec = Vector3.zero;
         if (moveInput)
         {
-            moveVec = transform.forward * moveSpd;
+            //if (colliderSensorFront.GetExistInCollider() ||
+            //    colliderSensorBack.GetExistInCollider())
+            //moveVec = Vector3.forward * moveSpd;
+            moveVec = Vector3.ProjectOnPlane(Vector3.forward, normalVec) * moveSpd;
+            //moveVec.y = normalVec.y;
+            //moveVec.z = 1f;
+            //moveVec = new Vector3(0,normalVec.y, 1f) * moveSpd;
+            if (moveVec.y > 1f)
+            {
+                moveVec *= 2f;
+            }
         }
 
-        if(colliderSensorFront.GetExistInCollider() ||
-            colliderSensorBack.GetExistInCollider())
+        // 空中でのy軸の加速を切る
+        if (!colliderSensorFront.GetExistInCollider() &&
+            !colliderSensorBack.GetExistInCollider())
         {
-            rb.AddForce(moveForceMultiplier * (moveVec - rb.velocity), ForceMode.Acceleration);
+            moveVec.y = gravity;
+        }
+        
+
+        // 加速
+        if(moveVec.z <= 0f) // stop
+        {
+            rb.AddForce(moveForceMultiplyStop * (moveVec - rb.velocity), ForceMode.Acceleration);
+        }
+        else // start
+        {
+            rb.AddForce(moveForceMultiplyStart * (moveVec - rb.velocity), ForceMode.Acceleration);
         }
 
-        // 重力
-        rb.AddForce(new Vector3(0, gravity, 0));
+        dirtSplashSpawnInInput.playerMoveVec = moveVec;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "SlopeRoadInRace" ||
+            collision.transform.parent.gameObject.tag == "SlopeRoadInRace")
+        {
+            normalVec = collision.contacts[0].normal;
+            Debug.Log("坂の法線取得" + normalVec);
+        }
+        else if(collision.gameObject.tag == "FlatRoadInRace" ||
+            collision.transform.parent.gameObject.tag == "FlatRoadInRace")
+        {
+            normalVec = Vector3.zero;
+            Debug.Log("坂の法線リセット" + normalVec);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.GetComponent<DirtSplash>() != null &&
+            other.GetComponent<DirtSplash>().parentInstanceID == gameObject.GetInstanceID())
+        {
+            return;
+        }
+
+        if(other.gameObject.tag == "Slip")
+        {
+            bikeSlipDown.SlipStart();
+        }
     }
 }

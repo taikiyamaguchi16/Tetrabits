@@ -25,6 +25,10 @@ public class BikeSynchronizePhysicalParts : MonoBehaviour
         //angle.z = -(transform.localEulerAngles.x);
 
         //target.transform.localEulerAngles = angle;
+    }
+
+    private void LateUpdate()
+    {
         transform.localRotation = physicalParts.transform.localRotation;
     }
 }

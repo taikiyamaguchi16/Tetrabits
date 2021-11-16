@@ -110,6 +110,7 @@ public class MoveBetweenLane : MonoBehaviour
         {
             rb.velocity = new Vector3(moveDir * spd, rb.velocity.y, rb.velocity.z);
 
+            // 移動制限
             if (belongingLaneId >= laneNum &&
                 transform.position.x < laneManager.GetLanePosX(laneNum) - outsideRange)
             {
