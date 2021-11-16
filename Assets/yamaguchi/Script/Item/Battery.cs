@@ -32,7 +32,7 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         level = 100f;
     }
 
-    public bool StartPlayerAction(PlayerActionDesc _desc)
+    public void StartPlayerAction(PlayerActionDesc _desc)
     {
         if (photonView.IsMine)
         {
@@ -41,11 +41,8 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
                 photonView.RPC(nameof(PickUp), RpcTarget.All,_desc.playerObj.GetPhotonView().ViewID);
             }
             else
-                photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
-
-            return true;
+                photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);      
         }
-        return false;
     }
 
     public void EndPlayerAction(PlayerActionDesc _desc) { }
@@ -54,33 +51,10 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         return priority;
     }
 
-    //[PunRPC]
-    //public void Dump(GameObject _obj)
-    //{
-    //    if (_obj == ownerSc.gameObject)
-    //    {
-    //        ownerSc.SetItem(null);
-    //        rb.isKinematic = false;
-    //        col.enabled = true;
-    //        this.transform.parent = null;
-    //        isOwned = false;
-    //        priority = 40;
-    //    }
-    //}
-
-    //[PunRPC]
-    //public void PickUp(GameObject _obj)
-    //{
-    //    priority = 100;
-    //    ownerSc = _obj.GetComponent<ItemPocket>();
-    //    ownerSc.SetItem(this.gameObject);
-    //    rb.isKinematic = true;
-    //    col.enabled = false;
-    //    this.transform.parent = _obj.transform;
-    //    //保有状態に切り替え
-    //    isOwned = true;
-    //}
-
+    public bool GetIsActionPossible(PlayerActionDesc _desc)
+    {
+        return true;
+    }
 
     public void CallPickUp(int _id)
     {
@@ -90,7 +64,6 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     [PunRPC]
     public void PickUp(int _id)
     {
-        Debug.Log("拾います");
         GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
         priority = 100;
         ownerSc = _obj.GetComponent<ItemPocket>();
@@ -105,7 +78,6 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     [PunRPC]
     public void Dump(int _id)
     {
-        Debug.Log("捨てます");
         GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
         if (_obj == ownerSc.gameObject)
         {

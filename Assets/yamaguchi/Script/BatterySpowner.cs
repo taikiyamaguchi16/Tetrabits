@@ -60,7 +60,7 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
         }
     }
 
-    public bool StartPlayerAction(PlayerActionDesc _desc)
+    public void StartPlayerAction(PlayerActionDesc _desc)
     {
         //エフェクト再生中には取れないように
         if (smokeEfect.isStopped)
@@ -76,17 +76,33 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
 
                     pocket.SetItem(null);
                     ownBattery = null;
-
-                    return true;
                 }
             }
         }
-        return false;
     }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()
     {
         return 100;
+    }
+
+    public bool GetIsActionPossible(PlayerActionDesc _desc)
+    {
+        //エフェクト再生中には取れないように
+        if (smokeEfect.isStopped)
+        {
+            ItemPocket otherPocket = _desc.playerObj.GetComponent<ItemPocket>();
+            //プレイヤーが何も持っていない場合
+            if (otherPocket.GetItem() == null)
+            {
+                //バッテリーが生成されていた場合
+                if (ownBattery != null)
+                {                  
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     //バッテリーの残量を返す

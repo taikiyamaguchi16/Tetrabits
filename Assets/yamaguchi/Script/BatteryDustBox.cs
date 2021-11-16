@@ -14,7 +14,7 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
         pocket = GetComponent<ItemPocket>();
     }
 
-    public bool StartPlayerAction(PlayerActionDesc _desc)
+    public void StartPlayerAction(PlayerActionDesc _desc)
     {
         ItemPocket otherPocket = _desc.playerObj.GetComponent<ItemPocket>();
         //プレイヤーに自身が持ってたオブジェクトを渡すための一時保存用
@@ -37,10 +37,8 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
             else
             {
                 ownBattery = checkbattery;
-                return false;
             }
         }
-        return true;
     }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()
@@ -55,5 +53,23 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
             return ownBattery.GetLevel();
         else
             return 0f;
+    }
+
+    public bool GetIsActionPossible(PlayerActionDesc _desc)
+    {
+        ItemPocket otherPocket = _desc.playerObj.GetComponent<ItemPocket>();
+        //プレイヤーに自身が持ってたオブジェクトを渡すための一時保存用
+        Battery checkbattery = ownBattery;
+        //プレイヤーが何か持っていた場合
+        if (otherPocket.GetItem() != null)
+        {
+            ownBattery = otherPocket.GetItem().GetComponent<Battery>();
+            //渡されたのがバッテリーだった場合
+            if (ownBattery == null)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
