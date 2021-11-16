@@ -13,7 +13,9 @@ public struct PlayerActionDesc
 // アクション用インターフェース
 public interface IPlayerAction
 {
-    bool StartPlayerAction(PlayerActionDesc _desc);
+    void StartPlayerAction(PlayerActionDesc _desc);
+
+    bool GetIsActionPossible(PlayerActionDesc _desc);
 
     void EndPlayerAction(PlayerActionDesc _desc);
 
@@ -27,10 +29,11 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
 
     [SerializeField]
     ItemPocket holder;
+
     // アクション候補リスト
     List<GameObject> candidates = new List<GameObject>();
     //高優先度のアクション候補
-    List<GameObject> highPriorityList = new List<GameObject> { };
+    List<GameObject> allActionItem = new List<GameObject> { };
 
     //自身の情報を送る(仮)
     PlayerActionDesc desc;
@@ -49,6 +52,13 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown("p"))
+        {
+            foreach(var ttt in allActionItem)
+            {
+                Debug.Log(ttt.name);
+            }
+        }
         if (photonView.IsMine)
         {
             playerMove.movable = true;  // プレイヤーを行動可能に
@@ -59,38 +69,20 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                 //持ち運んでいるオブジェクトがある場合それをアクション候補に加える
                 GameObject carryObj = holder.GetItem();
                 if (carryObj != null)
-                    if (!candidates.Contains(carryObj))                 
-                        candidates.Add(carryObj);
-
-                foreach(var hi in candidates)
-                {
-                    highPriorityList.Add(hi);
+                {          
+                    if (!allActionItem.Contains(carryObj))
+                        allActionItem.Add(carryObj);
                 }
-               // highPriorityList = candidates;
-                int mugen = 0;
-                while (true)
-                {
-                    Debug.Log("ここまで来てる");
-                    if (highPriorityList.Count > 0 && runningAction == null)
-                    {
-                        Debug.Log("なにかははいいてる");
-                        //PriorityCheck();
 
-                        if (PriorityCheck())
-                        {
-                            highPriorityList.Clear();
-                            break;
-                        }
-                    }
-                    else
-                        break;
+                if (allActionItem.Count > 0)
+                    CheckItemPossible();
+                if (candidates.Count > 0 && runningAction == null)
+                    PriorityCheck();
 
-                    mugen++;
-                    if (mugen > 5)
-                        break;
-                }
 
                 playerMove.movable = false; // プレイヤー行動停止
+
+                allActionItem.Remove(carryObj);
             }
             else if (Input.GetKeyUp("e") || XInputManager.GetButtonRelease(playerMove.controllerID, XButtonType.B))   // アクションボタンリリース
             {
@@ -106,30 +98,28 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
     }
 
     private void OnTriggerEnter(Collider other)
-    {
-        
+    {   
         if (other.gameObject.GetComponent<IPlayerAction>() != null)
         {
-            if (!candidates.Contains(other.gameObject))
+            if (!allActionItem.Contains(other.gameObject))
             {
-                candidates.Add(other.gameObject);  // アクション候補のリストに追加            
+                allActionItem.Add(other.gameObject);  // アクション候補のリストに追加            
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-
         if (other.gameObject.GetComponent<IPlayerAction>() != null)
         {
-            candidates.Remove(other.gameObject);  // アクション候補のリスト             
+            allActionItem.Remove(other.gameObject);  // アクション候補のリスト             
         }
     }
-    private bool PriorityCheck()
+    private void PriorityCheck()
     {       
         //毎回ゲットコンポーネントしないようにlist作成
         List<IPlayerAction> intList = new List<IPlayerAction> { };
-        foreach (var can in highPriorityList)
+        foreach (var can in candidates)
         {     
             intList.Add(can.GetComponent<IPlayerAction>());
         }
@@ -154,52 +144,45 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
             }  
         }
         runningAction = max;
+        //一旦ここで実行させる
+        runningAction.StartPlayerAction(desc);
 
-        if (highPriorityList.Count > 0)
-        {         
-            //アクション開始
-            if (runningAction.StartPlayerAction(desc))
-            {
-                Debug.Log(highPriorityList[intList.IndexOf(max)] .name+ "　を実行");
-                return true;
-            }
-            else
-            {
-                highPriorityList.Remove(highPriorityList[intList.IndexOf(max)]);
-                runningAction = null;
-            }
-        }
-        return false;
+        candidates.Clear();
+
+        PhotonNetwork.Destroy
     }
-
-    private bool PlayHighPriorityAction()
+    private void PlayHighPriorityAction()
     {
-        if (highPriorityList.Count > 0)
+        if (candidates.Count > 0)
         {
             // 一番近いオブジェクトを検索
-            GameObject nearest = highPriorityList[0];
-            //foreach (var can in highPriorityList)
-            //{
-            //    Debug.Log("アクション候補  " + can.name);
-            //    if (Vector3.Distance(transform.position, can.transform.position) <
-            //        Vector3.Distance(transform.position, nearest.transform.position))
-            //        nearest = can;
-            //}
-            // IAction持ちの一番近いやつ取得
-
-            //runningAction = nearest.GetComponent<IPlayerAction>();
-            //runningAction.StartPlayerAction(desc);
-            //アクション開始
-            if (runningAction.StartPlayerAction(desc))
+            GameObject nearest = candidates[0];
+            foreach (var can in candidates)
             {
-                Debug.Log(nearest.name+"アクション実行");
-                return true;
+                Debug.Log("アクション候補  " + can.name);
+                if (Vector3.Distance(transform.position, can.transform.position) <
+                    Vector3.Distance(transform.position, nearest.transform.position))
+                    nearest = can;
             }
-            else
+            //IAction持ちの一番近いやつ取得
+
+           runningAction = nearest.GetComponent<IPlayerAction>();
+           runningAction.StartPlayerAction(desc);
+            //アクション開始
+        }
+    }
+
+    private void CheckItemPossible()
+    {    
+        foreach(var item in allActionItem)
+        {
+            if (item.GetComponent<IPlayerAction>().GetIsActionPossible(desc))
             {
-                
+                if (!candidates.Contains(item))
+                {
+                    candidates.Add(item);
+                }
             }
         }
-        return false;
     }
 }

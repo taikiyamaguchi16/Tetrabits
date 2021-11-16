@@ -70,7 +70,6 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
         }
     }
 
-
     private void CallSwitch()
     {
         photonView.RPC(nameof(RPCSwitch), RpcTarget.AllViaServer);
@@ -87,15 +86,19 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
 
     public bool GetPoweredOn() { return leverState; }
 
-    public bool StartPlayerAction(PlayerActionDesc _desc)
+    public void StartPlayerAction(PlayerActionDesc _desc)
     {
         CallSwitch();
-        return true;
     }
 
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()
     {
         return 50;
+    }
+
+    public bool GetIsActionPossible(PlayerActionDesc _desc)
+    {
+        return true;
     }
 }

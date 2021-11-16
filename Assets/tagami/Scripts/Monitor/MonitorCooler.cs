@@ -58,7 +58,7 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         }
     }
 
-    public bool StartPlayerAction(PlayerActionDesc _desc)
+    public void StartPlayerAction(PlayerActionDesc _desc)
     {
         //おそらくIsMineで呼ばれてるので同期関数をそのまま呼び出す
 
@@ -68,7 +68,6 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         runningRotator = _desc.playerObj.AddComponent<CoolerRotater>();
         runningRotator.rotateTarget = rotateTarget;
 
-        return true;
         //var playerMove = _desc.playerObj.GetComponent<PlayerMove>();
         //if (playerMove)
         //{
@@ -90,6 +89,11 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     public int GetPriority()
     {
         return 50;
+    }
+
+    public bool GetIsActionPossible(PlayerActionDesc _desc)
+    {
+        return true;
     }
 
     void CallSetRunning(bool _value)

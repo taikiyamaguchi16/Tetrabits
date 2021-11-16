@@ -30,7 +30,7 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
         isClear = false;
     }
 
-    public bool StartPlayerAction(PlayerActionDesc _desc)
+    public void StartPlayerAction(PlayerActionDesc _desc)
     {
         if (photonView.IsMine)
         {
@@ -41,12 +41,20 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
             else
                 photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
         }
-        return true;
     }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()
     {
         return priority;
+    }
+
+    public bool GetIsActionPossible(PlayerActionDesc _desc)
+    {
+        if (photonView.IsMine)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void CallPickUpCassette(int _id)
