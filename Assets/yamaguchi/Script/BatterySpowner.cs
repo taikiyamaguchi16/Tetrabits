@@ -86,6 +86,25 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
         return 100;
     }
 
+    public bool GetIsActionPossible(PlayerActionDesc _desc)
+    {
+        //エフェクト再生中には取れないように
+        if (smokeEfect.isStopped)
+        {
+            ItemPocket otherPocket = _desc.playerObj.GetComponent<ItemPocket>();
+            //プレイヤーが何も持っていない場合
+            if (otherPocket.GetItem() == null)
+            {
+                //バッテリーが生成されていた場合
+                if (ownBattery != null)
+                {                  
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     //バッテリーの残量を返す
     public float GetBatterylevel()
     {

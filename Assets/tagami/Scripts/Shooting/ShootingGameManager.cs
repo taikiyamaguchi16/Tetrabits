@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Photon.Pun;
+
 public class ShootingGameManager : MonoBehaviour
 {
 
@@ -34,7 +36,7 @@ public class ShootingGameManager : MonoBehaviour
             //初期設定を行う
             life = lifeMax;
             bombNum = initialBombNum;
-
+            destroyedPlayerPosition = transform.position;
 
             //破壊されない設定にする
             DontDestroyOnLoad(gameObject);
@@ -46,6 +48,13 @@ public class ShootingGameManager : MonoBehaviour
         }
 
     }
+
+    private void Start()
+    {
+        InstantiatePlayer();
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -66,8 +75,7 @@ public class ShootingGameManager : MonoBehaviour
                 restart = false;
                 restartTimer = 0.0f;
                 //再開
-                var obj = Instantiate(playerPrefab, destroyedPlayerPosition, Quaternion.identity, transform);
-                Debug.Log(obj.name);
+                InstantiatePlayer();
                 shootingCamera.enabled = true;
             }
         }
@@ -84,21 +92,27 @@ public class ShootingGameManager : MonoBehaviour
     public void DestroyedPlayer(Vector3 _destroyedPosition)
     {
         //残機消費
+        Debug.Log(_destroyedPosition + ":でShootingPlayerが爆散しました");
+
         life--;
         destroyedPlayerPosition = _destroyedPosition;
 
         if (life <= 0)
         {
             //ゲームオーバーUI表示
-            MonitorManager.DealDamageToMonitor("large");
-
+            if (PhotonNetwork.IsMasterClient)
+            {
+                MonitorManager.DealDamageToMonitor("large");
+            }
         }
         else
         {
             //player再出現の処理準備
             restart = true;
-
-            MonitorManager.DealDamageToMonitor("medium");
+            if (PhotonNetwork.IsMasterClient)
+            {
+                MonitorManager.DealDamageToMonitor("medium");
+            }
         }
 
         //カメラの動きを止めておく
@@ -108,6 +122,16 @@ public class ShootingGameManager : MonoBehaviour
     public void AddBomb(int _num)
     {
         bombNum += _num;
+    }
+
+
+    //private
+    private void InstantiatePlayer()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.InstantiateRoomObject("Shooting/Player/" + playerPrefab.name, destroyedPlayerPosition, Quaternion.identity);
+        }
     }
 
 

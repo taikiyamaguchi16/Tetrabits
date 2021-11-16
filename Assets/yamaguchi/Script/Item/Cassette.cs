@@ -48,6 +48,15 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
         return priority;
     }
 
+    public bool GetIsActionPossible(PlayerActionDesc _desc)
+    {
+        if (photonView.IsMine)
+        {
+            return true;
+        }
+        return false;
+    }
+
     public void CallPickUpCassette(int _id)
     {
         photonView.RPC(nameof(PickUp), RpcTarget.All, _id);

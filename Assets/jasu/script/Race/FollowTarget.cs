@@ -8,6 +8,7 @@ public class FollowTarget : MonoBehaviour
     Transform followTrans;
 
     // シーン上に配置したこのオブジェクトとfollowTransとの距離
+    [SerializeField]
     Vector3 offset;
 
     [SerializeField]
@@ -19,14 +20,25 @@ public class FollowTarget : MonoBehaviour
     [SerializeField]
     bool followZ = true;
 
+    [SerializeField]
+    bool self = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        offset = transform.position - followTrans.position;
+        offset = transform.localPosition - followTrans.localPosition;
     }
 
     // Update is called once per frame
     void Update()
+    {
+        if (self)
+        {
+            Follow();
+        }
+    }
+
+    public void Follow()
     {
         Vector3 pos = offset;
         if (followX)

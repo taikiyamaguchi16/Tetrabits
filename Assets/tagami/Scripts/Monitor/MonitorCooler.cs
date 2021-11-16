@@ -68,7 +68,6 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         runningRotator = _desc.playerObj.AddComponent<CoolerRotater>();
         runningRotator.rotateTarget = rotateTarget;
 
-
         //var playerMove = _desc.playerObj.GetComponent<PlayerMove>();
         //if (playerMove)
         //{
@@ -90,6 +89,11 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     public int GetPriority()
     {
         return 50;
+    }
+
+    public bool GetIsActionPossible(PlayerActionDesc _desc)
+    {
+        return true;
     }
 
     void CallSetRunning(bool _value)

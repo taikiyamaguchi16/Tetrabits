@@ -30,6 +30,9 @@ public class CassetteHolder : MonoBehaviourPunCallbacks, IPlayerAction
             //カセットで未クリアの場合セット
             if (ownCassette != null&&!ownCassette.GetIsClear())
             {
+                //プレイヤーのゼンマイの消費のスタート
+                photonView.RPC(nameof(ZenmaiDecreaseStart), RpcTarget.All);
+
                 //カセットに設定されているシーンの読み込み
                 sceneChanger.CallSwitchGameInGameScene(ownCassette.GetLoadSceneObj());
                 //プレイヤーのアイテムを取得してセット
@@ -51,5 +54,31 @@ public class CassetteHolder : MonoBehaviourPunCallbacks, IPlayerAction
         return 150;
     }
 
+    public bool GetIsActionPossible(PlayerActionDesc _desc)
+    {
+        ItemPocket otherPocket = _desc.playerObj.GetComponent<ItemPocket>();
 
+        if (otherPocket.GetItem() != null)
+        {
+            ownCassette = otherPocket.GetItem().GetComponent<Cassette>();
+            //カセットで未クリアの場合セット
+            if (ownCassette != null && !ownCassette.GetIsClear())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    [PunRPC]
+    public void ZenmaiDecreaseStart()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach(var pla in players)
+        {
+            Debug.Log(pla.name);
+            pla.GetComponent<Zenmai>().decreaseTrigger = true;
+        }
+    }
 }

@@ -7,6 +7,9 @@ public class SynchronizeCamera : MonoBehaviour
     [SerializeField]
     GameObject cameraObject;
 
+    [SerializeField]
+    bool selfSynchronise = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +25,14 @@ public class SynchronizeCamera : MonoBehaviour
     }
 
     private void LateUpdate()
+    {
+        if (selfSynchronise)
+        {
+            Synchronise();
+        }
+    }
+
+    public void Synchronise()
     {
         cameraObject.transform.position = transform.position;
         cameraObject.transform.rotation = transform.rotation;

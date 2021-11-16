@@ -299,6 +299,8 @@ namespace Photon.Pun
                 {
                     if (view.isRuntimeInstantiated)
                     {
+                        //独自のネットワーク用コンテナからオブジェクトを削除
+                        NetworkObjContainer.NetworkObjDictionary.Remove(view.ViewID);
                         instantiatedGos.Add(view.gameObject); // HashSet keeps each object only once
                     }
                     // For non-instantiated objects (scene objects) - reset the view

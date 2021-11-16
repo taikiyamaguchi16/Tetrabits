@@ -45,4 +45,9 @@ public class RecoverZenmaiPower : MonoBehaviour, IPlayerAction
     {
         return 50;
     }
+
+    public bool GetIsActionPossible(PlayerActionDesc _desc)
+    {
+        return true;
+    }
 }
