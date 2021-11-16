@@ -148,8 +148,6 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
         runningAction.StartPlayerAction(desc);
 
         candidates.Clear();
-
-        PhotonNetwork.Destroy
     }
     private void PlayHighPriorityAction()
     {
