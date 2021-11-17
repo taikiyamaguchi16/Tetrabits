@@ -131,7 +131,8 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
         }
        
         IPlayerAction max = intList[0];
-        
+
+        highPriorityList.Add(candidates[intList.IndexOf(max)]);
         if (intList.Count > 1) 
         {
             for (int i = 1; i < intList.Count; i++)
@@ -143,6 +144,10 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     //優先度の高いアクションを格納
                     highPriorityList.Add(candidates[intList.IndexOf(max)]);
                     max = intList[i];
+                }
+                else if(intList[i].GetPriority() == max.GetPriority())
+                {
+                    highPriorityList.Add(candidates[intList.IndexOf(max)]);
                 }
             }  
         }      
@@ -164,7 +169,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
 
            runningAction = nearest.GetComponent<IPlayerAction>();
            runningAction.StartPlayerAction(desc);
-            candidates.Clear();
+           candidates.Clear();
         }
     }
 
