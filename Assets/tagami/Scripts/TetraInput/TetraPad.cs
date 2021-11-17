@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class TetraPad : MonoBehaviour
 {
-    [Header("Require External Reference")]    
+    [Header("Require External Reference")]
     [SerializeField] BatteryHolder batteryHolder;
 
     [Header("Reference")]
     [SerializeField] TetraPadBody tetraPadBody;
-   
+
 
     [System.NonSerialized]
-    public bool keyDebug = false;
+    public bool deadBatteryDebug = false;
 
     protected Vector2 padVector;
 
@@ -20,7 +20,7 @@ public class TetraPad : MonoBehaviour
     {
         padVector = Vector2.zero;
 
-        if (batteryHolder && batteryHolder.GetBatterylevel() > 0)
+        if ((batteryHolder && batteryHolder.GetBatterylevel() > 0) || deadBatteryDebug)
         {
             //リストから合算ベクトルを作成           
             foreach (var obj in tetraPadBody.onPadObjects)
@@ -33,29 +33,10 @@ public class TetraPad : MonoBehaviour
                 padVector.y += localVec.z;
             }
         }
-
-        if (keyDebug)
-        {
-            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-            {
-                padVector.y += 1.0f;
-            }
-            if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
-            {
-                padVector.y -= 1.0f;
-            }
-            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-            {
-                padVector.x -= 1.0f;
-            }
-            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-            {
-                padVector.x += 1.0f;
-            }
-        }
     }
 
-    public List<GameObject> GetObjectsOnPad() {
+    public List<GameObject> GetObjectsOnPad()
+    {
         if (tetraPadBody)
         {
             return tetraPadBody.onPadObjects;
