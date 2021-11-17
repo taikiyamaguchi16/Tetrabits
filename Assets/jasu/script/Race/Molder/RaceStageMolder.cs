@@ -52,6 +52,17 @@ public class RaceStageMolder : MonoBehaviour
 
     public float GetOutfieldBackWidthNum { get { return outfieldBackWidthNum; } }
 
+    private void Awake()
+    {
+        if (Application.isPlaying)
+        {
+            for (int i = 0; i < lanes.Length; i++)
+            {
+                lanes[i].GetComponent<LaneInfo>().laneId = i;
+            }
+        }
+    }
+
     void Update()
     {
         if (!Application.isPlaying)

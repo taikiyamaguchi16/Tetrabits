@@ -10,7 +10,7 @@ public class MoveBetweenLane : MonoBehaviour
     [SerializeField]
     LaneManager laneManager = null;
 
-    int belongingLaneId = 0;
+    public int belongingLaneId { get; private set; } = 0;
 
     [SerializeField]
     ColliderSensor colliderSensorFront = null;

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4828416408193638240}
   - component: {fileID: 7560770945321501647}
+  - component: {fileID: 6486727309189258257}
   m_Layer: 0
   m_Name: Lane
   m_TagString: Untagged
@@ -46,6 +47,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colliderObj: {fileID: 4948242966309128503}
   spriteRenderer: {fileID: 4358651462026736655}
+--- !u!114 &6486727309189258257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6599665773391567015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef21d45d469f1d4697d763fd91ce2c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5830788316076243338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53,9 +66,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4828416408193638240}
     m_Modifications:
-    - target: {fileID: 2770779726491012072, guid: 38c4da9ff1f7a624c9ceda8b79643af2, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 5
+    - target: {fileID: 1459359614688997565, guid: 38c4da9ff1f7a624c9ceda8b79643af2, type: 3}
+      propertyPath: m_TagString
+      value: FlatRoadInRace
       objectReference: {fileID: 0}
     - target: {fileID: 3507744005638402685, guid: 38c4da9ff1f7a624c9ceda8b79643af2, type: 3}
       propertyPath: m_RootOrder
@@ -101,17 +114,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4260269384875219106, guid: 38c4da9ff1f7a624c9ceda8b79643af2, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 4934516841295303806, guid: 38c4da9ff1f7a624c9ceda8b79643af2, type: 3}
       propertyPath: m_Name
       value: road
-      objectReference: {fileID: 0}
-    - target: {fileID: 7824465033411153285, guid: 38c4da9ff1f7a624c9ceda8b79643af2, type: 3}
-      propertyPath: m_SortingOrder
-      value: -10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38c4da9ff1f7a624c9ceda8b79643af2, type: 3}

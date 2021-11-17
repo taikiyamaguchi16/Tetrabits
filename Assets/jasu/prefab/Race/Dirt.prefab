@@ -70,7 +70,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: d96b041e87ee744459476502d4e022cd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -136,6 +136,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4828416408193638240}
   - component: {fileID: 7560770945321501647}
+  - component: {fileID: 8377866479552349666}
   m_Layer: 0
   m_Name: Dirt
   m_TagString: Slip
@@ -173,3 +174,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colliderObj: {fileID: 4433843199385821552}
   spriteRenderer: {fileID: 5011470810365310820}
+--- !u!114 &8377866479552349666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6599665773391567015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01d773bb47ee9bc43b552bec1e4a92ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderers: []
+  laneInfo: {fileID: 0}
