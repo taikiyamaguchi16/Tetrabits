@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Photon.Pun;
 
-public class ShootingGameManager : MonoBehaviour
+public class ShootingGameManager : MonoBehaviourPunCallbacks
 {
 
     [Header("Prefab Reference")]
@@ -28,6 +28,10 @@ public class ShootingGameManager : MonoBehaviour
     bool restart;
     Vector3 destroyedPlayerPosition;
 
+    [Header("Local Instantiate")]
+    [SerializeField] List<GameObject> localInstantiatePrefabs;
+
+
     private void Awake()
     {
         if (!sShootingGameManager)
@@ -46,13 +50,11 @@ public class ShootingGameManager : MonoBehaviour
             Debug.Log("すでに管理者が存在していたため、このオブジェクトを削除します");
             Destroy(gameObject);
         }
-
     }
 
     private void Start()
     {
         InstantiatePlayer();
-        
     }
 
     // Update is called once per frame
@@ -124,6 +126,22 @@ public class ShootingGameManager : MonoBehaviour
         bombNum += _num;
     }
 
+    public void CallLocalInstantiate(string _prefabName, Vector3 _position, Quaternion _rotation)
+    {
+        photonView.RPC(nameof(RPCLocalInstantiate), RpcTarget.AllViaServer, _prefabName, _position, _rotation);
+    }
+    [PunRPC]
+    public void RPCLocalInstantiate(string _prefabName, Vector3 _position, Quaternion _rotation)
+    {
+        foreach (var obj in localInstantiatePrefabs)
+        {
+            if (obj.name == _prefabName)
+            {
+                Instantiate(obj, _position, _rotation);
+                break;
+            }
+        }
+    }
 
     //private
     private void InstantiatePlayer()
