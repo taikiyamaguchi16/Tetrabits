@@ -70,7 +70,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 6ee5409310c9bd14ab40607b7690acf5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -426,7 +426,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: bf9a2aec97d6b4b47abe50be04700a7d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -739,6 +739,7 @@ GameObject:
   m_Component:
   - component: {fileID: 175813403652456685}
   - component: {fileID: 1372889728047454582}
+  - component: {fileID: 6295195016311882156}
   m_Layer: 0
   m_Name: Slope
   m_TagString: Untagged
@@ -791,6 +792,20 @@ MonoBehaviour:
   height: 5
   upSlopeAngle: 45
   downSlopeAngle: 45
+--- !u!114 &6295195016311882156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6783491374434907760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01d773bb47ee9bc43b552bec1e4a92ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderers: []
+  laneInfo: {fileID: 0}
 --- !u!1 &7108189310780934703
 GameObject:
   m_ObjectHideFlags: 0
@@ -861,7 +876,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: bf9a2aec97d6b4b47abe50be04700a7d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
