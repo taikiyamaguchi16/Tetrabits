@@ -253,6 +253,7 @@ Transform:
   - {fileID: 1134913649}
   - {fileID: 761233382}
   - {fileID: 1645611245}
+  - {fileID: 831166502}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -859,6 +860,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &371700002 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5568306287210744422, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
+  m_PrefabInstance: {fileID: 5568306287274073756}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63323a6d062b3864a878ffb4da10d576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &439482539
 GameObject:
   m_ObjectHideFlags: 0
@@ -2007,6 +2019,76 @@ MonoBehaviour:
   sceneViewId: 99998
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!1 &831166501
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 831166502}
+  - component: {fileID: 831166503}
+  m_Layer: 0
+  m_Name: GameMainDebugger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &831166502
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 831166501}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 37922889}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &831166503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 831166501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3100eccc8c43c248a123fd3a4044774, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onGUIWindow:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 371700002}
+        m_TargetAssemblyTypeName: TetraInput, Assembly-CSharp
+        m_MethodName: OnGUIWindow
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1213106693}
+        m_TargetAssemblyTypeName: GameInGameSwitcher, Assembly-CSharp
+        m_MethodName: OnGUIWindow
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &849653495
 GameObject:
   m_ObjectHideFlags: 0
@@ -2543,8 +2625,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 933173707}
-  m_LocalRotation: {x: 0.28819624, y: -0, z: -0, w: 0.9575714}
-  m_LocalPosition: {x: 0, y: 40.13, z: -94.47}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 14.5, z: 16.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1815132998}
@@ -3528,13 +3610,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8d1204ca5276f44a8bf3459de3461b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameInGameSwitchByKeys:
-  - sceneObject:
-      m_SceneName: ShootingProto
-    keyCode: 112
-  - sceneObject:
-      m_SceneName: GameInGameShooting
-    keyCode: 111
+  gameInGameScenesOnDebugWindow:
+  - sceneAsset: {fileID: 102900000, guid: 70c04483856f08b4c96d6e86a597d2a9, type: 3}
+    required: 0
+    buildIndex: 15
+  - sceneAsset: {fileID: 102900000, guid: 25887a4d3aaf9f24eb450af45061ab35, type: 3}
+    required: 0
+    buildIndex: 4
+  - sceneAsset: {fileID: 102900000, guid: df61cb74c7d389d4786f781e7368fbf1, type: 3}
+    required: 0
+    buildIndex: 8
 --- !u!4 &1213106694
 Transform:
   m_ObjectHideFlags: 0
