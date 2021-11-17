@@ -11,19 +11,14 @@ public class TetraButton : MonoBehaviourPunCallbacks
     [Header("Prefab Reference")]
     [SerializeField] ButtonBodyCollider buttonBodyCollider;
     [SerializeField] Rigidbody buttonRb;
-    [SerializeField] ConfigurableJoint foundationJoint;  
-    //[SerializeField] Transform buttonTransform;
-    //[SerializeField] Vector3 buttonPressedLocalPosition;
-    //Vector3 buttonReleasedLocalPosition;
-    //float buttonLocalPositionTimer;
+    [SerializeField] ConfigurableJoint foundationJoint;
 
     [Header("Option")]
     [SerializeField, Tooltip("ボタン押し返し力")] float pressedYSpring = 100.0f;
     [SerializeField] float stdYSpring = 5000.0f;
     [SerializeField, Tooltip("この値よりボタンと土台のY値の差分が低くなった時ボタンが押されます")] float pressableDifferenceY = 0;
 
-    [System.NonSerialized]
-    public bool keyDebug = false;
+    [System.NonSerialized] public bool deadBatteryDebug;
 
     protected bool buttonState;
     protected bool oldButtonState;
@@ -34,58 +29,21 @@ public class TetraButton : MonoBehaviourPunCallbacks
         //更新
         oldButtonState = buttonState;
 
-        //if (buttonBodyCollider.collisionNum > 0)
-        //{
-        //    buttonState = true;
-        //}
-        //else
-        //{
-        //    buttonState = false;
-        //}
-
-        //if (buttonState)
-        //{
-        //    buttonLocalPositionTimer += Time.deltaTime;
-        //    if (buttonLocalPositionTimer >= 1.0f)
-        //    {
-        //        buttonLocalPositionTimer = 1.0f;
-        //    }
-
-        //}
-        //else
-        //{
-        //    buttonLocalPositionTimer -= Time.deltaTime;
-        //    if (buttonLocalPositionTimer <= 0.0f)
-        //    {
-        //        buttonLocalPositionTimer = 0.0f;
-        //    }
-        //}
-
-        //buttonTransform.localPosition = Vector3.Lerp(buttonReleasedLocalPosition, buttonPressedLocalPosition, buttonLocalPositionTimer);
-
-
-        if ((batteryHolder && batteryHolder.GetBatterylevel() > 0) || keyDebug)
+        if ((batteryHolder && batteryHolder.GetBatterylevel() > 0) || deadBatteryDebug)
         {
-            if (keyDebug)
-            {
-                buttonState = Input.GetKey(KeyCode.E);
-            }
-            else
-            {
-                if (PhotonNetwork.IsMasterClient)
-                {//マスタークライアントでのみ処理を行う
-                    buttonState = (buttonRb.transform.localPosition.y - foundationJoint.transform.localPosition.y) < pressableDifferenceY;
-                    if(GetTrigger()||GetRelease())
-                    {
-                        CallSetButtonState(buttonState);
-                    }
-                }
-
-                if (GetTrigger())
+            if (PhotonNetwork.IsMasterClient)
+            {//マスタークライアントでのみ処理を行う
+                buttonState = (buttonRb.transform.localPosition.y - foundationJoint.transform.localPosition.y) < pressableDifferenceY;
+                if (GetTrigger() || GetRelease())
                 {
-                    Debug.Log("ボタン.y-土台.y:" + (buttonRb.transform.localPosition.y - foundationJoint.transform.localPosition.y) + "< difference:" + pressableDifferenceY);
+                    CallSetButtonState(buttonState);
                 }
             }
+
+            //if (GetTrigger())
+            //{
+            //    Debug.Log("ボタン.y-土台.y:" + (buttonRb.transform.localPosition.y - foundationJoint.transform.localPosition.y) + "< difference:" + pressableDifferenceY);
+            //}
         }
         else
         {
@@ -98,7 +56,7 @@ public class TetraButton : MonoBehaviourPunCallbacks
             SetYDrive(pressedYSpring);
             buttonBodyCollider.triggerEnter = false;
         }
-        else if(buttonBodyCollider.triggerEnter)
+        else if (buttonBodyCollider.triggerEnter)
         {
             SetYDrive(stdYSpring);
         }

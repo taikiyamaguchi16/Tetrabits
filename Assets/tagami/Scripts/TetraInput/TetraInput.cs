@@ -46,6 +46,13 @@ public class TetraInput : MonoBehaviour
             {
                 GUI.Label(new Rect(10, 50 + 12 * i, 500, 50), guis[i]);
             }
+
+            if (GUI.Button(new Rect(10, 50 + 12 * (guis.Count + 1), 200, 25), "dead battery debug local"))
+            {
+                tetraButton.deadBatteryDebug = true;
+                tetraLever.deadBatteryDebug = true;
+                tetraPad.deadBatteryDebug = true;
+            }
         }//disp
     }
 }
