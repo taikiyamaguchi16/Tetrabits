@@ -54,12 +54,15 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        //Debug.Log("Start create player");
         InstantiatePlayer();
     }
 
     // Update is called once per frame
     void Update()
     {
+       
+
         //クリアもしくはゲームオーバー処理
         if (false)
         {
@@ -138,16 +141,21 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
             if (obj.name == _prefabName)
             {
                 Instantiate(obj, _position, _rotation);
-                break;
+                return;
             }
         }
+
+        Debug.LogError("アタッチされていないPrefabを生成しようとしました");
     }
 
     //private
     private void InstantiatePlayer()
     {
+        Debug.Log("isMasterClient:" + PhotonNetwork.IsMasterClient);
+
         if (PhotonNetwork.IsMasterClient)
         {
+            Debug.Log("生成処理を呼びました");
             PhotonNetwork.InstantiateRoomObject("Shooting/Player/" + playerPrefab.name, destroyedPlayerPosition, Quaternion.identity);
         }
     }

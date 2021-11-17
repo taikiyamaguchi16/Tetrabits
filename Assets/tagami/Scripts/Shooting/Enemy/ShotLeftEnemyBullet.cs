@@ -13,7 +13,7 @@ public class ShotLeftEnemyBullet : MonoBehaviour
 
     void Start()
     {
-        if(randomShotIntervalTimer)
+        if (randomShotIntervalTimer)
         {
             shotIntervalTimer = Random.Range(0.0f, shotIntervalSeconds);
         }
@@ -27,8 +27,11 @@ public class ShotLeftEnemyBullet : MonoBehaviour
         if (shotIntervalTimer >= shotIntervalSeconds)
         {
             shotIntervalTimer = 0.0f;
-            var bullet = Instantiate(enemyBulletPrefab, transform.position, Quaternion.identity);
-            bullet.GetComponent<Rigidbody2D>().velocity = -Vector2.right * bulletSpeed;
+
+            if (Photon.Pun.PhotonNetwork.IsMasterClient)
+            {
+                ShootingGameManager.sShootingGameManager.CallLocalInstantiate(enemyBulletPrefab.name, transform.position, Quaternion.identity);              
+            }
         }
     }
 }
