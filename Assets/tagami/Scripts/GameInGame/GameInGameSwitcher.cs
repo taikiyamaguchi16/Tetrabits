@@ -20,21 +20,14 @@ public class GameInGameSwitcher : MonoBehaviourPunCallbacks
         GUILayout.Label(nameof(GameInGameSwitcher),style);
         foreach (var sceneField in gameInGameScenesOnDebugWindow)
         {
-            var sceneName = GetSceneNameByBuildIndex(sceneField.BuildIndex);
+            var sceneName = GameInGameUtil.GetSceneNameByBuildIndex(sceneField.BuildIndex);
             if (GUILayout.Button(sceneName))
             {
                 GameInGameUtil.SwitchGameInGameScene(sceneName);
             }
         }
     }
-    private string GetSceneNameByBuildIndex(int _index)
-    {
-        string path = SceneUtility.GetScenePathByBuildIndex(_index);
-        return path.Substring(0, path.Length - 6).Substring(path.LastIndexOf('/') + 1);
-    }
 
-
-    //ラッピング
     public void CallSwitchGameInGameScene(string _nextSceneName)
     {
         photonView.RPC(nameof(RPCSwitchGameInGameScene), RpcTarget.All, _nextSceneName);

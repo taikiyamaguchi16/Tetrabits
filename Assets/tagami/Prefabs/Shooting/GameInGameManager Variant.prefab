@@ -49,6 +49,10 @@ MonoBehaviour:
   lifeMax: 3
   initialBombNum: 3
   restartSeconds: 1
+  nextScene:
+    sceneAsset: {fileID: 0}
+    required: 0
+    buildIndex: -1
   localInstantiatePrefabs:
   - {fileID: 6066741890700599634, guid: b8a87e49207036649a3959c57fd9d805, type: 3}
   - {fileID: 9040590151488574267, guid: 4fa59e8ce244e294f9df500dafa75c22, type: 3}
@@ -2533,8 +2537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a7daf93b6d0367458f3276ccc118324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectsParents:
-  - {fileID: 0}
+  objectsParents: []
   rightAreaTransform: {fileID: 541374469}
 --- !u!114 &515006641
 MonoBehaviour:

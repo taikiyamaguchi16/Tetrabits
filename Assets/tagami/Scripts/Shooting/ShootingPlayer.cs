@@ -85,10 +85,8 @@ public class ShootingPlayer : MonoBehaviourPunCallbacks
             }
         }//lever on
 
-        if (TetraInput.sTetraButton.GetTrigger() && ShootingGameManager.sShootingGameManager.bombNum > 0)
+        if (TetraInput.sTetraButton.GetTrigger() && ShootingGameManager.sShootingGameManager.TryAddBomb(-1))
         { //ボム
-            ShootingGameManager.sShootingGameManager.AddBomb(-1);
-
             //敵の弾をすべて粉砕する
             //foreach (var obj in GameObject.FindGameObjectsWithTag("EnemyBullet"))
             //{
@@ -188,7 +186,7 @@ public class ShootingPlayer : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RPCAddBomb()
     {
-        ShootingGameManager.sShootingGameManager.AddBomb(1);
+        ShootingGameManager.sShootingGameManager.TryAddBomb(1);
     }
 
     private void CallShotLevelUp()
