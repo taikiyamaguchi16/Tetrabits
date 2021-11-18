@@ -134,6 +134,26 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
         return true;
     }
 
+    public void CallLocalInstantiateWithVelocity(string _prefabName, Vector3 _position, Quaternion _rotation, Vector3 _velocity)
+    {
+        photonView.RPC(nameof(RPCLocalInstantiateWithVelocity), RpcTarget.AllViaServer, _prefabName, _position, _rotation, _velocity);
+    }
+    [PunRPC]
+    public void RPCLocalInstantiateWithVelocity(string _prefabName, Vector3 _position, Quaternion _rotation, Vector3 _velocity)
+    {
+        foreach (var prefab in localInstantiatePrefabs)
+        {
+            if (prefab.name == _prefabName)
+            {
+                var obj = Instantiate(prefab, _position, _rotation);
+                obj.GetComponent<Rigidbody2D>().velocity = _velocity;
+                return;
+            }
+        }
+
+        Debug.LogError("アタッチされていないPrefabを生成しようとしました");
+    }
+
     public void CallLocalInstantiate(string _prefabName, Vector3 _position, Quaternion _rotation)
     {
         photonView.RPC(nameof(RPCLocalInstantiate), RpcTarget.AllViaServer, _prefabName, _position, _rotation);
@@ -156,11 +176,11 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
     //private
     private void InstantiatePlayer()
     {
-        Debug.Log("isMasterClient:" + PhotonNetwork.IsMasterClient);
+        //Debug.Log("isMasterClient:" + PhotonNetwork.IsMasterClient);
 
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("生成処理を呼びました");
+            //Debug.Log("生成処理を呼びました");
             PhotonNetwork.InstantiateRoomObject("Shooting/Player/" + playerPrefab.name, destroyedPlayerPosition, Quaternion.identity);
         }
     }

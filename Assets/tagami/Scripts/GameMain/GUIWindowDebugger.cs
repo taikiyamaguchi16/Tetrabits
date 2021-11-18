@@ -7,7 +7,10 @@ public class GUIWindowDebugger : MonoBehaviour
 {
     [SerializeField] UnityEvent onGUIWindow;
 
-    private Rect guiWindowRect = new Rect(0, 0, Screen.width / 4, Screen.height / 2);
+    private bool openWindow;
+    private bool oldOpenWindow;
+
+    private Rect guiWindowRect = new Rect(0, 0, Screen.width / 8, Screen.height / 8);
 
     private void OnGUI()
     {
@@ -17,9 +20,20 @@ public class GUIWindowDebugger : MonoBehaviour
 
     private void CallbackGUIWindow(int _windowId)
     {
-        //GUI処理呼び出し
-        onGUIWindow.Invoke();
+        oldOpenWindow = openWindow;
+        openWindow = GUILayout.Toggle(openWindow, "Open");
 
+        if (oldOpenWindow && !openWindow)
+        {//閉じる時の処理
+            guiWindowRect.width = Screen.width / 8;
+            guiWindowRect.height = Screen.height / 8;
+        }
+
+        if (openWindow)
+        {
+            //GUI処理呼び出し
+            onGUIWindow.Invoke();
+        }
         //Drag可能にする
         GUI.DragWindow();
     }

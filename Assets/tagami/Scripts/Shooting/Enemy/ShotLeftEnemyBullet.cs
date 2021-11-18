@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class ShotLeftEnemyBullet : MonoBehaviour
 {
@@ -30,8 +31,9 @@ public class ShotLeftEnemyBullet : MonoBehaviour
 
             if (Photon.Pun.PhotonNetwork.IsMasterClient)
             {
-                ShootingGameManager.sShootingGameManager.CallLocalInstantiate(enemyBulletPrefab.name, transform.position, Quaternion.identity);              
+                ShootingGameManager.sShootingGameManager.CallLocalInstantiateWithVelocity(enemyBulletPrefab.name, transform.position, Quaternion.identity, -Vector3.right * bulletSpeed);
             }
         }
     }
+
 }

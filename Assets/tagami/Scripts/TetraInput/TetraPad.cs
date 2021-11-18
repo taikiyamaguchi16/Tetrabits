@@ -10,7 +10,6 @@ public class TetraPad : MonoBehaviour
     [Header("Reference")]
     [SerializeField] TetraPadBody tetraPadBody;
 
-
     [System.NonSerialized]
     public bool deadBatteryDebug = false;
 
@@ -19,7 +18,6 @@ public class TetraPad : MonoBehaviour
     private void Update()
     {
         padVector = Vector2.zero;
-
         if ((batteryHolder && batteryHolder.GetBatterylevel() > 0) || deadBatteryDebug)
         {
             //リストから合算ベクトルを作成           
