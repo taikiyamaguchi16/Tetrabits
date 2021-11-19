@@ -62,7 +62,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
         {
             playerMove.SetPlayerMovable(true);  // プレイヤーを行動可能に
 
-            if (Input.GetKeyDown("e") || XInputManager.GetButtonPress(playerMove.controllerID, XButtonType.B))  // アクションボタン
+            if (Input.GetKeyDown("e") || XInputManager.GetButtonTrigger(playerMove.controllerID, XButtonType.B))  // アクションボタン
             {
                 
                 //持ち運んでいるオブジェクトがある場合それをアクション候補に加える
