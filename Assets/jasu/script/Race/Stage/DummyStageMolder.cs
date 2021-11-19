@@ -3,15 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteAlways]
-public class DummyRoadMolder : MonoBehaviour
+public class DummyStageMolder : MonoBehaviour
 {
-    [Header("パラメータ調整")]
-
-    [SerializeField, Tooltip("プレイヤーのワープのつなぎ目")]
-    float playerWarpPointZ = 50f;
-
-    public float GetPlayerWarpPointZ { get { return playerWarpPointZ; } }
-
     //[SerializeField, Tooltip("敵のワープのつなぎ目")]
     //float enemyWarpPointZ = 50f;
 
@@ -35,9 +28,9 @@ public class DummyRoadMolder : MonoBehaviour
             }
 
             // ステージ複製
-            for (int i = 0; i < _raceStageMolder.Lanes.Length; i++)
+            for (int i = 0; i < _raceStageMolder.GetLanes.Length; i++)
             {
-                Instantiate(_raceStageMolder.Lanes[i], this.gameObject.transform);
+                Instantiate(_raceStageMolder.GetLanes[i], this.gameObject.transform);
             }
 
             Instantiate(_raceStageMolder.GetOutfieldNearObj, this.gameObject.transform);
