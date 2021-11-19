@@ -8,7 +8,7 @@ public class RaceStageMolder : MonoBehaviour
     [SerializeField]
     GameObject[] lanes;
 
-    public GameObject[] Lanes { get { return lanes; } }
+    public GameObject[] GetLanes { get { return lanes; } }
 
     [SerializeField]
     RaceObjInfo outfieldNear = null;
@@ -26,18 +26,18 @@ public class RaceStageMolder : MonoBehaviour
     public float GetRaceObjWidth { get { return raceObjWidth; } }
 
     [SerializeField]
-    DummyRoadMolder dummyRoadMolder = null;
+    DummyStageMolder dummyRoadMolder = null;
 
-    public DummyRoadMolder GetDummyRoadMolder { get { return dummyRoadMolder; } }
+    public DummyStageMolder GetDummyRoadMolder { get { return dummyRoadMolder; } }
 
-    [Header("パラメータ調整")]
+    [Header("設定項目")]
 
     [SerializeField]
     float laneWidthMultiply = 1f;
 
     public float GetLaneWidthMultiply { get { return laneWidthMultiply; } }
 
-    [SerializeField]
+    [SerializeField, Tooltip("コースの長さ")]
     float laneLength = 800f;
 
     public float GetLaneLength { get { return laneLength; } }
@@ -71,7 +71,7 @@ public class RaceStageMolder : MonoBehaviour
             {
                 for (int i = 0; i < lanes.Length; i++)
                 {
-                    lanes[i].transform.localPosition = new Vector3(-raceObjWidth * laneWidthMultiply * i, 0, 0);
+                    lanes[i].transform.localPosition = new Vector3(-raceObjWidth * laneWidthMultiply * i, -raceObjWidth / 2, 0);
                     RaceObjInfo roadInfo = lanes[i].GetComponent<RaceObjInfo>();
 
                     // コライダー調整
@@ -101,7 +101,7 @@ public class RaceStageMolder : MonoBehaviour
             // 外野手前
             if (outfieldNear != null)
             {
-                outfieldNear.transform.localPosition = new Vector3(raceObjWidth * laneWidthMultiply / 2, 0, 0);
+                outfieldNear.transform.localPosition = new Vector3(raceObjWidth * laneWidthMultiply / 2, -raceObjWidth / 2, 0);
 
                 // コライダー
                 Vector3 scale = outfieldNear.colliderObj.transform.localScale;
@@ -131,7 +131,7 @@ public class RaceStageMolder : MonoBehaviour
             // 外野奥側
             if (outfieldBack != null)
             {
-                outfieldBack.transform.localPosition = new Vector3(-(raceObjWidth * laneWidthMultiply * lanes.Length) + raceObjWidth * laneWidthMultiply / 2, 0, 0);
+                outfieldBack.transform.localPosition = new Vector3(-(raceObjWidth * laneWidthMultiply * lanes.Length) + raceObjWidth * laneWidthMultiply / 2, -raceObjWidth / 2, 0);
 
                 // コライダー
                 Vector3 scale = outfieldBack.colliderObj.transform.localScale;

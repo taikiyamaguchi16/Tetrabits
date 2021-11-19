@@ -28,7 +28,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8565295884894867292}
+  - {fileID: 4921895610531107335}
   m_Father: {fileID: 1142538657956307913}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -55,9 +55,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7564720750192745863}
   - component: {fileID: 7603701497981581255}
-  - component: {fileID: 7784544147762866932}
-  - component: {fileID: 7301766023234748881}
-  - component: {fileID: 8486535655794146373}
+  - component: {fileID: 5071266085724038936}
+  - component: {fileID: 7197532588029266713}
+  - component: {fileID: 396231687437029225}
   - component: {fileID: 4421796239360097713}
   - component: {fileID: 7428666028572337702}
   m_Layer: 0
@@ -99,7 +99,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 96
   m_CollisionDetection: 0
---- !u!114 &7784544147762866932
+--- !u!114 &5071266085724038936
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,20 +108,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 2487003247870755375}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88b79180fd259ca4b97b34bb4e955ea6, type: 3}
+  m_Script: {fileID: 11500000, guid: 54434727a5882de4e8eb98e4e1f2e9d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   colliderSensorFront: {fileID: 3070685040492917561}
   colliderSensorBack: {fileID: 8578007734320314296}
-  bikeSlipDown: {fileID: 1446960286}
-  dirtSplashSpawn: {fileID: 1212288838}
+  bikeSlipDown: {fileID: 5219267999466606608}
+  dirtSplashSpawn: {fileID: 2635770476168120973}
   moveSpd: 80
   moveSlopeMultiply: 2
   moveForceMultiplyStart: 5
   moveForceMultiplyStop: 1
   gravity: -50
   moveVec: {x: 0, y: 0, z: 0}
---- !u!114 &7301766023234748881
+--- !u!114 &7197532588029266713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2487003247870755375}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9acdc1ec15fd424eb67e3aa559e65fe, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a28a76a6aa29df43ab2337b27fe725b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 7603701497981581255}
@@ -139,8 +139,7 @@ MonoBehaviour:
   colliderSensorBack: {fileID: 8578007734320314296}
   outsideRange: 3
   spd: 20
-  padInputRangeY: 0.5
---- !u!114 &8486535655794146373
+--- !u!114 &396231687437029225
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -149,19 +148,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 2487003247870755375}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbfd89edd8484834f87c26e2720df6f8, type: 3}
+  m_Script: {fileID: 11500000, guid: cce9a4158193bc144bbf89cf18d5e186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 7603701497981581255}
   colliderSensorFront: {fileID: 3070685040492917561}
   colliderSensorBack: {fileID: 8578007734320314296}
-  bikeSlipDown: {fileID: 1446960286}
+  bikeSlipDown: {fileID: 5219267999466606608}
   torqueForceMultiply: 4
   correctionTorqueMultiply: 2
   rotMin: -45
   rotMax: 60
   slipAngle: 55
-  padInputRangeX: 0.3
 --- !u!114 &4421796239360097713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +187,119 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 7603701497981581255}
   moveForceMultiply: 0.5
+--- !u!1 &3405693731458820472
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4921895610531107335}
+  - component: {fileID: 5410619500459272887}
+  - component: {fileID: 5219267999466606608}
+  - component: {fileID: 4140811107228069799}
+  m_Layer: 0
+  m_Name: BikeNpc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4921895610531107335
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3405693731458820472}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8678170494582544631}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!212 &5410619500459272887
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3405693731458820472}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 58b4d81ec13972645abc83118ba7bca9, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 6.06, y: 5.4}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &5219267999466606608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3405693731458820472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b294747fc7513cd4f8aff2f0da850023, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slipingTimeSeconds: 2
+  correctionTimeSeconds: 5
+  slipSpd: 5
+--- !u!114 &4140811107228069799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3405693731458820472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36f6f31dad1df2d4080dba5f0d4660f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 5410619500459272887}
+  moveBetweenLane: {fileID: 7197532588029266713}
 --- !u!1 &3643461864264366053
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,13 +413,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4178323175449870650}
   - component: {fileID: 6975201725847401227}
-  - component: {fileID: 8372928283130479262}
-  - component: {fileID: 1212288838}
+  - component: {fileID: 2635770476168120973}
   - component: {fileID: 1948071906}
   - component: {fileID: 8271611299584772535}
   - component: {fileID: 3903591124720499}
+  - component: {fileID: 3599895164103927051}
   m_Layer: 0
-  m_Name: PlayerInRace
+  m_Name: NPCRacer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -343,8 +454,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raceStageMolder: {fileID: 0}
-  warpPointZ: 50
---- !u!114 &8372928283130479262
+  warpPointZ: 10
+--- !u!114 &2635770476168120973
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -353,28 +464,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4878758953354832212}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9574a4fe0a21f1741bcfa4259d697b0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  physicalParts: {fileID: 2487003247870755375}
-  cameraFollow: {fileID: 0}
-  synchronizeCamera: {fileID: 0}
---- !u!114 &1212288838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4878758953354832212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56f1d387e6f37ef45978778ee894ef5c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d831eaf284405c47b4d45afcdf63c7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dirtSplashSpawner: {fileID: 4421796239360097713}
   colliderSensorFront: {fileID: 3070685040492917561}
   colliderSensorBack: {fileID: 8578007734320314296}
-  moveInRace: {fileID: 7784544147762866932}
+  moveInRace: {fileID: 5071266085724038936}
   downSpdMultiply: 0.1
 --- !u!114 &1948071906
 MonoBehaviour:
@@ -418,17 +514,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   componentsOffBeforeStart:
-  - {fileID: 7784544147762866932}
-  - {fileID: 7301766023234748881}
-  - {fileID: 8486535655794146373}
-  - {fileID: 1212288838}
+  - {fileID: 5071266085724038936}
+  - {fileID: 7197532588029266713}
+  - {fileID: 396231687437029225}
+  - {fileID: 2635770476168120973}
   componentsOffAfterGoal:
-  - {fileID: 7784544147762866932}
-  - {fileID: 7301766023234748881}
-  - {fileID: 8486535655794146373}
-  - {fileID: 1212288838}
+  - {fileID: 5071266085724038936}
+  - {fileID: 7197532588029266713}
+  - {fileID: 396231687437029225}
+  - {fileID: 2635770476168120973}
   componentsOnAfterGoal:
   - {fileID: 7428666028572337702}
+--- !u!114 &3599895164103927051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4878758953354832212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d12e3aa89d7b8714a922fb6abdd1673c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  physicalParts: {fileID: 2487003247870755375}
 --- !u!1 &7385125586062708462
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,116 +686,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
---- !u!1 &8546367658723180559
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8565295884894867292}
-  - component: {fileID: 6277164325014835238}
-  - component: {fileID: 1446960286}
-  - component: {fileID: 1889406115244632827}
-  m_Layer: 0
-  m_Name: BikeSprite
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8565295884894867292
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8546367658723180559}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 2.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 8678170494582544631}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!212 &6277164325014835238
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8546367658723180559}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7a90a7caaa4465a46a4d81f6e08da118, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 6.06, y: 5.4}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!114 &1446960286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8546367658723180559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b294747fc7513cd4f8aff2f0da850023, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slipingTimeSeconds: 2
-  correctionTimeSeconds: 5
-  slipSpd: 5
---- !u!114 &1889406115244632827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8546367658723180559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36f6f31dad1df2d4080dba5f0d4660f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 6277164325014835238}
-  moveBetweenLane: {fileID: 7301766023234748881}
