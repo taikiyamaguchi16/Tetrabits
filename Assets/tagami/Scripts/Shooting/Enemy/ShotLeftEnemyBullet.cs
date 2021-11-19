@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class ShotLeftEnemyBullet : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class ShotLeftEnemyBullet : MonoBehaviour
 
     void Start()
     {
-        if(randomShotIntervalTimer)
+        if (randomShotIntervalTimer)
         {
             shotIntervalTimer = Random.Range(0.0f, shotIntervalSeconds);
         }
@@ -27,8 +28,12 @@ public class ShotLeftEnemyBullet : MonoBehaviour
         if (shotIntervalTimer >= shotIntervalSeconds)
         {
             shotIntervalTimer = 0.0f;
-            var bullet = Instantiate(enemyBulletPrefab, transform.position, Quaternion.identity);
-            bullet.GetComponent<Rigidbody2D>().velocity = -Vector2.right * bulletSpeed;
+
+            if (Photon.Pun.PhotonNetwork.IsMasterClient)
+            {
+                ShootingGameManager.sShootingGameManager.CallLocalInstantiateWithVelocity(enemyBulletPrefab.name, transform.position, Quaternion.identity, -Vector3.right * bulletSpeed);
+            }
         }
     }
+
 }

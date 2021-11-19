@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Photon.Pun;
 
-public class ShootingGameManager : MonoBehaviour
+public class ShootingGameManager : MonoBehaviourPunCallbacks
 {
 
     [Header("Prefab Reference")]
@@ -14,12 +14,9 @@ public class ShootingGameManager : MonoBehaviour
     //残機
     [Header("Player")]
     [SerializeField] int lifeMax = 3;
-    public int life { private set; get; }
 
     [Header("Bomb")]
     [SerializeField] int initialBombNum = 3;
-    //ボム
-    public int bombNum { private set; get; } = 0;
 
     //再開処理
     [Header("Restart")]
@@ -28,44 +25,41 @@ public class ShootingGameManager : MonoBehaviour
     bool restart;
     Vector3 destroyedPlayerPosition;
 
+    [Header("Game Clear Over")]
+    [SerializeField] Trisibo.SceneField nextScene;
+
+    [Header("Local Instantiate")]
+    [SerializeField] List<GameObject> localInstantiatePrefabs;
+
+    //static 持ち越し要素
+    static bool sInitialized = false;
+    public static int sBombNum { private set; get; }
+    public static int sLife { private set; get; }
+
     private void Awake()
     {
-        if (!sShootingGameManager)
+        //マネージャー上書き
+        sShootingGameManager = this;
+        destroyedPlayerPosition = transform.position;
+
+        //static
+        if (!sInitialized)
         {
-            sShootingGameManager = this;
             //初期設定を行う
-            life = lifeMax;
-            bombNum = initialBombNum;
-            destroyedPlayerPosition = transform.position;
-
-            //破壊されない設定にする
-            DontDestroyOnLoad(gameObject);
+            sLife = lifeMax;
+            sBombNum = initialBombNum;
+            sInitialized = true;
         }
-        else
-        {
-            Debug.Log("すでに管理者が存在していたため、このオブジェクトを削除します");
-            Destroy(gameObject);
-        }
-
     }
 
     private void Start()
     {
         InstantiatePlayer();
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        //クリアもしくはゲームオーバー処理
-        if (false)
-        {
-            //管理者をなくす
-            sShootingGameManager = null;
-            Destroy(gameObject);
-        }
-
         //再開処理
         if (restart)
         {
@@ -83,10 +77,19 @@ public class ShootingGameManager : MonoBehaviour
 
     public void StageClear()
     {
-        //UI表示
-
-        //最終ステージなら終了
-
+        if (nextScene == null || nextScene.BuildIndex < 0)
+        {
+            Debug.Log("Shooting最終ステージクリア 全ステージクリアにより強制ダウンを行います");
+            GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
+            sInitialized = false;
+        }
+        else
+        {
+            //次のステージへ移行します
+            Debug.Log("ShootingStageをクリアしました　次のステージへ遷移します");
+            Debug.Log("BuildIndex:" + nextScene.BuildIndex);
+            GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(nextScene.BuildIndex));
+        }
     }
 
     public void DestroyedPlayer(Vector3 _destroyedPosition)
@@ -94,10 +97,10 @@ public class ShootingGameManager : MonoBehaviour
         //残機消費
         Debug.Log(_destroyedPosition + ":でShootingPlayerが爆散しました");
 
-        life--;
+        sLife--;
         destroyedPlayerPosition = _destroyedPosition;
 
-        if (life <= 0)
+        if (sLife <= 0)
         {
             //ゲームオーバーUI表示
             if (PhotonNetwork.IsMasterClient)
@@ -119,17 +122,65 @@ public class ShootingGameManager : MonoBehaviour
         shootingCamera.enabled = false;
     }
 
-    public void AddBomb(int _num)
+    public bool TryAddBomb(int _num)
     {
-        bombNum += _num;
+        var bombNumBuff = sBombNum + _num;
+        if (0 > bombNumBuff)
+        {
+            return false;
+        }
+
+        sBombNum += _num;
+        return true;
     }
 
+    public void CallLocalInstantiateWithVelocity(string _prefabName, Vector3 _position, Quaternion _rotation, Vector3 _velocity)
+    {
+        photonView.RPC(nameof(RPCLocalInstantiateWithVelocity), RpcTarget.AllViaServer, _prefabName, _position, _rotation, _velocity);
+    }
+    [PunRPC]
+    public void RPCLocalInstantiateWithVelocity(string _prefabName, Vector3 _position, Quaternion _rotation, Vector3 _velocity)
+    {
+        foreach (var prefab in localInstantiatePrefabs)
+        {
+            if (prefab.name == _prefabName)
+            {
+                var obj = Instantiate(prefab, _position, _rotation);
+                obj.GetComponent<Rigidbody2D>().velocity = _velocity;
+                return;
+            }
+        }
+
+        Debug.LogError("アタッチされていないPrefabを生成しようとしました");
+    }
+
+    public void CallLocalInstantiate(string _prefabName, Vector3 _position, Quaternion _rotation)
+    {
+        photonView.RPC(nameof(RPCLocalInstantiate), RpcTarget.AllViaServer, _prefabName, _position, _rotation);
+    }
+    [PunRPC]
+    public void RPCLocalInstantiate(string _prefabName, Vector3 _position, Quaternion _rotation)
+    {
+        foreach (var obj in localInstantiatePrefabs)
+        {
+            if (obj.name == _prefabName)
+            {
+                Instantiate(obj, _position, _rotation);
+                return;
+            }
+        }
+
+        Debug.LogError("アタッチされていないPrefabを生成しようとしました");
+    }
 
     //private
     private void InstantiatePlayer()
     {
+        //Debug.Log("isMasterClient:" + PhotonNetwork.IsMasterClient);
+
         if (PhotonNetwork.IsMasterClient)
         {
+            //Debug.Log("生成処理を呼びました");
             PhotonNetwork.InstantiateRoomObject("Shooting/Player/" + playerPrefab.name, destroyedPlayerPosition, Quaternion.identity);
         }
     }

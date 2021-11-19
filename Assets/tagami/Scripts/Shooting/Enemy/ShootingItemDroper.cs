@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class ShootingItemDroper : MonoBehaviour
 {
@@ -26,12 +27,18 @@ public class ShootingItemDroper : MonoBehaviour
 
             if (!created && Random.Range(0, 100) < bombDropPercent)
             {
-                Instantiate(bombItemPrefab, transform.position, Quaternion.identity);
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    ShootingGameManager.sShootingGameManager.CallLocalInstantiate(bombItemPrefab.name, transform.position, Quaternion.identity);
+                }              
                 created = true;
             }
             if (!created && Random.Range(0, 100) < levelUpDropPercent)
             {
-                Instantiate(levelUpItemPrefab, transform.position, Quaternion.identity);
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    ShootingGameManager.sShootingGameManager.CallLocalInstantiate(levelUpItemPrefab.name, transform.position, Quaternion.identity);
+                }
                 created = true;
             }
         }
