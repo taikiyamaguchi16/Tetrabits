@@ -28,40 +28,35 @@ public class ShowZenmaiPower : MonoBehaviourPunCallbacks, IPunObservable
     // Start is called before the first frame update
     void Start()
     {
-        if (photonView.IsMine)
-        {
-            slider.maxValue = zenmai.maxZenmaiPower;
-            slider.value = zenmai.maxZenmaiPower;
+        slider.maxValue = zenmai.maxZenmaiPower;
+        slider.value = zenmai.maxZenmaiPower;
 
-            // ソート
-            for (int i = 0; i < colorInRatios.Count; i++)
+        // ソート
+        for (int i = 0; i < colorInRatios.Count; i++)
+        {
+            for (int j = i + 1; j < colorInRatios.Count; j++)
             {
-                for (int j = i + 1; j < colorInRatios.Count; j++)
+                if (colorInRatios[i].ratio < colorInRatios[j].ratio)
                 {
-                    if (colorInRatios[i].ratio < colorInRatios[j].ratio)
-                    {
-                        ColorInRatio tmp = colorInRatios[i];
-                        colorInRatios[i] = colorInRatios[j];
-                        colorInRatios[j] = tmp;
-                    }
+                    ColorInRatio tmp = colorInRatios[i];
+                    colorInRatios[i] = colorInRatios[j];
+                    colorInRatios[j] = tmp;
                 }
             }
         }
+
     }
 
     private void LateUpdate()
     {
-        if (photonView.IsMine)
-        {
-            slider.value = zenmai.zenmaiPower;  // スライダーに値を適用
+        slider.value = zenmai.zenmaiPower;  // スライダーに値を適用
 
-            // ゼンマイパワーからカラー決定
-            float ratio = zenmai.zenmaiPower / zenmai.maxZenmaiPower;
-            foreach (var colorInRatio in colorInRatios)
-            {
-                if (ratio <= colorInRatio.ratio)
-                    fillImage.color = colorInRatio.color;
-            }
+        // ゼンマイパワーからカラー決定
+        float ratio = zenmai.zenmaiPower / zenmai.maxZenmaiPower;
+        foreach (var colorInRatio in colorInRatios)
+        {
+            if (ratio <= colorInRatio.ratio)
+                fillImage.color = colorInRatio.color;
         }
     }
 

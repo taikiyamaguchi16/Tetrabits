@@ -27,7 +27,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
     
     private bool jumpable;  // 着地判定
 
-    public bool movable = true; // 移動可能フラグ
+    private bool movable = true; // 移動可能フラグ
     
     Zenmai zenmai;  // ゼンマイ
 
@@ -49,6 +49,8 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
     [SerializeField]
     private Animator playerAnim;
+
+    private PhotonTransformViewClassic photonTransformView;
 
     // Start is called before the first frame update
     void Start()
@@ -72,6 +74,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
         }
 
         myPocket = GetComponent<ItemPocket>();
+        photonTransformView = GetComponent<PhotonTransformViewClassic>();
         //playerAnim = GetComponent<Animator>();
     }
 
@@ -215,7 +218,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
             // 重力
             rb.AddForce(new Vector3(0, gravity, 0));
 
-       
+            photonTransformView.SetSynchronizedValues(speed: rb.velocity, turnSpeed: 0);
         }
     }
 
@@ -225,5 +228,10 @@ public class PlayerMove : MonoBehaviourPunCallbacks
         playerAnim.SetBool("Actioning", false);
         playerAnim.SetBool("Waiting", false);
         playerAnim.SetBool("Carry", false);
+    }
+
+    public void SetPlayerMovable(bool _fg)
+    {
+        movable = _fg;
     }
 }

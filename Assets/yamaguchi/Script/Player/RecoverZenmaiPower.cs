@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class RecoverZenmaiPower : MonoBehaviour, IPlayerAction
+public class RecoverZenmaiPower : MonoBehaviourPunCallbacks, IPlayerAction
 {
     Zenmai zenmai;  // ゼンマイ
 
     [SerializeField]
     float recoveryAmount = 0.02f;  // ゼンマイパワー回復量
 
+    [SerializeField]
+    PlayerMove movePlayer;
     bool windFlag = false;  // 巻きフラグ
 
     // Start is called before the first frame update
@@ -30,15 +33,16 @@ public class RecoverZenmaiPower : MonoBehaviour, IPlayerAction
     // アクションインターフェース　スタート
     void IPlayerAction.StartPlayerAction(PlayerActionDesc _desc)
     {
-        windFlag = true;
-        zenmai.decreaseTrigger = false;
+        photonView.RPC(nameof(RPCRecoverZenmaiPower), RpcTarget.All, photonView.ViewID);
+
+        _desc.playerObj.GetComponent<PlayerMove>().SetPlayerMovable(false);
     }
 
     // アクションインターフェース　エンド
     void IPlayerAction.EndPlayerAction(PlayerActionDesc _desc)
     {
-        windFlag = false;
-        zenmai.decreaseTrigger = true;
+        photonView.RPC(nameof(RPCEndRecoverZenmaiPower), RpcTarget.All, photonView.ViewID);
+        _desc.playerObj.GetComponent<PlayerMove>().SetPlayerMovable(false);
     }
 
     int IPlayerAction.GetPriority()
@@ -49,5 +53,35 @@ public class RecoverZenmaiPower : MonoBehaviour, IPlayerAction
     public bool GetIsActionPossible(PlayerActionDesc _desc)
     {
         return true;
+    }
+
+    [PunRPC]
+    public void RPCRecoverZenmaiPower(int _id)
+    {
+        if(photonView.IsMine)
+        {
+            if(photonView.ViewID==_id)
+            {
+                windFlag = true;
+                zenmai.decreaseTrigger = false;
+
+                movePlayer.SetPlayerMovable(false);
+            }
+        }
+    }
+
+    [PunRPC]
+    public void RPCEndRecoverZenmaiPower(int _id)
+    {
+        if (photonView.IsMine)
+        {
+            if (photonView.ViewID == _id)
+            {
+                windFlag = false;
+                zenmai.decreaseTrigger = true;
+
+                movePlayer.SetPlayerMovable(true);
+            }
+        }
     }
 }
