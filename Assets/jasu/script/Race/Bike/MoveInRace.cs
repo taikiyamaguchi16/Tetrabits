@@ -3,9 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerMoveInRace : MoveInRace
+public class MoveInRace : MonoBehaviour
 {
-    bool moveInput = false;
+    [SerializeField]
+    public Rigidbody rb { get; protected set; }
+
+    [SerializeField]
+    protected ColliderSensor colliderSensorFront = null;
+
+    [SerializeField]
+    protected ColliderSensor colliderSensorBack = null;
+
+    [SerializeField]
+    protected BikeSlipDown bikeSlipDown = null;
+
+    [SerializeField]
+    protected DirtSplashSpawn dirtSplashSpawn;
+
+    [SerializeField,Tooltip("移動速度")]
+    protected float moveSpd = 10f;
+
+    [SerializeField, Tooltip("坂を上る時移動速度にかける倍率")]
+    protected float moveSlopeMultiply = 2f;
+
+    [SerializeField,Tooltip("移動速度の入力に対する追従度, 値が大きいとキビキビ動く")]
+    protected float moveForceMultiplyStart = 5f;
+
+    [SerializeField, Tooltip("移動速度の入力に対する追従度, 値が大きいとキビキビ動く")]
+    protected float moveForceMultiplyStop = 5f;
+
+    [SerializeField]
+    protected float gravity = -100f; // 重力
+
+    protected Vector3 normalVec = Vector3.zero;
+
+    [SerializeField]
+    protected Vector3 moveVec = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -16,29 +49,15 @@ public class PlayerMoveInRace : MoveInRace
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        // 移動入力
-        moveInput = false;
-        if (TetraInput.sTetraLever.GetPoweredOn() && !bikeSlipDown.isSliping)
-        {
-            moveInput = true;
-        }
-    }
-
     private void FixedUpdate()
     {
         // 移動
         //Vector3 moveVec = Vector3.zero;
         moveVec = Vector3.zero;
-        if (moveInput)
+        moveVec = Vector3.ProjectOnPlane(Vector3.forward, normalVec) * moveSpd;
+        if (moveVec.y > 1f)
         {
-            moveVec = Vector3.ProjectOnPlane(Vector3.forward, normalVec) * moveSpd;
-            if (moveVec.y > 1f)
-            {
-                moveVec *= 2f;
-            }
+            moveVec *= 2f;
         }
 
         // 空中でのy軸の加速を切る

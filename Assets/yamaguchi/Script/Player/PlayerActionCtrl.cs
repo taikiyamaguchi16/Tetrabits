@@ -95,7 +95,8 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     // アクション終了
                     runningAction.EndPlayerAction(desc);
                     runningAction = null;
-                    //candidates.Clear();
+                    candidates.Clear();
+                    highPriorityList.Clear();
                 }
             }   
 
@@ -188,9 +189,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
             //IAction持ちの一番近いやつ取得
             selectedObj = nearest;
 
-           runningAction = selectedObj.GetComponent<IPlayerAction>();
-           
-           
+           runningAction = selectedObj.GetComponent<IPlayerAction>();     
         }
     }
 

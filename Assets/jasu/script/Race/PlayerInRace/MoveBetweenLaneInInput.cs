@@ -2,38 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveBetweenLane : MonoBehaviour
+public class MoveBetweenLaneInInput : MoveBetweenLane
 {
     [SerializeField]
-    Rigidbody rb = null;
-
-    [SerializeField]
-    LaneManager laneManager = null;
-
-    public int belongingLaneId { get; private set; } = 0;
-
-    [SerializeField]
-    ColliderSensor colliderSensorFront = null;
-
-    [SerializeField]
-    ColliderSensor colliderSensorBack = null;
-
-    [SerializeField]
-    float outsideRange = 3f;
-
-    [SerializeField]
     float padInputRangeY = 0.5f;
-
-    [SerializeField]
-    float spd;
-
-    float moveDir;
-
-    int laneNum = 0;
-
-    bool laneIdUpdated = false;
-
-    bool arrivalLane = false;
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +19,7 @@ public class MoveBetweenLane : MonoBehaviour
         moveDir = 0;
 
         // 接地中
-        if (colliderSensorFront.GetExistInCollider() || 
+        if (colliderSensorFront.GetExistInCollider() ||
             colliderSensorBack.GetExistInCollider())
         {
             if (TetraInput.sTetraPad.GetVector().y > padInputRangeY)
@@ -106,7 +78,7 @@ public class MoveBetweenLane : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(moveDir != 0)    // 入力時移動
+        if (moveDir != 0)    // 入力時移動
         {
             rb.velocity = new Vector3(moveDir * spd, rb.velocity.y, rb.velocity.z);
 
@@ -123,7 +95,7 @@ public class MoveBetweenLane : MonoBehaviour
                 rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
             }
         }
-        else if(!arrivalLane)   // 所属レーンへの補正
+        else if (!arrivalLane)   // 所属レーンへの補正
         {
             float LaneX = laneManager.GetLanePosX(belongingLaneId);
             float DirX = LaneX - transform.position.x;

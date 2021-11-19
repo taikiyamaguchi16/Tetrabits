@@ -2,37 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttitudeCtrlInRace : MonoBehaviour
+public class AttitudeCtrlInRaceInInput : AttitudeCtrlInRace
 {
     [SerializeField]
-    Rigidbody rb = null;
-
-    [SerializeField]
-    ColliderSensor colliderSensorFront = null;
-
-    [SerializeField]
-    ColliderSensor colliderSensorBack = null;
-
-    [SerializeField]
-    BikeSlipDown bikeSlipDown = null;
-
-    [SerializeField]
     float padInputRangeX = 0.3f;
-
-    [SerializeField]
-    float torqueForceMultiply = 5f;
-
-    [SerializeField]
-    float correctionTorqueMultiply = 1f;
-
-    [SerializeField, Range(-90f, 0f)]
-    float rotMin = -60f;
-
-    [SerializeField, Range(0f, 90f)]
-    float rotMax = 60f;
-
-    [SerializeField, Range(0f, 90f)]
-    float slipAngle = 55f;
 
     // Update is called once per frame
     void Update()
