@@ -37,6 +37,7 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
 
             //レイとばして冷却ターゲット削除        
             //11/19 なんかforwardの逆にレイが飛んでるっぽい
+            Debug.DrawRay(rotateTarget.position, -rotateTarget.forward * 10000.0f, Color.blue);
             foreach (var hit in Physics.RaycastAll(new Ray(rotateTarget.position, -rotateTarget.forward), 10000.0f))
             {
                 Debug.Log("hit!:" + hit.collider.gameObject.name);
