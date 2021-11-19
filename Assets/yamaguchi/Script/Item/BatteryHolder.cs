@@ -25,6 +25,8 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
         ItemPocket otherPocket = _desc.playerObj.GetComponent<ItemPocket>();
         //プレイヤーに自身が持ってたオブジェクトを渡すための一時保存用
         Battery checkbattery = ownBattery;
+
+        Debug.Log("実行されました");
         //プレイヤーが何か持っていた場合
         if (otherPocket.GetItem() != null)
         {
@@ -34,6 +36,7 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
             {
                 ownBattery.CallPickUp(photonView.ViewID);
 
+                Debug.Log("バッテリーが渡されました");
                 otherPocket.SetItem(null);
                 //自分がバッテリを持っていた場合swapする
                 if (checkbattery != null)
@@ -52,7 +55,8 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
         }
         //何も持っていなかった場合自分のを渡す
         else
-        {           
+        {
+            Debug.Log("持っていません");
             //自分がバッテリを持っていた場合渡す
             if (ownBattery != null)
             {
@@ -85,7 +89,8 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
             possibleBattery = otherPocket.GetItem().GetComponent<Battery>();
             //渡されたのがバッテリーだった場合
             if (possibleBattery != null)
-            {                
+            {
+                //Debug.Log("バッテリーが渡されました");
                 return true;
             }
             //バッテリーでなかった場合元に戻す

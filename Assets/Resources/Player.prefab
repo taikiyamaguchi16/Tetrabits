@@ -499,14 +499,12 @@ GameObject:
   - component: {fileID: 4314365688321649656}
   - component: {fileID: 8889787103556452775}
   - component: {fileID: 4930625805203139952}
-  - component: {fileID: 5409381799302414694}
   - component: {fileID: 8773637547542607913}
   - component: {fileID: 8550399356960404772}
-  - component: {fileID: -544521293879256106}
   - component: {fileID: 4672995016681740328}
   - component: {fileID: -674107463794023483}
   - component: {fileID: 3963862280272364308}
-  - component: {fileID: 3603618069607926285}
+  - component: {fileID: 8801801403219837859}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -563,7 +561,6 @@ MonoBehaviour:
   controllerID: 0
   moveStandard: {fileID: 0}
   jumpSensor: {fileID: 1877267335223227772}
-  movable: 1
   moveSpeedInRatios:
   - ratio: 1
     moveSpd: 20
@@ -587,6 +584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recoveryAmount: 0.1
+  movePlayer: {fileID: 7772201493524667833}
 --- !u!135 &8889787103556452775
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -615,19 +613,6 @@ MonoBehaviour:
   playerMove: {fileID: 7772201493524667833}
   holder: {fileID: -674107463794023483}
   playerAnim: {fileID: 7809969131510274072}
---- !u!65 &5409381799302414694
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7772201493524667844}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 2, y: 5, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &8773637547542607913
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -661,28 +646,12 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: -544521293879256106}
-  - {fileID: 3603618069607926285}
+  - {fileID: 8801801403219837859}
+  - {fileID: 17771094541874311}
   - {fileID: 850712527165945017}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-544521293879256106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7772201493524667844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!114 &4672995016681740328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -724,7 +693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc0696baf7e51d14a84a06e4d39e80ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3603618069607926285
+--- !u!114 &8801801403219837859
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -733,13 +702,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 7772201493524667844}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 0
-  m_TeleportIfDistanceGreaterThan: 3
+  m_PositionModel:
+    SynchronizeEnabled: 1
+    TeleportEnabled: 0
+    TeleportIfDistanceGreaterThan: 3
+    InterpolateOption: 3
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 1
+    ExtrapolateOption: 0
+    ExtrapolateSpeed: 1
+    ExtrapolateIncludingRoundTripTime: 1
+    ExtrapolateNumberOfStoredPositions: 1
+  m_RotationModel:
+    SynchronizeEnabled: 1
+    InterpolateOption: 2
+    InterpolateRotateTowardsSpeed: 180
+    InterpolateLerpSpeed: 5
+  m_ScaleModel:
+    SynchronizeEnabled: 0
+    InterpolateOption: 0
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 0
 --- !u!1 &7993158077866682890
 GameObject:
   m_ObjectHideFlags: 0
@@ -751,6 +737,7 @@ GameObject:
   - component: {fileID: 2735954636404615317}
   - component: {fileID: 370760203473864484}
   - component: {fileID: 7809969131510274072}
+  - component: {fileID: 17771094541874311}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -842,6 +829,48 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &17771094541874311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7993158077866682890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 0
+    Name: Walking
+  - Type: 4
+    SynchronizeType: 0
+    Name: Side
+  - Type: 4
+    SynchronizeType: 0
+    Name: Back
+  - Type: 4
+    SynchronizeType: 0
+    Name: Forward
+  - Type: 4
+    SynchronizeType: 0
+    Name: Waiting
+  - Type: 4
+    SynchronizeType: 0
+    Name: Carry
+  - Type: 4
+    SynchronizeType: 0
+    Name: Actioning
+  - Type: 9
+    SynchronizeType: 0
+    Name: Jumping
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!1 &8406977247459034005
 GameObject:
   m_ObjectHideFlags: 0
