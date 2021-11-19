@@ -149,13 +149,4 @@ public class CameraAction : MonoBehaviourPunCallbacks
     // OnPlayerEnteredRoom
     // ルームにプレイヤーが入室した際に呼ばれるコールバック
     //--------------------------------------------------
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        // 設定した人数以上になれば
-        if(PhotonNetwork.PlayerList.Length <= numUpperLimit && PhotonNetwork.PlayerList.Length >= numLowerLimit)
-        {
-            isInterpolate = true;
-            isTimer = true;
-        }
-    }
 }
