@@ -49,7 +49,8 @@ public class ShowZenmaiPower : MonoBehaviourPunCallbacks, IPunObservable
 
     private void LateUpdate()
     {
-        slider.value = zenmai.zenmaiPower;  // スライダーに値を適用
+        if (photonView.IsMine)
+            slider.value = zenmai.zenmaiPower;  // スライダーに値を適用
 
         // ゼンマイパワーからカラー決定
         float ratio = zenmai.zenmaiPower / zenmai.maxZenmaiPower;
