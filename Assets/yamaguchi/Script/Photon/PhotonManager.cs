@@ -3,7 +3,7 @@ using Photon.Realtime;
 using UnityEngine;
 using ExitGames.Client.Photon;
 
-
+[DefaultExecutionOrder(-1)]
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
     public bool isOffline;
@@ -52,18 +52,18 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.H))
-        {
-            PhotonNetwork.Disconnect();
-            GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().RPCSwitchGameInGameScene("Title_fake");
-            NetworkObjContainer.NetworkObjDictionary.Clear();
-        }
+        //if(Input.GetKeyDown(KeyCode.H))
+        //{
+        //    PhotonNetwork.Disconnect();
+        //    GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().RPCSwitchGameInGameScene("Title_fake");
+        //    NetworkObjContainer.NetworkObjDictionary.Clear();
+        //}
     }
 
     public override void OnConnectedToMaster()
     {
         if (isOffline)
-        {          
+        {
             PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions(), TypedLobby.Default);
         }
         else

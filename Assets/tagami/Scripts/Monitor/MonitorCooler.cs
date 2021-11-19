@@ -9,6 +9,7 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     [SerializeField] MonitorManager monitorManager;
     [SerializeField] ParticleSystem coolingEffect;
     [SerializeField] Transform rotateTarget;
+    Quaternion endRotation;
 
     [Header("Status")]
     [SerializeField] float damageToCoolingTargetPerSeconds = 1.0f;
@@ -18,6 +19,11 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     //int controlXinputIndex = 0;
     bool running = false;
     CoolerRotater runningRotator;
+
+    void Start()
+    {
+        endRotation = rotateTarget.rotation;
+    }
 
     // Update is called once per frame
     void Update()
@@ -29,12 +35,12 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
                 coolingEffect.Play();
             }
 
-            //レイとばして冷却ターゲット削除
-            Debug.DrawRay(rotateTarget.position, rotateTarget.forward, Color.red);
-            RaycastHit hit;
-            if (Physics.Raycast(new Ray(rotateTarget.position, rotateTarget.forward), out hit, 1000.0f))
+            //レイとばして冷却ターゲット削除        
+            //11/19 なんかforwardの逆にレイが飛んでるっぽい
+            Debug.DrawRay(rotateTarget.position, -rotateTarget.forward * 10000.0f, Color.blue);
+            foreach (var hit in Physics.RaycastAll(new Ray(rotateTarget.position, -rotateTarget.forward), 10000.0f))
             {
-                //Debug.Log(hit.collider.gameObject.name);
+                Debug.Log("hit!:" + hit.collider.gameObject.name);
                 if (hit.collider.CompareTag("CoolingTarget"))
                 {
                     if (hit.collider.gameObject.GetComponent<CoolingTargetStatus>().TryToKill(damageToCoolingTargetPerSeconds * Time.deltaTime))
@@ -45,6 +51,9 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
                         }
                         Destroy(hit.collider.gameObject);
                     }
+
+                    //targetに一回でもあたったら終了
+                    break;
                 }
             }
 
@@ -56,9 +65,12 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
                 coolingEffect.Stop();
             }
         }
+
+        //回転処理
+        rotateTarget.rotation = Quaternion.Slerp(rotateTarget.rotation, endRotation, 0.3f);
     }
 
-    public bool StartPlayerAction(PlayerActionDesc _desc)
+    public void StartPlayerAction(PlayerActionDesc _desc)
     {
         //おそらくIsMineで呼ばれてるので同期関数をそのまま呼び出す
 
@@ -66,18 +78,7 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         CallSetRunning(true);
 
         runningRotator = _desc.playerObj.AddComponent<CoolerRotater>();
-        runningRotator.rotateTarget = rotateTarget;
-
-        return true;
-        //var playerMove = _desc.playerObj.GetComponent<PlayerMove>();
-        //if (playerMove)
-        //{
-        //    controlXinputIndex = playerMove.controllerID;
-        //}
-        //else
-        //{
-        //    Debug.LogError("PlayerにPlayerMoveのスクリプトがアタッチされてない");
-        //}
+        runningRotator.rotateTarget = this;
     }
 
     public void EndPlayerAction(PlayerActionDesc _desc)
@@ -92,6 +93,11 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         return 50;
     }
 
+    public bool GetIsActionPossible(PlayerActionDesc _desc)
+    {
+        return true;
+    }
+
     void CallSetRunning(bool _value)
     {
         photonView.RPC(nameof(RPCSetRunning), RpcTarget.AllViaServer, _value);
@@ -101,5 +107,16 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     {
         running = _value;
     }
+
+    public void CallMultiplyRotation(Quaternion _qt)
+    {
+        photonView.RPC(nameof(RPCMultiplyRotation), RpcTarget.AllViaServer, _qt);
+    }
+    [PunRPC]
+    void RPCMultiplyRotation(Quaternion _qt)
+    {
+        endRotation *= _qt;
+    }
+
 
 }

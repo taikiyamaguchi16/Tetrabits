@@ -13,7 +13,7 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
     [SerializeField] float switchingTime = 1.0f;
 
     [System.NonSerialized]
-    public bool keyDebug = false;
+    public bool deadBatteryDebug;
 
     float switchTimer;
     Quaternion onQt;
@@ -38,15 +38,13 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
         //前回の情報を保存
         //oldLeverState = leverState;
 
-        if (!keyDebug && batteryHolder && batteryHolder.GetBatterylevel() <= 0)
+        //バッテリーがないなら強制的にオフ
+        if (!deadBatteryDebug && batteryHolder && batteryHolder.GetBatterylevel() <= 0)
         {
             leverState = false;
         }
-        if (keyDebug && Input.GetKeyDown(KeyCode.Return))
-        {
-            CallSwitch();
-        }
 
+        //支点回転
         if (fulcrumObj)
         {
             //leverStateによって支点の回転を決める
@@ -70,7 +68,6 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
         }
     }
 
-
     private void CallSwitch()
     {
         photonView.RPC(nameof(RPCSwitch), RpcTarget.AllViaServer);
@@ -79,7 +76,8 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
     [PunRPC]
     public void RPCSwitch()
     {
-        if ((batteryHolder && batteryHolder.GetBatterylevel() > 0) || keyDebug)
+        //バッテリーがあるなら起動OK
+        if ((batteryHolder && batteryHolder.GetBatterylevel() > 0) || deadBatteryDebug)
         {
             leverState = !leverState;
         }
@@ -87,15 +85,19 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
 
     public bool GetPoweredOn() { return leverState; }
 
-    public bool StartPlayerAction(PlayerActionDesc _desc)
+    public void StartPlayerAction(PlayerActionDesc _desc)
     {
         CallSwitch();
-        return true;
     }
 
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()
     {
         return 50;
+    }
+
+    public bool GetIsActionPossible(PlayerActionDesc _desc)
+    {
+        return true;
     }
 }

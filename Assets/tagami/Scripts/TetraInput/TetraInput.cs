@@ -12,6 +12,8 @@ public class TetraInput : MonoBehaviour
     [Header("Debug Option")]
     [SerializeField] bool dispGUI = true;
     [SerializeField] Color guiColor;
+    Rect guiWindowRect = new Rect(0, 0, Screen.width / 2, Screen.height / 2);
+
 
     public static TetraButton sTetraButton { private set; get; }
     public static TetraLever sTetraLever { private set; get; }
@@ -25,10 +27,15 @@ public class TetraInput : MonoBehaviour
         sTetraPad = tetraPad;
     }
 
-    private void OnGUI()
+  
+    public void OnGUIWindow()
     {
         if (dispGUI)
         {
+            GUIStyle style = new GUIStyle();
+            style.fontSize = 25;
+            GUILayout.Label(nameof(TetraInput),style);
+
             List<string> guis = new List<string>();
             guis.Add("tetra button press : " + tetraButton.GetPress());
             guis.Add("tetra lever powered on : " + tetraLever.GetPoweredOn());
@@ -44,8 +51,16 @@ public class TetraInput : MonoBehaviour
             GUI.color = guiColor;
             for (int i = 0; i < guis.Count; i++)
             {
-                GUI.Label(new Rect(10, 50 + 12 * i, 500, 50), guis[i]);
+                GUILayout.Label(guis[i]);
             }
-        }//disp
+
+            if (GUILayout.Button("dead battery debug local"))
+            {
+                tetraButton.deadBatteryDebug = true;
+                tetraLever.deadBatteryDebug = true;
+                tetraPad.deadBatteryDebug = true;
+            }
+        }
+
     }
 }

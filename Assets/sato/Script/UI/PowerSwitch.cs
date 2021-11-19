@@ -11,7 +11,8 @@ public class PowerSwitch : MonoBehaviour
     GameObject TitleLogo;
 
     [SerializeField]
-    int controllerID = 4;
+    [Header("コントーローラーID")]
+    public int controllerID = 0;
 
     // Start is called before the first frame update
     void Start()

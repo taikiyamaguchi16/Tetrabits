@@ -11,12 +11,14 @@ public class Zenmai : MonoBehaviourPunCallbacks
 
     public float decrease = 0.01f;  // ゼンマイパワー減少値
 
-    public bool decreaseTrigger = true;
+    public bool decreaseTrigger;
 
     // Start is called before the first frame update
     void Start()
     {
         zenmaiPower = maxZenmaiPower;
+
+        decreaseTrigger = false;
     }
 
     // Update is called once per frame

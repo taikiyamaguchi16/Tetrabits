@@ -8,7 +8,9 @@ public class GetOnClick : MonoBehaviour
     [Header("カーソル入れる")]
     DOButtonSelected cursor;
 
-    int controllerID = 0;
+    [SerializeField]
+    [Header("コントーローラーID")]
+    public int controllerID = 0;
 
     // Start is called before the first frame update
     void Start()

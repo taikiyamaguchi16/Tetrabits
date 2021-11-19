@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 762288096228191460}
+  - component: {fileID: 6352959958815143660}
   m_Layer: 0
   m_Name: BombField
   m_TagString: Untagged
@@ -32,6 +33,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6352959958815143660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 762288096228191464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd2c9bc208446fa4c9551d8cbbb823ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObject: {fileID: 0}
+  synchroPosition: 1
+  synchroRotation: 1
+  synchroLocalScale: 0
 --- !u!1 &783694274281306593
 GameObject:
   m_ObjectHideFlags: 0
@@ -48,7 +65,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1634654885040133998
 Transform:
   m_ObjectHideFlags: 0
@@ -126,7 +143,6 @@ GameObject:
   - component: {fileID: 9157231094256533509}
   - component: {fileID: 2464487263697984970}
   - component: {fileID: 3844439008702618862}
-  - component: {fileID: 6674974532192013483}
   m_Layer: 0
   m_Name: BombFieldBody
   m_TagString: Untagged
@@ -227,27 +243,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bc877686c9ca1408f889bfbd7b09aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeSeconds: 5
+  lifeSeconds: 1
   startLocalScale: {x: 0, y: 0, z: 0}
   endLocalScale: {x: 0.7, y: 0.7, z: 0.7}
---- !u!50 &6674974532192013483
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7431386545626716463}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0

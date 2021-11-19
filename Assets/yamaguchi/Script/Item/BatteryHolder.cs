@@ -20,11 +20,13 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
             ownBattery.BatteryConsumption();
     }
 
-    public bool StartPlayerAction(PlayerActionDesc _desc)
+    public void StartPlayerAction(PlayerActionDesc _desc)
     {
         ItemPocket otherPocket = _desc.playerObj.GetComponent<ItemPocket>();
         //プレイヤーに自身が持ってたオブジェクトを渡すための一時保存用
         Battery checkbattery = ownBattery;
+
+        Debug.Log("実行されました");
         //プレイヤーが何か持っていた場合
         if (otherPocket.GetItem() != null)
         {
@@ -34,6 +36,7 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
             {
                 ownBattery.CallPickUp(photonView.ViewID);
 
+                Debug.Log("バッテリーが渡されました");
                 otherPocket.SetItem(null);
                 //自分がバッテリを持っていた場合swapする
                 if (checkbattery != null)
@@ -42,22 +45,22 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
                 }
                 //他のプレイヤーのホルダーにもバッテリーをセット
                 photonView.RPC(nameof(RPCSetOwnBattery), RpcTarget.All);
-
-                return true;
+                Debug.Log("セットしました");
             }
             //バッテリーでなかった場合元に戻す
             else
             {
                 ownBattery = checkbattery;
-                return false;
             }
         }
         //何も持っていなかった場合自分のを渡す
         else
-        {           
+        {
+            Debug.Log("持っていません");
             //自分がバッテリを持っていた場合渡す
             if (ownBattery != null)
             {
+                Debug.Log("渡してる");
                 ownBattery.CallPickUp(_desc.playerObj.GetPhotonView().ViewID);
 
                 pocket.SetItem(null);
@@ -65,16 +68,47 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
 
                 //他のプレイヤーのホルダーのバッテリーを抜く
                 photonView.RPC(nameof(RPCReleaseBattery), RpcTarget.All);
-
-                return true;
             }
         }
-        return false;
     }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()
     {
         return 110;
+    }
+
+    public bool GetIsActionPossible(PlayerActionDesc _desc)
+    {
+        ItemPocket otherPocket = _desc.playerObj.GetComponent<ItemPocket>();
+        //プレイヤーに自身が持ってたオブジェクトを渡すための一時保存用
+        Battery checkbattery = ownBattery;
+        Battery possibleBattery;
+        //プレイヤーが何か持っていた場合
+        if (otherPocket.GetItem() != null)
+        {
+            possibleBattery = otherPocket.GetItem().GetComponent<Battery>();
+            //渡されたのがバッテリーだった場合
+            if (possibleBattery != null)
+            {
+                //Debug.Log("バッテリーが渡されました");
+                return true;
+            }
+            //バッテリーでなかった場合元に戻す
+            else
+            {            
+                return false;
+            }
+        }
+        //何も持っていなかった場合自分のを渡す
+        else
+        {
+            //自分がバッテリを持っていた場合渡す
+            if (ownBattery != null)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     //バッテリーの残量を返す
