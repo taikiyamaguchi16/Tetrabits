@@ -12,6 +12,8 @@ public class FluorescentLight : MonoBehaviour
     float flickeringTimer;
     bool isFlickering;
 
+    [SerializeField] bool occasionallyFlickering;
+    [SerializeField] float OccasionallyFlickeringSeconds=10.0f;
     Light myLight;
 
     // Start is called before the first frame update
@@ -26,12 +28,20 @@ public class FluorescentLight : MonoBehaviour
     private void OnEnable()
     {
         StartFlickering();
+
+        if (occasionallyFlickering)
+        {
+            StartCoroutine(OccasionallyFlickeringLoop(OccasionallyFlickeringSeconds));
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         if (flickeringSeconds <= 0) return;
+
+       
+
 
         if (isFlickering)
         {
@@ -51,8 +61,19 @@ public class FluorescentLight : MonoBehaviour
         }
     }
 
-    void StartFlickering()
+    public void StartFlickering()
     {
         isFlickering = true;
+    }
+
+    private IEnumerator OccasionallyFlickeringLoop(float _seconds)
+    {
+        // ループ
+        while (true)
+        {
+            // secondで指定した秒数ループします
+            yield return new WaitForSeconds(_seconds);
+            StartFlickering();
+        }
     }
 }

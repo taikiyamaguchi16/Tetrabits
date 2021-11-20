@@ -1596,6 +1596,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   flickeringSeconds: 1
+  occasionallyFlickering: 0
+  OccasionallyFlickeringSeconds: 10
 --- !u!1001 &536417272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2251,6 +2253,33 @@ MonoBehaviour:
   - monitorModelObject: {fileID: 14875346}
   - monitorModelObject: {fileID: 1553019854}
   - monitorModelObject: {fileID: 1793300363}
+  monitorDamageEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2117064207}
+        m_TargetAssemblyTypeName: FluorescentLight, Assembly-CSharp
+        m_MethodName: StartFlickering
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1136831483}
+        m_TargetAssemblyTypeName: CraneSwinger, Assembly-CSharp
+        m_MethodName: Swing
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   displayTransform: {fileID: 614227500}
   coolingTargetOffset: {x: 0, y: 0, z: 1.39}
   coolingTargetPrefabs:
@@ -3596,6 +3625,130 @@ Transform:
   m_Father: {fileID: 37922889}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1136831481 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6799096956751454173, guid: f5d37d252f524494eb17b46f948b917e, type: 3}
+  m_PrefabInstance: {fileID: 1327462109}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1136831483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136831481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8431be49c35ce4d44811ad1fe1393467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: -0.03639393
+      outSlope: -0.03639393
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.104115434
+      value: 0.79344684
+      inSlope: -0.11780149
+      outSlope: -0.11780149
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.3097558
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.20089647
+      value: -0.7124449
+      inSlope: 0.06754806
+      outSlope: 0.06754806
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.30499244
+    - serializedVersion: 3
+      time: 0.3012236
+      value: 0.5919389
+      inSlope: 0.5779816
+      outSlope: 0.5779816
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.40240145
+      value: -0.4905483
+      inSlope: -1.4759688
+      outSlope: -1.4759688
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5166913
+      value: 0.39484608
+      inSlope: 0.25760484
+      outSlope: 0.25760484
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.61603206
+      value: -0.3235572
+      inSlope: -1.5539653
+      outSlope: -1.5539653
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.74527663
+      value: 0.20941874
+      inSlope: 0.23346594
+      outSlope: 0.23346594
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.057645466
+    - serializedVersion: 3
+      time: 0.85784996
+      value: -0.09737003
+      inSlope: 1.2688916
+      outSlope: 1.2688916
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.949923
+      value: 0.055123657
+      inSlope: -0.7215192
+      outSlope: -0.7215192
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1.1007775
+      outSlope: -1.1007775
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  swingSeconds: 3
+  swingMultiplier: 0.5
 --- !u!4 &1140062608 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5711339982577011454, guid: 2cdd35037e6e051458680786b6167938, type: 3}
@@ -3904,6 +4057,9 @@ MonoBehaviour:
   - sceneAsset: {fileID: 102900000, guid: fce0bef3e33adc942bfb94d30da8e873, type: 3}
     required: 0
     buildIndex: 16
+  - sceneAsset: {fileID: 102900000, guid: 8fca41acf71e8924d8fe7490083a4ac6, type: 3}
+    required: 0
+    buildIndex: 19
 --- !u!4 &1213106694
 Transform:
   m_ObjectHideFlags: 0
@@ -4850,6 +5006,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   flickeringSeconds: 1
+  occasionallyFlickering: 0
+  OccasionallyFlickeringSeconds: 10
 --- !u!1 &1390927765
 GameObject:
   m_ObjectHideFlags: 0
@@ -5352,6 +5510,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   flickeringSeconds: 2
+  occasionallyFlickering: 0
+  OccasionallyFlickeringSeconds: 10
 --- !u!1001 &1526259605
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7251,6 +7411,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   flickeringSeconds: 1
+  occasionallyFlickering: 0
+  OccasionallyFlickeringSeconds: 5
 --- !u!1001 &2125009497
 PrefabInstance:
   m_ObjectHideFlags: 0

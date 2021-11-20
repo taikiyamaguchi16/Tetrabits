@@ -2196,6 +2196,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 198f3c12d9ae310449e60eae0b9ad03b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 1
+  enemyBulletPrefab: {fileID: 0}
+  bulletSpeed: 1
+  shotIntervalSeconds: 1
+  bulletWidth: 1
 --- !u!114 &1220606937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3985,7 +3990,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8197278531507362894, guid: cdb076b179d11d34e9b465e84eea7fc5, type: 3}
       propertyPath: sceneViewId
-      value: 1
+      value: 401
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cdb076b179d11d34e9b465e84eea7fc5, type: 3}

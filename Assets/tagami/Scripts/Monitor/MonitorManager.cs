@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using UnityEngine.Events;
 
 public class MonitorManager : MonoBehaviourPunCallbacks
 {
@@ -13,7 +14,6 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     [SerializeField] float monitorHpMax = 100;
     float monitorHp;
 
-
     [System.Serializable]
     struct MonitorStageStatus
     {
@@ -22,6 +22,9 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     [Header("MonitorStage")]
     [SerializeField] List<MonitorStageStatus> monitorStatuses;
     int currentMonitorStatusIndex = 0;
+
+    [Header("Monitor Damage Callback")]
+    [SerializeField] UnityEvent monitorDamageEvent;
 
     [Header("Cooling Target Created Position")]
     [SerializeField] Transform displayTransform;
@@ -35,6 +38,8 @@ public class MonitorManager : MonoBehaviourPunCallbacks
 
     [Header("Option")]
     [SerializeField] Slider monitorHpBarSlider;
+
+   
 
     private void Awake()
     {
@@ -157,8 +162,11 @@ public class MonitorManager : MonoBehaviourPunCallbacks
                 }
             }
             createdCoolingTargets.Clear();
-        }
+        }//段階進行
 
+
+        //コールバック
+        monitorDamageEvent.Invoke();
     }
 
     //static
