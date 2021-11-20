@@ -23,6 +23,9 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     [SerializeField] List<MonitorStageStatus> monitorStatuses;
     int currentMonitorStatusIndex = 0;
 
+    [Header("Cooling Target Created Position")]
+    [SerializeField] Transform displayTransform;
+
     [System.Serializable]
     struct KeyGameObject { public string key; public GameObject go; }
     [Header("Cooling Target Prefabs")]
@@ -91,7 +94,11 @@ public class MonitorManager : MonoBehaviourPunCallbacks
 
     void CallDealDamage(string _damageId)
     {
-        photonView.RPC(nameof(RPCDealDamage), RpcTarget.AllViaServer, _damageId, new Vector3(Random.Range(-20, 20), Random.Range(5, 20), 44));
+        photonView.RPC(nameof(RPCDealDamage), RpcTarget.AllViaServer, _damageId,
+            new Vector3(displayTransform.position.x + Random.Range(-displayTransform.localScale.x, displayTransform.localScale.x),
+            displayTransform.position.y + Random.Range(-displayTransform.localScale.y, displayTransform.localScale.y), 
+            displayTransform.position.z)
+            );
     }
 
     [PunRPC]
