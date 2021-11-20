@@ -25,6 +25,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
 
     [Header("Cooling Target Created Position")]
     [SerializeField] Transform displayTransform;
+    [SerializeField] Vector3 coolingTargetOffset;
 
     [System.Serializable]
     struct KeyGameObject { public string key; public GameObject go; }
@@ -96,8 +97,9 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     {
         photonView.RPC(nameof(RPCDealDamage), RpcTarget.AllViaServer, _damageId,
             new Vector3(displayTransform.position.x + Random.Range(-displayTransform.localScale.x, displayTransform.localScale.x),
-            displayTransform.position.y + Random.Range(-displayTransform.localScale.y, displayTransform.localScale.y), 
-            displayTransform.position.z)
+            displayTransform.position.y + Random.Range(-displayTransform.localScale.y, displayTransform.localScale.y),
+            displayTransform.position.z) 
+            + coolingTargetOffset
             );
     }
 
