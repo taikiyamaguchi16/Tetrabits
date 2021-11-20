@@ -22,12 +22,12 @@ public class CoolerRotater : MonoBehaviourPunCallbacks
             if (Input.GetKey(KeyCode.A) || XInputManager.GetButtonPress(controlXinputIndex, XButtonType.LThumbStickLeft))
             {
                 //rotateTarget.rotation *= Quaternion.AngleAxis(-rotateAnglePerSeconds * Time.deltaTime, Vector3.up);
-                rotateTarget.CallMultiplyRotation(Quaternion.AngleAxis(-rotateAnglePerSeconds * Time.fixedDeltaTime, Vector3.up));
+                rotateTarget.CallMultiplyRotation(Quaternion.AngleAxis(-rotateAnglePerSeconds * Time.fixedDeltaTime,rotateTarget.transform.up));
             }
             if (Input.GetKey(KeyCode.D) || XInputManager.GetButtonPress(controlXinputIndex, XButtonType.LThumbStickRight))
             {
                 //rotateTarget.rotation *= Quaternion.AngleAxis(rotateAnglePerSeconds * Time.deltaTime, Vector3.up);
-                rotateTarget.CallMultiplyRotation(Quaternion.AngleAxis(rotateAnglePerSeconds * Time.fixedDeltaTime, Vector3.up));
+                rotateTarget.CallMultiplyRotation(Quaternion.AngleAxis(rotateAnglePerSeconds * Time.fixedDeltaTime, rotateTarget.transform.up));
             }
             if (Input.GetKey(KeyCode.W) || XInputManager.GetButtonPress(controlXinputIndex, XButtonType.LThumbStickUp))
             {

@@ -10,6 +10,9 @@ public class TetraPad : MonoBehaviour
     [Header("Reference")]
     [SerializeField] TetraPadBody tetraPadBody;
 
+    [Header("Option")]
+    [SerializeField] bool reverseVector;
+
     [System.NonSerialized]
     public bool deadBatteryDebug = false;
 
@@ -27,8 +30,16 @@ public class TetraPad : MonoBehaviour
 
                 var localVec = obj.transform.position - transform.position;
                 localVec.Normalize();
-                padVector.x += localVec.x;
-                padVector.y += localVec.z;
+                if (reverseVector)
+                {
+                    padVector.x -= localVec.x;
+                    padVector.y -= localVec.z;
+                }
+                else
+                {
+                    padVector.x += localVec.x;
+                    padVector.y += localVec.z;
+                }
             }
         }
     }
