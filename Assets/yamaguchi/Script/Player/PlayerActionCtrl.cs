@@ -62,7 +62,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
         {
             playerMove.SetPlayerMovable(true);  // プレイヤーを行動可能に
 
-            if (Input.GetKeyDown("e") || XInputManager.GetButtonPress(playerMove.controllerID, XButtonType.B))  // アクションボタン
+            if (Input.GetKeyDown("e") || XInputManager.GetButtonTrigger(playerMove.controllerID, XButtonType.B))  // アクションボタン
             {
                 
                 //持ち運んでいるオブジェクトがある場合それをアクション候補に加える
@@ -95,7 +95,8 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     // アクション終了
                     runningAction.EndPlayerAction(desc);
                     runningAction = null;
-                    //candidates.Clear();
+                    candidates.Clear();
+                    highPriorityList.Clear();
                 }
             }   
 
@@ -188,9 +189,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
             //IAction持ちの一番近いやつ取得
             selectedObj = nearest;
 
-           runningAction = selectedObj.GetComponent<IPlayerAction>();
-           
-           
+           runningAction = selectedObj.GetComponent<IPlayerAction>();     
         }
     }
 

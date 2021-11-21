@@ -36,12 +36,6 @@ public class CassetteManager : MonoBehaviourPunCallbacks
         }
     }
 
-    //ルームにプレイヤーが参加したとき
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        Debug.Log(PhotonNetwork.PlayerList.Length + newPlayer.NickName);
-    }
-
     public void SetActiveCassette(Cassette _ca)
     {
         activeCassette = _ca;
