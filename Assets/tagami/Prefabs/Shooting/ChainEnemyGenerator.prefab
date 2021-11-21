@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2399483459613459500}
   - component: {fileID: 2399483459613459503}
   m_Layer: 0
-  m_Name: ChainEnemySetup
-  m_TagString: Untagged
+  m_Name: ChainEnemyGenerator
+  m_TagString: NotAffectedActivator
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,3 +48,4 @@ MonoBehaviour:
   generateNum: 10
   generateIntervalSeconds: 0.1
   chainEnemyPrefab: {fileID: 2611721140452770444, guid: b623bdbc3c31a0b47b4148c3227255d6, type: 3}
+  hideWaypoints: 1

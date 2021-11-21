@@ -27,6 +27,7 @@ public class ChainEnemyGenerator : MonoBehaviour
         generateCounter = 0;
     }
 
+
     // Start is called before the first frame update
     void Start()
     {

@@ -11,6 +11,9 @@ namespace Shooting
 
         [Header("Prefab Reference")]
         [SerializeField] Transform rightAreaTransform;
+        [SerializeField] Transform leftAreaTransform;
+
+        bool initializedUpdate;
 
         private void Awake()
         {
@@ -23,7 +26,10 @@ namespace Shooting
             {
                 for (int i = 0; i < objectsParent.childCount; i++)
                 {
-                    objectsParent.GetChild(i).gameObject.SetActive(false);
+                    if (!objectsParent.GetChild(i).gameObject.CompareTag("NotAffectedActivator"))
+                    {
+                        objectsParent.GetChild(i).gameObject.SetActive(false);
+                    }
                 }
             }
         }
@@ -34,20 +40,39 @@ namespace Shooting
             {
                 for (int i = 0; i < objectsParent.childCount; i++)
                 {
-                    if (!objectsParent.GetChild(i).gameObject.activeSelf && objectsParent.GetChild(i).position.x <= rightAreaTransform.position.x)
+                    var child = objectsParent.GetChild(i).gameObject;
+                    if (!child.activeSelf && child.transform.position.x <= rightAreaTransform.position.x)
                     {
-                        objectsParent.GetChild(i).gameObject.SetActive(true);
-
-                        //インターフェースを呼ぶ
-                        IActivate activate;
-                        if(objectsParent.GetChild(i).gameObject.TryGetComponent(out activate))
+                        //一回目は削除することで途中からデバッグできる
+                        if (!initializedUpdate)
                         {
-                            activate.OnActivated();
+                            Destroy(child);                           
+                        }
+                        else
+                        {
+                            //有効化
+                            child.SetActive(true);
+                            //インターフェースを呼ぶ
+                            IActivate activate;
+                            if (objectsParent.GetChild(i).gameObject.TryGetComponent(out activate))
+                            {
+                                activate.OnActivated();
+                            }
                         }
                     }
+                    if (child.transform.position.x <= leftAreaTransform.position.x)
+                    {
+                        Destroy(child);
+                    }
+
                 }
             }
-        }
+
+            if(!initializedUpdate)
+            {
+                initializedUpdate = true;
+            }
+        }//update
     }
 
 }//namespace
