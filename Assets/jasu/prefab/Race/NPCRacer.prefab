@@ -117,7 +117,7 @@ MonoBehaviour:
   dirtSplashSpawn: {fileID: 2635770476168120973}
   moveSpd: 80
   moveSlopeMultiply: 2
-  moveForceMultiplyStart: 5
+  moveForceMultiplyStart: 3
   moveForceMultiplyStop: 1
   gravity: -50
   moveVec: {x: 0, y: 0, z: 0}
@@ -173,6 +173,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dirtSplashPrefab: {fileID: 4832374977247534456, guid: af523a6eef0aef44482cd486ba053f7b, type: 3}
+  raceStageMolder: {fileID: 0}
+  dirtParentObj: {fileID: 0}
 --- !u!114 &7428666028572337702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,7 +414,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4178323175449870650}
-  - component: {fileID: 6975201725847401227}
+  - component: {fileID: 2687062168606376190}
   - component: {fileID: 2635770476168120973}
   - component: {fileID: 1948071906}
   - component: {fileID: 8271611299584772535}
@@ -441,7 +443,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6975201725847401227
+--- !u!114 &2687062168606376190
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -450,11 +452,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4878758953354832212}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 495e72e72a780a348bffc6a1294e084d, type: 3}
+  m_Script: {fileID: 11500000, guid: 64eb0e18809773441b8bfeea1c9eb11c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   raceStageMolder: {fileID: 0}
-  warpPointZ: 10
+  playerCameraRange: 50
 --- !u!114 &2635770476168120973
 MonoBehaviour:
   m_ObjectHideFlags: 0

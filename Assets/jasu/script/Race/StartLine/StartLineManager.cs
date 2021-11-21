@@ -5,6 +5,9 @@ using UnityEngine;
 public class StartLineManager : MonoBehaviour
 {
     [SerializeField]
+    Transform startLineTrans;
+
+    [SerializeField]
     RaceManager raceManager = null;
 
     [SerializeField]
@@ -25,15 +28,9 @@ public class StartLineManager : MonoBehaviour
                 Vector3 pos = racers[i].transform.localPosition;
                 pos.x = laneManager.GetLaneLocalPosX(i);
                 pos.y = 0f;
-                pos.z = transform.localPosition.z - laneManager.GetLaneWidth() / 2 * (i + 1);
+                pos.z = startLineTrans.localPosition.z - laneManager.GetLaneWidth() / 2 * (i + 1);
                 racers[i].transform.localPosition = pos;
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

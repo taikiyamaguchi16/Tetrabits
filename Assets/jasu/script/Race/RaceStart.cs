@@ -5,7 +5,10 @@ using UnityEngine;
 public class RaceStart : MonoBehaviour
 {
     [SerializeField]
-    BikeCtrlWhenStartAndGoal bikeCtrlStartGoal;
+    BikeCtrlWhenStartAndGoal[] bikeCtrlStartGoals;
+
+    [SerializeField]
+    CountDown countDown;
 
     bool started = false;
 
@@ -18,10 +21,13 @@ public class RaceStart : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !started)
+        if (countDown.isTimeOut && !started)
         {
             started = true;
-            bikeCtrlStartGoal.SetActiveBeforeStart(true);
+            foreach(var bikeCtrlStartGoal in bikeCtrlStartGoals)
+            {
+                bikeCtrlStartGoal.SetActiveBeforeStart(true);
+            }
             Debug.Log("スタート");
         }
     }

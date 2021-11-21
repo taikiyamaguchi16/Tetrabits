@@ -10,6 +10,8 @@ public class WarpRoundSeam : MonoBehaviour
     [SerializeField, Tooltip("ワープのつなぎ目")]
     float warpPointZ = 50f;
 
+    public float GetWarpPoint { get { return warpPointZ; } }
+
     // Update is called once per frame
     void Update()
     {

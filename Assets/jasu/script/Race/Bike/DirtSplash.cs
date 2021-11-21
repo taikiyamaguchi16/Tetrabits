@@ -16,9 +16,16 @@ public class DirtSplash : MonoBehaviour
     [SerializeField]
     Vector3 moveForce = Vector3.forward;
 
+    public GameObject parentObj { get; set; } = null;
+
     public Vector3 parentMoveForce { get; set; } = Vector3.zero;
 
     public int parentInstanceID { get; set; }
+
+    public float laneLength { get; set; }
+
+    //public DummyStageMolder dummyStageMolder { get; set; }
+    public RaceStageMolder raceStageMolder { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -38,13 +45,29 @@ public class DirtSplash : MonoBehaviour
         if(other.gameObject.transform.tag == "FlatRoadInRace" &&
             rb.velocity.y < 0f)
         {
-            GameObject dirt = Instantiate(dirtPrefab, other.transform.parent.parent);
+            GameObject dirt = Instantiate(dirtPrefab, parentObj.transform);
             Vector3 pos = Vector3.zero;
             dirt.transform.localPosition = pos;
-            pos = dirt.transform.position;
+            //pos = dirt.transform.position;
+            pos.x = other.transform.position.x;
             pos.y = (other.transform.localPosition.y * 2) - 2.5f;
-            pos.z = transform.position.z;
+            if(transform.position.z > laneLength)
+            {
+                pos.z = transform.position.z - laneLength;
+            }
+            else
+            {
+                pos.z = transform.position.z;
+            }
             dirt.transform.position = pos;
+
+            SpriteRenderOnRoadCtrl spriteRenderOnRoadCtrl;
+            if ((spriteRenderOnRoadCtrl = dirt.GetComponent<SpriteRenderOnRoadCtrl>()) != null)
+            {
+                spriteRenderOnRoadCtrl.GetSetLaneInfo = other.transform.parent.parent.GetComponent<LaneInfo>();
+            }
+
+            raceStageMolder.GetDummyRoadMolder.DummyRoadMold(); // ダミー作成
             Destroy(gameObject);
         }
         //else if(other.gameObject.transform.parent.tag == "SlopeRoadInRace")
