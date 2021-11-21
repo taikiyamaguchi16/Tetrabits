@@ -5,10 +5,14 @@ using UnityEngine.UI;
 using Photon.Pun;
 using UnityEngine.Events;
 
+using UnityEngine.Rendering;
+using UnityEngine.Experimental.Rendering.Universal;
+
 public class MonitorManager : MonoBehaviourPunCallbacks
 {
     [Header("Required Reference")]
     [SerializeField] GameInGameSwitcher gameInGameSwitcher;
+    [SerializeField] GlobalVolumeController globalVolumeController;
 
     [Header("Status")]
     [SerializeField] float monitorHpMax = 100;
@@ -18,6 +22,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     struct MonitorStageStatus
     {
         public GameObject monitorModelObject;
+        public Color colorFilter;
     }
     [Header("MonitorStage")]
     [SerializeField] List<MonitorStageStatus> monitorStatuses;
@@ -39,7 +44,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     [Header("Option")]
     [SerializeField] Slider monitorHpBarSlider;
 
-   
+
 
     private void Awake()
     {
@@ -65,21 +70,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void RecoveryDestructionStage()
-    {
-        if (currentMonitorStatusIndex > 0)
-        {
-            //前の段階に戻す
-            monitorStatuses[currentMonitorStatusIndex].monitorModelObject.SetActive(false);
-            monitorStatuses[currentMonitorStatusIndex - 1].monitorModelObject.SetActive(true);
 
-            //現在のIndexを更新
-            currentMonitorStatusIndex--;
-        }
-
-        //HPを全回復
-        monitorHp = monitorHpMax;
-    }
 
 
 
@@ -103,7 +94,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         photonView.RPC(nameof(RPCDealDamage), RpcTarget.AllViaServer, _damageId,
             new Vector3(displayTransform.position.x + Random.Range(-displayTransform.localScale.x, displayTransform.localScale.x),
             displayTransform.position.y + Random.Range(-displayTransform.localScale.y, displayTransform.localScale.y),
-            displayTransform.position.z) 
+            displayTransform.position.z)
             + coolingTargetOffset
             );
     }
@@ -111,6 +102,8 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPCDealDamage(string _damageId, Vector3 _damagePosition)
     {
+        //**********************************************************
+        //冷却ターゲット生成
         GameObject prefab = null;
         foreach (var keyObj in coolingTargetPrefabs)
         {
@@ -124,33 +117,51 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             Debug.LogError("damageId:" + _damageId + "  用の冷却用ダメージPrefabは登録されていません");
             return;
         }
-
         //ダメージ発生 生成場所どーしよ
         var createdObj = Instantiate(prefab, _damagePosition, Quaternion.identity);
         //生成登録
         createdCoolingTargets.Add(createdObj);
 
+        //**********************************************************
         //ダメージ処理
         monitorHp -= createdObj.GetComponent<CoolingTargetStatus>().damageToMonitor;
 
         //ダメージ段階進行処理
         if (monitorHp <= 0)
         {
-            if (currentMonitorStatusIndex >= (monitorStatuses.Count - 2))
-            {//ゲームオーバー処理
-                Debug.Log("GameOver");
-                gameInGameSwitcher.CallSwitchGameInGameScene("");
-                return;
-            }
+            NextDestructionStage();
+        }
 
-            //次の破壊段階へ進める 
-            //現在のモデルを非アクティブにし、次の段階のモデルをアクティブにする
-            monitorStatuses[currentMonitorStatusIndex].monitorModelObject.SetActive(false);
-            monitorStatuses[currentMonitorStatusIndex + 1].monitorModelObject.SetActive(true);
+        //コールバック
+        monitorDamageEvent.Invoke();
+    }
 
-            //現在のIndexを更新
-            currentMonitorStatusIndex++;
+    [ContextMenu("NextStage")]
+    private void NextDestructionStage()
+    {
+        if (currentMonitorStatusIndex >= (monitorStatuses.Count - 1))
+        {
+            Debug.Log("これ以上モニターの破壊段階を進めることはできません");
+            return;
+        }
 
+        //次の破壊段階へ進める 
+        //現在のモデルを非アクティブにし、次の段階のモデルをアクティブにする
+        monitorStatuses[currentMonitorStatusIndex].monitorModelObject.SetActive(false);
+        monitorStatuses[currentMonitorStatusIndex + 1].monitorModelObject.SetActive(true);
+        globalVolumeController.colorFilter = monitorStatuses[currentMonitorStatusIndex + 1].colorFilter;
+
+        //現在のIndexを更新
+        currentMonitorStatusIndex++;
+
+        if (currentMonitorStatusIndex >= (monitorStatuses.Count - 1))
+        {//ゲームオーバー処理
+            Debug.Log("GameMainOverを確認");
+            //ゲーム画面落としてゲームオーバーシーンへ遷移とか？
+            gameInGameSwitcher.CallSwitchGameInGameScene("");
+        }
+        else
+        {
             //HP全回復
             monitorHp = monitorHpMax;
             //冷却ターゲット消去
@@ -162,20 +173,47 @@ public class MonitorManager : MonoBehaviourPunCallbacks
                 }
             }
             createdCoolingTargets.Clear();
-        }//段階進行
-
-
-        //コールバック
-        monitorDamageEvent.Invoke();
+        }
     }
 
+
+    [ContextMenu("RecoveryStage")]
+    private void RecoveryDestructionStage()
+    {
+        if (currentMonitorStatusIndex > 0)
+        {
+            //前の段階に戻す
+            monitorStatuses[currentMonitorStatusIndex].monitorModelObject.SetActive(false);
+            monitorStatuses[currentMonitorStatusIndex - 1].monitorModelObject.SetActive(true);
+            globalVolumeController.colorFilter = monitorStatuses[currentMonitorStatusIndex - 1].colorFilter;
+
+
+            //現在のIndexを更新
+            currentMonitorStatusIndex--;
+        }
+
+        //HPを全回復
+        monitorHp = monitorHpMax;
+    }
+
+
+    public void OnGUIWindow()
+    {
+        if (GUILayout.Button("NextStage"))
+        {
+            NextDestructionStage();
+        }
+        if (GUILayout.Button("RecoveryStage"))
+        {
+            RecoveryDestructionStage();
+        }
+    }
+
+
+
+    //**********************************************************
     //static
     static MonitorManager sMonitorManager;
-
-    //[System.Obsolete("DealDamageToMonitor(float) is deprecated, please use DealDamageToMonitor(string) instead.")]
-    //public static void DealDamageToMonitor(float _damage)
-    //{
-    //}
 
     public static void DealDamageToMonitor(string _damageId)
     {
