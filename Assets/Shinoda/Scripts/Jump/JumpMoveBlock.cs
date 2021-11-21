@@ -9,7 +9,7 @@ public class JumpMoveBlock : MonoBehaviour
 
     [SerializeField] float moveX;
     [SerializeField] float moveY;
-    float blockSize = 2.5f;
+    [SerializeField] float blockSize = 1f;
     Vector3 targetPos;
 
     [SerializeField] float moveTime = 1f;
