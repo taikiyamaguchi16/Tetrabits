@@ -9,6 +9,7 @@ public class GyroCameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (cameraObject == null) cameraObject = GameObject.FindWithTag("MainCamera");
         cameraObject.transform.position = new Vector3(this.transform.position.x,
             this.transform.position.y,
             cameraObject.transform.position.z);
