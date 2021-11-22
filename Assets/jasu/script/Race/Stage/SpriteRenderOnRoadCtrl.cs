@@ -10,6 +10,8 @@ public class SpriteRenderOnRoadCtrl : MonoBehaviour
     [SerializeField]
     LaneInfo laneInfo = null;
 
+    public LaneInfo GetSetLaneInfo { get { return laneInfo; } set { laneInfo = value; } } 
+
     // Start is called before the first frame update
     void Start()
     {
