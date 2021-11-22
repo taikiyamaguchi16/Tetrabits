@@ -68,13 +68,13 @@ public class PlayerMoveInRace : MoveInRace
             collision.transform.parent.gameObject.tag == "SlopeRoadInRace")
         {
             normalVec = collision.contacts[0].normal;
-            Debug.Log("坂の法線取得" + normalVec);
+            //Debug.Log("坂の法線取得" + normalVec);
         }
         else if(collision.gameObject.tag == "FlatRoadInRace" ||
             collision.transform.parent.gameObject.tag == "FlatRoadInRace")
         {
             normalVec = Vector3.zero;
-            Debug.Log("坂の法線リセット" + normalVec);
+            //Debug.Log("坂の法線リセット" + normalVec);
         }
     }
 

@@ -161,7 +161,8 @@ public class RaceStageMolder : MonoBehaviour
             // 周回用のダミーの道を生成
             if (dummyRoadMolder != null)
             {
-                dummyRoadMolder.DummyRoadMold(this);
+                dummyRoadMolder.transform.localPosition = new Vector3(0, 0, laneLength);
+                dummyRoadMolder.DummyRoadMold();
             }
         }
     }
