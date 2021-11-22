@@ -124,7 +124,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
                     // キャラクターの大きさ。負数にすると反転される
                     Vector3 scale = transform.localScale;
-                    scale.x = -1;  // 通常方向(スプライトと同じ右向き)
+                    scale.x = -Mathf.Abs(scale.x);  // 通常方向(スプライトと同じ右向き)
                     transform.localScale = scale;
                 }
 
@@ -138,7 +138,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
                     // キャラクターの大きさ。負数にすると反転される
                     Vector3 scale = transform.localScale;
-                    scale.x = 1;  // 通常方向(スプライトと同じ右向き)
+                    scale.x = Mathf.Abs(scale.x); ;  // 通常方向(スプライトと同じ右向き)
                     transform.localScale = scale;
                 }
 
@@ -170,7 +170,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
                     // キャラクターの大きさ。負数にすると反転される
                     Vector3 scale = transform.localScale;
-                    scale.x = -1;  // 通常方向(スプライトと同じ右向き)
+                    scale.x = -Mathf.Abs(scale.x);  // 通常方向(スプライトと同じ右向き)
                     transform.localScale = scale;
                 }
                 else if (moveDir.x < 0f)
@@ -182,7 +182,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
                     // キャラクターの大きさ。負数にすると反転される
                     Vector3 scale = transform.localScale;
-                    scale.x = 1;  // 通常方向(スプライトと同じ右向き)
+                    scale.x = Mathf.Abs(scale.x);  // 通常方向(スプライトと同じ右向き)
                     transform.localScale = scale;
                 }
                 else if (moveDir.z > 0f)
