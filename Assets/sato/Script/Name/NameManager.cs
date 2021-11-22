@@ -27,6 +27,10 @@ public class NameManager : MonoBehaviourPunCallbacks
     [Header("名前入力後に移動したいシーン")]
     SceneObject scene;
 
+    [SerializeField]
+    [Header("デバッグ用(trueで名前入力必須)")]
+    bool debugFlag = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -90,5 +94,10 @@ public class NameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.NickName = text.text;
 
         GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().RPCSwitchGameInGameScene(scene);
+    }
+
+    public bool DebugFlagName()
+    {
+        return debugFlag;
     }
 }
