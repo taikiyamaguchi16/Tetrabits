@@ -41,6 +41,14 @@ namespace Shooting
                 for (int i = 0; i < objectsParent.childCount; i++)
                 {
                     var child = objectsParent.GetChild(i).gameObject;
+
+                    //こいつは無視する
+                    if (child.CompareTag("NotAffectedActivator"))
+                    {
+                        continue;
+                    }
+
+                       
                     if (!child.activeSelf && child.transform.position.x <= rightAreaTransform.position.x)
                     {
                         //一回目は削除することで途中からデバッグできる

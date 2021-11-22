@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class TetraPadKeyDebugger : TetraPad
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -30,5 +24,7 @@ public class TetraPadKeyDebugger : TetraPad
         {
             padVector.x += 1.0f;
         }
+
+        numOnPad = 1;
     }
 }

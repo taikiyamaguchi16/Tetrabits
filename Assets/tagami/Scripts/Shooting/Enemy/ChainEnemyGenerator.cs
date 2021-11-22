@@ -41,6 +41,13 @@ public class ChainEnemyGenerator : MonoBehaviour
             {
                 point.gameObject.SetActive(false);
             }
+
+            //自身のレンダラーも消しておく
+            var r = GetComponent<Renderer>();
+            if (r)
+            {
+                r.enabled = false;
+            }
         }
     }
 
