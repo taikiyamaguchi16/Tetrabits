@@ -45,6 +45,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physicalParts: {fileID: 2487003247870755375}
+--- !u!1 &2022683707194320006
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1069442680503092217}
+  - component: {fileID: 579302733284627853}
+  m_Layer: 0
+  m_Name: SlipCol
+  m_TagString: Slip
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1069442680503092217
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022683707194320006}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7564720750192745863}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &579302733284627853
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022683707194320006}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2487003247870755375
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,6 +124,7 @@ Transform:
   m_Children:
   - {fileID: 1491025360091984067}
   - {fileID: 6483022287398423419}
+  - {fileID: 1069442680503092217}
   m_Father: {fileID: 4178323175449870650}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -117,7 +162,7 @@ MonoBehaviour:
   dirtSplashSpawn: {fileID: 1212288838}
   moveSpd: 80
   moveSlopeMultiply: 2
-  moveForceMultiplyStart: 5
+  moveForceMultiplyStart: 2
   moveForceMultiplyStop: 1
   gravity: -50
   moveVec: {x: 0, y: 0, z: 0}
@@ -135,9 +180,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 7603701497981581255}
   laneManager: {fileID: 0}
+  bikeSlipDown: {fileID: 1446960286}
   colliderSensorFront: {fileID: 3070685040492917561}
   colliderSensorBack: {fileID: 8578007734320314296}
-  outsideRange: 3
+  outsideRange: 2
   spd: 20
   padInputRangeY: 0.5
 --- !u!114 &8486535655794146373
@@ -158,9 +204,9 @@ MonoBehaviour:
   bikeSlipDown: {fileID: 1446960286}
   torqueForceMultiply: 4
   correctionTorqueMultiply: 2
-  rotMin: -45
-  rotMax: 60
-  slipAngle: 55
+  rotMin: -80
+  rotMax: 70
+  slipAngle: 65
   padInputRangeX: 0.3
 --- !u!114 &4421796239360097713
 MonoBehaviour:
@@ -177,6 +223,7 @@ MonoBehaviour:
   dirtSplashPrefab: {fileID: 4832374977247534456, guid: af523a6eef0aef44482cd486ba053f7b, type: 3}
   raceStageMolder: {fileID: 0}
   dirtParentObj: {fileID: 0}
+  player: {fileID: 4878758953354832212}
 --- !u!114 &7428666028572337702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +248,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1491025360091984067}
   - component: {fileID: 3149822766388782865}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: WheelFront
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,7 +294,7 @@ GameObject:
   - component: {fileID: 5557663928488818157}
   - component: {fileID: 8578007734320314296}
   - component: {fileID: 5166400570034399523}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: GroundSensorBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -281,6 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   existInCollider: 0
+  objList: []
 --- !u!135 &5166400570034399523
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -441,7 +489,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6483022287398423419}
   - component: {fileID: 8125841188112020618}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: WheelBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -487,7 +535,7 @@ GameObject:
   - component: {fileID: 7753800479764696471}
   - component: {fileID: 3070685040492917561}
   - component: {fileID: 6684694317949873258}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: GroundSensorFront
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -521,6 +569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   existInCollider: 0
+  objList: []
 --- !u!135 &6684694317949873258
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -675,8 +724,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b294747fc7513cd4f8aff2f0da850023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slipingTimeSeconds: 2
-  correctionTimeSeconds: 5
+  slipingTimeSeconds: 1
+  correctionTimeSeconds: 3
   slipSpd: 5
 --- !u!114 &1889406115244632827
 MonoBehaviour:
