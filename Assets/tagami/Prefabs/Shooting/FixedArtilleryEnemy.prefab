@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8488429785778894949}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.28, y: 4.54, z: 0}
+  m_LocalPosition: {x: 0, y: 4.54, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children: []
   m_Father: {fileID: 0}
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyBulletPrefab: {fileID: 791794306420418939, guid: 1676aed78c5ae254bba4a40a78d72a1e, type: 3}
   bulletSpeed: 1
-  shotIntervalSeconds: 2
+  shotIntervalSeconds: 3
 --- !u!114 &-364505679309451566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,6 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3587a1adb6e5abc42ba24700176ebfa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 1
   additionalDestroyObjects: []
 --- !u!50 &8488429785778894944
 Rigidbody2D:

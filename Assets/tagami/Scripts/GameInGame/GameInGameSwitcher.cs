@@ -4,40 +4,34 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 
+
 public class GameInGameSwitcher : MonoBehaviourPunCallbacks
 {
-    [System.Serializable]
-    struct SceneObjectAndKeyCode
-    {
-        public SceneObject sceneObject;
-        public KeyCode keyCode;
-    }
-    [Header("Debug")]
-    [SerializeField]
-    List<SceneObjectAndKeyCode> gameInGameSwitchByKeys;
+    [Header("Switch Scene On Debug Window")]
+    [SerializeField] List<Trisibo.SceneField> gameInGameScenesOnDebugWindow;
 
     //現在のゲーム内ゲーム名
     string currentGameInGameSceneName = "";
 
-    // Update is called once per frame
-    void Update()
+    public void OnGUIWindow()
     {
-        foreach (var val in gameInGameSwitchByKeys)
+        GUIStyle style = new GUIStyle();
+        style.fontSize = 25;
+        GUILayout.Label(nameof(GameInGameSwitcher),style);
+        foreach (var sceneField in gameInGameScenesOnDebugWindow)
         {
-            if (Input.GetKeyDown(val.keyCode))
+            var sceneName = GameInGameUtil.GetSceneNameByBuildIndex(sceneField.BuildIndex);
+            if (GUILayout.Button(sceneName))
             {
-                GameInGameUtil.SwitchGameInGameScene(val.sceneObject);
-                //SwitchGameInGameScene(val.sceneObject);
+                GameInGameUtil.SwitchGameInGameScene(sceneName);
             }
         }
     }
 
-    //ラッピング
     public void CallSwitchGameInGameScene(string _nextSceneName)
     {
         photonView.RPC(nameof(RPCSwitchGameInGameScene), RpcTarget.All, _nextSceneName);
     }
-
     [PunRPC]
     public void RPCSwitchGameInGameScene(string _nextSceneName)
     {

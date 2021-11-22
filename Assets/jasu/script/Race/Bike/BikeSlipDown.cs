@@ -41,10 +41,6 @@ public class BikeSlipDown : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SlipStart();
-        }
     }
 
     public void SlipStart()

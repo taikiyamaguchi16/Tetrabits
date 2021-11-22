@@ -3,44 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerMoveInRace : MonoBehaviour
+public class PlayerMoveInRace : MoveInRace
 {
-    [SerializeField]
-    public Rigidbody rb { get; private set; }
-
-    [SerializeField]
-    ColliderSensor colliderSensorFront = null;
-
-    [SerializeField]
-    ColliderSensor colliderSensorBack = null;
-
-    [SerializeField]
-    BikeSlipDown bikeSlipDown = null;
-
-    [SerializeField]
-    DirtSplashSpawnInInput dirtSplashSpawnInInput;
-
-    [SerializeField,Tooltip("移動速度")]
-    float moveSpd = 10f;
-
-    [SerializeField, Tooltip("坂を上る時移動速度にかける倍率")]
-    float moveSlopeMultiply = 2f;
-
-    [SerializeField,Tooltip("移動速度の入力に対する追従度, 値が大きいとキビキビ動く")]
-    float moveForceMultiplyStart = 5f;
-
-    [SerializeField, Tooltip("移動速度の入力に対する追従度, 値が大きいとキビキビ動く")]
-    float moveForceMultiplyStop = 5f;
-
     bool moveInput = false;
-
-    [SerializeField]
-    float gravity = -100f; // 重力
-
-    Vector3 normalVec = Vector3.zero;
-
-    [SerializeField]
-    Vector3 moveVec = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -64,24 +29,12 @@ public class PlayerMoveInRace : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //if (colliderSensorFront.GetExistInCollider() ||
-        //    colliderSensorBack.GetExistInCollider())
-        //{
-        //    normalVec = Vector3.zero;
-        //}
-
         // 移動
         //Vector3 moveVec = Vector3.zero;
         moveVec = Vector3.zero;
         if (moveInput)
         {
-            //if (colliderSensorFront.GetExistInCollider() ||
-            //    colliderSensorBack.GetExistInCollider())
-            //moveVec = Vector3.forward * moveSpd;
             moveVec = Vector3.ProjectOnPlane(Vector3.forward, normalVec) * moveSpd;
-            //moveVec.y = normalVec.y;
-            //moveVec.z = 1f;
-            //moveVec = new Vector3(0,normalVec.y, 1f) * moveSpd;
             if (moveVec.y > 1f)
             {
                 moveVec *= 2f;
@@ -106,7 +59,7 @@ public class PlayerMoveInRace : MonoBehaviour
             rb.AddForce(moveForceMultiplyStart * (moveVec - rb.velocity), ForceMode.Acceleration);
         }
 
-        dirtSplashSpawnInInput.playerMoveVec = moveVec;
+        dirtSplashSpawn.moveVec = moveVec;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -115,13 +68,13 @@ public class PlayerMoveInRace : MonoBehaviour
             collision.transform.parent.gameObject.tag == "SlopeRoadInRace")
         {
             normalVec = collision.contacts[0].normal;
-            Debug.Log("坂の法線取得" + normalVec);
+            //Debug.Log("坂の法線取得" + normalVec);
         }
         else if(collision.gameObject.tag == "FlatRoadInRace" ||
             collision.transform.parent.gameObject.tag == "FlatRoadInRace")
         {
             normalVec = Vector3.zero;
-            Debug.Log("坂の法線リセット" + normalVec);
+            //Debug.Log("坂の法線リセット" + normalVec);
         }
     }
 

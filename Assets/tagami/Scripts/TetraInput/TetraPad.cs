@@ -10,6 +10,8 @@ public class TetraPad : MonoBehaviour
     [Header("Reference")]
     [SerializeField] TetraPadBody tetraPadBody;
 
+    [Header("Option")]
+    [SerializeField] bool reverseVector;
 
     [System.NonSerialized]
     public bool deadBatteryDebug = false;
@@ -19,7 +21,6 @@ public class TetraPad : MonoBehaviour
     private void Update()
     {
         padVector = Vector2.zero;
-
         if ((batteryHolder && batteryHolder.GetBatterylevel() > 0) || deadBatteryDebug)
         {
             //リストから合算ベクトルを作成           
@@ -29,8 +30,16 @@ public class TetraPad : MonoBehaviour
 
                 var localVec = obj.transform.position - transform.position;
                 localVec.Normalize();
-                padVector.x += localVec.x;
-                padVector.y += localVec.z;
+                if (reverseVector)
+                {
+                    padVector.x -= localVec.x;
+                    padVector.y -= localVec.z;
+                }
+                else
+                {
+                    padVector.x += localVec.x;
+                    padVector.y += localVec.z;
+                }
             }
         }
     }

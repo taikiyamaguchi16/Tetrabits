@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Photon.Pun;
 
 public class GameInGameUtil : MonoBehaviour
 {
@@ -28,18 +26,27 @@ public class GameInGameUtil : MonoBehaviour
         SceneManager.MoveGameObjectToScene(_go, _owner.scene);
     }
 
-    public static void SwitchGameInGameScene(string _nextGameInGameScene)
+    public static void SwitchGameInGameScene(string _nextGameInGameSceneName)
     {
         var managerObj = GameObject.Find("GameMainManager");
         if (managerObj)
         {
-            managerObj.GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene(_nextGameInGameScene);
+            managerObj.GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene(_nextGameInGameSceneName);
         }
         else
         {
-            Debug.LogError("GameMainManagerが見つかりませんでした");
+            Debug.LogWarning("GameMainManagerが見つからないので直接シーンを変更します");
+            SceneManager.LoadScene(_nextGameInGameSceneName);
         }
     }
+
+    public static string GetSceneNameByBuildIndex(int _index)
+    {
+        string path = SceneUtility.GetScenePathByBuildIndex(_index);
+        return path.Substring(0, path.Length - 6).Substring(path.LastIndexOf('/') + 1);
+    }
+
+
 
     public static void SwitchGameInGameSceneOffline(string _nextGameInGameScene)
     {

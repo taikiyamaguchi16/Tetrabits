@@ -5,48 +5,68 @@ using UnityEngine;
 public class JumpPlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
-
-    [SerializeField] float jumpForce = 10f;
-
-    float gravityScale = 3f;
     bool isParasol = false;
-    bool isJump = false;
+    public bool isJump = false;
+    public GameObject lastFlag;
+    Vector2 padVec;
+
+    [Header("Player")]
+    [SerializeField] float jumpForce = 10f;
+    [SerializeField] float moveScale = 3f;
+    [SerializeField] float gravityScale = 1f;
+    [SerializeField] float parasolGravity = .5f;
+    [SerializeField] float speedLimit = 5f;
+
+    [Header("Arrow")]
+    Vector3 originScale;
+    [SerializeField] GameObject arrow;
+    [SerializeField] float arrowScaleRatio = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
+        originScale = arrow.transform.localScale;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 padVec = TetraInput.sTetraPad.GetVector();
-        if (TetraInput.sTetraButton.GetTrigger())
-        {
-            Jump(padVec);
-            isJump = true;
-        }
+        padVec = TetraInput.sTetraPad.GetVector();
+        ArrowControll(padVec);
+        if (TetraInput.sTetraButton.GetTrigger() && !isJump) Jump(padVec);
 
-        if (isJump && TetraInput.sTetraLever.GetPoweredOn())
-        {
-            rb.gravityScale = 0.5f;
-            isParasol = true;
-        }
-        else
-        {
-            rb.gravityScale = 1;
-            isParasol = false;
-        }
+        if (TetraInput.sTetraLever.GetPoweredOn()) isParasol = true;
+        else isParasol = false;
+
+        //isParasol中の落下速度軽減
+        if (isParasol && rb.velocity.y < 0) rb.gravityScale = parasolGravity;
+        else rb.gravityScale = gravityScale;
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
-
+        if (isJump)
+        {
+            if (padVec.x > 0 && rb.velocity.x < speedLimit)
+            {
+                rb.AddForce(transform.right * padVec.x * moveScale);
+            }
+            else if (padVec.x < 0 && rb.velocity.x > -speedLimit)
+            {
+                rb.AddForce(transform.right * padVec.x * moveScale);
+            }
+        }
     }
 
     void Jump(Vector2 _jumpDirection)
     {
         rb.AddForce(_jumpDirection * jumpForce, ForceMode2D.Impulse);
+    }
+
+    void ArrowControll(Vector2 _dir)
+    {
+        arrow.transform.localScale = originScale * (_dir.magnitude * arrowScaleRatio);
+        arrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, _dir);
     }
 }
