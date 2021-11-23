@@ -23,7 +23,7 @@ public class JumpCoinBlock : MonoBehaviour
         if(collision.gameObject.tag=="Player")
         {
             timeControllerComponent.AddCoin();
+            Destroy(this.gameObject);
         }
-        Destroy(this.gameObject);
     }
 }
