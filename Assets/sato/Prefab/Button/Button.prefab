@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 3919153757486053554}
   - component: {fileID: 6132813186079484291}
   - component: {fileID: 3268821590868983963}
+  - component: {fileID: 4611057289317366782}
   m_Layer: 0
   m_Name: NumPos
   m_TagString: Untagged
@@ -209,6 +210,39 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4611057289317366782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4084739249229786179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56e63389b668e3249bcd8e7ee97dcf18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  easeTypes: 1
+  loopTypes: 1
+  loopTimes: -1
+  moveFlag: 0
+  moveRange: {x: 0, y: 0, z: 0}
+  moveTime: 0
+  scaleFlag: 1
+  scaleRange: {x: 1.6, y: 0.6, z: 1.6}
+  scaleTime: 1
+  rotateFlag: 0
+  rotateAxis: {x: 0, y: 1, z: 0}
+  rotateRange: 0
+  rotateTime: 0
+  ColorFlag: 0
+  rendererComponent: {fileID: 0}
+  image: {fileID: 0}
+  color: {r: 1, g: 0, b: 0, a: 1}
+  colorTime: 0
+  FadeFlag: 0
+  fadeRange: 0
+  fadeTime: 0
 --- !u!1 &7439069838145905042
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,7 +35,7 @@ public class DOManager : MonoBehaviour
     protected bool scaleFlag = false;
     [SerializeField]
     [Tooltip("•Ï‰»‚³‚¹‚½‚¢–Ú“I’l")]
-    protected float scaleRange = 0.0f;
+    protected Vector3 scaleRange = Vector3.zero;
     [SerializeField]
     [Tooltip("‰½•b‚©‚¯‚Ä•Ï‰»‚³‚¹‚é‚©")]
     protected float scaleTime = 0.0f;
