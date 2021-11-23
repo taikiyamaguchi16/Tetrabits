@@ -17,12 +17,17 @@ public class TetraPad : MonoBehaviour
     public bool deadBatteryDebug = false;
 
     protected Vector2 padVector;
+    protected int numOnPad;
 
     private void Update()
     {
+        numOnPad = 0;
         padVector = Vector2.zero;
         if ((batteryHolder && batteryHolder.GetBatterylevel() > 0) || deadBatteryDebug)
         {
+            //パッドの人数を記録
+            numOnPad = tetraPadBody.onPadObjects.Count;
+
             //リストから合算ベクトルを作成           
             foreach (var obj in tetraPadBody.onPadObjects)
             {
@@ -53,5 +58,6 @@ public class TetraPad : MonoBehaviour
         return new List<GameObject>();
     }
 
+    public int GetNumOnPad() { return numOnPad; }
     public Vector2 GetVector() { return padVector; }
 }
