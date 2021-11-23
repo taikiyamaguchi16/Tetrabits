@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 7080436783626242050}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -2.78, z: 15.53}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 84.83219, y: 84.83219, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -48,7 +48,7 @@ VisualEffect:
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 7000
+      - m_Value: 1000
         m_Name: Spwan Rate
         m_Overridden: 1
     m_Vector2f:
@@ -61,9 +61,12 @@ VisualEffect:
       - m_Value: {x: 1, y: -1, z: 0}
         m_Name: velocity
         m_Overridden: 1
+      - m_Value: {x: 0.3, y: 0.3, z: 0.3}
+        m_Name: scale
+        m_Overridden: 1
     m_Vector4f:
       m_Array:
-      - m_Value: {x: 3.4303458, y: 1.9416271, z: 0, w: 1}
+      - m_Value: {x: 3.2302318, y: 3.2302318, z: 3.2302318, w: 1}
         m_Name: Color
         m_Overridden: 1
     m_Uint:
@@ -78,10 +81,10 @@ VisualEffect:
       m_Array:
       - m_Value:
           serializedVersion: 2
-          key0: {r: 0, g: 0, b: 0, a: 0}
+          key0: {r: 0, g: 0, b: 0, a: 0.27450982}
           key1: {r: 1, g: 0.90754163, b: 0.78679246, a: 1}
-          key2: {r: 1.6688482, g: 0.6652737, b: 0.21096756, a: 0.43137255}
-          key3: {r: 0.87499994, g: 0.50392663, b: 0.12827224, a: 0}
+          key2: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 0.23921569}
+          key3: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 0}
           key4: {r: 2.2291465, g: 0.8451641, b: 0.45516598, a: 0}
           key5: {r: 3.2117448, g: 1.8215605, b: 0.70900774, a: 0}
           key6: {r: 0, g: 0, b: 0, a: 0}
@@ -90,12 +93,12 @@ VisualEffect:
           ctime1: 19661
           ctime2: 32768
           ctime3: 45875
-          ctime4: 58403
+          ctime4: 59753
           ctime5: 65535
           ctime6: 0
           ctime7: 0
           atime0: 0
-          atime1: 57440
+          atime1: 32768
           atime2: 65535
           atime3: 65535
           atime4: 65535
@@ -103,7 +106,7 @@ VisualEffect:
           atime6: 0
           atime7: 0
           m_Mode: 0
-          m_NumColorKeys: 6
+          m_NumColorKeys: 4
           m_NumAlphaKeys: 3
         m_Name: Gradient
         m_Overridden: 1
