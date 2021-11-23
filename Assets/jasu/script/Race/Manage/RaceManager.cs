@@ -40,14 +40,13 @@ public class RaceManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void LateUpdate()
     {
         // 順位計算
         RankingCalculation();
     }
 
-    void RankingCalculation()
+    public void RankingCalculation()
     {
         Progress[] racersProgress = new Progress[racers.Length];
 

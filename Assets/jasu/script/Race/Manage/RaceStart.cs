@@ -28,7 +28,7 @@ public class RaceStart : MonoBehaviour
             {
                 bikeCtrlStartGoal.SetActiveBeforeStart(true);
             }
-            Debug.Log("スタート");
+            //Debug.Log("スタート");
         }
     }
 }

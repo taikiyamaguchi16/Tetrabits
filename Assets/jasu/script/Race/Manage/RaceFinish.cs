@@ -1,11 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RaceFinish : MonoBehaviour
 {
     [SerializeField]
     SceneObject nextStageScene = null;
+
+    [SerializeField]
+    SceneObject nowStageScene = null;
+
+    [SerializeField]
+    RaceManager raceManager;
 
     [SerializeField]
     RacerInfo playerInfo;
@@ -23,11 +30,10 @@ public class RaceFinish : MonoBehaviour
 
     float standByTimer = 0f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    bool winFlag = false;
+
+    [SerializeField]
+    bool finalStage = false;
 
     // Update is called once per frame
     void Update()
@@ -38,18 +44,40 @@ public class RaceFinish : MonoBehaviour
             if(standByTimer > standBytimeSeconds)
             {
                 standByTimer = 0f;
-                if(nextStageScene != null)
+                if (winFlag)
                 {
-                    GameInGameUtil.SwitchGameInGameScene(nextStageScene);
+                    if (finalStage)
+                    {
+                        GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
+                    }
+                    else if (nextStageScene != null)
+                    {
+                        GameInGameUtil.SwitchGameInGameScene(nextStageScene);
+                    }
+                }
+                else
+                {
+                    if(nowStageScene != null)
+                    {
+                        GameInGameUtil.SwitchGameInGameScene(nowStageScene);
+                    }
                 }
             }
         }
-        else if (playerInfo.lapCounter.goaled && !taskWhenGoaled)   // ゴール時のみ
+    }
+
+    private void LateUpdate()
+    {
+        // ゴール時のみ
+        if (playerInfo.lapCounter.goaled && !taskWhenGoaled)   
         {
+            raceManager.RankingCalculation();
+
             taskWhenGoaled = true;
-            if(playerInfo.ranking == 1)
+            if (playerInfo.ranking == 1)
             {
                 textObjWhenWin.SetActive(true);
+                winFlag = true;
             }
             else
             {

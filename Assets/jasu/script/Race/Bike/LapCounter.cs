@@ -49,7 +49,7 @@ public class LapCounter : MonoBehaviour
                     lapCount++;
                     if(lapCount > raceManager.GetLapNum)    // ゴール判定
                     {
-                        Debug.Log("ゴール");
+                        //Debug.Log("ゴール");
                         bikeCtrlWhenStartAndGoal.SetActiveOffAfterGoal(false);
                         bikeCtrlWhenStartAndGoal.SetActiveOnAfterGoal(true);
                         goaled = true;

@@ -19,8 +19,7 @@ public class RankingText : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void LateUpdate()
     {
         text.text = racerInfo.ranking + " th";
     }
