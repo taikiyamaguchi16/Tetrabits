@@ -887,13 +887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8d1204ca5276f44a8bf3459de3461b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameInGameSwitchByKeys:
-  - sceneObject:
-      m_SceneName: ShootingProto
-    keyCode: 112
-  - sceneObject:
-      m_SceneName: GameInGameShooting
-    keyCode: 111
+  gameInGameScenesOnDebugWindow: []
 --- !u!114 &408859378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4851,11 +4845,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameInGameSwitcher: {fileID: 408859377}
+  globalVolumeController: {fileID: 0}
   monitorHpMax: 3
   monitorStatuses:
   - monitorModelObject: {fileID: 787821679}
+    colorFilter: {r: 0, g: 0, b: 0, a: 0}
   - monitorModelObject: {fileID: 1958969069}
+    colorFilter: {r: 0, g: 0, b: 0, a: 0}
   - monitorModelObject: {fileID: 437143750}
+    colorFilter: {r: 0, g: 0, b: 0, a: 0}
+  monitorDamageEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  displayTransform: {fileID: 0}
+  coolingTargetOffset: {x: 0, y: 0, z: 0}
   coolingTargetPrefabs:
   - key: small
     go: {fileID: 1152768742167004558, guid: 8a0d9690dc4415c41a16c6c5d329ce4a, type: 3}
@@ -5397,6 +5400,7 @@ GameObject:
   - component: {fileID: 2026419009}
   - component: {fileID: 2026419008}
   - component: {fileID: 2026419007}
+  - component: {fileID: 2026419011}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -5411,8 +5415,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2026419005}
-  m_LocalRotation: {x: 0.18900971, y: -0, z: -0, w: 0.9819752}
-  m_LocalPosition: {x: 0, y: 23.35, z: -33.64}
+  m_LocalRotation: {x: 0.11753737, y: 0.000010256326, z: -0.00008665528, w: 0.99306846}
+  m_LocalPosition: {x: 0, y: 40, z: -110}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1585658583}
@@ -5516,7 +5520,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 20
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -5534,6 +5538,22 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &2026419011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026419005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43e21812500e6e942b04e56cda17ec43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emissionMaterial: {fileID: 0}
+  outlineMaterial: {fileID: 0}
+  camera: {fileID: 2026419010}
+  targetRenderer: {fileID: 0}
 --- !u!1 &2031002522
 GameObject:
   m_ObjectHideFlags: 0

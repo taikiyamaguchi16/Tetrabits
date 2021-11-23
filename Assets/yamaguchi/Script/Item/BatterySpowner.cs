@@ -72,6 +72,7 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
                 //バッテリーが生成されていた場合
                 if (ownBattery != null)
                 {
+                    ownBattery.CallDump(photonView.ViewID);
                     ownBattery.CallPickUp(_desc.playerObj.GetPhotonView().ViewID);
 
                     pocket.SetItem(null);
