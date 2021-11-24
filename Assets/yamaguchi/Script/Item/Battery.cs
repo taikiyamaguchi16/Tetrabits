@@ -18,10 +18,6 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     [SerializeField, ReadOnly]
     private float level = 100f;
 
-    //消費電力
-    [SerializeField]
-    float powerConsumption;
-
     private ItemPocket ownerSc;
 
     void Awake()
@@ -61,6 +57,11 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         photonView.RPC(nameof(PickUp), RpcTarget.All, _id);
     }
 
+    public void CallDump(int _id)
+    {
+        photonView.RPC(nameof(Dump), RpcTarget.All, _id);
+    }
+
     [PunRPC]
     public void PickUp(int _id)
     {
@@ -94,9 +95,9 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         return level;
     }
 
-    public void BatteryConsumption()
+    public void BatteryConsumption(float _powerConsumption)
     {
-        level -= powerConsumption * Time.deltaTime;
+        level -= _powerConsumption;
         if (level < 0)
             level = 0f;
     }

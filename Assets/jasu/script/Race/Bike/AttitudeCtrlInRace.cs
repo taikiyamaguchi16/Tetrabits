@@ -31,7 +31,7 @@ public class AttitudeCtrlInRace : MonoBehaviour
     [SerializeField, Range(0f, 90f)]
     protected float slipAngle = 55f;
 
-    public int dirRot { get; set; } = 0;
+    public float dirRot { get; set; } = 0;
 
     // Update is called once per frame
     void Update()
@@ -64,15 +64,16 @@ public class AttitudeCtrlInRace : MonoBehaviour
         }
         else // 回転
         {
-            if (dirRot < 0 && angleX > rotMin)
+            if (dirRot < 0 && angleX > rotMin &&
+                !colliderSensorFront.GetExistInCollider() && !colliderSensorBack.GetExistInCollider())
             {
-                rb.AddTorque(Vector3.right * torqueForceMultiply, ForceMode.Acceleration);
+                rb.AddTorque(Vector3.right * torqueForceMultiply * dirRot, ForceMode.Acceleration);
             }
                
             if (dirRot > 0 && angleX < rotMax && 
                     !colliderSensorFront.GetExistInCollider() && !colliderSensorBack.GetExistInCollider())
             {
-                rb.AddTorque(Vector3.right * torqueForceMultiply, ForceMode.Acceleration);
+                rb.AddTorque(Vector3.right * torqueForceMultiply * dirRot, ForceMode.Acceleration);
             }
 
             // 接地時
@@ -89,6 +90,10 @@ public class AttitudeCtrlInRace : MonoBehaviour
                 }
 
                 if(angleX > slipAngle)
+                {
+                    bikeSlipDown.SlipStart();
+                }
+                else if(angleX < -slipAngle)
                 {
                     bikeSlipDown.SlipStart();
                 }

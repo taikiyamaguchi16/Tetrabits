@@ -24,6 +24,8 @@ public class LapCounter : MonoBehaviour
 
     Vector3 oldPos;
 
+    public bool goaled { get; private set; } = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +52,7 @@ public class LapCounter : MonoBehaviour
                         Debug.Log("ゴール");
                         bikeCtrlWhenStartAndGoal.SetActiveOffAfterGoal(false);
                         bikeCtrlWhenStartAndGoal.SetActiveOnAfterGoal(true);
+                        goaled = true;
                     }
                 }
                 actualLapCount++;

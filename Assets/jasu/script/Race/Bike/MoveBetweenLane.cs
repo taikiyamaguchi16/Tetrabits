@@ -10,7 +10,10 @@ public class MoveBetweenLane : MonoBehaviour
     [SerializeField]
     protected LaneManager laneManager = null;
 
-    public int belongingLaneId { get; protected set; } = 0;
+    public int belongingLaneId { get; set; } = 0;
+
+    [SerializeField]
+    protected BikeSlipDown bikeSlipDown;
 
     [SerializeField]
     protected ColliderSensor colliderSensorFront = null;
@@ -44,56 +47,6 @@ public class MoveBetweenLane : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        moveDir = 0;
-
-        // 接地中
-        if (colliderSensorFront.GetExistInCollider() || 
-            colliderSensorBack.GetExistInCollider())
-        {
-            if (dirMove < 0)
-            {
-                moveDir = -1f;
-                arrivalLane = false;
-
-                if (transform.position.x <= laneManager.GetLanePosX(belongingLaneId))
-                {
-                    laneIdUpdated = false;
-                }
-
-                if (!laneIdUpdated)
-                {
-                    laneIdUpdated = true;
-
-                    belongingLaneId++;
-                    if (belongingLaneId > laneNum)
-                    {
-                        belongingLaneId = laneNum;
-                    }
-                }
-            }
-            else if (dirMove > 0)
-            {
-                moveDir = 1f;
-                arrivalLane = false;
-
-                if (transform.position.x >= laneManager.GetLanePosX(belongingLaneId))
-                {
-                    laneIdUpdated = false;
-                }
-
-                if (!laneIdUpdated)
-                {
-                    laneIdUpdated = true;
-
-                    belongingLaneId--;
-                    if (belongingLaneId < 0)
-                    {
-                        belongingLaneId = 0;
-                    }
-                }
-            }
-        }
-
         // レーンの中心を保つ
         if (arrivalLane)
         {
@@ -106,24 +59,7 @@ public class MoveBetweenLane : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(moveDir != 0)    // 入力時移動
-        {
-            rb.velocity = new Vector3(moveDir * spd, rb.velocity.y, rb.velocity.z);
-
-            // 移動制限
-            if (belongingLaneId >= laneNum &&
-                transform.position.x < laneManager.GetLanePosX(laneNum) - outsideRange)
-            {
-                rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
-            }
-
-            if (belongingLaneId <= 0 &&
-                transform.position.x > laneManager.GetLanePosX(0) + outsideRange)
-            {
-                rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
-            }
-        }
-        else if(!arrivalLane)   // 所属レーンへの補正
+        if (!arrivalLane)   // 所属レーンへの補正
         {
             float LaneX = laneManager.GetLanePosX(belongingLaneId);
             float DirX = LaneX - transform.position.x;
@@ -141,6 +77,20 @@ public class MoveBetweenLane : MonoBehaviour
                 {
                     rb.velocity = new Vector3(-spd, rb.velocity.y, rb.velocity.z);
                 }
+            }
+        }
+    }
+
+    public void SetMoveLane(int _laneId)
+    {
+        // 接地中
+        if (colliderSensorFront.GetExistInCollider() ||
+            colliderSensorBack.GetExistInCollider())
+        {
+            if (!bikeSlipDown.isSliping)
+            {
+                belongingLaneId = _laneId;
+                arrivalLane = false;
             }
         }
     }

@@ -21,18 +21,14 @@ public class Zenmai : MonoBehaviourPunCallbacks
         decreaseTrigger = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DecreaseZenmaiPower()
     {
-        if (photonView.IsMine)
+        // ゼンマイパワー減少
+        if (decreaseTrigger)
         {
-            // ゼンマイパワー減少
-            if (decreaseTrigger)
-            {
-                zenmaiPower -= decrease * Time.deltaTime * 300f;
-                if (zenmaiPower < 0)
-                    zenmaiPower = 0;
-            }
+            zenmaiPower -= decrease * Time.deltaTime * 300f;
+            if (zenmaiPower < 0)
+                zenmaiPower = 0;
         }
     }
 }

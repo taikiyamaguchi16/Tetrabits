@@ -40,7 +40,8 @@ public class AttitudeCtrlInRaceInInput : AttitudeCtrlInRace
         {
             // 入力による回転
             float padVecX = TetraInput.sTetraPad.GetVector().x;
-            if (padVecX < -padInputRangeX && angleX > rotMin)
+            if (padVecX < -padInputRangeX && angleX > rotMin &&
+                !colliderSensorFront.GetExistInCollider() && !colliderSensorBack.GetExistInCollider())
             {
                 rb.AddTorque(Vector3.right * padVecX * torqueForceMultiply, ForceMode.Acceleration);
             }
@@ -64,7 +65,11 @@ public class AttitudeCtrlInRaceInInput : AttitudeCtrlInRace
                     rb.AddTorque(-Vector3.right * correctionTorqueMultiply, ForceMode.Acceleration);
                 }
 
-                if(angleX > slipAngle)
+                if (angleX > slipAngle)
+                {
+                    bikeSlipDown.SlipStart();
+                }
+                else if (angleX < -slipAngle)
                 {
                     bikeSlipDown.SlipStart();
                 }

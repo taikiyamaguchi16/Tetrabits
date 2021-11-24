@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3430365330567987668}
   - component: {fileID: 9031354577559278423}
   - component: {fileID: 5390549572701359305}
+  - component: {fileID: 70784503828750906}
   m_Layer: 0
   m_Name: ChainEnemy
   m_TagString: Enemy
@@ -183,3 +184,16 @@ MonoBehaviour:
   bombDropPercent: 5
   levelUpItemPrefab: {fileID: 6066741890700599634, guid: b8a87e49207036649a3959c57fd9d805, type: 3}
   levelUpDropPercent: 5
+--- !u!114 &70784503828750906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2611721140452770444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b1ce4aba70420246a65a283f57fb2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroySeconds: 10

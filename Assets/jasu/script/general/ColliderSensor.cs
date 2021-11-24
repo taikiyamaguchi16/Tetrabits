@@ -4,37 +4,45 @@ using UnityEngine;
 
 public class ColliderSensor : MonoBehaviour
 {
-    int inColliderNum;   // オブジェクトのカウント
-
     [SerializeField]
     bool existInCollider = false; // コリジョン内に何かしらのオブジェクトがあればtrue;
 
+    public List<GameObject> objList = new List<GameObject>();
+
     private void Start()
     {
-        inColliderNum = 0;
+        objList = new List<GameObject>();
     }
 
     private void Update()
     {
-        if (inColliderNum > 0)
+        for (int i = 0; i < objList.Count; i++)
+        {
+            if(objList[i] == null)
+            {
+                objList.Remove(objList[i]);
+            }
+        }
+
+        if (objList.Count > 0)
         {
             existInCollider = true;
         }
         else
         {
             existInCollider = false;
-            inColliderNum = 0;
+            objList.Clear();
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        inColliderNum++;
+        objList.Add(other.gameObject);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        inColliderNum--;
+        objList.Remove(other.gameObject);
     }
 
     private void OnCollisionStay(Collision collision)
@@ -44,7 +52,7 @@ public class ColliderSensor : MonoBehaviour
 
     public int GetInColliderNum()
     {
-        return inColliderNum;
+        return objList.Count;
     }
 
     public bool GetExistInCollider()
