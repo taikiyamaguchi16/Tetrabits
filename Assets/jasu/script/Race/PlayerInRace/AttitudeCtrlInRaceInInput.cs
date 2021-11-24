@@ -64,15 +64,29 @@ public class AttitudeCtrlInRaceInInput : AttitudeCtrlInRace
                 {
                     rb.AddTorque(-Vector3.right * correctionTorqueMultiply, ForceMode.Acceleration);
                 }
+            }
+        }
+    }
 
-                if (angleX > slipAngle)
-                {
-                    bikeSlipDown.SlipStart();
-                }
-                else if (angleX < -slipAngle)
-                {
-                    bikeSlipDown.SlipStart();
-                }
+    private void OnCollisionEnter(Collision collision)
+    {
+        // -180 ~ 180 に補正
+        float angleX = transform.localRotation.eulerAngles.x;
+        if (angleX > 180)
+        {
+            angleX -= 360;
+        }
+
+        // 接地時
+        if (colliderSensorFront.GetExistInCollider() || colliderSensorBack.GetExistInCollider())
+        {
+            if (angleX > slipAngle)
+            {
+                bikeSlipDown.SlipStart();
+            }
+            else if (angleX < -slipAngle)
+            {
+                bikeSlipDown.SlipStart();
             }
         }
     }

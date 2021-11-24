@@ -5,7 +5,7 @@ using UnityEngine;
 public class MoveBetweenLaneInInput : MoveBetweenLane
 {
     [SerializeField]
-    float padInputRangeY = 0.5f;
+    float padInputRangeY = 0.35f;
 
     // Start is called before the first frame update
     void Start()

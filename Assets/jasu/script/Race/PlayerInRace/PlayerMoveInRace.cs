@@ -21,7 +21,7 @@ public class PlayerMoveInRace : MoveInRace
     {
         // 移動入力
         moveInput = false;
-        if (TetraInput.sTetraLever.GetPoweredOn() && !bikeSlipDown.isSliping)
+        if (TetraInput.sTetraLever.GetPoweredOn())
         {
             moveInput = true;
         }
@@ -29,53 +29,24 @@ public class PlayerMoveInRace : MoveInRace
 
     private void FixedUpdate()
     {
-        // 移動
-        //Vector3 moveVec = Vector3.zero;
         moveVec = Vector3.zero;
+
+        // 移動ベクトル作成
         if (moveInput)
         {
-            moveVec = Vector3.ProjectOnPlane(Vector3.forward, normalVec) * moveSpd;
-            if (moveVec.y > 1f)
-            {
-                moveVec *= 2f;
-            }
+            SetMoveVec();
         }
 
         // 空中でのy軸の加速を切る
-        if (!colliderSensorFront.GetExistInCollider() &&
-            !colliderSensorBack.GetExistInCollider())
-        {
-            moveVec.y = gravity;
-        }
-        
+        SetGravity();
 
         // 加速
-        if(moveVec.z <= 0f) // stop
-        {
-            rb.AddForce(moveForceMultiplyStop * (moveVec - rb.velocity), ForceMode.Acceleration);
-        }
-        else // start
-        {
-            rb.AddForce(moveForceMultiplyStart * (moveVec - rb.velocity), ForceMode.Acceleration);
-        }
-
-        dirtSplashSpawn.moveVec = moveVec;
+        AccelerationToMoveVec();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "SlopeRoadInRace" ||
-            collision.transform.parent.gameObject.tag == "SlopeRoadInRace")
-        {
-            normalVec = collision.contacts[0].normal;
-            //Debug.Log("坂の法線取得" + normalVec);
-        }
-        else if(collision.gameObject.tag == "FlatRoadInRace" ||
-            collision.transform.parent.gameObject.tag == "FlatRoadInRace")
-        {
-            normalVec = Vector3.zero;
-            //Debug.Log("坂の法線リセット" + normalVec);
-        }
+        WhenOnCollisionEnter(collision);
     }
 
     private void OnTriggerEnter(Collider other)
