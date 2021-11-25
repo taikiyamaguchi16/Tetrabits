@@ -30,15 +30,14 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
-        if (photonView.IsMine)
+
+        if (!isOwned)
         {
-            if (!isOwned)
-            { 
-                photonView.RPC(nameof(PickUp), RpcTarget.All,_desc.playerObj.GetPhotonView().ViewID);
-            }
-            else
-                photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);      
+            photonView.RPC(nameof(PickUp), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
         }
+        else
+            photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
+
     }
 
     public void EndPlayerAction(PlayerActionDesc _desc) { }

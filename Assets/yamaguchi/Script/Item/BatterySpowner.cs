@@ -39,24 +39,21 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Y))
+        if (PhotonNetwork.IsMasterClient)
         {
-            smokeEfect.Play();
-            canSpawn = true;
-        }
-        if (ownBattery == null&&canSpawn)
-        {
-            elpsedTime += Time.deltaTime;
-            if (spownBatteryTime < elpsedTime)
+            if (ownBattery == null && canSpawn)
             {
-                //エフェクトの再生
-                smokeEfect.Play();
+                elpsedTime += Time.deltaTime;
+                if (spownBatteryTime < elpsedTime)
+                {
+                    photonView.RPC(nameof(RPCPlaySmokeEfect), RpcTarget.All);
 
-                elpsedTime = 0f;
+                    elpsedTime = 0f;
+                }
+                //エフェクト再生して1秒たったら生成
+                if (smokeEfect.time > 1f && smokeEfect.isPlaying)
+                    SpawonBattery();
             }
-            //エフェクト再生して1秒たったら生成
-            if (smokeEfect.time > 1f&&smokeEfect.isPlaying)
-                SpawonBattery();
         }
     }
 
@@ -117,24 +114,28 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
 
     private void SpawonBattery()
     {
-        //ルームに入っていたら生成
-        if (PhotonNetwork.IsMasterClient)
-        {
-            var b_obj = PhotonNetwork.InstantiateRoomObject(spownObj.name, Vector3.zero, Quaternion.identity);
-            ownBattery = b_obj.GetComponent<Battery>();
+        var b_obj = PhotonNetwork.InstantiateRoomObject(spownObj.name, Vector3.zero, Quaternion.identity);
+        ownBattery = b_obj.GetComponent<Battery>();
 
-            //ownBattery.PickUp(this.gameObject);
-            photonView.RPC(nameof(CallSpawonBattery), RpcTarget.All, b_obj.GetPhotonView().ViewID);
-            ownBattery.CallPickUp(photonView.ViewID);
+        //ownBattery.PickUp(this.gameObject);
+        photonView.RPC(nameof(RPCSpawonBattery), RpcTarget.All, b_obj.GetPhotonView().ViewID);
+        ownBattery.CallPickUp(photonView.ViewID);
 
-            elpsedTime = 0f;
-            smokeEfect.time = 0f;
-        }
+        elpsedTime = 0f;
+        smokeEfect.time = 0f;
+
     }
 
     [PunRPC]
-    public void CallSpawonBattery(int _id)
+    public void RPCSpawonBattery(int _id)
     {
         ownBattery = NetworkObjContainer.NetworkObjDictionary[_id].GetComponent<Battery>();
+    }
+
+    [PunRPC]
+    public void RPCPlaySmokeEfect()
+    {
+        //エフェクトの再生
+        smokeEfect.Play();
     }
 }
