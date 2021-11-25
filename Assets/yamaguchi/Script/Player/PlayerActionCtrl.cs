@@ -83,7 +83,6 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     PriorityCheck();
                     CheckHighPriorityAction();
 
-                    Debug.Log(selectedObj.name+" 実行");
                     runningAction.StartPlayerAction(desc);
                 }
 
@@ -133,9 +132,12 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
 
             if (allActionItem.Count > 0)
             {
-                CheckItemPossible();              
-                PriorityCheck();
-                CheckHighPriorityAction();
+                CheckItemPossible();
+                if (candidates.Count > 0)
+                {
+                    PriorityCheck();
+                    CheckHighPriorityAction();
+                }
             }
         }
     }
@@ -146,8 +148,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
         List<IPlayerAction> intList = new List<IPlayerAction>();       
         foreach (var can in candidates)
         {     
-            intList.Add(can.GetComponent<IPlayerAction>());
-            //Debug.Log(can.name + can.GetComponent<IPlayerAction>().GetPriority());
+            intList.Add(can.GetComponent<IPlayerAction>());         
         }
        
         IPlayerAction max = intList[0];
