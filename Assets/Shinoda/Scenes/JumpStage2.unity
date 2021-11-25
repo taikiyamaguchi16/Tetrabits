@@ -17055,11 +17055,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3723119935596013174, guid: a17a5b8fe8ff9f44585d53204bc310b4, type: 3}
       propertyPath: m_Size.x
-      value: 17
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 3723119935596013174, guid: a17a5b8fe8ff9f44585d53204bc310b4, type: 3}
       propertyPath: m_Offset.x
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a17a5b8fe8ff9f44585d53204bc310b4, type: 3}
@@ -46530,11 +46530,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3723119935596013174, guid: a17a5b8fe8ff9f44585d53204bc310b4, type: 3}
       propertyPath: m_Size.x
-      value: 17
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 3723119935596013174, guid: a17a5b8fe8ff9f44585d53204bc310b4, type: 3}
       propertyPath: m_Offset.x
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a17a5b8fe8ff9f44585d53204bc310b4, type: 3}
@@ -49522,9 +49522,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4073020}
     m_Modifications:
+    - target: {fileID: 388040993494396124, guid: 2748f85089e1a314b84c040677c22ffc, type: 3}
+      propertyPath: sceneViewId
+      value: 103
+      objectReference: {fileID: 0}
     - target: {fileID: 2914618179080714118, guid: 2748f85089e1a314b84c040677c22ffc, type: 3}
       propertyPath: sceneViewId
-      value: 1
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: 3518363436770273672, guid: 2748f85089e1a314b84c040677c22ffc, type: 3}
+      propertyPath: sceneViewId
+      value: 102
       objectReference: {fileID: 0}
     - target: {fileID: 9014217376288345531, guid: 2748f85089e1a314b84c040677c22ffc, type: 3}
       propertyPath: m_RootOrder
@@ -49572,8 +49580,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9014217376288345532, guid: 2748f85089e1a314b84c040677c22ffc, type: 3}
       propertyPath: m_Name
-      value: player
+      value: JumpMan
       objectReference: {fileID: 0}
+    - target: {fileID: 9014217376288345543, guid: 2748f85089e1a314b84c040677c22ffc, type: 3}
+      propertyPath: cameraObject
+      value: 
+      objectReference: {fileID: 713998219}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2748f85089e1a314b84c040677c22ffc, type: 3}
 --- !u!4 &1488234721 stripped
