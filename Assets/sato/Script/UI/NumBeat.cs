@@ -49,19 +49,5 @@ public class NumBeat : DOManager
             isSelect = false;
             transform.DOScale(InitScale, 0.1f);
         }
-        
-        //else
-        //{
-        //    transform.DOScale(Vector3.zero, 0);
-        //}
-
-        //try
-        //{
-
-        //}
-        //catch (NullReferenceException ex)
-        //{
-
-        //}
     }
 }
