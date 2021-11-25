@@ -18,6 +18,9 @@ public class RaceManager : MonoBehaviour
     RacerInfo[] racersInfo;
 
     [SerializeField]
+    RaceFinish raceFinish;
+
+    [SerializeField]
     RaceStageMolder raceStageMolder;
 
     [SerializeField]
@@ -42,8 +45,11 @@ public class RaceManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        // 順位計算
-        RankingCalculation();
+        if (!raceFinish.goaled)
+        {
+            // 順位計算
+            RankingCalculation();
+        }
     }
 
     public void RankingCalculation()

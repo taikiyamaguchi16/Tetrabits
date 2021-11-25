@@ -186,7 +186,7 @@ MonoBehaviour:
   bikeSlipDown: {fileID: 5219267999466606608}
   colliderSensorFront: {fileID: 3070685040492917561}
   colliderSensorBack: {fileID: 8578007734320314296}
-  outsideRange: 3
+  outsideRange: 2
   spd: 20
 --- !u!114 &396231687437029225
 MonoBehaviour:
@@ -207,8 +207,8 @@ MonoBehaviour:
   torqueForceMultiply: 4
   correctionTorqueMultiply: 2
   rotMin: -80
-  rotMax: 70
-  slipAngle: 65
+  rotMax: 65
+  slipAngle: 60
 --- !u!114 &4421796239360097713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 7603701497981581255}
   moveForceMultiply: 0.5
+  gravity: -50
 --- !u!1 &3405693731458820472
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,6 +475,8 @@ GameObject:
   - component: {fileID: 4395545781944696137}
   - component: {fileID: 811336330700494569}
   - component: {fileID: 1137678447}
+  - component: {fileID: 7030274486372367719}
+  - component: {fileID: 2717102789493342454}
   m_Layer: 0
   m_Name: NPCRacer
   m_TagString: Untagged
@@ -612,9 +615,9 @@ MonoBehaviour:
     list:
     - Key: MidAir
       Value: {fileID: 811336330700494569}
-    - Key: ShiftLane
+    - Key: OnGround
       Value: {fileID: 1137678447}
-  activeState: {fileID: 0}
+  activeState: {fileID: 1137678447}
 --- !u!114 &811336330700494569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -659,6 +662,45 @@ MonoBehaviour:
   colliderSensorBack: {fileID: 8578007734320314296}
   correctSeconds: 1
   dirtIntervalSeconds: 5
+--- !u!114 &7030274486372367719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4878758953354832212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 2717102789493342454}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &2717102789493342454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4878758953354832212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &6291139973812066315
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,7 +726,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6291139973812066315}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7564720750192745863}

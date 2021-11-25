@@ -22,8 +22,8 @@ public class RaceFinish : MonoBehaviour
 
     [SerializeField]
     GameObject textObjWhenLose;
-
-    bool taskWhenGoaled = false;
+    
+    public bool goaled { get; private set; } = false;
 
     [SerializeField]
     float standBytimeSeconds = 3f;
@@ -38,7 +38,7 @@ public class RaceFinish : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (taskWhenGoaled)
+        if (goaled)
         {
             standByTimer += Time.deltaTime;
             if(standByTimer > standBytimeSeconds)
@@ -69,11 +69,11 @@ public class RaceFinish : MonoBehaviour
     private void LateUpdate()
     {
         // ゴール時のみ
-        if (playerInfo.lapCounter.goaled && !taskWhenGoaled)   
+        if (playerInfo.lapCounter.goaled && !goaled)   
         {
             raceManager.RankingCalculation();
 
-            taskWhenGoaled = true;
+            goaled = true;
             if (playerInfo.ranking == 1)
             {
                 textObjWhenWin.SetActive(true);

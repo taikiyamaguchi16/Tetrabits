@@ -49,6 +49,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  raceFinish: {fileID: 911848194607409425}
   raceStageMolder: {fileID: 0}
   startPoint: {fileID: 0}
   lapNum: 3
@@ -82,9 +83,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextStageScene:
-    m_SceneName: 
+    m_SceneName: RaceGameStage2
+  nowStageScene:
+    m_SceneName: RaceGameStage1
   raceManager: {fileID: 9122674639491399778}
   playerInfo: {fileID: 0}
   textObjWhenWin: {fileID: 0}
   textObjWhenLose: {fileID: 0}
   standBytimeSeconds: 3
+  finalStage: 0
