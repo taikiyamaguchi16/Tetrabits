@@ -207,7 +207,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
             }
         }
     }
-
+    
     private void FixedUpdate()
     {
         if (photonView.IsMine)

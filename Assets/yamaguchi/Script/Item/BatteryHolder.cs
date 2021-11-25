@@ -14,11 +14,6 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
         pocket = GetComponent<ItemPocket>();
     }
 
-    private void Update()
-    {
-        
-    }
-
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
         ItemPocket otherPocket = _desc.playerObj.GetComponent<ItemPocket>();
@@ -31,7 +26,7 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
             //渡されたのがバッテリーだった場合
             if (ownBattery != null)
             {
-                //ownBattery.CallDump(_desc.playerObj.GetPhotonView().ViewID);
+                ownBattery.CallDump(_desc.playerObj.GetPhotonView().ViewID);
                 ownBattery.CallPickUp(photonView.ViewID);
                 otherPocket.SetItem(null);
                 //自分がバッテリを持っていた場合swapする
@@ -40,9 +35,8 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
                     checkbattery.CallPickUp(_desc.playerObj.GetPhotonView().ViewID);
                 }
                 
-
                 //他のプレイヤーのホルダーにもバッテリーをセット
-                photonView.RPC(nameof(RPCSetOwnBattery), RpcTarget.All);
+                photonView.RPC(nameof(RPCSetOwnBattery), RpcTarget.All,ownBattery.photonView.ViewID);
             }
             //バッテリーでなかった場合元に戻す
             else
@@ -82,7 +76,6 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
         if (otherPocket.GetItem() != null)
         {
             possibleBattery = otherPocket.GetItem().GetComponent<Battery>();
-            Debug.Log("チェックしています");
             //渡されたのがバッテリーだった場合
             if (possibleBattery != null)
             {
@@ -116,10 +109,12 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
     }
 
     [PunRPC]
-    private void RPCSetOwnBattery()
+    private void RPCSetOwnBattery(int _id)
     {
-        if (pocket.GetItem() != null)
-            ownBattery = pocket.GetItem().GetComponent<Battery>();
+        //if (pocket.GetItem() != null)
+        //    ownBattery = pocket.GetItem().GetComponent<Battery>();
+
+        ownBattery = NetworkObjContainer.NetworkObjDictionary[_id].GetComponent<Battery>();
     }
 
     [PunRPC]
