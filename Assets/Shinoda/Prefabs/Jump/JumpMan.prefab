@@ -110,7 +110,7 @@ Transform:
   m_GameObject: {fileID: 5353520200415689949}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.5, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 9014217376288345531}
   m_RootOrder: 0
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 2914618179080714118}
   - component: {fileID: -8645460573041607224}
   m_Layer: 0
-  m_Name: player
+  m_Name: JumpMan
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -375,7 +375,7 @@ MonoBehaviour:
   parasolGravity: 0.5
   speedLimit: 5
   arrow: {fileID: 3726820300519993325}
-  arrowScaleRatio: 1
+  arrowScaleRatio: 3
 --- !u!114 &2914618179080714118
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -16,8 +16,9 @@ public class JumpDamageBlock : MonoBehaviour
     void Start()
     {
         timeCount = time;
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.Find("JumpMan");
         playerFoot = player.transform.Find("Foot").gameObject;
+        //playerFoot = GameObject.Find("Foot");
     }
 
     // Update is called once per frame

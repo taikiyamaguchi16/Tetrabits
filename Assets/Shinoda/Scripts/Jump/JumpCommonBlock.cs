@@ -12,8 +12,9 @@ public class JumpCommonBlock : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.Find("JumpMan");
         playerFoot = player.transform.Find("Foot").gameObject;
+        //playerFoot = GameObject.Find("Foot");
     }
 
     // Update is called once per frame

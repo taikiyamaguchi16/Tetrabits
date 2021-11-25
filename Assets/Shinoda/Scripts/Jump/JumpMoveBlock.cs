@@ -21,7 +21,8 @@ public class JumpMoveBlock : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player");
-        playerFoot = player.transform.Find("Foot").gameObject;
+        //playerFoot = player.transform.Find("Foot").gameObject;
+        playerFoot = GameObject.Find("Foot");
 
         originPos = transform.position;
         targetPos = new Vector3(originPos.x + (moveX * blockSize), originPos.y + (moveY * blockSize), originPos.z);

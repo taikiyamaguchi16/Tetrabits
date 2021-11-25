@@ -63310,9 +63310,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4073020}
     m_Modifications:
+    - target: {fileID: 388040993494396124, guid: 2748f85089e1a314b84c040677c22ffc, type: 3}
+      propertyPath: sceneViewId
+      value: 103
+      objectReference: {fileID: 0}
     - target: {fileID: 2914618179080714118, guid: 2748f85089e1a314b84c040677c22ffc, type: 3}
       propertyPath: sceneViewId
-      value: 1
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: 3518363436770273672, guid: 2748f85089e1a314b84c040677c22ffc, type: 3}
+      propertyPath: sceneViewId
+      value: 102
       objectReference: {fileID: 0}
     - target: {fileID: 9014217376288345531, guid: 2748f85089e1a314b84c040677c22ffc, type: 3}
       propertyPath: m_RootOrder
@@ -63360,8 +63368,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9014217376288345532, guid: 2748f85089e1a314b84c040677c22ffc, type: 3}
       propertyPath: m_Name
-      value: player
+      value: JumpMan
       objectReference: {fileID: 0}
+    - target: {fileID: 9014217376288345543, guid: 2748f85089e1a314b84c040677c22ffc, type: 3}
+      propertyPath: cameraObject
+      value: 
+      objectReference: {fileID: 713998219}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2748f85089e1a314b84c040677c22ffc, type: 3}
 --- !u!4 &1988276683 stripped

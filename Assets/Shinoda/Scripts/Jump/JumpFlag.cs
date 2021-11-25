@@ -10,7 +10,7 @@ public class JumpFlag : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.Find("JumpMan");
         playerControllerComponent = player.GetComponent<JumpPlayerController>();
     }
 
