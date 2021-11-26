@@ -10,6 +10,9 @@ public class TetraPad : MonoBehaviour
     [Header("Reference")]
     [SerializeField] TetraPadBody tetraPadBody;
 
+    [Header("Status")]
+    [SerializeField] float batteryConsumptionPerSeconds = 1.0f;
+
     [Header("Option")]
     [SerializeField] bool reverseVector;
 
@@ -46,6 +49,13 @@ public class TetraPad : MonoBehaviour
                     padVector.y += localVec.z;
                 }
             }
+        }
+
+
+        //電力消費
+        if (numOnPad > 0)
+        {
+            batteryHolder.ConsumptionOwnBattery(batteryConsumptionPerSeconds * Time.deltaTime);
         }
     }
 

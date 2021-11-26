@@ -15,6 +15,9 @@ public class GlobalVolumeController : MonoBehaviour
     }
     ColorAdjustments colorAdjustments;
 
+    //被写界深度
+    public DepthOfField depthOfField { private set; get; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,5 +27,12 @@ public class GlobalVolumeController : MonoBehaviour
 
         //コンポーネントの取得
         if (!volumeProfile.TryGet(out colorAdjustments)) throw new System.NullReferenceException(nameof(colorAdjustments));
+
+        DepthOfField depth;
+        if (!volumeProfile.TryGet(out depth))
+        { throw new System.NullReferenceException(nameof(depth)); }
+        else
+        { depthOfField = depth; }
+
     }
 }

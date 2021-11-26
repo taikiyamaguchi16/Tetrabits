@@ -26,11 +26,10 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
             //渡されたのがバッテリーだった場合
             if (ownBattery != null)
             {
-                ownBattery.CallPickUp(photonView.ViewID);
+                ownBattery.CallDump(_desc.playerObj.GetPhotonView().ViewID);
 
-                otherPocket.SetItem(null);
-
-                PhotonNetwork.Destroy(ownBattery.photonView);
+                photonView.RPC(nameof(RPCDestroyBattery), RpcTarget.All, ownBattery.photonView.ViewID);
+               // PhotonNetwork.Destroy(ownBattery.photonView);
                 ownBattery = null;                
             }
             //バッテリーでなかった場合元に戻す
@@ -71,5 +70,12 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
             }
         }
         return true;
+    }
+
+    [PunRPC]
+    public void RPCDestroyBattery(int _id)
+    {
+        if(PhotonNetwork.IsMasterClient)
+            PhotonNetwork.Destroy(NetworkObjContainer.NetworkObjDictionary[_id]);
     }
 }
