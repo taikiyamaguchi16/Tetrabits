@@ -145,7 +145,7 @@ public class BattleshipBoss : MonoBehaviour, IShootingEnemy
         }
 
         //ゲームクリア
-        GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
+        //GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
 
         //カメラを停止させているのを破壊
         Destroy(bothDeadCameraStopper.gameObject);

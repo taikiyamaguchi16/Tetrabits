@@ -19,6 +19,7 @@ public class GameMainManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //多分ここのGameEndの通知マスタークライアントに処理させたほうがいい
         //終了チェック(必ず存在確認はする)
         if (GameInGameManager.sCurrentGameInGameManager && GameInGameManager.sCurrentGameInGameManager.isGameEnd)
         {
@@ -32,12 +33,13 @@ public class GameMainManager : MonoBehaviour
             //すべてクリアしたら結果画面へ
             if (cassetteManager.CheckAllCassette())
             {
-                //Debug.LogWarning("強制全クリ発動！！");
-                GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene(resultScene);
+                if (Photon.Pun.PhotonNetwork.IsMasterClient)
+                    GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene(resultScene);
             }
             else
             { //ゲームを落とす
-                GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene("");
+                if (Photon.Pun.PhotonNetwork.IsMasterClient)
+                    GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene("");
 
                 //カセット再表示
                 cassetteManager.AppearAllCassette();

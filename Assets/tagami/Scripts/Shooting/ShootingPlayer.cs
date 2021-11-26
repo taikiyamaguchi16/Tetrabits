@@ -206,13 +206,14 @@ namespace Shooting
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (!PhotonNetwork.IsMasterClient) return;
-
-            if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
+            if (PhotonNetwork.IsMasterClient)
             {
-                if (!isInvincible)
+                if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
                 {
-                    CallDealDamageToPlayer();
+                    if (!isInvincible)
+                    {
+                        CallDealDamageToPlayer();
+                    }
                 }
             }
 
@@ -220,7 +221,7 @@ namespace Shooting
             if (collision.gameObject.CompareTag("LevelUpItem"))
             {
                 ShootingItemController item;
-                if (collision.TryGetComponent(out item))
+                if (PhotonNetwork.IsMasterClient && collision.TryGetComponent(out item))
                 {
                     if (item.CompareItemId("levelup"))
                     {
@@ -230,9 +231,9 @@ namespace Shooting
                     {
                         CallAddBomb();
                     }
-
-                    Destroy(collision.gameObject);
                 }
+
+                Destroy(collision.gameObject);
             }
         }
 

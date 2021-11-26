@@ -94,7 +94,10 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
             //次のステージへ移行します
             Debug.Log("ShootingStageをクリアしました　次のステージへ遷移します");
             Debug.Log("BuildIndex:" + nextScene.BuildIndex);
-            GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(nextScene.BuildIndex));
+            if (PhotonNetwork.IsMasterClient)
+            {
+                GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(nextScene.BuildIndex));
+            }
         }
     }
 
