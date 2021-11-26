@@ -15,6 +15,13 @@ public class VirtualCameraManager : MonoBehaviour
         public float focalLength;
     }
 
+    [System.Serializable]
+    public struct VirtualCameraWithDepthOfFieldStruct
+    {
+        public CinemachineVirtualCamera cinemachineVirtualCamera;
+
+        public DepthOfFieldParameterForCameraStruct depthOfFieldParameter;
+    }
 
     [SerializeField]
     CinemachineBrain cinemachineBrain = null;
@@ -22,15 +29,20 @@ public class VirtualCameraManager : MonoBehaviour
     [SerializeField]
     GlobalVolumeController globalVolumeController = null;
 
-    [SerializeField]
-    CinemachineVirtualCamera[] PreExecutionCameras;
-    
-    static public List<CinemachineVirtualCamera> sVirtualCameraList = new List<CinemachineVirtualCamera>();
+    //[SerializeField]
+    //CinemachineVirtualCamera[] PreExecutionCameras;
+
+    //static public List<CinemachineVirtualCamera> sVirtualCameraList = new List<CinemachineVirtualCamera>();
+
+    //[SerializeField]
+    //DepthOfFieldParameterForCameraStruct[] depthOfFieldParameterForCameras;
+
+    //static List<DepthOfFieldParameterForCameraStruct> sDepthOfFieldParameterForCameraList = new List<DepthOfFieldParameterForCameraStruct>();
 
     [SerializeField]
-    DepthOfFieldParameterForCameraStruct[] depthOfFieldParameterForCameras;
+    VirtualCameraWithDepthOfFieldStruct[] virtualCameraWithDepthOfFields;
 
-    static List<DepthOfFieldParameterForCameraStruct> sDepthOfFieldParameterForCameraList = new List<DepthOfFieldParameterForCameraStruct>();
+    static List<VirtualCameraWithDepthOfFieldStruct> sVirtualCameraWithDepthOfFieldList = new List<VirtualCameraWithDepthOfFieldStruct>();
 
     static bool sHavingGlobalVolumeController = false;
 
@@ -39,7 +51,7 @@ public class VirtualCameraManager : MonoBehaviour
     static DepthOfFieldParameterForCameraStruct sOldDepthOfFieldParam;
 
     static bool isMovingCamera = false;
-    
+
     float timer = 0f;
 
     bool firstUpdate = true;
@@ -59,30 +71,20 @@ public class VirtualCameraManager : MonoBehaviour
 
     private void Awake()
     {
-        if(cinemachineBrain == null)
+        if (cinemachineBrain == null)
         {
             cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
         }
 
-        if(sVirtualCameraList.Count == 0)
+        if (sVirtualCameraWithDepthOfFieldList.Count == 0)
         {
-            sVirtualCameraList.AddRange(PreExecutionCameras);
-        }
-
-        if (sDepthOfFieldParameterForCameraList.Count == 0)
-        {
-            sDepthOfFieldParameterForCameraList.AddRange(depthOfFieldParameterForCameras);
+            sVirtualCameraWithDepthOfFieldList.AddRange(virtualCameraWithDepthOfFields);
         }
 
         if (globalVolumeController != null)
         {
             sHavingGlobalVolumeController = true;
         }
-    }
-
-    private void Start()
-    {
-
     }
 
     private void Update()
@@ -104,7 +106,7 @@ public class VirtualCameraManager : MonoBehaviour
         if (globalVolumeController != null && isMovingCamera)
         {
             timer += Time.deltaTime;
-            if(timer >= cinemachineBrain.m_DefaultBlend.BlendTime)
+            if (timer >= cinemachineBrain.m_DefaultBlend.BlendTime)
             {
                 isMovingCamera = false;
                 timer = 0f;
@@ -127,41 +129,41 @@ public class VirtualCameraManager : MonoBehaviour
 
     static public void SetActive(int _cameraIndex, bool _activate)
     {
-        sVirtualCameraList[_cameraIndex].gameObject.SetActive(_activate);
+        sVirtualCameraWithDepthOfFieldList[_cameraIndex].cinemachineVirtualCamera.gameObject.SetActive(_activate);
 
         SetDepthOfFieldParameter(_cameraIndex);
     }
 
     static public void OnlyActive(int _cameraIndex)
     {
-        for(int i = 0; i < sVirtualCameraList.Count; i++)
+        for (int i = 0; i < sVirtualCameraWithDepthOfFieldList.Count; i++)
         {
-            if(i == _cameraIndex)
+            if (i == _cameraIndex)
             {
-                sVirtualCameraList[i].gameObject.SetActive(true);
+                sVirtualCameraWithDepthOfFieldList[i].cinemachineVirtualCamera.gameObject.SetActive(true);
 
                 SetDepthOfFieldParameter(i);
             }
             else
             {
-                sVirtualCameraList[i].gameObject.SetActive(false);
+                sVirtualCameraWithDepthOfFieldList[i].cinemachineVirtualCamera.gameObject.SetActive(false);
             }
         }
     }
 
     static public void OnlyActive(CinemachineVirtualCamera _vcam)
     {
-        for(int i = 0; i < sVirtualCameraList.Count; i++)
+        for (int i = 0; i < sVirtualCameraWithDepthOfFieldList.Count; i++)
         {
-            if (sVirtualCameraList[i].gameObject.GetInstanceID() == _vcam.gameObject.GetInstanceID())
+            if (sVirtualCameraWithDepthOfFieldList[i].cinemachineVirtualCamera.gameObject.GetInstanceID() == _vcam.gameObject.GetInstanceID())
             {
-                sVirtualCameraList[i].gameObject.SetActive(true);
+                sVirtualCameraWithDepthOfFieldList[i].cinemachineVirtualCamera.gameObject.SetActive(true);
 
                 SetDepthOfFieldParameter(i);
             }
             else
             {
-                sVirtualCameraList[i].gameObject.SetActive(false);
+                sVirtualCameraWithDepthOfFieldList[i].cinemachineVirtualCamera.gameObject.SetActive(false);
             }
         }
     }
@@ -173,15 +175,15 @@ public class VirtualCameraManager : MonoBehaviour
             isMovingCamera = true;
 
             DepthOfFieldParameterForCamera depthOfFieldParameterForCamera = null;
-            if ((depthOfFieldParameterForCamera = sVirtualCameraList[_index].gameObject.GetComponent<DepthOfFieldParameterForCamera>()) != null)
+            if ((depthOfFieldParameterForCamera = sVirtualCameraWithDepthOfFieldList[_index].cinemachineVirtualCamera.gameObject.GetComponent<DepthOfFieldParameterForCamera>()) != null)
             {
                 sActiveDepthOfFieldParam.forcusDistance = depthOfFieldParameterForCamera.forcusDistance;
                 sActiveDepthOfFieldParam.focalLength = depthOfFieldParameterForCamera.focalLength;
             }
             else
             {
-                sActiveDepthOfFieldParam.forcusDistance = sDepthOfFieldParameterForCameraList[_index].forcusDistance;
-                sActiveDepthOfFieldParam.focalLength = sDepthOfFieldParameterForCameraList[_index].focalLength;
+                sActiveDepthOfFieldParam.forcusDistance = sVirtualCameraWithDepthOfFieldList[_index].depthOfFieldParameter.forcusDistance;
+                sActiveDepthOfFieldParam.focalLength = sVirtualCameraWithDepthOfFieldList[_index].depthOfFieldParameter.focalLength;
             }
         }
     }
