@@ -12,10 +12,12 @@ public class SinEnemy : MonoBehaviour
     //位置
     float transformPositionX;
     float sinValue;
+    Vector3 initialPosition;
 
     // Start is called before the first frame update
     void Start()
     {
+        initialPosition = transform.position;
         transformPositionX = transform.position.x;
     }
 
@@ -25,8 +27,8 @@ public class SinEnemy : MonoBehaviour
         //移動
         transformPositionX -= moveSpeedX * Time.deltaTime;
         sinValue += moveSpeedY * Time.deltaTime;
-        transform.position = new Vector3(transformPositionX, Mathf.Sin(sinValue) * verticalWidth, 0.0f);
+        transform.position = new Vector3(transformPositionX, initialPosition.y + Mathf.Sin(sinValue) * verticalWidth, initialPosition.z);
 
-       
+
     }
 }
