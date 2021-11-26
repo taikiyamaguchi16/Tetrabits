@@ -36,7 +36,7 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
                 }
                 
                 //他のプレイヤーのホルダーにもバッテリーをセット
-                photonView.RPC(nameof(RPCSetOwnBattery), RpcTarget.All,ownBattery.photonView.ViewID);
+                photonView.RPC(nameof(RPCSetOwnBattery), RpcTarget.AllBufferedViaServer, ownBattery.photonView.ViewID);
             }
             //バッテリーでなかった場合元に戻す
             else
