@@ -16,6 +16,7 @@ public class JumpPlayerController : MonoBehaviour
     [SerializeField] float gravityScale = 1f;
     [SerializeField] float parasolGravity = .5f;
     [SerializeField] float speedLimit = 5f;
+    [SerializeField] bool upOnly;
 
     [Header("Arrow")]
     Vector3 originScale;
@@ -61,7 +62,11 @@ public class JumpPlayerController : MonoBehaviour
 
     void Jump(Vector2 _jumpDirection)
     {
-        rb.AddForce(_jumpDirection * jumpForce, ForceMode2D.Impulse);
+        if (upOnly)
+        {
+            if (padVec.y > 0) rb.AddForce(_jumpDirection * jumpForce, ForceMode2D.Impulse);
+        }
+        else rb.AddForce(_jumpDirection * jumpForce, ForceMode2D.Impulse);
     }
 
     void ArrowControll(Vector2 _dir)
