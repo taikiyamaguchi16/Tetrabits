@@ -21,26 +21,9 @@ public class GameMainStartUp : MonoBehaviour
     [Header("Other Events")]
     [SerializeField] UnityEvent startUpEvent;
 
-
-    // Start is called before the first frame update
-    void Start()
+    public void StartUpGameMain()
     {
         StartCoroutine(StartUp());
-
-        //float factor = Mathf.Pow(2, intensity);
-        //mat.EnableKeyword("_EMISSION");
-        //Color settingColor = mat.GetColor("_EmissionColor");
-        //mat.SetColor("_EmissionColor", new Color(settingColor.r * factor, settingColor.g * factor, settingColor.b * factor));
-    }
-
-    private void Update()
-    {
-
-
-        //var color = mat.GetColor("_EMISSION");
-        //color.a += Time.deltaTime;
-
-        //mat.SetColor("_EMISSION", color);
     }
 
     IEnumerator StartUp()
