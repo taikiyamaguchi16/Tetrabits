@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 8899467771135364291}
   - component: {fileID: -8894647666460001911}
   - component: {fileID: 5763088989165246672}
+  - component: {fileID: 2974844748994253862}
   m_Layer: 0
   m_Name: RushEnemy
   m_TagString: Enemy
@@ -230,3 +231,16 @@ MonoBehaviour:
   bombDropPercent: 30
   levelUpItemPrefab: {fileID: 6066741890700599634, guid: b8a87e49207036649a3959c57fd9d805, type: 3}
   levelUpDropPercent: 30
+--- !u!114 &2974844748994253862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8899467771135364294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b1ce4aba70420246a65a283f57fb2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroySeconds: 10

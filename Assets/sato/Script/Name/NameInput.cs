@@ -19,6 +19,8 @@ public class NameInput : InputField
     {
         // 各種コンポーネント取得
         nameManager = GameObject.Find("NameManager").GetComponent<NameManager>();
+
+        text = null;
     }
 
     // Update is called once per frame
@@ -85,6 +87,14 @@ public class NameInput : InputField
     public void EditText()
     {
         isNameInput = true;
+
+        if (string.IsNullOrEmpty(text) && nameManager.DebugFlagName())
+        {
+            ActivateInputField();
+
+            isNameInput = false;
+            isNameVerify = false;
+        }
     }
 
     // 全選択解除

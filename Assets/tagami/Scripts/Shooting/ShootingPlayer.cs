@@ -12,6 +12,7 @@ namespace Shooting
     {
         [Header("Move")]
         [SerializeField] float moveSpeed = 1.0f;
+        [SerializeField] Vector2 limitArea = Vector2.one;
 
         [Header("Shot")]
         [SerializeField] GameObject playerBulletPrefab;
@@ -51,7 +52,7 @@ namespace Shooting
         {
             myRb2D = GetComponent<Rigidbody2D>();
             photonTransformView = GetComponent<PhotonTransformViewClassic>();
-           
+
             //無敵スタート
             isInvincible = true;
         }
@@ -71,11 +72,11 @@ namespace Shooting
             }
 
             //移動
-           
+
             if (PhotonNetwork.IsMasterClient)
             {
                 myRb2D.velocity = TetraInput.sTetraPad.GetVector() * moveSpeed * Time.deltaTime;
-                photonTransformView.SetSynchronizedValues(myRb2D.velocity,0);
+                photonTransformView.SetSynchronizedValues(myRb2D.velocity, 0);
             }
 
 
@@ -86,15 +87,15 @@ namespace Shooting
                 if (shotIntervalTimer >= shotIntervalSeconds)
                 {//発射
                     shotIntervalTimer = 0.0f;
-                    
-                    //仮変更11/18　四捨五入してみる
-                    int shotLevelOnPad = (int)TetraInput.sTetraPad.GetVector().magnitude;
-                    if(TetraInput.sTetraPad.GetVector().magnitude-shotLevelOnPad>=0.5f)
-                    {
-                        shotLevelOnPad++;
-                    }                    
 
-                    switch (shotLevelOnPad)
+                    //仮変更11/18　四捨五入してみる
+                    //int shotLevelOnPad = (int)TetraInput.sTetraPad.GetVector().magnitude;
+                    //if (TetraInput.sTetraPad.GetVector().magnitude - shotLevelOnPad >= 0.5f)
+                    //{
+                    //    shotLevelOnPad++;
+                    //}
+
+                    switch (TetraInput.sTetraPad.GetNumOnPad())
                     {
                         case 0:
                             //何もしない
@@ -145,10 +146,32 @@ namespace Shooting
                 }
             }//無敵中処理
 
+            //削除処理
             if (PhotonNetwork.IsMasterClient && isDead)
             {
                 PhotonNetwork.Destroy(gameObject);
             }
+
+            //範囲制限
+            Vector3 localPosition = transform.localPosition;
+            if (localPosition.x >= limitArea.x)
+            {
+                localPosition.x = limitArea.x;
+            }
+            if (localPosition.x <= -limitArea.x)
+            {
+                localPosition.x = -limitArea.x;
+            }
+            if (localPosition.y >= limitArea.y)
+            {
+                localPosition.y = limitArea.y;
+            }
+            if (localPosition.y <= -limitArea.y)
+            {
+                localPosition.y = -limitArea.y;
+            }
+            transform.localPosition = localPosition;
+
         }
 
         public void CallShotBullet(Vector3 _offset, Vector3 _velocity)

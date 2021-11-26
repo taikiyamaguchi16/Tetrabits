@@ -5,7 +5,7 @@ using UnityEngine;
 public class MoveBetweenLaneInInput : MoveBetweenLane
 {
     [SerializeField]
-    float padInputRangeY = 0.5f;
+    float padInputRangeY = 0.35f;
 
     // Start is called before the first frame update
     void Start()
@@ -80,7 +80,10 @@ public class MoveBetweenLaneInInput : MoveBetweenLane
     {
         if (moveDir != 0)    // 入力時移動
         {
-            rb.velocity = new Vector3(moveDir * spd, rb.velocity.y, rb.velocity.z);
+            if (!bikeSlipDown.isSliping)
+            {
+                rb.velocity = new Vector3(moveDir * spd, rb.velocity.y, rb.velocity.z);
+            }
 
             // 移動制限
             if (belongingLaneId >= laneNum &&

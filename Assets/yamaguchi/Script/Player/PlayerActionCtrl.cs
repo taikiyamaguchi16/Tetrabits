@@ -63,14 +63,16 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
             playerMove.SetPlayerMovable(true);  // プレイヤーを行動可能に
 
             if (Input.GetKeyDown("e") || XInputManager.GetButtonTrigger(playerMove.controllerID, XButtonType.B))  // アクションボタン
-            {
-                
+            {       
                 //持ち運んでいるオブジェクトがある場合それをアクション候補に加える
                 GameObject carryObj = holder.GetItem();
                 if (carryObj != null)
-                {          
+                {
                     if (!allActionItem.Contains(carryObj))
+                    {
+                        Debug.Log(carryObj.name + "追加されました");
                         allActionItem.Add(carryObj);
+                    }
                 }
 
                 if (allActionItem.Count > 0)
@@ -80,7 +82,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     //優先度が高いアクションを判別して実行
                     PriorityCheck();
                     CheckHighPriorityAction();
-                   
+
                     runningAction.StartPlayerAction(desc);
                 }
 
@@ -99,7 +101,6 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     highPriorityList.Clear();
                 }
             }   
-
 
         }
     }
@@ -132,10 +133,8 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
             if (allActionItem.Count > 0)
             {
                 CheckItemPossible();
-
                 if (candidates.Count > 0)
                 {
-                    //優先度が高いアクションを判別して実行
                     PriorityCheck();
                     CheckHighPriorityAction();
                 }
@@ -149,7 +148,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
         List<IPlayerAction> intList = new List<IPlayerAction>();       
         foreach (var can in candidates)
         {     
-            intList.Add(can.GetComponent<IPlayerAction>());
+            intList.Add(can.GetComponent<IPlayerAction>());         
         }
        
         IPlayerAction max = intList[0];
@@ -164,8 +163,8 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     //最大優先度が変更になっているのでリストを消去
                     highPriorityList.Clear();
                     //優先度の高いアクションを格納
-                    highPriorityList.Add(candidates[intList.IndexOf(max)]);
                     max = intList[i];
+                    highPriorityList.Add(candidates[intList.IndexOf(max)]);  
                 }
                 else if(intList[i].GetPriority() == max.GetPriority())
                 {

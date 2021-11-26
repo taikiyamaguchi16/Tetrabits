@@ -207,18 +207,21 @@ public class PlayerMove : MonoBehaviourPunCallbacks
             }
         }
     }
-
+    
     private void FixedUpdate()
     {
         if (photonView.IsMine)
         {
             Vector3 moveVec = moveDir * moveSpd;
             rb.velocity = new Vector3(moveVec.x, rb.velocity.y, moveVec.z);
-
             // 重力
             rb.AddForce(new Vector3(0, gravity, 0));
-
             photonTransformView.SetSynchronizedValues(speed: rb.velocity, turnSpeed: 0);
+
+            if(moveDir.magnitude>0)
+            {
+                zenmai.DecreaseZenmaiPower();
+            }
         }
     }
 

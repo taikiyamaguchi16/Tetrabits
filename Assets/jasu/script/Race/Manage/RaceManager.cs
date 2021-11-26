@@ -18,6 +18,9 @@ public class RaceManager : MonoBehaviour
     RacerInfo[] racersInfo;
 
     [SerializeField]
+    RaceFinish raceFinish;
+
+    [SerializeField]
     RaceStageMolder raceStageMolder;
 
     [SerializeField]
@@ -40,14 +43,16 @@ public class RaceManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void LateUpdate()
     {
-        // 順位計算
-        RankingCalculation();
+        if (!raceFinish.goaled)
+        {
+            // 順位計算
+            RankingCalculation();
+        }
     }
 
-    void RankingCalculation()
+    public void RankingCalculation()
     {
         Progress[] racersProgress = new Progress[racers.Length];
 

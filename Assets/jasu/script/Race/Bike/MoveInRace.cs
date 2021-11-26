@@ -35,10 +35,12 @@ public class MoveInRace : MonoBehaviour
     [SerializeField]
     protected float gravity = -100f; // 重力
 
-    protected Vector3 normalVec = Vector3.zero;
+    protected Vector3 groundNormalVec = Vector3.zero; // 地面の法線ベクトル
 
     [SerializeField]
     protected Vector3 moveVec = Vector3.zero;
+
+    protected int wheelonSlopeNum = 0; 
 
     // Start is called before the first frame update
     void Start()
@@ -51,25 +53,52 @@ public class MoveInRace : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // 移動
-        //Vector3 moveVec = Vector3.zero;
         moveVec = Vector3.zero;
-        moveVec = Vector3.ProjectOnPlane(Vector3.forward, normalVec) * moveSpd;
-        if (moveVec.y > 1f)
-        {
-            moveVec *= 2f;
-        }
+
+        // 移動ベクトル作成
+        SetMoveVec();
 
         // 空中でのy軸の加速を切る
+        SetGravity();
+
+        // 加速
+        AccelerationToMoveVec();
+    }
+
+    protected void SetMoveVec()
+    {
+        if (!bikeSlipDown.isSliping)
+        {
+            if (wheelonSlopeNum > 0)
+            {
+                moveVec = Vector3.ProjectOnPlane(Vector3.forward, groundNormalVec);
+                moveVec.y *= (moveSpd / moveVec.z) * moveSlopeMultiply;
+            }
+            else
+            {
+                groundNormalVec = Vector3.zero;
+            }
+
+            moveVec.z = moveSpd;
+        }
+    }
+
+    // MoveVecのYに重力を掛ける
+    protected void SetGravity()
+    {
+        // 空中でのみ重力
         if (!colliderSensorFront.GetExistInCollider() &&
             !colliderSensorBack.GetExistInCollider())
         {
+            wheelonSlopeNum = 0;
             moveVec.y = gravity;
         }
-        
+    }
 
-        // 加速
-        if(moveVec.z <= 0f) // stop
+    // FixedUpdateの最期で呼び出す　決定したMoveVecをもとにAddForceする
+    protected void AccelerationToMoveVec()
+    {
+        if (moveVec.z <= 0f) // stop
         {
             rb.AddForce(moveForceMultiplyStop * (moveVec - rb.velocity), ForceMode.Acceleration);
         }
@@ -83,29 +112,49 @@ public class MoveInRace : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "SlopeRoadInRace" ||
+        WhenOnCollisionEnter(collision);
+    }
+
+    protected void WhenOnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "SlopeRoadInRace" ||
             collision.transform.parent.gameObject.tag == "SlopeRoadInRace")
         {
-            normalVec = collision.contacts[0].normal;
-            Debug.Log("坂の法線取得" + normalVec);
+            wheelonSlopeNum++;
+            groundNormalVec = collision.contacts[0].normal;
+            //Debug.Log("坂の法線取得" + groundNormalVec);
         }
-        else if(collision.gameObject.tag == "FlatRoadInRace" ||
-            collision.transform.parent.gameObject.tag == "FlatRoadInRace")
+        //else if ((collision.gameObject.tag == "FlatRoadInRace" ||
+        //        collision.transform.parent.gameObject.tag == "FlatRoadInRace") && wheelonSlopeNum <= 0)
+        //{
+        //    groundNormalVec = Vector3.zero;
+        //    //Debug.Log("坂の法線リセット" + groundNormalVec);
+        //}
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        WhenOnCollisionExit(collision);
+    }
+
+    protected void WhenOnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "SlopeRoadInRace" ||
+            collision.transform.parent.gameObject.tag == "SlopeRoadInRace")
         {
-            normalVec = Vector3.zero;
-            Debug.Log("坂の法線リセット" + normalVec);
+            wheelonSlopeNum--;
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.GetComponent<DirtSplash>() != null &&
+        if (other.GetComponent<DirtSplash>() != null &&
             other.GetComponent<DirtSplash>().parentInstanceID == gameObject.GetInstanceID())
         {
             return;
         }
 
-        if(other.gameObject.tag == "Slip")
+        if (other.gameObject.tag == "Slip")
         {
             bikeSlipDown.SlipStart();
         }

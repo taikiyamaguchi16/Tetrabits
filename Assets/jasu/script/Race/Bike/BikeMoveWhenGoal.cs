@@ -10,9 +10,14 @@ public class BikeMoveWhenGoal : MonoBehaviour
     [SerializeField]
     float moveForceMultiply = 0.5f;
 
+    [SerializeField]
+    protected float gravity = -100f; // 重力
+
     private void FixedUpdate()
     {
-        rb.AddForce(moveForceMultiply *  -rb.velocity, ForceMode.Acceleration);
+        Vector3 moveVec = Vector3.zero;
+        moveVec.y = gravity;
+        rb.AddForce(moveForceMultiply * (moveVec - rb.velocity), ForceMode.Acceleration);
     }
 
     private void OnEnable()

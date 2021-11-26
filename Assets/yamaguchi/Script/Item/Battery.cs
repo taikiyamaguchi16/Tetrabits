@@ -18,10 +18,6 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     [SerializeField, ReadOnly]
     private float level = 100f;
 
-    //消費電力
-    [SerializeField]
-    float powerConsumption;
-
     private ItemPocket ownerSc;
 
     void Awake()
@@ -34,15 +30,14 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
-        if (photonView.IsMine)
+
+        if (!isOwned)
         {
-            if (!isOwned)
-            { 
-                photonView.RPC(nameof(PickUp), RpcTarget.All,_desc.playerObj.GetPhotonView().ViewID);
-            }
-            else
-                photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);      
+            photonView.RPC(nameof(PickUp), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
         }
+        else
+            photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
+
     }
 
     public void EndPlayerAction(PlayerActionDesc _desc) { }
@@ -59,6 +54,11 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     public void CallPickUp(int _id)
     {
         photonView.RPC(nameof(PickUp), RpcTarget.All, _id);
+    }
+
+    public void CallDump(int _id)
+    {
+        photonView.RPC(nameof(Dump), RpcTarget.All, _id);
     }
 
     [PunRPC]
@@ -94,9 +94,9 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         return level;
     }
 
-    public void BatteryConsumption()
+    public void BatteryConsumption(float _powerConsumption)
     {
-        level -= powerConsumption * Time.deltaTime;
+        level -= _powerConsumption;
         if (level < 0)
             level = 0f;
     }

@@ -13,6 +13,7 @@ public class ChainEnemy : MonoBehaviour
     float sectionTimer;
     float sectionArrivalSeconds;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +45,7 @@ public class ChainEnemy : MonoBehaviour
         {
             if (sectionIndex < waypoints.Count - 2)
             {//次の区間が存在
-                sectionIndex++;              
+                sectionIndex++;
                 //区間の距離を計測
                 var sectionDistance = Vector3.Distance(waypoints[sectionIndex].position, waypoints[sectionIndex + 1].position);
                 sectionArrivalSeconds = arrivalSeconds * sectionDistance / totalStraightLineDistance;
@@ -53,10 +54,19 @@ public class ChainEnemy : MonoBehaviour
             else
             {
                 //終了
-                Destroy(gameObject);
+                //Destroy(gameObject);
             }
         }
 
-        transform.position = Vector3.Lerp(waypoints[sectionIndex].position, waypoints[sectionIndex + 1].position, sectionTimer / sectionArrivalSeconds);
+        transform.position = Lerp(waypoints[sectionIndex].position, waypoints[sectionIndex + 1].position, sectionTimer / sectionArrivalSeconds);
+    }
+
+    Vector3 Lerp(Vector3 _start, Vector3 _end, float _dt)
+    {
+        Vector3 ret = new Vector3();
+        ret.x = _start.x + _dt * (_end.x - _start.x);
+        ret.y = _start.y + _dt * (_end.y - _start.y);
+        ret.z = _start.z + _dt * (_end.z - _start.z);
+        return ret;
     }
 }

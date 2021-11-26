@@ -30,6 +30,8 @@ public class StartLineManager : MonoBehaviour
                 pos.y = 0f;
                 pos.z = startLineTrans.localPosition.z - laneManager.GetLaneWidth() / 2 * (i + 1);
                 racers[i].transform.localPosition = pos;
+
+                racers[i].GetComponentInChildren<MoveBetweenLane>().belongingLaneId = i;
             }
         }
     }
