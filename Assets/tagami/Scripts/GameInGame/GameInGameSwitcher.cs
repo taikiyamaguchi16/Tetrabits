@@ -13,14 +13,26 @@ public class GameInGameSwitcher : MonoBehaviourPunCallbacks
     //現在のゲーム内ゲーム名
     string currentGameInGameSceneName = "";
 
+    string textField = "";
+
     public void OnGUIWindow()
     {
-        GUIStyle style = new GUIStyle();
-        style.fontSize = 25;
-        GUILayout.Label(nameof(GameInGameSwitcher),style);
+        //GUIStyle style = new GUIStyle();
+        //style.fontSize = 25;
+        //GUILayout.Label(nameof(GameInGameSwitcher), style);
+
+        GUILayout.Label("====================");
+
+        textField = GUILayout.TextField(textField);
+        if (GUILayout.Button("上記のScene名に遷移します"))
+        {
+            GameInGameUtil.SwitchGameInGameScene(textField);
+        }
+
         foreach (var sceneField in gameInGameScenesOnDebugWindow)
         {
             var sceneName = GameInGameUtil.GetSceneNameByBuildIndex(sceneField.BuildIndex);
+
             if (GUILayout.Button(sceneName))
             {
                 GameInGameUtil.SwitchGameInGameScene(sceneName);
