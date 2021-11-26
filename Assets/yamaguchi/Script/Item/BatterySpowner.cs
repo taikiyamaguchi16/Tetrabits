@@ -69,7 +69,7 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
                 //バッテリーが生成されていた場合
                 if (ownBattery != null)
                 {
-                    ownBattery.CallDump(photonView.ViewID);
+                   // ownBattery.CallDump(photonView.ViewID);
                     ownBattery.CallPickUp(_desc.playerObj.GetPhotonView().ViewID);
 
                     pocket.SetItem(null);
@@ -81,11 +81,12 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()
     {
-        return 100;
+        return 110;
     }
 
     public bool GetIsActionPossible(PlayerActionDesc _desc)
     {
+        
         //エフェクト再生中には取れないように
         if (smokeEfect.isStopped)
         {
@@ -95,9 +96,9 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
             {
                 //バッテリーが生成されていた場合
                 if (ownBattery != null)
-                {                  
+                {
                     return true;
-                }
+                }                
             }
         }
         return false;
@@ -115,12 +116,10 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
     private void SpawonBattery()
     {
         var b_obj = PhotonNetwork.InstantiateRoomObject(spownObj.name, Vector3.zero, Quaternion.identity);
-        ownBattery = b_obj.GetComponent<Battery>();
+       // ownBattery = b_obj.GetComponent<Battery>();
 
-        //ownBattery.PickUp(this.gameObject);
         photonView.RPC(nameof(RPCSpawonBattery), RpcTarget.All, b_obj.GetPhotonView().ViewID);
-        ownBattery.CallPickUp(photonView.ViewID);
-
+        
         elpsedTime = 0f;
         smokeEfect.time = 0f;
 
@@ -130,6 +129,7 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
     public void RPCSpawonBattery(int _id)
     {
         ownBattery = NetworkObjContainer.NetworkObjDictionary[_id].GetComponent<Battery>();
+        ownBattery.CallPickUp(photonView.ViewID);
     }
 
     [PunRPC]

@@ -31,7 +31,7 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
             {
                 ownBattery.CallDump(_desc.playerObj.GetPhotonView().ViewID);
 
-                photonView.RPC(nameof(RPCDestroyBattery), RpcTarget.All, ownBattery.photonView.ViewID);               
+                photonView.RPC(nameof(RPCDestroyBattery), RpcTarget.AllBufferedViaServer, ownBattery.photonView.ViewID);               
                 ownBattery = null;
 
                 batteryDustEfect.Play();

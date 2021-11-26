@@ -68,7 +68,6 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                 {
                     if (!allActionItem.Contains(carryObj))
                     {
-                        Debug.Log(carryObj.name + "追加されました");
                         allActionItem.Add(carryObj);
                     }
                 }
