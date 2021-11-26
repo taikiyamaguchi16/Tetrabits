@@ -20,6 +20,7 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
 
     //再開処理
     [Header("Restart")]
+    [SerializeField] Trisibo.SceneField restartScene;
     [SerializeField] float restartSeconds = 1.0f;
     float restartTimer;
     bool restart;
@@ -54,6 +55,11 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        if (restartScene == null || restartScene.BuildIndex < 0)
+        {
+            Debug.LogError("再出撃の際のSceneが設定されていません");
+        }
+
         InstantiatePlayer();
     }
 
@@ -106,6 +112,10 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
             if (PhotonNetwork.IsMasterClient)
             {
                 MonitorManager.DealDamageToMonitor("large");
+
+                //ステージの最初に戻る
+                sInitialized = false;   //設定リセット
+                GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(restartScene.BuildIndex));
             }
         }
         else
