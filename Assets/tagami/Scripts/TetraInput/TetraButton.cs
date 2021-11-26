@@ -13,6 +13,9 @@ public class TetraButton : MonoBehaviourPunCallbacks
     [SerializeField] Rigidbody buttonRb;
     [SerializeField] ConfigurableJoint foundationJoint;
 
+    [Header("Status")]
+    [SerializeField] float batteryConsumptionOnPressed = 1.0f;
+
     [Header("Option")]
     [SerializeField, Tooltip("ボタン押し返し力")] float pressedYSpring = 100.0f;
     [SerializeField] float stdYSpring = 5000.0f;
@@ -35,9 +38,15 @@ public class TetraButton : MonoBehaviourPunCallbacks
             {//マスタークライアントでのみ処理を行う
                 buttonState = (buttonRb.transform.localPosition.y - foundationJoint.transform.localPosition.y) < pressableDifferenceY;
                 if (GetTrigger() || GetRelease())
-                {
+                {//ON or OFF 時他クライアントに通知
                     CallSetButtonState(buttonState);
                 }
+            }
+
+            //電力消費
+            if (GetTrigger())
+            {
+                batteryHolder.ConsumptionOwnBattery(batteryConsumptionOnPressed);
             }
 
             //if (GetTrigger())

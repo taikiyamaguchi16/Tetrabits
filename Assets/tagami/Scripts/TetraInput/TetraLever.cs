@@ -9,6 +9,9 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
     [SerializeField] GameObject fulcrumObj;
     [SerializeField] BatteryHolder batteryHolder;
 
+    [Header("Status")]
+    [SerializeField] float batteryConsumptionPerSeconds = 1.0f;
+
     [Header("Option")]
     [SerializeField] float switchingTime = 1.0f;
 
@@ -42,6 +45,12 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
         if (!deadBatteryDebug && batteryHolder && batteryHolder.GetBatterylevel() <= 0)
         {
             leverState = false;
+        }
+
+        //電力消費
+        if (leverState)
+        {
+            batteryHolder.ConsumptionOwnBattery(batteryConsumptionPerSeconds * Time.deltaTime);
         }
 
         //支点回転

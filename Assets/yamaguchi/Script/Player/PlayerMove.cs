@@ -58,6 +58,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
         moveStandard = Camera.main.transform;
         rb = GetComponent<Rigidbody>();
         zenmai = GetComponent<Zenmai>();
+        rb.sleepThreshold = -1;
 
         // ソート
         for (int i = 0; i < moveSpeedInRatios.Count; i++)
