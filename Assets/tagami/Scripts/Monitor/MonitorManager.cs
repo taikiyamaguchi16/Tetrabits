@@ -199,6 +199,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
 
     public void OnGUIWindow()
     {
+        GUILayout.Label("====================");
         if (GUILayout.Button("NextStage"))
         {
             NextDestructionStage();
