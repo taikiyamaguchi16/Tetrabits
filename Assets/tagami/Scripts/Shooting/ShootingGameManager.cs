@@ -135,16 +135,9 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
         shootingCamera.enabled = false;
     }
 
-    public bool TryAddBomb(int _num)
+    public void AddBomb(int _num)
     {
-        var bombNumBuff = sBombNum + _num;
-        if (0 > bombNumBuff)
-        {
-            return false;
-        }
-
         sBombNum += _num;
-        return true;
     }
 
     public void CallLocalInstantiateWithVelocity(string _prefabName, Vector3 _position, Quaternion _rotation, Vector3 _velocity)

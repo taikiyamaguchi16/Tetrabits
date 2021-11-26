@@ -125,10 +125,11 @@ namespace Shooting
                 }
             }//lever on
 
-            if (TetraInput.sTetraButton.GetTrigger() && ShootingGameManager.sShootingGameManager.TryAddBomb(-1))
+            if (PhotonNetwork.IsMasterClient
+                && TetraInput.sTetraButton.GetTrigger()
+                && ShootingGameManager.sBombNum > 0)
             { //ボム
-                var bombObj = Instantiate(bombFieldPrefab, transform.position, Quaternion.identity);
-                bombObj.GetComponent<TransformSynchronizer>().targetObject = gameObject;
+                CallInstantiateBombLocal();                
             }
 
             if (isInvincible)
@@ -179,6 +180,19 @@ namespace Shooting
             transform.localPosition = localPosition;
 
         }
+
+        private void CallInstantiateBombLocal()
+        {
+            photonView.RPC(nameof(RPCInstantiateBombLocal), RpcTarget.AllViaServer);
+        }
+        [PunRPC]
+        public void RPCInstantiateBombLocal()
+        {
+            ShootingGameManager.sShootingGameManager.AddBomb(-1);
+            var bombObj = Instantiate(bombFieldPrefab, transform.position, Quaternion.identity);
+            bombObj.GetComponent<TransformSynchronizer>().targetObject = gameObject;
+        }
+
 
         public void CallShotBullet(Vector3 _offset, Vector3 _velocity)
         {
@@ -244,7 +258,7 @@ namespace Shooting
         [PunRPC]
         public void RPCAddBomb()
         {
-            ShootingGameManager.sShootingGameManager.TryAddBomb(1);
+            ShootingGameManager.sShootingGameManager.AddBomb(1);
         }
 
         private void CallShotLevelUp()
