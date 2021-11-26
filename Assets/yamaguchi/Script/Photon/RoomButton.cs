@@ -24,6 +24,11 @@ public class RoomButton : MonoBehaviour
     public string RoomName { get; private set; }
 
     [SerializeField]
+    [Header("入室不可時の音")]
+    AudioClip sound1;
+    AudioSource audioSource;
+
+    [SerializeField]
     GameObject NumPos;
 
     [SerializeField]
@@ -48,28 +53,24 @@ public class RoomButton : MonoBehaviour
 
         button = GetComponent<Button>();
         button.interactable = false;
-//        button.onClick.AddListener(OnButtonClick);
+        //        button.onClick.AddListener(OnButtonClick);
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
-        //playerの人数に応じて人のUIを出す
-        //roomPlayerCount;
-
         switch (roomPlayerCount)
         {
             case 0:
                 NumPos.GetComponent<Image>().sprite = None.sprite;
                 break;
-            case 1:
-                //[serializeField] Image で登録してるUIImageをオンにする
-                //2,3,4をオフ
 
+            case 1:
                 NumPos.GetComponent<Image>().sprite = One.sprite;
                 break;
+
             case 2:
-                //[serializeField] Image で登録してるUIImageをオンにする
-                //もう一個
                 NumPos.GetComponent<Image>().sprite = Two.sprite;
                 break;
 
@@ -127,6 +128,7 @@ public class RoomButton : MonoBehaviour
         else
         {//ルーム入れないよ！
             //音鳴らす
+            audioSource.PlayOneShot(sound1);
         }
     }
 
