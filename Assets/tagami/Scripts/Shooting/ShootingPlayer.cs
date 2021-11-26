@@ -112,6 +112,12 @@ namespace Shooting
                             CallShotBullet(Vector3.zero, Vector3.right * bulletSpeed);
                             CallShotBullet(Vector3.zero, (Vector3.right + Vector3.down * tripleShotWidth).normalized * bulletSpeed);
                             break;
+                        case 4:
+                            CallShotBullet(Vector3.zero, (Vector3.right + Vector3.up * tripleShotWidth).normalized * bulletSpeed);
+                            CallShotBullet(new Vector3(0.0f, dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
+                            CallShotBullet(new Vector3(0.0f, -dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
+                            CallShotBullet(Vector3.zero, (Vector3.right + Vector3.down * tripleShotWidth).normalized * bulletSpeed);
+                            break;
                         default:
                             Debug.LogWarning("対応していないショットレベル：" + shotLevel);
                             break;
