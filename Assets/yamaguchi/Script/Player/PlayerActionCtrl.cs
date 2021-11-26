@@ -59,9 +59,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
     void Update()
     {
         if (photonView.IsMine)
-        {
-            playerMove.SetPlayerMovable(true);  // プレイヤーを行動可能に
-
+        {           
             if (Input.GetKeyDown("e") || XInputManager.GetButtonTrigger(playerMove.controllerID, XButtonType.B))  // アクションボタン
             {       
                 //持ち運んでいるオブジェクトがある場合それをアクション候補に加える
@@ -70,7 +68,6 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                 {
                     if (!allActionItem.Contains(carryObj))
                     {
-                        Debug.Log(carryObj.name + "追加されました");
                         allActionItem.Add(carryObj);
                     }
                 }
@@ -92,6 +89,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
             }
             else if (Input.GetKeyUp("e") || XInputManager.GetButtonRelease(playerMove.controllerID, XButtonType.B))   // アクションボタンリリース
             {
+                playerMove.SetPlayerMovable(true);  // プレイヤーを行動可能に
                 if (runningAction != null)
                 {
                     // アクション終了

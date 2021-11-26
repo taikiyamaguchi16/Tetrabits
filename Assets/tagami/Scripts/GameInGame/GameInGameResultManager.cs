@@ -6,31 +6,16 @@ public class GameInGameResultManager : MonoBehaviour
 {
     [SerializeField] SceneObject nextScene;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        bool trigger = false;
-        for (int i = 0; i < 4; i++)
+        if (Photon.Pun.PhotonNetwork.IsMasterClient
+            && (XInputManager.GetButtonTrigger(0, XButtonType.A) || Input.GetKeyDown(KeyCode.Return)))
         {
-            if (XInputManager.GetButtonTrigger(i, XButtonType.A))
-            {
-                trigger = true;
-                break;
-            }
-        }
-        if (trigger)
-        {
+            //ルーム解散処理？
+
             var managerObj = GameObject.Find("GameMainManager");
             managerObj.GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene(nextScene);
-
-            Debug.LogWarning("Playerぶっころします");
-            Destroy(GameObject.Find("Players"));
         }
     }
 }

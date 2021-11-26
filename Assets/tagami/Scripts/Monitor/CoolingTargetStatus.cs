@@ -22,7 +22,7 @@ public class CoolingTargetStatus : MonoBehaviour
 
     private void Update()
     {
-        slider.value = hp / hpMax;
+        slider.value = hp;
     }
 
     public bool TryToKill(float _damage)

@@ -7,6 +7,9 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
 {
     private Battery ownBattery;
 
+    [SerializeField]
+    ParticleSystem batteryDustEfect;
+
     ItemPocket pocket;
     // Start is called before the first frame update
     void Start()
@@ -28,9 +31,10 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
             {
                 ownBattery.CallDump(_desc.playerObj.GetPhotonView().ViewID);
 
-                photonView.RPC(nameof(RPCDestroyBattery), RpcTarget.All, ownBattery.photonView.ViewID);
-               // PhotonNetwork.Destroy(ownBattery.photonView);
-                ownBattery = null;                
+                photonView.RPC(nameof(RPCDestroyBattery), RpcTarget.AllBufferedViaServer, ownBattery.photonView.ViewID);               
+                ownBattery = null;
+
+                batteryDustEfect.Play();
             }
             //バッテリーでなかった場合元に戻す
             else
