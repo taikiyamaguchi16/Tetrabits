@@ -11,6 +11,9 @@ public class TitleLogo : DOManager
 
     Button[] selectButton;
 
+    [SerializeField]
+    GameObject DemoManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +41,8 @@ public class TitleLogo : DOManager
                     selectButton[i].interactable = true;
                 }
                 buttonParent.GetComponent<ButtonParent>().CallMove();
+
+                DemoManager.SetActive(true);
             });
         }
     }
