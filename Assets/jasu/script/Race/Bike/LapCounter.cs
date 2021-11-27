@@ -58,26 +58,32 @@ public class LapCounter : MonoBehaviourPunCallbacks
                 {
                     if (PhotonNetwork.IsMasterClient)
                     {
-                        photonView.RPC(nameof(RPCLapCountUp), RpcTarget.AllViaServer);
+                        lapCount++;
+                        photonView.RPC(nameof(RPCLapCount), RpcTarget.AllViaServer, lapCount);
                     }
-                    //lapCount++;
-                    if (lapCount > raceManager.GetLapNum)    // ゴール判定
+
+                    if (PhotonNetwork.IsMasterClient && lapCount > raceManager.GetLapNum)    // ゴール判定
                     {
-                        //Debug.Log("ゴール");
-                        bikeCtrlWhenStartAndGoal.SetActiveOffAfterGoal(false);
-                        bikeCtrlWhenStartAndGoal.SetActiveOnAfterGoal(true);
                         goaled = true;
+                        photonView.RPC(nameof(RPCGoal), RpcTarget.AllViaServer, goaled);
                     }
                 }
+
                 if (PhotonNetwork.IsMasterClient)
-                    photonView.RPC(nameof(RPCActualLapCountUp), RpcTarget.AllBufferedViaServer);
+                {
+                    actualLapCount++;
+                    photonView.RPC(nameof(RPCActualLapCount), RpcTarget.AllBufferedViaServer, actualLapCount);
+                }
                 //actualLapCount++;
             }
             else if (Vector3.Dot(transform.position - checkPoint.position, dirOfLane) <= 0 &&
                 Vector3.Dot(oldPos - checkPoint.position, dirOfLane) > 0) // 逆走したらactualLapCountをマイナス
             {
                 if (PhotonNetwork.IsMasterClient)
-                    photonView.RPC(nameof(RPCActualLapCountDown), RpcTarget.AllViaServer);
+                {
+                    actualLapCount--;
+                    photonView.RPC(nameof(RPCActualLapCount), RpcTarget.AllViaServer, actualLapCount);
+                }
                 //actualLapCount--;
             }
         }
@@ -86,19 +92,25 @@ public class LapCounter : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void RPCLapCountUp()
+    private void RPCLapCount(int _lapCount)
     {
-        lapCount++;
+        lapCount = _lapCount;
+    }
+    
+    [PunRPC]
+    private void RPCActualLapCount(int _actualLapCount)
+    {
+        actualLapCount = _actualLapCount;
     }
 
     [PunRPC]
-    private void RPCActualLapCountUp()
+    private void RPCGoal(bool _goalFlag)
     {
-        actualLapCount++;
-    }
-    [PunRPC]
-    private void RPCActualLapCountDown()
-    {
-        actualLapCount--;
+        goaled = _goalFlag;
+        if(goaled)
+        {
+            bikeCtrlWhenStartAndGoal.SetActiveOffAfterGoal(false);
+            bikeCtrlWhenStartAndGoal.SetActiveOnAfterGoal(true);
+        }
     }
 }

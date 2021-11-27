@@ -83,16 +83,20 @@ public class RaceFinish : MonoBehaviourPunCallbacks
         // ゴール時のみ
         if (playerInfo.lapCounter.goaled && !goaled)   
         {
-            photonView.RPC(nameof(RPCWhenGoal), RpcTarget.AllViaServer);
+            goaled = true;
+            if (PhotonNetwork.IsMasterClient)
+            {
+                raceManager.RankingCalculation();
+                photonView.RPC(nameof(RPCWhenGoal), RpcTarget.All, playerInfo.ranking);
+            }
         }
     }
 
     [PunRPC]
-    private void RPCWhenGoal()
+    private void RPCWhenGoal(int _ranking)
     {
-        raceManager.RankingCalculation();
+        playerInfo.ranking = _ranking;
 
-        goaled = true;
         if (playerInfo.ranking == 1)
         {
             textObjWhenWin.SetActive(true);
