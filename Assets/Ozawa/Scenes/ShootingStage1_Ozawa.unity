@@ -1433,7 +1433,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8531583745739908815, guid: 6c4128d122eeeef42b46446a654e05f5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.13
+      value: 13.59
       objectReference: {fileID: 0}
     - target: {fileID: 8531583745739908815, guid: 6c4128d122eeeef42b46446a654e05f5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11227,6 +11227,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cdb076b179d11d34e9b465e84eea7fc5, type: 3}
+--- !u!114 &823145436 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 515006641, guid: cdb076b179d11d34e9b465e84eea7fc5, type: 3}
+  m_PrefabInstance: {fileID: 823145435}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a1c58f8c1d4cd841bb14ce7b7cda3d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &823145437 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2399483458488982118, guid: cdb076b179d11d34e9b465e84eea7fc5, type: 3}
@@ -15493,6 +15504,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1135339618}
     m_Modifications:
+    - target: {fileID: 8046207962696370212, guid: 525bc1771f837e443906364ff13096ea, type: 3}
+      propertyPath: shootingCamera
+      value: 
+      objectReference: {fileID: 823145436}
     - target: {fileID: 8046207962696370213, guid: 525bc1771f837e443906364ff13096ea, type: 3}
       propertyPath: m_Name
       value: CameraStopper
