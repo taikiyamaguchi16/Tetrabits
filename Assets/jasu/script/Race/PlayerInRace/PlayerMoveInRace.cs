@@ -59,7 +59,7 @@ public class PlayerMoveInRace : MoveInRace
 
         if(other.gameObject.tag == "Slip")
         {
-            bikeSlipDown.SlipStart();
+            bikeSlipDown.SlipStart("small");
         }
     }
 }

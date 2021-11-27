@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class DirtSplashSpawn : MonoBehaviour
+public class DirtSplashSpawn : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     protected DirtSplashSpawner dirtSplashSpawner = null;
@@ -32,11 +33,17 @@ public class DirtSplashSpawn : MonoBehaviour
             if (dirtSplashFlag)
             {
                 dirtSplashFlag = false;
-                dirtSplashSpawner.InstantiateDirtSplash(moveVec);
-                Vector3 velocity = moveInRace.rb.velocity;
-                velocity.z *= downSpdMultiply;
-                moveInRace.rb.velocity = velocity;
+                photonView.RPC(nameof(RPCInstantiateDirtSplash), RpcTarget.All);
             }
         }
+    }
+
+    [PunRPC]
+    protected void RPCInstantiateDirtSplash()
+    {
+        dirtSplashSpawner.InstantiateDirtSplash(moveVec);
+        Vector3 velocity = moveInRace.rb.velocity;
+        velocity.z *= downSpdMultiply;
+        moveInRace.rb.velocity = velocity;
     }
 }

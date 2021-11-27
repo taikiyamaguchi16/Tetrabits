@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class RaceManager : MonoBehaviour
+public class RaceManager : MonoBehaviourPunCallbacks
 {
     struct Progress
     {
@@ -51,6 +52,17 @@ public class RaceManager : MonoBehaviour
             RankingCalculation();
         }
     }
+
+    //public void RankingCalculationForRPCOther()
+    //{
+    //    photonView.RPC(nameof(RPCRankingCalculation), RpcTarget.All);
+    //}
+
+    //[PunRPC]
+    //public void RPCRankingCalculation()
+    //{
+    //    RankingCalculation();
+    //}
 
     public void RankingCalculation()
     {

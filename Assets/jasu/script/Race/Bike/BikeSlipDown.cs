@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class BikeSlipDown : MonoBehaviour
+public class BikeSlipDown : MonoBehaviourPunCallbacks
 {
     public bool isSliping { get; private set; }
 
@@ -36,14 +37,14 @@ public class BikeSlipDown : MonoBehaviour
             {
                 if (Mathf.Abs(transform.localEulerAngles.y - eulerWhenSlipStart.y) < 1f)
                 {
-                    transform.localEulerAngles = eulerWhenSlipStart;
-                    isSliping = false;
+                    photonView.RPC(nameof(RPCSlipEnd), RpcTarget.All);
                 }
             }
         }
     }
 
-    public void SlipStart()
+    [PunRPC]
+    private void RPCSlipStart()
     {
         if (isSliping)
             return;
@@ -51,5 +52,26 @@ public class BikeSlipDown : MonoBehaviour
         isSliping = true;
         eulerWhenSlipStart = new Vector3(0, transform.localEulerAngles.y, 0);
         slipingTimer = 0f;
+    }
+
+    [PunRPC]
+    private void RPCSlipEnd()
+    {
+        transform.localEulerAngles = eulerWhenSlipStart;
+        isSliping = false;
+    }
+
+    public void SlipStart()
+    {
+        photonView.RPC(nameof(RPCSlipStart), RpcTarget.All);
+    }
+
+    public void SlipStart(string _damage)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            MonitorManager.DealDamageToMonitor(_damage);
+        }
+        photonView.RPC(nameof(RPCSlipStart), RpcTarget.All);
     }
 }

@@ -107,6 +107,8 @@ GameObject:
   - component: {fileID: 396231687437029225}
   - component: {fileID: 4421796239360097713}
   - component: {fileID: 7428666028572337702}
+  - component: {fileID: 9010632173442685831}
+  - component: {fileID: 494013581}
   m_Layer: 0
   m_Name: PhysicalParts
   m_TagString: Untagged
@@ -163,7 +165,7 @@ MonoBehaviour:
   colliderSensorBack: {fileID: 8578007734320314296}
   bikeSlipDown: {fileID: 5219267999466606608}
   dirtSplashSpawn: {fileID: 2635770476168120973}
-  moveSpd: 80
+  moveSpd: 95
   moveSlopeMultiply: 2
   moveForceMultiplyStart: 2
   moveForceMultiplyStop: 1
@@ -206,9 +208,10 @@ MonoBehaviour:
   bikeSlipDown: {fileID: 5219267999466606608}
   torqueForceMultiply: 4
   correctionTorqueMultiply: 2
-  rotMin: -80
-  rotMax: 65
-  slipAngle: 60
+  rotUp: -80
+  rotDown: 60
+  slipAngleUp: -70
+  slipAngleDown: 55
 --- !u!114 &4421796239360097713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +243,45 @@ MonoBehaviour:
   rb: {fileID: 7603701497981581255}
   moveForceMultiply: 0.5
   gravity: -50
+--- !u!114 &9010632173442685831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487003247870755375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 494013581}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &494013581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487003247870755375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &3405693731458820472
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,6 +294,7 @@ GameObject:
   - component: {fileID: 5410619500459272887}
   - component: {fileID: 5219267999466606608}
   - component: {fileID: 4140811107228069799}
+  - component: {fileID: 1527765428074738035}
   m_Layer: 0
   m_Name: BikeNpc
   m_TagString: Untagged
@@ -353,6 +396,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 5410619500459272887}
   moveBetweenLane: {fileID: 7197532588029266713}
+--- !u!114 &1527765428074738035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3405693731458820472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &3643461864264366053
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,7 +430,7 @@ GameObject:
   - component: {fileID: 3149822766388782865}
   m_Layer: 15
   m_Name: WheelFront
-  m_TagString: Untagged
+  m_TagString: Bike
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -411,7 +476,7 @@ GameObject:
   - component: {fileID: 5166400570034399523}
   m_Layer: 15
   m_Name: GroundSensorBack
-  m_TagString: Untagged
+  m_TagString: Bike
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -582,7 +647,6 @@ MonoBehaviour:
   componentsOffAfterGoal:
   - {fileID: 5071266085724038936}
   - {fileID: 7197532588029266713}
-  - {fileID: 396231687437029225}
   - {fileID: 2635770476168120973}
   componentsOnAfterGoal:
   - {fileID: 7428666028572337702}
@@ -698,7 +762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
+  m_SynchronizeRotation: 0
   m_SynchronizeScale: 0
   m_UseLocal: 1
 --- !u!1 &6291139973812066315
@@ -757,7 +821,7 @@ GameObject:
   - component: {fileID: 8125841188112020618}
   m_Layer: 15
   m_Name: WheelBack
-  m_TagString: Untagged
+  m_TagString: Bike
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -803,7 +867,7 @@ GameObject:
   - component: {fileID: 6684694317949873258}
   m_Layer: 15
   m_Name: GroundSensorFront
-  m_TagString: Untagged
+  m_TagString: Bike
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

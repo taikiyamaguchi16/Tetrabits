@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class LapCounter : MonoBehaviour
+public class LapCounter : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     Transform checkPoint = null;
@@ -16,9 +17,13 @@ public class LapCounter : MonoBehaviour
     [SerializeField]
     BikeCtrlWhenStartAndGoal bikeCtrlWhenStartAndGoal;
 
-    public int actualLapCount { get; private set; } = 0;
+    //public int actualLapCount { get; private set; } = 0;
 
-    public int lapCount { get; private set; } = 0;
+    //public int lapCount { get; private set; } = 0;
+
+    public int actualLapCount = 0;
+
+    public int lapCount = 0;
 
     Vector3 dirOfLane;  // 進行方向
 
@@ -36,7 +41,12 @@ public class LapCounter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Vector3.Distance(checkPoint.position,transform.position) < passJudgeRange &&
+        LapCount();
+    }
+    
+    public void LapCount()
+    {
+        if (Vector3.Distance(checkPoint.position, transform.position) < passJudgeRange &&
             Vector3.Distance(transform.position, oldPos) < passJudgeRange) // 範囲を超える瞬間移動は通過とみなさない
         {
             // 順方向に通過したとき
@@ -44,10 +54,14 @@ public class LapCounter : MonoBehaviour
                 Vector3.Dot(oldPos - checkPoint.position, dirOfLane) <= 0)
             {
                 // actualLapCountと同じならラップを加算する
-                if (actualLapCount == lapCount) 
+                if (actualLapCount == lapCount)
                 {
-                    lapCount++;
-                    if(lapCount > raceManager.GetLapNum)    // ゴール判定
+                    if (PhotonNetwork.IsMasterClient)
+                    {
+                        photonView.RPC(nameof(RPCLapCountUp), RpcTarget.AllViaServer);
+                    }
+                    //lapCount++;
+                    if (lapCount > raceManager.GetLapNum)    // ゴール判定
                     {
                         //Debug.Log("ゴール");
                         bikeCtrlWhenStartAndGoal.SetActiveOffAfterGoal(false);
@@ -55,15 +69,36 @@ public class LapCounter : MonoBehaviour
                         goaled = true;
                     }
                 }
-                actualLapCount++;
+                if (PhotonNetwork.IsMasterClient)
+                    photonView.RPC(nameof(RPCActualLapCountUp), RpcTarget.AllBufferedViaServer);
+                //actualLapCount++;
             }
             else if (Vector3.Dot(transform.position - checkPoint.position, dirOfLane) <= 0 &&
                 Vector3.Dot(oldPos - checkPoint.position, dirOfLane) > 0) // 逆走したらactualLapCountをマイナス
             {
-                actualLapCount--;
+                if (PhotonNetwork.IsMasterClient)
+                    photonView.RPC(nameof(RPCActualLapCountDown), RpcTarget.AllViaServer);
+                //actualLapCount--;
             }
         }
 
         oldPos = transform.position;
+    }
+
+    [PunRPC]
+    private void RPCLapCountUp()
+    {
+        lapCount++;
+    }
+
+    [PunRPC]
+    private void RPCActualLapCountUp()
+    {
+        actualLapCount++;
+    }
+    [PunRPC]
+    private void RPCActualLapCountDown()
+    {
+        actualLapCount--;
     }
 }

@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraObject: {fileID: 0}
+  selfSynchronise: 0
 --- !u!114 &6666750419478731957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +135,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followTrans: {fileID: 0}
+  offset: {x: 35, y: 55, z: 0}
   followX: 1
   followY: 0
   followZ: 1
+  self: 0
