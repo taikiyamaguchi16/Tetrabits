@@ -4062,24 +4062,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameInGameScenesOnDebugWindow:
-  - sceneAsset: {fileID: 102900000, guid: 70c04483856f08b4c96d6e86a597d2a9, type: 3}
-    required: 0
-    buildIndex: 15
-  - sceneAsset: {fileID: 102900000, guid: 25887a4d3aaf9f24eb450af45061ab35, type: 3}
-    required: 0
-    buildIndex: 4
   - sceneAsset: {fileID: 102900000, guid: df61cb74c7d389d4786f781e7368fbf1, type: 3}
     required: 0
-    buildIndex: 8
-  - sceneAsset: {fileID: 102900000, guid: fce0bef3e33adc942bfb94d30da8e873, type: 3}
+    buildIndex: 9
+  - sceneAsset: {fileID: 102900000, guid: 1b2ace277a368e348990d40de0d26f5e, type: 3}
     required: 0
-    buildIndex: 16
-  - sceneAsset: {fileID: 102900000, guid: 8fca41acf71e8924d8fe7490083a4ac6, type: 3}
-    required: 0
-    buildIndex: 19
+    buildIndex: 12
   - sceneAsset: {fileID: 102900000, guid: 89b86e05cbf7b2f4992727c4c4b4bc83, type: 3}
     required: 0
-    buildIndex: 20
+    buildIndex: 28
+  - sceneAsset: {fileID: 102900000, guid: 8518452c70c8ca540a4fb9908ce1c49c, type: 3}
+    required: 0
+    buildIndex: 27
+  - sceneAsset: {fileID: 102900000, guid: 05d2c24aa47bf1f4cad70366925e03d5, type: 3}
+    required: 0
+    buildIndex: 1
 --- !u!4 &1213106694
 Transform:
   m_ObjectHideFlags: 0
@@ -4550,6 +4547,10 @@ PrefabInstance:
     - target: {fileID: 2952317553939390482, guid: f5303d109921485409daf5feb12495bd, type: 3}
       propertyPath: sceneViewId
       value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 4727228168792148354, guid: f5303d109921485409daf5feb12495bd, type: 3}
+      propertyPath: loadSceneObj.m_SceneName
+      value: JumpTitle
       objectReference: {fileID: 0}
     - target: {fileID: 4727228168792148359, guid: f5303d109921485409daf5feb12495bd, type: 3}
       propertyPath: sceneViewId

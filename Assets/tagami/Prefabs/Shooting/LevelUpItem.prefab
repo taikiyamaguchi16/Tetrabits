@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6066741890700599635}
   - component: {fileID: 6066741890700599637}
   - component: {fileID: -3849667592471582098}
+  - component: {fileID: 2105118495497552358}
   m_Layer: 0
   m_Name: LevelUpItem
   m_TagString: LevelUpItem
@@ -113,3 +114,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemId: levelup
+--- !u!114 &2105118495497552358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6066741890700599634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b1ce4aba70420246a65a283f57fb2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroySeconds: 10

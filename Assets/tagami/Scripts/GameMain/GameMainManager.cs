@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class GameMainManager : MonoBehaviour
+public class GameMainManager : MonoBehaviourPunCallbacks
 {
     [Header("Require Reference")]
     [SerializeField] CassetteManager cassetteManager;
@@ -19,29 +20,45 @@ public class GameMainManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //タイマー計測する？
+
+
+        //多分ここのGameEndの通知マスタークライアントに処理させたほうがいい
         //終了チェック(必ず存在確認はする)
-        if (GameInGameManager.sCurrentGameInGameManager && GameInGameManager.sCurrentGameInGameManager.isGameEnd)
+        if (PhotonNetwork.IsMasterClient && GameInGameManager.sCurrentGameInGameManager && GameInGameManager.sCurrentGameInGameManager.isGameEnd)
         {
-            Debug.Log(GameInGameManager.sCurrentGameInGameManager.gameName + "をクリアしました！！！！");
+            CallClearCurrentGameInGame(GameInGameManager.sCurrentGameInGameManager.gameName, 0.0f);
+        }
+    }
 
-            //カセット吐き出したり
-            cassetteManager.ActiveCassetIsClearOn();
+    void CallClearCurrentGameInGame(string _gameInGameName, float _clearSeconds)
+    {
+        photonView.RPC(nameof(RPCClearCurrentGameInGame), RpcTarget.AllViaServer, _gameInGameName, _clearSeconds);
+    }
+    [PunRPC]
+    public void RPCClearCurrentGameInGame(string _gameInGameName, float _clearSeconds)
+    {
+        Debug.Log(_gameInGameName + "を" + _clearSeconds + "秒でクリア");
 
-            //タイマー計測したり
 
-            //すべてクリアしたら結果画面へ
-            if (cassetteManager.CheckAllCassette() || true)
-            {
-                Debug.LogWarning("強制全クリ発動！！");
+        //カセット吐き出したり
+        cassetteManager.ActiveCassetIsClearOn();
+
+        
+
+        //すべてクリアしたら結果画面へ
+        if (cassetteManager.CheckAllCassette())
+        {
+            if (PhotonNetwork.IsMasterClient)
                 GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene(resultScene);
-            }
-            else
-            { //ゲームを落とす
+        }
+        else
+        { //ゲームを落とす
+            if (PhotonNetwork.IsMasterClient)
                 GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene("");
 
-                //カセット再表示
-                cassetteManager.AppearAllCassette();
-            }
+            //カセット再表示
+            cassetteManager.AppearAllCassette();
         }
     }
 

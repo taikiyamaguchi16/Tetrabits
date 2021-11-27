@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class DirtSplashSpawner : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class DirtSplashSpawner : MonoBehaviour
 
     public void InstantiateDirtSplash(Vector3 _moveForce)
     {
+        //GameObject dirtSplashObj = Instantiate(dirtSplashPrefab);
         GameObject dirtSplashObj = Instantiate(dirtSplashPrefab);
         GameInGameUtil.MoveGameObjectToOwnerScene(dirtSplashObj, gameObject); ;
         dirtSplashObj.transform.position = transform.position;

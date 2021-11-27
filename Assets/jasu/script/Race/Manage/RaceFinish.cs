@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
-public class RaceFinish : MonoBehaviour
+public class RaceFinish : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     SceneObject nextStageScene = null;
@@ -35,6 +36,8 @@ public class RaceFinish : MonoBehaviour
     [SerializeField]
     bool finalStage = false;
 
+    bool sceneShifted = false;
+
     // Update is called once per frame
     void Update()
     {
@@ -52,14 +55,23 @@ public class RaceFinish : MonoBehaviour
                     }
                     else if (nextStageScene != null)
                     {
-                        GameInGameUtil.SwitchGameInGameScene(nextStageScene);
+                        if (PhotonNetwork.IsMasterClient && !sceneShifted)
+                        {
+                            sceneShifted = true;
+                            GameInGameUtil.SwitchGameInGameScene(nextStageScene);
+                        }
                     }
                 }
                 else
                 {
                     if(nowStageScene != null)
                     {
-                        GameInGameUtil.SwitchGameInGameScene(nowStageScene);
+                        if (PhotonNetwork.IsMasterClient && !sceneShifted)
+                        {
+                            sceneShifted = true;
+                            GameInGameUtil.SwitchGameInGameScene(nowStageScene);
+                            MonitorManager.DealDamageToMonitor("large");
+                        }
                     }
                 }
             }
@@ -71,18 +83,24 @@ public class RaceFinish : MonoBehaviour
         // ゴール時のみ
         if (playerInfo.lapCounter.goaled && !goaled)   
         {
-            raceManager.RankingCalculation();
+            photonView.RPC(nameof(RPCWhenGoal), RpcTarget.AllViaServer);
+        }
+    }
 
-            goaled = true;
-            if (playerInfo.ranking == 1)
-            {
-                textObjWhenWin.SetActive(true);
-                winFlag = true;
-            }
-            else
-            {
-                textObjWhenLose.SetActive(true);
-            }
+    [PunRPC]
+    private void RPCWhenGoal()
+    {
+        raceManager.RankingCalculation();
+
+        goaled = true;
+        if (playerInfo.ranking == 1)
+        {
+            textObjWhenWin.SetActive(true);
+            winFlag = true;
+        }
+        else
+        {
+            textObjWhenLose.SetActive(true);
         }
     }
 }

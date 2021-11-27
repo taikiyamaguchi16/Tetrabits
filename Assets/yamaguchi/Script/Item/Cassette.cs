@@ -5,6 +5,11 @@ using Photon.Pun;
 
 public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
 {
+    [SerializeField]
+    private GameObject rendererObj;
+    [SerializeField]
+    private Color cassetteColor;
+
     private Rigidbody rb;
     private Collider col;
     // Start is called before the first frame update
@@ -28,18 +33,21 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
         col = GetComponent<BoxCollider>();
         isOwned = false;
         isClear = false;
+
+        priority = 50;
+
+        rendererObj.GetComponent<Renderer>().material.color = cassetteColor;
     }
 
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
-        if (photonView.IsMine)
+        if (!isOwned)
         {
-            if (!isOwned)
-            {
-                photonView.RPC(nameof(PickUp), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
-            }
-            else
-                photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
+            photonView.RPC(nameof(PickUp), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
+        }
+        else
+        {
+            photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
         }
     }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
@@ -50,11 +58,7 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
 
     public bool GetIsActionPossible(PlayerActionDesc _desc)
     {
-        if (photonView.IsMine)
-        {
-            return true;
-        }
-        return false;
+        return true;
     }
 
     public void CallPickUpCassette(int _id)

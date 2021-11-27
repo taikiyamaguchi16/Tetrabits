@@ -10651,7 +10651,9 @@ PrefabInstance:
       propertyPath: nextScene.m_SceneName
       value: GyroStage3
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6083874037800184900, guid: c79f90c4495bb1845ae419974a1a9b91, type: 3}
+    - {fileID: 2361420080805236565, guid: c79f90c4495bb1845ae419974a1a9b91, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c79f90c4495bb1845ae419974a1a9b91, type: 3}
 --- !u!1001 &865396257
 PrefabInstance:
@@ -16110,7 +16112,9 @@ PrefabInstance:
       propertyPath: nextScene.m_SceneName
       value: GyroStage3
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6083874037800184900, guid: c79f90c4495bb1845ae419974a1a9b91, type: 3}
+    - {fileID: 2361420080805236565, guid: c79f90c4495bb1845ae419974a1a9b91, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c79f90c4495bb1845ae419974a1a9b91, type: 3}
 --- !u!1001 &1321446646
 PrefabInstance:
@@ -26162,7 +26166,9 @@ PrefabInstance:
       propertyPath: nextScene.m_SceneName
       value: GyroStage3
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6083874037800184900, guid: c79f90c4495bb1845ae419974a1a9b91, type: 3}
+    - {fileID: 2361420080805236565, guid: c79f90c4495bb1845ae419974a1a9b91, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c79f90c4495bb1845ae419974a1a9b91, type: 3}
 --- !u!1001 &2141149517
 PrefabInstance:
@@ -26371,6 +26377,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 792216046}
     m_Modifications:
+    - target: {fileID: 2361420080805236565, guid: c79f90c4495bb1845ae419974a1a9b91, type: 3}
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2361420080805236565, guid: c79f90c4495bb1845ae419974a1a9b91, type: 3}
+      propertyPath: m_Size.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2361420080805236565, guid: c79f90c4495bb1845ae419974a1a9b91, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2361420080805236565, guid: c79f90c4495bb1845ae419974a1a9b91, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3138622285533672621, guid: c79f90c4495bb1845ae419974a1a9b91, type: 3}
       propertyPath: m_Name
       value: Goal

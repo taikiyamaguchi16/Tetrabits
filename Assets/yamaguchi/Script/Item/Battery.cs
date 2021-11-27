@@ -5,6 +5,11 @@ using Photon.Pun;
 
 public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 {
+    [SerializeField]
+    private GameObject energyGazeObj;
+    private float energyGazeSize;
+    private float energyGazePos;
+
     private Rigidbody rb;
     private Collider col;
     [SerializeField, ReadOnly]
@@ -26,6 +31,8 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         col = GetComponent<BoxCollider>();
         isOwned = false;
         level = 100f;
+
+        energyGazeSize = energyGazeObj.transform.localScale.y;
     }
 
     public void StartPlayerAction(PlayerActionDesc _desc)
@@ -33,10 +40,10 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
         if (!isOwned)
         {
-            photonView.RPC(nameof(PickUp), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
+            photonView.RPC(nameof(PickUp), RpcTarget.AllBufferedViaServer, _desc.playerObj.GetPhotonView().ViewID);
         }
         else
-            photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
+            photonView.RPC(nameof(Dump), RpcTarget.AllBufferedViaServer, _desc.playerObj.GetPhotonView().ViewID);
 
     }
 
@@ -53,12 +60,12 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
     public void CallPickUp(int _id)
     {
-        photonView.RPC(nameof(PickUp), RpcTarget.All, _id);
+        photonView.RPC(nameof(PickUp), RpcTarget.AllBufferedViaServer, _id);
     }
 
     public void CallDump(int _id)
     {
-        photonView.RPC(nameof(Dump), RpcTarget.All, _id);
+        photonView.RPC(nameof(Dump), RpcTarget.AllBufferedViaServer, _id);
     }
 
     [PunRPC]
@@ -96,8 +103,38 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
     public void BatteryConsumption(float _powerConsumption)
     {
-        level -= _powerConsumption;
-        if (level < 0)
+        if (PhotonNetwork.IsMasterClient)
+        {
+            level -= _powerConsumption;
+            //中のオブジェクトを残量に合わせて
+            Vector3 keepSize = energyGazeObj.transform.localScale;
+            //100は電池の最大容量のマジックナンバー
+            keepSize.y = energyGazeSize * (level / 100f);
+
+            energyGazeObj.transform.localScale = keepSize;
+            if (level <= 0)
+            {
+                level = 0f;
+                energyGazeObj.transform.localScale = Vector3.zero;
+            }
+            photonView.RPC(nameof(RPCSetBatteryLevel), RpcTarget.Others, level);
+        }
+    }
+
+    [PunRPC]
+    public void RPCSetBatteryLevel(float _level)
+    {
+        level = _level;
+        //中のオブジェクトを残量に合わせて
+        Vector3 keepSize = energyGazeObj.transform.localScale;
+        //100は電池の最大容量のマジックナンバー
+        keepSize.y = energyGazeSize * (level / 100f);
+
+        energyGazeObj.transform.localScale = keepSize;
+        if (level <= 0)
+        {
             level = 0f;
+            energyGazeObj.transform.localScale = Vector3.zero;
+        }
     }
 }

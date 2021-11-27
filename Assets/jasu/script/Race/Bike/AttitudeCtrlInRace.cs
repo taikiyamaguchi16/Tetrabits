@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class AttitudeCtrlInRace : MonoBehaviour
+public class AttitudeCtrlInRace : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     protected Rigidbody rb = null;
@@ -23,13 +24,16 @@ public class AttitudeCtrlInRace : MonoBehaviour
     protected float correctionTorqueMultiply = 1f;
 
     [SerializeField, Range(-90f, 0f)]
-    protected float rotMin = -60f;
+    protected float rotUp = -80f;
 
     [SerializeField, Range(0f, 90f)]
-    protected float rotMax = 60f;
+    protected float rotDown = 60f;
+
+    [SerializeField, Range(-90f, 0f)]
+    protected float slipAngleUp = -75f;
 
     [SerializeField, Range(0f, 90f)]
-    protected float slipAngle = 55f;
+    protected float slipAngleDown = 55f;
 
     public float dirRot { get; set; } = 0;
 
@@ -45,14 +49,14 @@ public class AttitudeCtrlInRace : MonoBehaviour
 
         // 角度制限
         Vector3 vec = transform.localEulerAngles;
-        if (angleX < rotMin)
+        if (angleX < rotUp)
         {
-            vec.x = rotMin;
+            vec.x = rotUp;
             transform.localEulerAngles = vec;
         }
-        else if (angleX > rotMax)
+        else if (angleX > rotDown)
         {
-            vec.x = rotMax;
+            vec.x = rotDown;
             transform.localEulerAngles = vec;
         }
 
@@ -64,13 +68,13 @@ public class AttitudeCtrlInRace : MonoBehaviour
         }
         else // 回転
         {
-            if (dirRot < 0 && angleX > rotMin &&
+            if (dirRot < 0 && angleX > rotUp &&
                 !colliderSensorFront.GetExistInCollider() && !colliderSensorBack.GetExistInCollider())
             {
                 rb.AddTorque(Vector3.right * torqueForceMultiply * dirRot, ForceMode.Acceleration);
             }
                
-            if (dirRot > 0 && angleX < rotMax && 
+            if (dirRot > 0 && angleX < rotDown && 
                     !colliderSensorFront.GetExistInCollider() && !colliderSensorBack.GetExistInCollider())
             {
                 rb.AddTorque(Vector3.right * torqueForceMultiply * dirRot, ForceMode.Acceleration);
@@ -104,11 +108,7 @@ public class AttitudeCtrlInRace : MonoBehaviour
         // 接地時
         if (colliderSensorFront.GetExistInCollider() || colliderSensorBack.GetExistInCollider())
         {
-            if (angleX > slipAngle)
-            {
-                bikeSlipDown.SlipStart();
-            }
-            else if (angleX < -slipAngle)
+            if (angleX > slipAngleDown || angleX < slipAngleUp)
             {
                 bikeSlipDown.SlipStart();
             }

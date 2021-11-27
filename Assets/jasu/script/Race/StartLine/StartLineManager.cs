@@ -28,7 +28,7 @@ public class StartLineManager : MonoBehaviour
                 Vector3 pos = racers[i].transform.localPosition;
                 pos.x = laneManager.GetLaneLocalPosX(i);
                 pos.y = 0f;
-                pos.z = startLineTrans.localPosition.z - laneManager.GetLaneWidth() / 2 * (i + 1);
+                pos.z = startLineTrans.localPosition.z - laneManager.GetLaneWidth() / 2 * (i + 2.5f);
                 racers[i].transform.localPosition = pos;
 
                 racers[i].GetComponentInChildren<MoveBetweenLane>().belongingLaneId = i;

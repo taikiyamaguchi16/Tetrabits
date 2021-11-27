@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 using Photon.Pun;
 
 public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
 {
     [Header("Required Reference")]
     [SerializeField] MonitorManager monitorManager;
-    [SerializeField] ParticleSystem coolingEffect;
+    [SerializeField] VisualEffect coolingEffect;
     [SerializeField] Transform rotateTarget;
+    [SerializeField] Transform coolingMuzzule;
     Quaternion endRotation;
 
     [Header("Status")]
@@ -23,6 +25,8 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     void Start()
     {
         endRotation = rotateTarget.rotation;
+
+        coolingEffect.Stop();
     }
 
     // Update is called once per frame
@@ -30,15 +34,10 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     {
         if (running)
         {
-            if (!coolingEffect.isPlaying)
-            {
-                coolingEffect.Play();
-            }
-
             //レイとばして冷却ターゲット削除        
             //11/19 なんかforwardの逆にレイが飛んでるっぽい
-            Debug.DrawRay(rotateTarget.position, -rotateTarget.forward * 10000.0f, Color.blue);
-            foreach (var hit in Physics.RaycastAll(new Ray(rotateTarget.position, -rotateTarget.forward), 10000.0f))
+            Debug.DrawRay(coolingMuzzule.position, -coolingMuzzule.forward * 10000.0f, Color.blue);
+            foreach (var hit in Physics.RaycastAll(new Ray(coolingMuzzule.position, -coolingMuzzule.forward), 10000.0f))
             {
                 Debug.Log("hit!:" + hit.collider.gameObject.name);
                 if (hit.collider.CompareTag("CoolingTarget"))
@@ -57,13 +56,6 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
                 }
             }
 
-        }
-        else
-        {
-            if (coolingEffect.isPlaying)
-            {
-                coolingEffect.Stop();
-            }
         }
 
         //回転処理
@@ -106,6 +98,14 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     void RPCSetRunning(bool _value)
     {
         running = _value;
+        if (running)
+        {
+            coolingEffect.Play();
+        }
+        else
+        {
+            coolingEffect.Stop();
+        }
     }
 
     public void CallMultiplyRotation(Quaternion _qt)

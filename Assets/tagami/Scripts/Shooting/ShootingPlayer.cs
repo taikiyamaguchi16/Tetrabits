@@ -112,6 +112,12 @@ namespace Shooting
                             CallShotBullet(Vector3.zero, Vector3.right * bulletSpeed);
                             CallShotBullet(Vector3.zero, (Vector3.right + Vector3.down * tripleShotWidth).normalized * bulletSpeed);
                             break;
+                        case 4:
+                            CallShotBullet(Vector3.zero, (Vector3.right + Vector3.up * tripleShotWidth).normalized * bulletSpeed);
+                            CallShotBullet(new Vector3(0.0f, dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
+                            CallShotBullet(new Vector3(0.0f, -dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
+                            CallShotBullet(Vector3.zero, (Vector3.right + Vector3.down * tripleShotWidth).normalized * bulletSpeed);
+                            break;
                         default:
                             Debug.LogWarning("対応していないショットレベル：" + shotLevel);
                             break;
@@ -119,10 +125,11 @@ namespace Shooting
                 }
             }//lever on
 
-            if (TetraInput.sTetraButton.GetTrigger() && ShootingGameManager.sShootingGameManager.TryAddBomb(-1))
+            if (PhotonNetwork.IsMasterClient
+                && TetraInput.sTetraButton.GetTrigger()
+                && ShootingGameManager.sBombNum > 0)
             { //ボム
-                var bombObj = Instantiate(bombFieldPrefab, transform.position, Quaternion.identity);
-                bombObj.GetComponent<TransformSynchronizer>().targetObject = gameObject;
+                CallInstantiateBombLocal();                
             }
 
             if (isInvincible)
@@ -174,6 +181,19 @@ namespace Shooting
 
         }
 
+        private void CallInstantiateBombLocal()
+        {
+            photonView.RPC(nameof(RPCInstantiateBombLocal), RpcTarget.All);
+        }
+        [PunRPC]
+        public void RPCInstantiateBombLocal()
+        {
+            ShootingGameManager.sShootingGameManager.AddBomb(-1);
+            var bombObj = Instantiate(bombFieldPrefab, transform.position, Quaternion.identity);
+            bombObj.GetComponent<TransformSynchronizer>().targetObject = gameObject;
+        }
+
+
         public void CallShotBullet(Vector3 _offset, Vector3 _velocity)
         {
             photonView.RPC(nameof(RPCShotBullet), RpcTarget.AllViaServer, _offset, _velocity);
@@ -200,13 +220,14 @@ namespace Shooting
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (!PhotonNetwork.IsMasterClient) return;
-
-            if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
+            if (PhotonNetwork.IsMasterClient)
             {
-                if (!isInvincible)
+                if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
                 {
-                    CallDealDamageToPlayer();
+                    if (!isInvincible)
+                    {
+                        CallDealDamageToPlayer();
+                    }
                 }
             }
 
@@ -214,7 +235,7 @@ namespace Shooting
             if (collision.gameObject.CompareTag("LevelUpItem"))
             {
                 ShootingItemController item;
-                if (collision.TryGetComponent(out item))
+                if (PhotonNetwork.IsMasterClient && collision.TryGetComponent(out item))
                 {
                     if (item.CompareItemId("levelup"))
                     {
@@ -224,20 +245,20 @@ namespace Shooting
                     {
                         CallAddBomb();
                     }
-
-                    Destroy(collision.gameObject);
                 }
+
+                Destroy(collision.gameObject);
             }
         }
 
         private void CallAddBomb()
         {
-            photonView.RPC(nameof(RPCAddBomb), RpcTarget.AllViaServer);
+            photonView.RPC(nameof(RPCAddBomb), RpcTarget.All);
         }
         [PunRPC]
         public void RPCAddBomb()
         {
-            ShootingGameManager.sShootingGameManager.TryAddBomb(1);
+            ShootingGameManager.sShootingGameManager.AddBomb(1);
         }
 
         private void CallShotLevelUp()

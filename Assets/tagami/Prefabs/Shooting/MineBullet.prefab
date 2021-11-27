@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 791794306420418938}
   - component: {fileID: 5621770993712510045}
   - component: {fileID: 8984022586504060888}
+  - component: {fileID: 8449036464408443384}
   m_Layer: 0
   m_Name: MineBullet
   m_TagString: EnemyBullet
@@ -97,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf901304adb38a489c4f9af2cde83f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 5
+  hp: 3
   maxHpSprite: {fileID: 21300000, guid: 3fe7f91cc47e24b45adc3fff2fa59b73, type: 3}
   halfHpSprite: {fileID: 21300000, guid: f8498bea309de6d438e2f6998e28771c, type: 3}
 --- !u!50 &5621770993712510045
@@ -190,3 +191,16 @@ PolygonCollider2D:
       - {x: 0.099999994, y: -0.52}
       - {x: 0.14, y: -0.44}
       - {x: 0.41, y: -0.47}
+--- !u!114 &8449036464408443384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791794306420418939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b1ce4aba70420246a65a283f57fb2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroySeconds: 10
