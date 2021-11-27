@@ -38,22 +38,6 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         energyGazeSize = energyGazeObj.transform.localScale.y;
     }
 
-    void Update()
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            elpsedTime += Time.deltaTime;
-            //10秒に一回くらい同期取る
-            if (elpsedTime > 10f)
-            {
-                Debug.Log("同期「");
-                photonView.RPC(nameof(RPCSetBatteryLevel), RpcTarget.Others, level);
-                elpsedTime = 0f;
-            }
-
-        }
-    }
-
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
 
@@ -134,7 +118,18 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
             level = 0f;
             energyGazeObj.transform.localScale = Vector3.zero;
         }
-       // photonView.RPC(nameof(RPCSetBatteryLevel), RpcTarget.Others, level);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            elpsedTime += Time.deltaTime;
+            //10秒に一回くらい同期取る
+            if (elpsedTime > 10f)
+            {
+                Debug.Log("同期「");
+                photonView.RPC(nameof(RPCSetBatteryLevel), RpcTarget.Others, level);
+                elpsedTime = 0f;
+            }
+
+        }
     }
 
     [PunRPC]
