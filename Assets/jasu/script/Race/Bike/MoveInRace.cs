@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 [RequireComponent(typeof(Rigidbody))]
-public class MoveInRace : MonoBehaviour
+public class MoveInRace : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     public Rigidbody rb { get; protected set; }
@@ -143,20 +144,6 @@ public class MoveInRace : MonoBehaviour
             collision.transform.parent.gameObject.tag == "SlopeRoadInRace")
         {
             wheelonSlopeNum--;
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponent<DirtSplash>() != null &&
-            other.GetComponent<DirtSplash>().parentInstanceID == gameObject.GetInstanceID())
-        {
-            return;
-        }
-
-        if (other.gameObject.tag == "Slip")
-        {
-            bikeSlipDown.SlipStart();
         }
     }
 }

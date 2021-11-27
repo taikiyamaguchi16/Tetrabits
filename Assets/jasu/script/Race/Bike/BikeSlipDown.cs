@@ -72,6 +72,7 @@ public class BikeSlipDown : MonoBehaviourPunCallbacks
         {
             MonitorManager.DealDamageToMonitor(_damage);
         }
+
         photonView.RPC(nameof(RPCSlipStart), RpcTarget.All);
     }
 }

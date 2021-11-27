@@ -48,8 +48,17 @@ public class DummyStageMolder : MonoBehaviour
         }
         
         // ステージ複製
-        Instantiate(stageObj, this.gameObject.transform);
+        GameObject dummys = Instantiate(stageObj, this.gameObject.transform);
         
+        for(int i = 0; i < stageObj.transform.childCount; i++)
+        {
+            dummys.transform.GetChild(i).gameObject.AddComponent<DummyObj>().entity = stageObj.transform.GetChild(i).gameObject;
+            for(int j = 0; j < stageObj.transform.GetChild(i).childCount; j++)
+            {
+                dummys.transform.GetChild(i).GetChild(j).gameObject.AddComponent<DummyObj>().entity = stageObj.transform.GetChild(i).GetChild(j).gameObject;
+            }
+        }
+
         //for (int i = 0; i < _raceStageMolder.GetLanes.Length; i++)
         //{
         //    Instantiate(_raceStageMolder.GetLanes[i], this.gameObject.transform);

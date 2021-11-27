@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 7428666028572337702}
   - component: {fileID: 1212288839}
   - component: {fileID: 1212288837}
+  - component: {fileID: 3743806979556830801}
   m_Layer: 0
   m_Name: PhysicalParts
   m_TagString: Untagged
@@ -295,6 +296,20 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &3743806979556830801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487003247870755375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e28aa5f3771e514daab7818b89496e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bikeSlipDown: {fileID: 1446960286}
+  slipObjList: 
 --- !u!1 &3643461864264366053
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,6 +516,8 @@ MonoBehaviour:
   passJudgeRange: 100
   raceManager: {fileID: 0}
   bikeCtrlWhenStartAndGoal: {fileID: 3903591124720499}
+  actualLapCount: 0
+  lapCount: 0
 --- !u!114 &8271611299584772535
 MonoBehaviour:
   m_ObjectHideFlags: 0
