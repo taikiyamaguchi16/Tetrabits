@@ -5768,6 +5768,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 37922889}
     m_Modifications:
     - target: {fileID: 7856946730569164369, guid: c747eb479c3727f4dab706b90625d1f4, type: 3}
+      propertyPath: cinemachineBrain
+      value: 
+      objectReference: {fileID: 933173708}
+    - target: {fileID: 7856946730569164369, guid: c747eb479c3727f4dab706b90625d1f4, type: 3}
+      propertyPath: globalVolumeController
+      value: 
+      objectReference: {fileID: 1975499434}
+    - target: {fileID: 7856946730569164369, guid: c747eb479c3727f4dab706b90625d1f4, type: 3}
       propertyPath: PreExecutionCameras.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -5781,6 +5789,18 @@ PrefabInstance:
       objectReference: {fileID: 1375872743}
     - target: {fileID: 7856946730569164369, guid: c747eb479c3727f4dab706b90625d1f4, type: 3}
       propertyPath: PreExecutionCameras.Array.data[2]
+      value: 
+      objectReference: {fileID: 1024355660}
+    - target: {fileID: 7856946730569164369, guid: c747eb479c3727f4dab706b90625d1f4, type: 3}
+      propertyPath: virtualCameraWithDepthOfFields.Array.data[0].cinemachineVirtualCamera
+      value: 
+      objectReference: {fileID: 1741427807}
+    - target: {fileID: 7856946730569164369, guid: c747eb479c3727f4dab706b90625d1f4, type: 3}
+      propertyPath: virtualCameraWithDepthOfFields.Array.data[1].cinemachineVirtualCamera
+      value: 
+      objectReference: {fileID: 1375872743}
+    - target: {fileID: 7856946730569164369, guid: c747eb479c3727f4dab706b90625d1f4, type: 3}
+      propertyPath: virtualCameraWithDepthOfFields.Array.data[2].cinemachineVirtualCamera
       value: 
       objectReference: {fileID: 1024355660}
     - target: {fileID: 7856946730569164370, guid: c747eb479c3727f4dab706b90625d1f4, type: 3}
