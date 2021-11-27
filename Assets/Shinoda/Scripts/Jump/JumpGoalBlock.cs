@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public class JumpGoalBlock : MonoBehaviour
 {
     [SerializeField] SceneObject nextScene = null;
     //GameInGameSwitcher gameInGameSwitcherComponent;
+    bool loadable = true;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +25,11 @@ public class JumpGoalBlock : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (nextScene == null) GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
-        else GameInGameUtil.SwitchGameInGameScene(nextScene);
+        else if (PhotonNetwork.IsMasterClient && loadable)
+        {
+            GameInGameUtil.SwitchGameInGameScene(nextScene);
+            loadable = false;
+        }
         //else gameInGameSwitcherComponent.SwitchGameInGameScene(nextScene);
     }
 }
