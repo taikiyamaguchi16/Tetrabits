@@ -202,11 +202,11 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                     playerAnim.SetBool("Forward", true);
                 }              
             }
-            //else
-            //{
-            //    playerAnim.SetBool("Walking", false);
-            //    playerAnim.SetBool("Waiting", true);
-            //}
+            else
+            {
+                playerAnim.SetBool("Walking", false);
+                playerAnim.SetBool("Waiting", true);
+            }
         }
     }
 
