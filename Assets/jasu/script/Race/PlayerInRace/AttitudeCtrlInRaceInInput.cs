@@ -19,14 +19,14 @@ public class AttitudeCtrlInRaceInInput : AttitudeCtrlInRace
 
         // 角度制限
         Vector3 vec = transform.localEulerAngles;
-        if (angleX < rotMin)
+        if (angleX < rotUp)
         {
-            vec.x = rotMin;
+            vec.x = rotUp;
             transform.localEulerAngles = vec;
         }
-        else if (angleX > rotMax)
+        else if (angleX > rotDown)
         {
-            vec.x = rotMax;
+            vec.x = rotDown;
             transform.localEulerAngles = vec;
         }
 
@@ -40,13 +40,13 @@ public class AttitudeCtrlInRaceInInput : AttitudeCtrlInRace
         {
             // 入力による回転
             float padVecX = TetraInput.sTetraPad.GetVector().x;
-            if (padVecX < -padInputRangeX && angleX > rotMin &&
+            if (padVecX < -padInputRangeX && angleX > rotUp &&
                 !colliderSensorFront.GetExistInCollider() && !colliderSensorBack.GetExistInCollider())
             {
                 rb.AddTorque(Vector3.right * padVecX * torqueForceMultiply, ForceMode.Acceleration);
             }
                
-            if (padVecX > padInputRangeX && angleX < rotMax && 
+            if (padVecX > padInputRangeX && angleX < rotDown && 
                     !colliderSensorFront.GetExistInCollider() && !colliderSensorBack.GetExistInCollider())
             {
                 rb.AddTorque(Vector3.right * padVecX * torqueForceMultiply, ForceMode.Acceleration);
@@ -80,13 +80,9 @@ public class AttitudeCtrlInRaceInInput : AttitudeCtrlInRace
         // 接地時
         if (colliderSensorFront.GetExistInCollider() || colliderSensorBack.GetExistInCollider())
         {
-            if (angleX > slipAngle)
+            if (angleX > slipAngleDown || angleX < slipAngleUp)
             {
-                bikeSlipDown.SlipStart();
-            }
-            else if (angleX < -slipAngle)
-            {
-                bikeSlipDown.SlipStart();
+                bikeSlipDown.SlipStart("small");
             }
         }
     }

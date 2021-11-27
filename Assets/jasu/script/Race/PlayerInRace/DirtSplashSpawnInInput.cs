@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class DirtSplashSpawnInInput : DirtSplashSpawn
 {
@@ -12,10 +13,7 @@ public class DirtSplashSpawnInInput : DirtSplashSpawn
         {
             if (TetraInput.sTetraButton.GetTrigger())
             {
-                dirtSplashSpawner.InstantiateDirtSplash(moveVec);
-                Vector3 velocity = moveInRace.rb.velocity;
-                velocity.z *= downSpdMultiply;
-                moveInRace.rb.velocity = velocity;
+                photonView.RPC(nameof(RPCInstantiateDirtSplash), RpcTarget.All);
             }
         }
     }

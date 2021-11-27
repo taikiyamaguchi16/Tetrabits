@@ -45,9 +45,14 @@ public class ColliderSensor : MonoBehaviour
         objList.Remove(other.gameObject);
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        existInCollider = true;
+        objList.Add(collision.gameObject);
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        objList.Remove(collision.gameObject);
     }
 
     public int GetInColliderNum()
