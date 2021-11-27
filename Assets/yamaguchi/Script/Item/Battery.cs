@@ -10,6 +10,8 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     private float energyGazeSize;
     private float energyGazePos;
 
+    private float elpsedTime;
+
     private Rigidbody rb;
     private Collider col;
     [SerializeField, ReadOnly]
@@ -31,8 +33,25 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         col = GetComponent<BoxCollider>();
         isOwned = false;
         level = 100f;
+        elpsedTime = 0f;
 
         energyGazeSize = energyGazeObj.transform.localScale.y;
+    }
+
+    void Update()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            elpsedTime += Time.deltaTime;
+            //10秒に一回くらい同期取る
+            if (elpsedTime > 10f)
+            {
+                Debug.Log("同期「");
+                photonView.RPC(nameof(RPCSetBatteryLevel), RpcTarget.Others, level);
+                elpsedTime = 0f;
+            }
+
+        }
     }
 
     public void StartPlayerAction(PlayerActionDesc _desc)
@@ -103,22 +122,19 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
     public void BatteryConsumption(float _powerConsumption)
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            level -= _powerConsumption;
-            //中のオブジェクトを残量に合わせて
-            Vector3 keepSize = energyGazeObj.transform.localScale;
-            //100は電池の最大容量のマジックナンバー
-            keepSize.y = energyGazeSize * (level / 100f);
+        level -= _powerConsumption;
+        //中のオブジェクトを残量に合わせて
+        Vector3 keepSize = energyGazeObj.transform.localScale;
+        //100は電池の最大容量のマジックナンバー
+        keepSize.y = energyGazeSize * (level / 100f);
 
-            energyGazeObj.transform.localScale = keepSize;
-            if (level <= 0)
-            {
-                level = 0f;
-                energyGazeObj.transform.localScale = Vector3.zero;
-            }
-            photonView.RPC(nameof(RPCSetBatteryLevel), RpcTarget.Others, level);
+        energyGazeObj.transform.localScale = keepSize;
+        if (level <= 0)
+        {
+            level = 0f;
+            energyGazeObj.transform.localScale = Vector3.zero;
         }
+       // photonView.RPC(nameof(RPCSetBatteryLevel), RpcTarget.Others, level);
     }
 
     [PunRPC]
