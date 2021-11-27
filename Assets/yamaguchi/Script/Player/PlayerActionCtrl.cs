@@ -53,7 +53,6 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
     private void Awake()
     {
         desc.playerObj = this.gameObject;
-        //playerAnim = GetComponent<Animator>();
     }
     // Update is called once per frame
     void Update()
@@ -84,6 +83,8 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     runningAction.StartPlayerAction(desc);
 
                     playerMove.SetPlayerMovable(false); // プレイヤー行動停止
+
+                    SetActionAnim();
                 }               
 
                 allActionItem.Remove(carryObj);
@@ -115,7 +116,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                 CheckItemPossible();
                 if (candidates.Count > 0)
                 {
-                    //優先度が高いアクションを判別して実行
+                    //優先度が高いアクションを判別
                     PriorityCheck();
                     CheckHighPriorityAction();
                 }
@@ -188,7 +189,6 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
             selectedObj = nearest;
         }
     }
-
     private void CheckItemPossible()
     {
         GameObject deleteObj = null;
@@ -212,4 +212,10 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
         allActionItem.Remove(deleteObj);
     }
 
+    private void SetActionAnim()
+    {
+       // playerAnim.SetBool("Walking", false);
+        playerAnim.SetTrigger("Actioning");
+        //playerAnim.SetBool("Waiting", false);
+    }
 }
