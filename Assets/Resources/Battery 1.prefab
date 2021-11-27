@@ -104,6 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 210cddcefb6e7aa44b350ae13e4f910c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  energyGazeObj: {fileID: 3480123394543685842}
   isOwned: 0
   priority: 50
   level: 100
@@ -183,6 +184,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2401371362102247226, guid: a67806f6494936b4b9252106b320e274, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2401371362102247226, guid: a67806f6494936b4b9252106b320e274, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -40
+      objectReference: {fileID: 0}
     - target: {fileID: 4486649336382705059, guid: a67806f6494936b4b9252106b320e274, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -216,5 +225,10 @@ PrefabInstance:
 --- !u!4 &4899721400566833257 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1939955291436164190, guid: a67806f6494936b4b9252106b320e274, type: 3}
+  m_PrefabInstance: {fileID: 6418568075068261431}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3480123394543685842 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7591015503646610661, guid: a67806f6494936b4b9252106b320e274, type: 3}
   m_PrefabInstance: {fileID: 6418568075068261431}
   m_PrefabAsset: {fileID: 0}
