@@ -59,7 +59,7 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         }
 
         //回転処理
-        rotateTarget.rotation = Quaternion.Slerp(rotateTarget.rotation, endRotation, 0.3f);
+        rotateTarget.rotation = Quaternion.Slerp(rotateTarget.rotation, endRotation, 0.1f);
     }
 
     public void StartPlayerAction(PlayerActionDesc _desc)
