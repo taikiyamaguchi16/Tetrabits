@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class JumpMoveBlock : MonoBehaviour
 {
@@ -16,11 +17,15 @@ public class JumpMoveBlock : MonoBehaviour
     [SerializeField] bool right = true;
     [SerializeField] bool up = true;
 
+    private PhotonTransformViewClassic photonTransformView;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         DefaultPos = transform.position;
         surfaceEffector = GetComponent<SurfaceEffector2D>();
+
+        photonTransformView = GetComponent<PhotonTransformViewClassic>();
     }
 
     void FixedUpdate()
@@ -57,6 +62,7 @@ public class JumpMoveBlock : MonoBehaviour
             else pos = new Vector2(DefaultPos.x, DefaultPos.y);
         }
         rb.MovePosition(pos);
+        photonTransformView.SetSynchronizedValues(speed: rb.velocity, turnSpeed: 0);
 
         Vector2 velocity = (pos - PrevPos) / Time.deltaTime;
 
