@@ -38,6 +38,17 @@ public class OnlineWaitRoomSetUper : MonoBehaviourPunCallbacks
 
             VirtualCameraManager.OnlyActive(1);
 
+            //11/26 田上　カメラ引く処理の通知
+            var gameMainManagerObject = GameObject.Find("GameMainManager");
+            if (gameMainManagerObject)
+            {
+                gameMainManagerObject.GetComponent<GameMainStartUp>()?.StartUpGameMain();
+            }
+            else
+            {
+                throw new System.NullReferenceException(nameof(gameMainManagerObject));
+            }
+
             kariFg = true;
         }
     }

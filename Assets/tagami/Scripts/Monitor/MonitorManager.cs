@@ -142,6 +142,9 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         if (currentMonitorStatusIndex >= (monitorStatuses.Count - 1))
         {
             Debug.Log("これ以上モニターの破壊段階を進めることはできません");
+            Debug.Log("GameMainOverを確認");
+            //ゲーム画面落としてゲームオーバーシーンへ遷移とか？
+            gameInGameSwitcher.CallSwitchGameInGameScene("");
             return;
         }
 
@@ -154,26 +157,17 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         //現在のIndexを更新
         currentMonitorStatusIndex++;
 
-        if (currentMonitorStatusIndex >= (monitorStatuses.Count - 1))
-        {//ゲームオーバー処理
-            Debug.Log("GameMainOverを確認");
-            //ゲーム画面落としてゲームオーバーシーンへ遷移とか？
-            gameInGameSwitcher.CallSwitchGameInGameScene("");
-        }
-        else
+        //HP全回復
+        monitorHp = monitorHpMax;
+        //冷却ターゲット消去
+        foreach (var obj in createdCoolingTargets)
         {
-            //HP全回復
-            monitorHp = monitorHpMax;
-            //冷却ターゲット消去
-            foreach (var obj in createdCoolingTargets)
+            if (obj)
             {
-                if (obj)
-                {
-                    Destroy(obj);
-                }
+                Destroy(obj);
             }
-            createdCoolingTargets.Clear();
         }
+        createdCoolingTargets.Clear();
     }
 
 
@@ -199,6 +193,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
 
     public void OnGUIWindow()
     {
+        GUILayout.Label("====================");
         if (GUILayout.Button("NextStage"))
         {
             NextDestructionStage();

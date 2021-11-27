@@ -130,6 +130,10 @@ MonoBehaviour:
   shootingCamera: {fileID: 515006641}
   lifeMax: 10
   initialBombNum: 3
+  restartScene:
+    sceneAsset: {fileID: 0}
+    required: 0
+    buildIndex: -1
   restartSeconds: 1
   nextScene:
     sceneAsset: {fileID: 102900000, guid: 84240a3266f54e7469e28b8434e061bd, type: 3}
@@ -5664,12 +5668,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
+      propertyPath: generateNum
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: hideWaypoints
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: waypoints.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
+      propertyPath: generateIntervalSeconds
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: waypoints.Array.data[0]
@@ -5892,12 +5904,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
+      propertyPath: generateNum
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: hideWaypoints
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: waypoints.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
+      propertyPath: generateIntervalSeconds
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: waypoints.Array.data[0]
@@ -6116,12 +6136,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
+      propertyPath: generateNum
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: hideWaypoints
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: waypoints.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
+      propertyPath: generateIntervalSeconds
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: waypoints.Array.data[0]
@@ -6206,12 +6234,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
+      propertyPath: generateNum
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: hideWaypoints
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: waypoints.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
+      propertyPath: generateIntervalSeconds
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: waypoints.Array.data[0]
@@ -6296,12 +6332,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
+      propertyPath: generateNum
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: hideWaypoints
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: waypoints.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
+      propertyPath: generateIntervalSeconds
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: waypoints.Array.data[0]
@@ -6386,12 +6430,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
+      propertyPath: generateNum
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: hideWaypoints
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: waypoints.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
+      propertyPath: generateIntervalSeconds
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 2399483459613459503, guid: 4c8ef6ac19a251d4084e28538cd72a81, type: 3}
       propertyPath: waypoints.Array.data[0]

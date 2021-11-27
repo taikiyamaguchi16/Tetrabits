@@ -42,7 +42,7 @@ public class RecoverZenmaiPower : MonoBehaviourPunCallbacks, IPlayerAction
     void IPlayerAction.EndPlayerAction(PlayerActionDesc _desc)
     {
         photonView.RPC(nameof(RPCEndRecoverZenmaiPower), RpcTarget.All, photonView.ViewID);
-        _desc.playerObj.GetComponent<PlayerMove>().SetPlayerMovable(false);
+        _desc.playerObj.GetComponent<PlayerMove>().SetPlayerMovable(true);
     }
 
     int IPlayerAction.GetPriority()

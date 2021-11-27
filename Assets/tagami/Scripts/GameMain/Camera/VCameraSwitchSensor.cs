@@ -6,22 +6,33 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class VCameraSwitchSensor : MonoBehaviour
 {
-    [SerializeField] int enterVCamIndex = -1;
+    //[SerializeField] int enterVCamIndex = -1;
+    [SerializeField] int stayVCamIndex = -1;
     [SerializeField] int exitVCamIndex = -1;
+
+    int numCollidingObject = 0;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (enterVCamIndex >= 0)
+        if (other.CompareTag("Player"))
         {
-            VirtualCameraManager.OnlyActive(enterVCamIndex);
+            numCollidingObject++;
+            if (stayVCamIndex >= 0)
+            {
+                VirtualCameraManager.OnlyActive(stayVCamIndex);
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (exitVCamIndex >= 0)
+        if (other.CompareTag("Player"))
         {
-            VirtualCameraManager.OnlyActive(exitVCamIndex);
+            numCollidingObject--;
+            if (exitVCamIndex >= 0 && numCollidingObject <= 0)
+            {
+                VirtualCameraManager.OnlyActive(exitVCamIndex);
+            }
         }
     }
 }
