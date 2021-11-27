@@ -3142,6 +3142,7 @@ GameObject:
   - component: {fileID: 1024355660}
   - component: {fileID: 1024355659}
   - component: {fileID: 1024355658}
+  - component: {fileID: 1024355661}
   m_Layer: 0
   m_Name: StairsVCam
   m_TagString: Untagged
@@ -3273,6 +3274,20 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 970802561}
+--- !u!114 &1024355661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024355656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd3683001da368343969c01aaff4edab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forcusDistance: 20
+  focalLength: 200
 --- !u!1 &1030420191
 GameObject:
   m_ObjectHideFlags: 0
@@ -5631,9 +5646,13 @@ PrefabInstance:
     m_TransformParent: {fileID: 37922889}
     m_Modifications:
     - target: {fileID: 7856946730569164369, guid: c747eb479c3727f4dab706b90625d1f4, type: 3}
-      propertyPath: PreExecutionCameras.Array.size
-      value: 3
-      objectReference: {fileID: 0}
+      propertyPath: cinemachineBrain
+      value: 
+      objectReference: {fileID: 933173708}
+    - target: {fileID: 7856946730569164369, guid: c747eb479c3727f4dab706b90625d1f4, type: 3}
+      propertyPath: globalVolumeController
+      value: 
+      objectReference: {fileID: 1975499434}
     - target: {fileID: 7856946730569164369, guid: c747eb479c3727f4dab706b90625d1f4, type: 3}
       propertyPath: PreExecutionCameras.Array.data[0]
       value: 
@@ -5646,6 +5665,14 @@ PrefabInstance:
       propertyPath: PreExecutionCameras.Array.data[2]
       value: 
       objectReference: {fileID: 1024355660}
+    - target: {fileID: 7856946730569164369, guid: c747eb479c3727f4dab706b90625d1f4, type: 3}
+      propertyPath: depthOfFieldParameterForCameras.Array.data[2].focalLength
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 7856946730569164369, guid: c747eb479c3727f4dab706b90625d1f4, type: 3}
+      propertyPath: depthOfFieldParameterForCameras.Array.data[2].forcusDistance
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 7856946730569164370, guid: c747eb479c3727f4dab706b90625d1f4, type: 3}
       propertyPath: m_RootOrder
       value: 2
