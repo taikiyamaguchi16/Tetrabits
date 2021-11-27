@@ -144,4 +144,27 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
         pocket.SetItem(null);
         ownBattery = null;
     }
+
+    [PunRPC]
+    public void RPCSpownerBatteryAction(int _id)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            //エフェクト再生中には取れないように
+            if (smokeEfect.isStopped)
+            {
+                ItemPocket otherPocket = NetworkObjContainer.NetworkObjDictionary[_id].GetComponent<ItemPocket>();
+                //プレイヤーが何も持っていない場合
+                if (otherPocket.GetItem() == null)
+                {
+                    //バッテリーが生成されていた場合
+                    if (ownBattery != null)
+                    {
+                        ownBattery.CallPickUp(_id);
+                        photonView.RPC(nameof(RPCStolenOwnBattery), RpcTarget.All);
+                    }
+                }
+            }
+        }
+    }
 }

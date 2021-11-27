@@ -134,7 +134,6 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
     [PunRPC]
     private void RPCBatteryAction(int _id)
     {
-        Debug.Log("呼ばれてる");
         if (PhotonNetwork.IsMasterClient)
         {
             ItemPocket otherPocket = NetworkObjContainer.NetworkObjDictionary[_id].GetComponent<ItemPocket>();
