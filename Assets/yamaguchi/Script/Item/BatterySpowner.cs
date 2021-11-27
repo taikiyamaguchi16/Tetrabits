@@ -63,17 +63,18 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
         //エフェクト再生中には取れないように
         if (smokeEfect.isStopped)
         {
-            ItemPocket otherPocket = _desc.playerObj.GetComponent<ItemPocket>();
-            //プレイヤーが何も持っていない場合
-            if (otherPocket.GetItem() == null)
-            {
-                //バッテリーが生成されていた場合
-                if (ownBattery != null)
-                {
-                    ownBattery.CallPickUp(_desc.playerObj.GetPhotonView().ViewID);
-                    photonView.RPC(nameof(RPCStolenOwnBattery), RpcTarget.All);
-                }
-            }
+            photonView.RPC(nameof(RPCSpownerBatteryAction), RpcTarget.AllBufferedViaServer, _desc.playerObj.GetPhotonView().ViewID);
+            //ItemPocket otherPocket = _desc.playerObj.GetComponent<ItemPocket>();
+            ////プレイヤーが何も持っていない場合
+            //if (otherPocket.GetItem() == null)
+            //{
+            //    //バッテリーが生成されていた場合
+            //    if (ownBattery != null)
+            //    {
+            //        ownBattery.CallPickUp(_desc.playerObj.GetPhotonView().ViewID);
+            //        photonView.RPC(nameof(RPCStolenOwnBattery), RpcTarget.All);
+            //    }
+            //}
         }
     }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
@@ -150,21 +151,18 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            //エフェクト再生中には取れないように
-            if (smokeEfect.isStopped)
+            ItemPocket otherPocket = NetworkObjContainer.NetworkObjDictionary[_id].GetComponent<ItemPocket>();
+            //プレイヤーが何も持っていない場合
+            if (otherPocket.GetItem() == null)
             {
-                ItemPocket otherPocket = NetworkObjContainer.NetworkObjDictionary[_id].GetComponent<ItemPocket>();
-                //プレイヤーが何も持っていない場合
-                if (otherPocket.GetItem() == null)
+                //バッテリーが生成されていた場合
+                if (ownBattery != null)
                 {
-                    //バッテリーが生成されていた場合
-                    if (ownBattery != null)
-                    {
-                        ownBattery.CallPickUp(_id);
-                        photonView.RPC(nameof(RPCStolenOwnBattery), RpcTarget.All);
-                    }
+                    ownBattery.CallPickUp(_id);
+                    photonView.RPC(nameof(RPCStolenOwnBattery), RpcTarget.All);
                 }
             }
+
         }
     }
 }
