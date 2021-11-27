@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1366787007795491851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1366787007795491849}
+  - component: {fileID: 1366787007795491850}
+  m_Layer: 0
+  m_Name: DemoManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1366787007795491849
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1366787007795491851}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1366787007795491850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1366787007795491851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4abb61ae51fa32d42b6862372b2676e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerUpperLimit: 1
+  PlayersX:
+  - {fileID: 3784126188941045203, guid: d0f3cc94ed311834b9082a7da779af49, type: 3}
+  - {fileID: 7084586455824330289, guid: 05aeb7f4408482d4c8b134cdb11bcc17, type: 3}
+  - {fileID: 4399614876382940888, guid: 9d037eac9d299b04e895c3f70fdaad54, type: 3}
+  - {fileID: 3110065388082488326, guid: ca0a37423e8e7b74986a16dd00683023, type: 3}
+  PlayersZ:
+  - {fileID: 4887145475853332246, guid: e93ce5d9291f608449e271444f417302, type: 3}
+  - {fileID: 5047984748102062606, guid: 425f400c0121027478056171e19b11a6, type: 3}
+  - {fileID: 5296546672983890950, guid: 89f21a5bc6d3e0443af7d51f03950e3e, type: 3}
+  - {fileID: 2399400973622873907, guid: 9c100415ace6d934094f214d22bb5a57, type: 3}
+  SpawnerLeft: {fileID: 0}
+  SpawnerRight: {fileID: 0}
+  SpawnerZ:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

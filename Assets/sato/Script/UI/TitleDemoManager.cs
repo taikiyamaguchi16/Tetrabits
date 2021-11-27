@@ -86,12 +86,14 @@ public class TitleDemoManager : MonoBehaviour
                         // 左
                         case 0:
                             Instantiate(PlayersX[randomNum], SpawnerLeft.transform.position, Quaternion.identity);
+//                            GameInGameUtil.MoveGameObjectToOwnerScene(PlayersX[randomNum], gameObject);
                             playerCount++;
                             break;
 
                         // 右
                         case 1:
                             Instantiate(PlayersX[randomNum], SpawnerRight.transform.position, Quaternion.identity);
+//                            GameInGameUtil.MoveGameObjectToOwnerScene(PlayersX[randomNum], gameObject);
                             playerCount++;
                             break;
 
@@ -113,6 +115,7 @@ public class TitleDemoManager : MonoBehaviour
 
                     // 生成
                     Instantiate(PlayersZ[randomNum], SpawnerZ[randomPos].transform.position, Quaternion.identity);
+//                    GameInGameUtil.MoveGameObjectToOwnerScene(PlayersZ[randomNum], gameObject);
                     playerCount++;
                 }
                 break;
