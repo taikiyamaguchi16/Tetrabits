@@ -5,6 +5,11 @@ using Photon.Pun;
 
 public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
 {
+    [SerializeField]
+    private GameObject rendererObj;
+    [SerializeField]
+    private Color cassetteColor;
+
     private Rigidbody rb;
     private Collider col;
     // Start is called before the first frame update
@@ -30,6 +35,8 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
         isClear = false;
 
         priority = 50;
+
+        rendererObj.GetComponent<Renderer>().material.color = cassetteColor;
     }
 
     public void StartPlayerAction(PlayerActionDesc _desc)
