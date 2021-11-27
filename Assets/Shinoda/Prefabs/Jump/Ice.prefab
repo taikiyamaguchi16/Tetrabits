@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8403739120594339902}
   - component: {fileID: 7429315477010207694}
-  - component: {fileID: 5312884381793447518}
   - component: {fileID: 3697216955180961801}
-  m_Layer: 0
+  - component: {fileID: 8023190198490451157}
+  - component: {fileID: 3288383509087298036}
+  m_Layer: 20
   m_Name: Ice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,19 +61,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &5312884381793447518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1870475249842419523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b60ddb400bc0d046b1804c2dff10d87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isStop: 0
 --- !u!114 &3697216955180961801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,7 +75,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveX: 0
   moveY: 0
-  moveTime: 1
+  right: 1
+  up: 1
+--- !u!50 &8023190198490451157
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870475249842419523}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 6200000, guid: 104bca8879982404795b59f2597f06b1, type: 2}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!252 &3288383509087298036
+SurfaceEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870475249842419523}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Speed: 1
+  m_SpeedVariation: 0
+  m_ForceScale: 0.1
+  m_UseContactForce: 0
+  m_UseFriction: 1
+  m_UseBounce: 0
 --- !u!1 &6849488200858761286
 GameObject:
   m_ObjectHideFlags: 0
@@ -98,7 +126,7 @@ GameObject:
   m_Component:
   - component: {fileID: 703518815083861878}
   - component: {fileID: 2623967895177187430}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: IceChild
   m_TagString: Untagged
   m_Icon: {fileID: 0}

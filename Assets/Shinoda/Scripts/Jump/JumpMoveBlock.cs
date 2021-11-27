@@ -1,54 +1,65 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
 public class JumpMoveBlock : MonoBehaviour
 {
-    Vector3 originPos;
+    //変数定義
+    Rigidbody2D rb;
+    SurfaceEffector2D surfaceEffector;
+    Vector2 DefaultPos;
+    Vector2 PrevPos;
 
     [SerializeField] float moveX;
     [SerializeField] float moveY;
-    [SerializeField] float blockSize = 1f;
-    Vector3 targetPos;
 
-    [SerializeField] float moveTime = 1f;
+    [SerializeField] bool right = true;
+    [SerializeField] bool up = true;
 
-    GameObject player;
-    GameObject playerFoot;
-
-    // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindWithTag("Player");
-        //playerFoot = player.transform.Find("Foot").gameObject;
-        playerFoot = GameObject.Find("Foot");
-
-        originPos = transform.position;
-        targetPos = new Vector3(originPos.x + (moveX * blockSize), originPos.y + (moveY * blockSize), originPos.z);
-        // 移動床設定
-        this.transform.DOMove(targetPos, moveTime).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
+        rb = GetComponent<Rigidbody2D>();
+        DefaultPos = transform.position;
+        surfaceEffector = GetComponent<SurfaceEffector2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        PrevPos = rb.position;
 
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject == playerFoot)
+        Vector2 pos = Vector2.zero;
+        if (right && up)
         {
-            player.transform.parent = this.transform;
+            if (moveX != 0 && moveY != 0) pos = new Vector2(DefaultPos.x + Mathf.PingPong(Time.time, moveX), DefaultPos.y + Mathf.PingPong(Time.time, moveY));
+            else if (moveX == 0 && moveY != 0) pos = new Vector2(DefaultPos.x, DefaultPos.y + Mathf.PingPong(Time.time, moveY));
+            else if (moveX != 0 && moveY == 0) pos = new Vector2(DefaultPos.x + Mathf.PingPong(Time.time, moveX), DefaultPos.y);
+            else pos = new Vector2(DefaultPos.x, DefaultPos.y);
         }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject == playerFoot)
+        else if (right && !up)
         {
-            player.transform.parent = null;
+            if (moveX != 0 && moveY != 0) pos = new Vector2(DefaultPos.x + Mathf.PingPong(Time.time, moveX), DefaultPos.y - Mathf.PingPong(Time.time, moveY));
+            else if (moveX == 0 && moveY != 0) pos = new Vector2(DefaultPos.x, DefaultPos.y - Mathf.PingPong(Time.time, moveY));
+            else if (moveX != 0 && moveY == 0) pos = new Vector2(DefaultPos.x + Mathf.PingPong(Time.time, moveX), DefaultPos.y);
+            else pos = new Vector2(DefaultPos.x, DefaultPos.y);
         }
+        else if (!right && up)
+        {
+            if (moveX != 0 && moveY != 0) pos = new Vector2(DefaultPos.x - Mathf.PingPong(Time.time, moveX), DefaultPos.y + Mathf.PingPong(Time.time, moveY));
+            else if (moveX == 0 && moveY != 0) pos = new Vector2(DefaultPos.x, DefaultPos.y + Mathf.PingPong(Time.time, moveY));
+            else if (moveX != 0 && moveY == 0) pos = new Vector2(DefaultPos.x - Mathf.PingPong(Time.time, moveX), DefaultPos.y);
+            else pos = new Vector2(DefaultPos.x, DefaultPos.y);
+        }
+        else if (!right && !up)
+        {
+            if (moveX != 0 && moveY != 0) pos = new Vector2(DefaultPos.x - Mathf.PingPong(Time.time, moveX), DefaultPos.y - Mathf.PingPong(Time.time, moveY));
+            else if (moveX == 0 && moveY != 0) pos = new Vector2(DefaultPos.x, DefaultPos.y - Mathf.PingPong(Time.time, moveY));
+            else if (moveX != 0 && moveY == 0) pos = new Vector2(DefaultPos.x - Mathf.PingPong(Time.time, moveX), DefaultPos.y);
+            else pos = new Vector2(DefaultPos.x, DefaultPos.y);
+        }
+        rb.MovePosition(pos);
+
+        Vector2 velocity = (pos - PrevPos) / Time.deltaTime;
+
+        surfaceEffector.speed = velocity.magnitude;
     }
 }
