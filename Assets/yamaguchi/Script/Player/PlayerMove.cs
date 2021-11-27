@@ -15,8 +15,8 @@ public class PlayerMove : MonoBehaviourPunCallbacks
     [Tooltip("コントローラー番号")]
     public int controllerID = 0;
 
-    [SerializeField,Tooltip("移動方向の基準")]
-    Transform moveStandard = null;   // 移動方向の基準
+    Vector3 forwardDir;   // 移動方向の基準
+    Vector3 rightDir;   // 移動方向の基準
 
     private Rigidbody rb;
     
@@ -55,7 +55,8 @@ public class PlayerMove : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        moveStandard = Camera.main.transform;
+        forwardDir = new Vector3(0f, 0f, 1f);
+        rightDir = new Vector3(1f, 0f, 0f);
         rb = GetComponent<Rigidbody>();
         zenmai = GetComponent<Zenmai>();
         rb.sleepThreshold = -1;
@@ -76,53 +77,41 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
         myPocket = GetComponent<ItemPocket>();
         photonTransformView = GetComponent<PhotonTransformViewClassic>();
-        //playerAnim = GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        // ゼンマイパワーから速度決定
-        float ratio = zenmai.zenmaiPower / zenmai.maxZenmaiPower;
-        foreach (var speedInRatio in moveSpeedInRatios)
-        {
-            if(ratio <= speedInRatio.ratio)
-                moveSpd = speedInRatio.moveSpd;
-        }
-
-        jumpable = jumpSensor.GetExistInTrigger();
-
-        moveDir = Vector3.zero;
         if (photonView.IsMine)
         {
+            // ゼンマイパワーから速度決定
+            float ratio = zenmai.zenmaiPower / zenmai.maxZenmaiPower;
+            foreach (var speedInRatio in moveSpeedInRatios)
+            {
+                if (ratio <= speedInRatio.ratio)
+                    moveSpd = speedInRatio.moveSpd;
+            }
+
+            jumpable = jumpSensor.GetExistInTrigger();
+
+            moveDir = Vector3.zero;
+
             if (movable)
             {
                 if (Input.GetKey("w"))
                 {
-                    moveDir += moveStandard.transform.forward;
-                    SerWalkState();
-                    playerAnim.SetBool("Back", true);
-                    playerAnim.SetBool("Side", false);
-                    playerAnim.SetBool("Forward", false);
+                    moveDir += forwardDir;
                 }
 
                 if (Input.GetKey("s"))
                 {
-                    moveDir -= moveStandard.transform.forward;
-                    SerWalkState();
-                    playerAnim.SetBool("Back", false);
-                    playerAnim.SetBool("Side", false);
-                    playerAnim.SetBool("Forward", true);
+                    moveDir -= forwardDir;
                 }
 
                 if (Input.GetKey("d"))
                 {
-                    moveDir += moveStandard.transform.right;
-                    SerWalkState();
-                    playerAnim.SetBool("Back", false);
-                    playerAnim.SetBool("Side", true);
-                    playerAnim.SetBool("Forward", false);
-
+                    moveDir += rightDir;
                     // キャラクターの大きさ。負数にすると反転される
                     Vector3 scale = transform.localScale;
                     scale.x = -Mathf.Abs(scale.x);  // 通常方向(スプライトと同じ右向き)
@@ -131,11 +120,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
                 if (Input.GetKey("a"))
                 {
-                    moveDir -= moveStandard.transform.right;
-                    SerWalkState();
-                    playerAnim.SetBool("Back", false);
-                    playerAnim.SetBool("Side", true);
-                    playerAnim.SetBool("Forward", false);
+                    moveDir -= rightDir;
 
                     // キャラクターの大きさ。負数にすると反転される
                     Vector3 scale = transform.localScale;
@@ -143,8 +128,8 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                     transform.localScale = scale;
                 }
 
-                moveDir += moveStandard.transform.right * XInputManager.GetThumbStickLeftX(controllerID);
-                moveDir += moveStandard.transform.forward * XInputManager.GetThumbStickLeftY(controllerID);
+                moveDir += rightDir * XInputManager.GetThumbStickLeftX(controllerID);
+                moveDir += forwardDir * XInputManager.GetThumbStickLeftY(controllerID);
 
                 moveDir.Normalize();
 
@@ -160,50 +145,6 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                         }
                     }
 
-                }
-
-                if (moveDir.x > 0f)
-                {
-                    SerWalkState();
-                    playerAnim.SetBool("Back", false);
-                    playerAnim.SetBool("Side", true);
-                    playerAnim.SetBool("Forward", false);
-
-                    // キャラクターの大きさ。負数にすると反転される
-                    Vector3 scale = transform.localScale;
-                    scale.x = -Mathf.Abs(scale.x);  // 通常方向(スプライトと同じ右向き)
-                    transform.localScale = scale;
-                }
-                else if (moveDir.x < 0f)
-                {
-                    SerWalkState();
-                    playerAnim.SetBool("Back", false);
-                    playerAnim.SetBool("Side", true);
-                    playerAnim.SetBool("Forward", false);
-
-                    // キャラクターの大きさ。負数にすると反転される
-                    Vector3 scale = transform.localScale;
-                    scale.x = Mathf.Abs(scale.x);  // 通常方向(スプライトと同じ右向き)
-                    transform.localScale = scale;
-                }
-                else if (moveDir.z > 0f)
-                {
-                    SerWalkState();
-                    playerAnim.SetBool("Back", true);
-                    playerAnim.SetBool("Side", false);
-                    playerAnim.SetBool("Forward", false);
-                }
-                else if (moveDir.z < 0f)
-                {
-                    SerWalkState();
-                    playerAnim.SetBool("Back", false);
-                    playerAnim.SetBool("Side", false);
-                    playerAnim.SetBool("Forward", true);
-                }
-                else
-                {
-                    playerAnim.SetBool("Walking", false);
-                    playerAnim.SetBool("Waiting", true);
                 }
             }
         }
@@ -222,7 +163,50 @@ public class PlayerMove : MonoBehaviourPunCallbacks
             if(moveDir.magnitude>0)
             {
                 zenmai.DecreaseZenmaiPower();
+                if (moveVec.x > 0f)
+                {
+                    SerWalkState();
+                    playerAnim.SetBool("Back", false);
+                    playerAnim.SetBool("Side", true);
+                    playerAnim.SetBool("Forward", false);
+
+                    // キャラクターの大きさ。負数にすると反転される
+                    Vector3 scale = transform.localScale;
+                    scale.x = -Mathf.Abs(scale.x);  // 通常方向(スプライトと同じ右向き)
+                    transform.localScale = scale;
+                }
+                else if (moveVec.x < 0f)
+                {
+                    SerWalkState();
+                    playerAnim.SetBool("Back", false);
+                    playerAnim.SetBool("Side", true);
+                    playerAnim.SetBool("Forward", false);
+
+                    // キャラクターの大きさ。負数にすると反転される
+                    Vector3 scale = transform.localScale;
+                    scale.x = Mathf.Abs(scale.x);  // 通常方向(スプライトと同じ右向き)
+                    transform.localScale = scale;
+                }
+                else if (moveVec.z > 0f)
+                {
+                    SerWalkState();
+                    playerAnim.SetBool("Back", true);
+                    playerAnim.SetBool("Side", false);
+                    playerAnim.SetBool("Forward", false);
+                }
+                else if (moveVec.z < 0f)
+                {
+                    SerWalkState();
+                    playerAnim.SetBool("Back", false);
+                    playerAnim.SetBool("Side", false);
+                    playerAnim.SetBool("Forward", true);
+                }              
             }
+            //else
+            //{
+            //    playerAnim.SetBool("Walking", false);
+            //    playerAnim.SetBool("Waiting", true);
+            //}
         }
     }
 
