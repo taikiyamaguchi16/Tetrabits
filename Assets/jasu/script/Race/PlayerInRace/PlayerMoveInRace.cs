@@ -7,6 +7,9 @@ public class PlayerMoveInRace : MoveInRace
 {
     bool moveInput = false;
 
+    //[SerializeField]
+    //List<int> slipObjList = new List<int>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,17 +52,32 @@ public class PlayerMoveInRace : MoveInRace
         WhenOnCollisionEnter(collision);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.GetComponent<DirtSplash>() != null &&
-            other.GetComponent<DirtSplash>().parentInstanceID == gameObject.GetInstanceID())
-        {
-            return;
-        }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if(other.GetComponent<DirtSplash>() != null &&
+    //        other.GetComponent<DirtSplash>().parentInstanceID == gameObject.GetInstanceID())
+    //    {
+    //        return;
+    //    }
 
-        if(other.gameObject.tag == "Slip")
-        {
-            bikeSlipDown.SlipStart("small");
-        }
-    }
+    //    if(other.gameObject.tag == "Slip")
+    //    {
+    //        foreach(int objId in slipObjList)
+    //        {
+    //            if(objId == other.gameObject.GetInstanceID())
+    //            {
+    //                return;
+    //            }
+    //        }
+    //        slipObjList.Add(other.gameObject.GetInstanceID());
+
+    //        Debug.Log("ダメージ");
+    //        bikeSlipDown.SlipStart("small");
+    //    }
+    //}
+
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    slipObjList.Remove(other.gameObject.GetInstanceID());
+    //}
 }

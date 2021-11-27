@@ -61,6 +61,8 @@ public class DirtSplash : MonoBehaviour
             }
             dirt.transform.position = pos;
 
+            dirt.GetComponent<DirtDestroy>().raceStageMolder = raceStageMolder;
+
             SpriteRenderOnRoadCtrl spriteRenderOnRoadCtrl;
             if ((spriteRenderOnRoadCtrl = dirt.GetComponent<SpriteRenderOnRoadCtrl>()) != null)
             {
