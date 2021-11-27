@@ -191,16 +191,25 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
 
     private void CheckItemPossible()
     {
+        GameObject deleteObj = null;
         candidates.Clear();
         foreach (var item in allActionItem)
         {
-            if (item.GetComponent<IPlayerAction>().GetIsActionPossible(desc))
+            if (item != null)
             {
-                if (!candidates.Contains(item))
-                    candidates.Add(item);
-                
+                if (item.GetComponent<IPlayerAction>().GetIsActionPossible(desc))
+                {
+                    if (!candidates.Contains(item))
+                        candidates.Add(item);
+
+                }
+            }
+            else
+            {
+                deleteObj = item;
             }
         }
+        allActionItem.Remove(deleteObj);
     }
 
 }
