@@ -183,7 +183,7 @@ namespace Shooting
 
         private void CallInstantiateBombLocal()
         {
-            photonView.RPC(nameof(RPCInstantiateBombLocal), RpcTarget.AllViaServer);
+            photonView.RPC(nameof(RPCInstantiateBombLocal), RpcTarget.All);
         }
         [PunRPC]
         public void RPCInstantiateBombLocal()
@@ -253,7 +253,7 @@ namespace Shooting
 
         private void CallAddBomb()
         {
-            photonView.RPC(nameof(RPCAddBomb), RpcTarget.AllViaServer);
+            photonView.RPC(nameof(RPCAddBomb), RpcTarget.All);
         }
         [PunRPC]
         public void RPCAddBomb()
