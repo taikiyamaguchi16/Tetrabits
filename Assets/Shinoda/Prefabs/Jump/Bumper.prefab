@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6233243419865839625}
-  - component: {fileID: 8032190503022990784}
   - component: {fileID: 6585435856240930479}
   - component: {fileID: 2134189790457929041}
   - component: {fileID: 450876545658757559}
@@ -34,22 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8032190503022990784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6233243419865839626}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8deecd761e65cbb4e9ce8dcae1573da0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveX: 0
-  moveY: 0
-  blockSize: 1
-  moveTime: 1
 --- !u!212 &6585435856240930479
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -113,6 +96,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fbfae3a7702304e92cc13a27edcfff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveX: 0
+  moveY: 0
+  blockSize: 1
+  moveTime: 1
   bouncePower: 10
 --- !u!58 &450876545658757559
 CircleCollider2D:
@@ -124,7 +111,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

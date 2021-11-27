@@ -22773,6 +22773,7 @@ Transform:
   - {fileID: 1111763031}
   - {fileID: 963054532}
   - {fileID: 636044697}
+  - {fileID: 1656099764}
   - {fileID: 1867777050}
   - {fileID: 60589336}
   - {fileID: 1785756947}
@@ -22784,7 +22785,6 @@ Transform:
   - {fileID: 781723943}
   - {fileID: 1194833276}
   - {fileID: 1709386268}
-  - {fileID: 1656099764}
   m_Father: {fileID: 4073020}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -31682,6 +31682,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 768165832}
     m_Modifications:
+    - target: {fileID: 2557371022511337, guid: 1f351786949e23647a670b55d1677c98, type: 3}
+      propertyPath: moveX
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2557371022511337, guid: 1f351786949e23647a670b55d1677c98, type: 3}
+      propertyPath: moveY
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 466723524989849431, guid: 1f351786949e23647a670b55d1677c98, type: 3}
       propertyPath: m_Size.x
       value: 5
@@ -35721,9 +35729,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 768165832}
     m_Modifications:
+    - target: {fileID: 2557371022511337, guid: 1f351786949e23647a670b55d1677c98, type: 3}
+      propertyPath: moveY
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 466723524989849431, guid: 1f351786949e23647a670b55d1677c98, type: 3}
       propertyPath: m_Size.x
-      value: 5
+      value: 4.8
       objectReference: {fileID: 0}
     - target: {fileID: 466723524989849431, guid: 1f351786949e23647a670b55d1677c98, type: 3}
       propertyPath: m_Offset.x
