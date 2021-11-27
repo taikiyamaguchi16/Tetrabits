@@ -5,6 +5,11 @@ using Photon.Pun;
 
 public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 {
+    [SerializeField]
+    private GameObject energyGazeObj;
+    private float energyGazeSize;
+    private float energyGazePos;
+
     private Rigidbody rb;
     private Collider col;
     [SerializeField, ReadOnly]
@@ -26,8 +31,9 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         col = GetComponent<BoxCollider>();
         isOwned = false;
         level = 100f;
-    }
 
+        energyGazeSize = energyGazeObj.transform.localScale.y;
+    }
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
 
@@ -97,7 +103,16 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     public void BatteryConsumption(float _powerConsumption)
     {
         level -= _powerConsumption;
-        if (level < 0)
+        //中のオブジェクトを残量に合わせて
+        Vector3 keepSize = energyGazeObj.transform.localScale;
+        //100は電池の最大容量のマジックナンバー
+        keepSize.y = energyGazeSize * (level / 100f);
+
+        energyGazeObj.transform.localScale = keepSize;
+        if (level <= 0)
+        {
             level = 0f;
+            energyGazeObj.transform.localScale = Vector3.zero;
+        }
     }
 }
