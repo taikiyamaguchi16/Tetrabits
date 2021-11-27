@@ -40,10 +40,10 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
         if (!isOwned)
         {
-            photonView.RPC(nameof(PickUp), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
+            photonView.RPC(nameof(PickUp), RpcTarget.AllBufferedViaServer, _desc.playerObj.GetPhotonView().ViewID);
         }
         else
-            photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
+            photonView.RPC(nameof(Dump), RpcTarget.AllBufferedViaServer, _desc.playerObj.GetPhotonView().ViewID);
 
     }
 
@@ -60,12 +60,12 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
     public void CallPickUp(int _id)
     {
-        photonView.RPC(nameof(PickUp), RpcTarget.All, _id);
+        photonView.RPC(nameof(PickUp), RpcTarget.AllBufferedViaServer, _id);
     }
 
     public void CallDump(int _id)
     {
-        photonView.RPC(nameof(Dump), RpcTarget.All, _id);
+        photonView.RPC(nameof(Dump), RpcTarget.AllBufferedViaServer, _id);
     }
 
     [PunRPC]
