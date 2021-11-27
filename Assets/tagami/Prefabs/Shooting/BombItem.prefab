@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4256505907767619328}
   - component: {fileID: 5758236458456184010}
   - component: {fileID: 4869463294248720845}
+  - component: {fileID: 5776147387399529740}
   m_Layer: 0
   m_Name: BombItem
   m_TagString: LevelUpItem
@@ -113,3 +114,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.595
+--- !u!114 &5776147387399529740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9040590151488574267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b1ce4aba70420246a65a283f57fb2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroySeconds: 10
