@@ -34,6 +34,7 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
         energyGazeSize = energyGazeObj.transform.localScale.y;
     }
+
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
 
@@ -102,7 +103,28 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
     public void BatteryConsumption(float _powerConsumption)
     {
-        level -= _powerConsumption;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            level -= _powerConsumption;
+            //中のオブジェクトを残量に合わせて
+            Vector3 keepSize = energyGazeObj.transform.localScale;
+            //100は電池の最大容量のマジックナンバー
+            keepSize.y = energyGazeSize * (level / 100f);
+
+            energyGazeObj.transform.localScale = keepSize;
+            if (level <= 0)
+            {
+                level = 0f;
+                energyGazeObj.transform.localScale = Vector3.zero;
+            }
+            photonView.RPC(nameof(RPCSetBatteryLevel), RpcTarget.Others, level);
+        }
+    }
+
+    [PunRPC]
+    public void RPCSetBatteryLevel(float _level)
+    {
+        level = _level;
         //中のオブジェクトを残量に合わせて
         Vector3 keepSize = energyGazeObj.transform.localScale;
         //100は電池の最大容量のマジックナンバー
