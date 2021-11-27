@@ -45,14 +45,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cinemachineBrain: {fileID: 0}
   globalVolumeController: {fileID: 0}
-  PreExecutionCameras:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  depthOfFieldParameterForCameras:
-  - forcusDistance: 30
-    focalLength: 150
-  - forcusDistance: 60
-    focalLength: 300
-  - forcusDistance: 20
-    focalLength: 200
+  virtualCameraWithDepthOfFields:
+  - cinemachineVirtualCamera: {fileID: 0}
+    depthOfFieldParameter:
+      forcusDistance: 30
+      focalLength: 150
+  - cinemachineVirtualCamera: {fileID: 0}
+    depthOfFieldParameter:
+      forcusDistance: 60
+      focalLength: 300
+  - cinemachineVirtualCamera: {fileID: 0}
+    depthOfFieldParameter:
+      forcusDistance: 20
+      focalLength: 200
