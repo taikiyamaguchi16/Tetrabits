@@ -33,8 +33,11 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
         pocket = GetComponent<ItemPocket>();
         //エフェクトの再生
         smokeEfect.Play();
-
-        canSpawn = true;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            SpawonBattery();
+            canSpawn = true;
+        }
     }
 
     private void Update()
@@ -49,10 +52,8 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
                     photonView.RPC(nameof(RPCPlaySmokeEfect), RpcTarget.All);
 
                     elpsedTime = 0f;
-                }
-                //エフェクト再生して1秒たったら生成
-                if (smokeEfect.time > 1f && smokeEfect.isPlaying)
                     SpawonBattery();
+                }          
             }
         }
     }
@@ -69,11 +70,8 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
                 //バッテリーが生成されていた場合
                 if (ownBattery != null)
                 {
-                   // ownBattery.CallDump(photonView.ViewID);
                     ownBattery.CallPickUp(_desc.playerObj.GetPhotonView().ViewID);
-
-                    pocket.SetItem(null);
-                    ownBattery = null;
+                    photonView.RPC(nameof(RPCStolenOwnBattery), RpcTarget.All);
                 }
             }
         }
@@ -115,21 +113,22 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
 
     private void SpawonBattery()
     {
-        var b_obj = PhotonNetwork.InstantiateRoomObject(spownObj.name, Vector3.zero, Quaternion.identity);
-       // ownBattery = b_obj.GetComponent<Battery>();
+        var b_obj = PhotonNetwork.InstantiateRoomObject(spownObj.name, new Vector3(100,100,100), Quaternion.identity);
+
 
         photonView.RPC(nameof(RPCSpawonBattery), RpcTarget.All, b_obj.GetPhotonView().ViewID);
         
         elpsedTime = 0f;
-        smokeEfect.time = 0f;
+        //smokeEfect.time = 0f;
 
+        b_obj.transform.position = Vector3.zero;
     }
 
     [PunRPC]
     public void RPCSpawonBattery(int _id)
     {
         ownBattery = NetworkObjContainer.NetworkObjDictionary[_id].GetComponent<Battery>();
-        ownBattery.CallPickUp(photonView.ViewID);
+        ownBattery.CallPickUp(photonView.ViewID);      
     }
 
     [PunRPC]
@@ -137,5 +136,12 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
     {
         //エフェクトの再生
         smokeEfect.Play();
+    }
+
+    [PunRPC]
+    public void RPCStolenOwnBattery()
+    {
+        pocket.SetItem(null);
+        ownBattery = null;
     }
 }

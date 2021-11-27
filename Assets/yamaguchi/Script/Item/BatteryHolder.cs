@@ -36,7 +36,7 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
                 }
                 
                 //他のプレイヤーのホルダーにもバッテリーをセット
-                photonView.RPC(nameof(RPCSetOwnBattery), RpcTarget.AllBufferedViaServer, ownBattery.photonView.ViewID);
+                photonView.RPC(nameof(RPCSetOwnBattery), RpcTarget.Others, ownBattery.photonView.ViewID);
             }
             //バッテリーでなかった場合元に戻す
             else
@@ -56,7 +56,7 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
                 ownBattery = null;
 
                 //他のプレイヤーのホルダーのバッテリーを抜く
-                photonView.RPC(nameof(RPCReleaseBattery), RpcTarget.All);
+                photonView.RPC(nameof(RPCReleaseBattery), RpcTarget.Others);
             }
         }
     }
@@ -111,9 +111,6 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
     [PunRPC]
     private void RPCSetOwnBattery(int _id)
     {
-        //if (pocket.GetItem() != null)
-        //    ownBattery = pocket.GetItem().GetComponent<Battery>();
-
         ownBattery = NetworkObjContainer.NetworkObjDictionary[_id].GetComponent<Battery>();
     }
 

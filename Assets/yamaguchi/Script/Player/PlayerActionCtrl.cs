@@ -80,10 +80,11 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     PriorityCheck();
                     CheckHighPriorityAction();
 
+                    runningAction = selectedObj.GetComponent<IPlayerAction>();
                     runningAction.StartPlayerAction(desc);
-                }
 
-                playerMove.SetPlayerMovable(false); // プレイヤー行動停止
+                    playerMove.SetPlayerMovable(false); // プレイヤー行動停止
+                }               
 
                 allActionItem.Remove(carryObj);
             }
@@ -185,8 +186,6 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
             }
             //IAction持ちの一番近いやつ取得
             selectedObj = nearest;
-
-           runningAction = selectedObj.GetComponent<IPlayerAction>();     
         }
     }
 
