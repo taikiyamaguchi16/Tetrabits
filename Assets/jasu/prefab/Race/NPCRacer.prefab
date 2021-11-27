@@ -166,7 +166,7 @@ MonoBehaviour:
   colliderSensorBack: {fileID: 8578007734320314296}
   bikeSlipDown: {fileID: 5219267999466606608}
   dirtSplashSpawn: {fileID: 2635770476168120973}
-  moveSpd: 95
+  moveSpd: 80
   moveSlopeMultiply: 2
   moveForceMultiplyStart: 2
   moveForceMultiplyStop: 1
@@ -242,6 +242,7 @@ MonoBehaviour:
   raceStageMolder: {fileID: 0}
   dirtParentObj: {fileID: 0}
   player: {fileID: 0}
+  dirtSplashForceMultiply: 0.8
 --- !u!114 &7428666028572337702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,7 +326,7 @@ Transform:
   m_GameObject: {fileID: 3405693731458820472}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 2.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_Children: []
   m_Father: {fileID: 8678170494582544631}
   m_RootOrder: 0
@@ -370,7 +371,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 58b4d81ec13972645abc83118ba7bca9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 477734e3e88b66c4597eda425831b4cb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -164,7 +164,7 @@ MonoBehaviour:
   colliderSensorBack: {fileID: 8578007734320314296}
   bikeSlipDown: {fileID: 1446960286}
   dirtSplashSpawn: {fileID: 1212288838}
-  moveSpd: 100
+  moveSpd: 80
   moveSlopeMultiply: 2
   moveForceMultiplyStart: 2
   moveForceMultiplyStop: 1
@@ -188,7 +188,7 @@ MonoBehaviour:
   colliderSensorFront: {fileID: 3070685040492917561}
   colliderSensorBack: {fileID: 8578007734320314296}
   outsideRange: 3
-  spd: 20
+  spd: 30
 --- !u!114 &935646690359824256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,6 +242,7 @@ MonoBehaviour:
   raceStageMolder: {fileID: 0}
   dirtParentObj: {fileID: 0}
   player: {fileID: 4878758953354832212}
+  dirtSplashForceMultiply: 0.8
 --- !u!114 &7428666028572337702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,7 +310,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bikeSlipDown: {fileID: 1446960286}
-  slipObjList: 
 --- !u!1 &3643461864264366053
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,7 +771,7 @@ Transform:
   m_GameObject: {fileID: 8546367658723180559}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 2.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3.9999998, y: 4, z: 1}
   m_Children: []
   m_Father: {fileID: 8678170494582544631}
   m_RootOrder: 0
@@ -816,7 +816,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7a90a7caaa4465a46a4d81f6e08da118, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8def73bbd6b1bcd459174cf9fbb1a78e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -16,7 +16,9 @@ public class DirtSplashSpawner : MonoBehaviour
 
     [SerializeField]
     GameObject player = null;
-    
+
+    [SerializeField]
+    float dirtSplashForceMultiply = 0.5f;
 
     public void InstantiateDirtSplash(Vector3 _moveForce)
     {
@@ -26,7 +28,7 @@ public class DirtSplashSpawner : MonoBehaviour
         dirtSplashObj.transform.position = transform.position;
         DirtSplash dirtSplash = dirtSplashObj.GetComponent<DirtSplash>();
         dirtSplash.parentInstanceID = gameObject.GetInstanceID();
-        dirtSplash.parentMoveForce = _moveForce;
+        dirtSplash.parentMoveForce = _moveForce * dirtSplashForceMultiply;
         dirtSplash.raceStageMolder = raceStageMolder;
         dirtSplash.parentObj = dirtParentObj;
         dirtSplash.laneLength = raceStageMolder.GetLaneLength;
