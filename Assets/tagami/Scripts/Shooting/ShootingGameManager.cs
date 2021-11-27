@@ -132,6 +132,7 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
         }
 
         //カメラの動きを止めておく
+        if(shootingCamera)
         shootingCamera.enabled = false;
     }
 
