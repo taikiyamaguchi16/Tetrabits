@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using UnityEngine.VFX;
 
 public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
 {
     private Battery ownBattery;
 
     ItemPocket pocket;
-
-    [SerializeField]
-    List<VisualEffect> sparkList = new List<VisualEffect>();
 
     private  bool checkSetBatteryMaster;
     // Start is called before the first frame update
@@ -161,7 +157,6 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
 
                     //他のプレイヤーのホルダーにもバッテリーをセット
                     photonView.RPC(nameof(RPCSetOwnBattery), RpcTarget.Others, ownBattery.photonView.ViewID);
-                    photonView.RPC(nameof(RPCSparkEfectPlay), RpcTarget.All);
                 }
                 //バッテリーでなかった場合元に戻す
                 else
@@ -185,12 +180,5 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
                 }
             }
         }
-    }
-
-    [PunRPC]
-    public void RPCSparkEfectPlay()
-    {
-        int rand = Random.Range(0, sparkList.Count);
-        sparkList[rand].SendEvent("OnPlay");
     }
 }
