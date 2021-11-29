@@ -4,6 +4,11 @@ using UnityEngine;
 using UnityEngine.VFX;
 using Photon.Pun;
 
+public interface ICool
+{
+    void OnCooled(float _coolPower);
+}
+
 public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
 {
 
@@ -59,15 +64,26 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
                 Debug.Log("hit!:" + hit.collider.gameObject.name);
                 if (hit.collider.CompareTag("CoolingTarget"))
                 {
-                    if (hit.collider.gameObject.GetComponent<CoolingTargetStatus>().TryToKill(damageToCoolingTargetPerSeconds * Time.deltaTime))
-                    {
-                        if (PhotonNetwork.IsMasterClient)
-                        {
-                            monitorManager.CallRepairMonitor(hit.collider.gameObject.GetComponent<CoolingTargetStatus>().damageToMonitor);
-                        }
+                    //if (hit.collider.gameObject.GetComponent<CoolingTargetStatus>().TryToKill(damageToCoolingTargetPerSeconds * Time.deltaTime))
+                    //{
+                    //    if (PhotonNetwork.IsMasterClient)
+                    //    {
+                    //        monitorManager.CallRepairMonitor(hit.collider.gameObject.GetComponent<CoolingTargetStatus>().damageToMonitor);
+                    //    }
 
-                        PhotonNetwork.Destroy(hit.collider.gameObject);
-                        //Destroy();
+                    //    PhotonNetwork.Destroy(hit.collider.gameObject);
+
+                    //}
+
+                    //Interfaceを呼ぶ
+                    ICool iCool;
+                    if (hit.collider.gameObject.TryGetComponent(out iCool))
+                    {
+                        iCool.OnCooled(damageToCoolingTargetPerSeconds * Time.deltaTime);
+                    }
+                    else
+                    {
+                        Debug.LogError("CoolingTargetObjectにはICoolを継承したコンポーネントをアタッチしてください");
                     }
 
                     //targetに一回でもあたったら終了
