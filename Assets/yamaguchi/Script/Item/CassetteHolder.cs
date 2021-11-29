@@ -41,6 +41,7 @@ public class CassetteHolder : MonoBehaviourPunCallbacks, IPlayerAction
 
                 otherPocket.SetItem(null);
 
+                Debug.Log("yobareta");
                 //カセットの表示を消す
                 cassetteManager.HideAllCassette();
                 //managerの現在のカセットを更新
