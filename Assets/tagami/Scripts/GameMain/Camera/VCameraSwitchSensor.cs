@@ -14,7 +14,7 @@ public class VCameraSwitchSensor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && other.GetComponent<Photon.Pun.PhotonView>().IsMine)
         {
             numCollidingObject++;
             if (stayVCamIndex >= 0)
@@ -26,7 +26,7 @@ public class VCameraSwitchSensor : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && other.GetComponent<Photon.Pun.PhotonView>().IsMine)
         {
             numCollidingObject--;
             if (exitVCamIndex >= 0 && numCollidingObject <= 0)
