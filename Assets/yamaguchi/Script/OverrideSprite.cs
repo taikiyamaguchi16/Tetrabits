@@ -37,15 +37,15 @@ public class OverrideSprite : MonoBehaviour
         sr.SetPropertyBlock(block);
     }
 
-    void OnValidate()
-    {
-        overrideTexture = texture;
-    }
-
     void Init()
     {
         block = new MaterialPropertyBlock();
         sr = GetComponent<SpriteRenderer>();
         sr.GetPropertyBlock(block);
+    }
+
+    public void SetTexture(Texture _tex)
+    {
+        overrideTexture = _tex;
     }
 }

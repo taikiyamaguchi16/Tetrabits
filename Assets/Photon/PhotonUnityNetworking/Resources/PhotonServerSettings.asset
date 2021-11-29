@@ -17,7 +17,7 @@ MonoBehaviour:
     AppIdFusion: 
     AppIdChat: 
     AppIdVoice: 
-    AppVersion: 1.0
+    AppVersion: 1
     UseNameServer: 1
     FixedRegion: 
     Server: 
@@ -39,55 +39,50 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - PunSetName
+  - Shot
+  - RPCChangeOwned
+  - RPCPickUpItem
+  - RPCDamage
+  - CallStartGameOnline
   - Dump
   - PickUp
-  - aaa
-  - aaaa
-  - Dump2
-  - PickUp2
-  - testtest
-  - CallSpawonBattery
-  - CallManagerSwitchGameInGameScene
-  - CallStartGameOnline
-  - RPCSetOwnBattery
-  - RPCReleaseBattery
-  - RPCDealDamage
-  - RPCSwitchGameInGameScene
-  - RPCShotPlayerBullet
-  - RPCSwitch
-  - RPCSetButtonState
-  - RPCRepairMonitor
-  - RPCSetRunning
-  - RPCShotBullet
-  - RPCDealDamageToPlayer
+  - RPCActualLapCount
   - RPCAddBomb
-  - RPCShotLevelUp
-  - ZenmaiDecreaseStart
+  - RPCBatteryAction
+  - RPCClearCurrentGameInGame
+  - RPCDealDamage
+  - RPCDealDamageToPlayer
+  - RPCDestroyBattery
+  - RPCEndRecoverZenmaiPower
+  - RPCGoal
+  - RPCInstantiateBombLocal
+  - RPCInstantiateDirtSplash
+  - RPCLapCount
   - RPCLocalInstantiate
-  - RPCInstantiateLocalBullet
   - RPCLocalInstantiateWithVelocity
   - RPCMultiplyRotation
-  - RPCEndRecoverZenmaiPower
-  - RPCRecoverZenmaiPower
   - RPCPlaySmokeEfect
-  - RPCSpawonBattery
-  - RPCDestroyBattery
-  - RPCInstantiateBombLocal
-  - RPCClearCurrentGameInGame
-  - RPCStolenOwnBattery
+  - RPCRecoverZenmaiPower
+  - RPCReleaseBattery
+  - RPCRepairMonitor
   - RPCSetBatteryLevel
-  - RPCActualLapCountDown
-  - RPCActualLapCountUp
-  - RPCInstantiateDirtSplash
-  - RPCLapCountUp
+  - RPCSetButtonState
+  - RPCSetOthersTexture
+  - RPCSetOwnBattery
+  - RPCSetRunning
+  - RPCShotBullet
+  - RPCShotLevelUp
+  - RPCShotPlayerBullet
   - RPCSlipEnd
   - RPCSlipStart
-  - RPCWhenGoal
-  - RPCActualLapCount
-  - RPCGoal
-  - RPCLapCount
-  - RPCBatteryAction
+  - RPCSpawonBattery
   - RPCSpownerBatteryAction
+  - RPCStolenOwnBattery
+  - RPCSwitch
+  - RPCSwitchGameInGameScene
+  - RPCWhenGoal
+  - ZenmaiDecreaseStart
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
