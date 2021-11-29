@@ -505,6 +505,7 @@ GameObject:
   - component: {fileID: -674107463794023483}
   - component: {fileID: 3963862280272364308}
   - component: {fileID: 8801801403219837859}
+  - component: {fileID: 840877276256960314}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -725,6 +726,20 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 5
+--- !u!114 &840877276256960314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7772201493524667844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba83835f981a4024994f064fda1a6d16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 7809969131510274072}
+  overrideSprite: {fileID: 199375553321426398}
 --- !u!1 &7993158077866682890
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,7 +752,7 @@ GameObject:
   - component: {fileID: 370760203473864484}
   - component: {fileID: 7809969131510274072}
   - component: {fileID: 17771094541874311}
-  - component: {fileID: 1950560161169897939}
+  - component: {fileID: 199375553321426398}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -871,7 +886,7 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
---- !u!114 &1950560161169897939
+--- !u!114 &199375553321426398
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -880,9 +895,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7993158077866682890}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba83835f981a4024994f064fda1a6d16, type: 3}
+  m_Script: {fileID: 11500000, guid: d758a5fbb943dee4a89ff630b14f7d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  texture: {fileID: 2800000, guid: f7d85a5460540e4418f42a999e97342e, type: 3}
 --- !u!1 &8406977247459034005
 GameObject:
   m_ObjectHideFlags: 0
