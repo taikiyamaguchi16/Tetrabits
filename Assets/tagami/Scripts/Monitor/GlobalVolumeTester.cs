@@ -13,7 +13,7 @@ public class GlobalVolumeTester : MonoBehaviour
         if (!volumeProfile) throw new System.NullReferenceException(nameof(UnityEngine.Rendering.VolumeProfile));
 
         // You can leave this variable out of your function, so you can reuse it throughout your class.
-        UnityEngine.Rendering.Universal.Vignette vignette;
+        //UnityEngine.Rendering.Universal.Vignette vignette;
         UnityEngine.Rendering.Universal.ColorAdjustments colorAdjustments;
 
         if (!volumeProfile.TryGet(out colorAdjustments)) throw new System.NullReferenceException(nameof(colorAdjustments));
