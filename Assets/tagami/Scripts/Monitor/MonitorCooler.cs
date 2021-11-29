@@ -65,7 +65,9 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
                         {
                             monitorManager.CallRepairMonitor(hit.collider.gameObject.GetComponent<CoolingTargetStatus>().damageToMonitor);
                         }
-                        Destroy(hit.collider.gameObject);
+
+                        PhotonNetwork.Destroy(hit.collider.gameObject);
+                        //Destroy();
                     }
 
                     //targetに一回でもあたったら終了

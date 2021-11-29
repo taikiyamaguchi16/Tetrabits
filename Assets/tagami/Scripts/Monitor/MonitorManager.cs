@@ -39,12 +39,10 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     struct KeyGameObject { public string key; public GameObject go; }
     [Header("Cooling Target Prefabs")]
     [SerializeField] List<KeyGameObject> coolingTargetPrefabs;
-    List<GameObject> createdCoolingTargets;
+    //List<GameObject> createdCoolingTargets;
 
     [Header("Option")]
     [SerializeField] Slider monitorHpBarSlider;
-
-
 
     private void Awake()
     {
@@ -58,7 +56,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         //初期回復
         monitorHp = monitorHpMax;
         //List作成
-        createdCoolingTargets = new List<GameObject>();
+        //createdCoolingTargets = new List<GameObject>();
     }
 
     private void Update()
@@ -118,13 +116,16 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             return;
         }
         //ダメージ発生 生成場所どーしよ
-        var createdObj = Instantiate(prefab, _damagePosition, Quaternion.identity);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.InstantiateRoomObject("GameMain/Monitor/" + prefab.name, _damagePosition, Quaternion.identity);
+        }
         //生成登録
-        createdCoolingTargets.Add(createdObj);
+        //createdCoolingTargets.Add(createdObj);
 
         //**********************************************************
         //ダメージ処理
-        monitorHp -= createdObj.GetComponent<CoolingTargetStatus>().damageToMonitor;
+        monitorHp -= prefab.GetComponent<CoolingTargetStatus>().damageToMonitor;
 
         //ダメージ段階進行処理
         if (monitorHp <= 0)
@@ -160,14 +161,14 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         //HP全回復
         monitorHp = monitorHpMax;
         //冷却ターゲット消去
-        foreach (var obj in createdCoolingTargets)
+        foreach (var obj in GameObject.FindGameObjectsWithTag("CoolingTarget"))
         {
             if (obj)
             {
-                Destroy(obj);
+                PhotonNetwork.Destroy(obj);
             }
         }
-        createdCoolingTargets.Clear();
+
     }
 
 
