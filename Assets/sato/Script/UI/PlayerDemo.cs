@@ -80,8 +80,8 @@ public class PlayerDemo : DOManager
             // スケールを目標値まで変化させたのち破棄
             gameObject.transform.DOScale(ZGoal, scaleTime).SetEase(easeTypes).OnComplete(() =>
             {
-                DemoManager.GetComponent<TitleDemoManager>().PlayerCountDown();
                 Destroy(gameObject);
+                DemoManager.GetComponent<TitleDemoManager>().PlayerCountDown();
             });
         }
         else
@@ -91,8 +91,8 @@ public class PlayerDemo : DOManager
             {
                 gameObject.transform.DOMove(RightGoal.transform.position, moveTime).SetEase(easeTypes).OnComplete(() =>
                 {
-                    DemoManager.GetComponent<TitleDemoManager>().PlayerCountDown();
                     Destroy(gameObject);
+                    DemoManager.GetComponent<TitleDemoManager>().PlayerCountDown();
                 }); ;
             }
             // 右に行く人
@@ -100,8 +100,8 @@ public class PlayerDemo : DOManager
             {
                 gameObject.transform.DOMove(LeftGoal.transform.position, moveTime).SetEase(easeTypes).OnComplete(() =>
                 {
-                    DemoManager.GetComponent<TitleDemoManager>().PlayerCountDown();
                     Destroy(gameObject);
+                    DemoManager.GetComponent<TitleDemoManager>().PlayerCountDown();
                 }); ;
             }
         }
