@@ -41,6 +41,9 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     [SerializeField] List<KeyGameObject> coolingTargetPrefabs;
     List<GameObject> createdCoolingTargets = new List<GameObject>();
 
+    [Header("Stage Debris")]
+    [SerializeField] List<GameObject> stageDebrisList;
+
     [Header("Option")]
     [SerializeField] Slider monitorHpBarSlider;
 
@@ -163,21 +166,22 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         //HP全回復
         monitorHp = monitorHpMax;
         //冷却ターゲット消去
-        foreach (var obj in createdCoolingTargets)
+        if (PhotonNetwork.IsMasterClient)
         {
-            if (obj)
+            foreach (var obj in createdCoolingTargets)
             {
-                PhotonNetwork.Destroy(obj);
+                if (obj)
+                {
+                    PhotonNetwork.Destroy(obj);
+                }
             }
         }
 
-        //foreach (var obj in GameObject.FindGameObjectsWithTag("CoolingTarget"))
-        //{
-        //    if (obj)
-        //    {
-        //        PhotonNetwork.Destroy(obj);
-        //    }
-        //}
+        //破片を降り注がせる
+        //if()
+        //stageDebrisList[Random.Range(0, stageDebrisList.Count)].SetActive(true);
+
+      
 
     }
 
