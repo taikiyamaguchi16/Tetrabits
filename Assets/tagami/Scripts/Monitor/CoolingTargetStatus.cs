@@ -41,9 +41,10 @@ public class CoolingTargetStatus : MonoBehaviour, ICool
             if (PhotonNetwork.IsMasterClient)
             {
                 MonitorManager.RepairMonitor(damageToMonitor);
+                //死ぬ
+                PhotonNetwork.Destroy(gameObject);
             }
-            //死ぬ
-            PhotonNetwork.Destroy(gameObject);
+            
         }
     }
 
