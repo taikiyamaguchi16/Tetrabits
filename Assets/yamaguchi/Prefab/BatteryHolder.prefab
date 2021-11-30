@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &462863985477391084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6224164714608440084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e872673ddadd1bc4b835116c4b2c1cde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  indicatorColorData: {fileID: 11400000, guid: 1c9cc3eadb025d344b2092c99b61b36b, type: 2}
 --- !u!1 &7253013587839461918
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,6 +57,7 @@ GameObject:
   - component: {fileID: 8260692506013420948}
   - component: {fileID: 5677453362784006331}
   - component: {fileID: -3554207164343650158}
+  - component: {fileID: 1959444379949234357}
   m_Layer: 0
   m_Name: BatteryHolder
   m_TagString: ActionItem
@@ -139,6 +153,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc0696baf7e51d14a84a06e4d39e80ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1959444379949234357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8017141022481338577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97335889804705049b81f8466ffce671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emissionIndicator: {fileID: 462863985477391084}
+  batteryHolder: {fileID: 8260692506013420948}
 --- !u!1001 &1963071501169856172
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -199,5 +227,10 @@ PrefabInstance:
 --- !u!4 &5436092149437641678 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5786802416056352098, guid: 7bdda580a5b4d1846af3f4a7933acc1b, type: 3}
+  m_PrefabInstance: {fileID: 1963071501169856172}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6224164714608440084 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5575060469706505656, guid: 7bdda580a5b4d1846af3f4a7933acc1b, type: 3}
   m_PrefabInstance: {fileID: 1963071501169856172}
   m_PrefabAsset: {fileID: 0}

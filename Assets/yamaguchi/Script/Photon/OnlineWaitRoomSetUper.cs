@@ -23,20 +23,18 @@ public class OnlineWaitRoomSetUper : MonoBehaviourPunCallbacks
     {
         if (!kariFg)
         {
-            //カセット表示オン
-            //とりあえずFindでテスト
-            var cassetHolderObj = GameObject.Find("CassetHolder");
-            if (!cassetHolderObj)
-            {
-                cassetHolderObj = GameObject.Find("cassette_socket2");
-            }
+            //12/1 田上　カセット湧かせる処理がチュートリアル後になったのでコメントアウト
+            //var cassetHolderObj = GameObject.Find("CassetHolder");
+            //if (!cassetHolderObj)
+            //{
+            //    cassetHolderObj = GameObject.Find("cassette_socket2");
+            //}
+            //cassetHolderObj.GetComponent<CassetteManager>().AppearAllCassette();
 
-            var batterySpoawnerObj = GameObject.Find("BatterySpawner");
-            cassetHolderObj.GetComponent<CassetteManager>().AppearAllCassette();
-
-            batterySpoawnerObj.GetComponent<BatterySpowner>().StartSpawn();
-
-            VirtualCameraManager.OnlyActive(1);
+            //12/1 田上　全部StartUpGameMain関数に記述
+            //var batterySpoawnerObj = GameObject.Find("BatterySpawner");
+            //batterySpoawnerObj.GetComponent<BatterySpowner>().StartSpawn();
+            //VirtualCameraManager.OnlyActive(1);
 
             //11/26 田上　カメラ引く処理の通知
             var gameMainManagerObject = GameObject.Find("GameMainManager");
