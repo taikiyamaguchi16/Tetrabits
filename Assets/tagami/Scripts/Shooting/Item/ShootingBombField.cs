@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class ShootingBombField : MonoBehaviour
 {
+    [Header("Status")]
+    [SerializeField] AnimationCurve bombFieldCurve;
+    [SerializeField] bool useAnimationCurve = true;
+
     [SerializeField] float lifeSeconds = 2.0f;
     float lifeTimer;
-
     [SerializeField] Vector3 startLocalScale = Vector3.zero;
     [SerializeField] Vector3 endLocalScale = Vector3.one;
 
@@ -30,7 +33,16 @@ public class ShootingBombField : MonoBehaviour
             Destroy(gameObject);
         }
 
-        var dt = lifeTimer / lifeSeconds;
+        float dt = 0;
+        if (useAnimationCurve)
+        {
+            dt = bombFieldCurve.Evaluate(lifeTimer / lifeSeconds);
+        }
+        else
+        {
+            dt = lifeTimer / lifeSeconds;
+        }
+
 
         transform.localScale = Vector3.Lerp(startLocalScale, endLocalScale, dt);
 

@@ -244,9 +244,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bc877686c9ca1408f889bfbd7b09aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeSeconds: 1
+  bombFieldCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1.4761443
+      outSlope: 1.4761443
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.20095538
+      value: 0.29663914
+      inSlope: 0.016131714
+      outSlope: 0.016131714
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.19899666
+    - serializedVersion: 3
+      time: 0.69812405
+      value: 0.30045468
+      inSlope: 0.008697691
+      outSlope: 0.008697691
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.08449953
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2.317327
+      outSlope: 2.317327
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  useAnimationCurve: 1
+  lifeSeconds: 3
   startLocalScale: {x: 0, y: 0, z: 0}
-  endLocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  endLocalScale: {x: 1.5, y: 1.5, z: 1.5}
 --- !u!50 &377764746694226990
 Rigidbody2D:
   serializedVersion: 4
