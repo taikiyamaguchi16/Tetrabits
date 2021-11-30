@@ -24,13 +24,11 @@ public class ControllerDetect : MonoBehaviour
 
         if (currentControllerNum == 0)
         {
-            Debug.Log("切断");
             ControllerFlag = false;
             Debug.Log(ControllerFlag);
         }
         else if (currentControllerNum > 0)
         {
-            Debug.Log("接続");
             ControllerFlag = true;
             Debug.Log(ControllerFlag);
         }
@@ -60,14 +58,12 @@ public class ControllerDetect : MonoBehaviour
 
         if (currentControllerNum == 0 && oldControllerNum != currentControllerNum)
         {
-            Debug.Log("切断");
             ControllerFlag = false;
             Debug.Log(ControllerFlag);
         }
 
         if (currentControllerNum > 0 && oldControllerNum != currentControllerNum)
         {
-            Debug.Log("接続" + CacheJoystickNames.ToList()[0]);
             ControllerFlag = true;
             Debug.Log(ControllerFlag);
         }
