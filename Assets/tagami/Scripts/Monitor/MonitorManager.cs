@@ -42,7 +42,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     List<GameObject> createdCoolingTargets = new List<GameObject>();
 
     [Header("Stage Debris")]
-    [SerializeField] List<GameObject> stageDebrisList;
+    [SerializeField] List<StageDebris> stageDebrisList;
 
     [Header("Option")]
     [SerializeField] Slider monitorHpBarSlider;
@@ -178,10 +178,28 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         }
 
         //破片を降り注がせる
-        //if()
-        //stageDebrisList[Random.Range(0, stageDebrisList.Count)].SetActive(true);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            for (int count = 0; count < 3; count++)
+            {
+                //空き検索
+                List<int> usableIndexList = new List<int>();
+                for (int i = 0; i < stageDebrisList.Count; i++)
+                {
+                    if (!stageDebrisList[i].GetActiveSelf())
+                    {
+                        usableIndexList.Add(i);
+                    }
+                }
+                //有効化
+                if (usableIndexList.Count > 0)
+                {
+                    var usableRandomIndex = usableIndexList[Random.Range(0, usableIndexList.Count)];
+                    stageDebrisList[usableRandomIndex].CallSetActive(true);
+                }
+            }//何回か行う
+        }
 
-      
 
     }
 
