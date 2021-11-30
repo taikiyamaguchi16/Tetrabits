@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class JumpDamageBlock : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class JumpDamageBlock : MonoBehaviour
     float timeCount;
     GameObject player;
     GameObject playerFoot;
+    Animator animator;
+    bool playerOn = false;
 
     // Start is called before the first frame update
     void Start()
@@ -19,26 +22,31 @@ public class JumpDamageBlock : MonoBehaviour
         player = GameObject.Find("JumpMan");
         playerFoot = player.transform.Find("Foot").gameObject;
         //playerFoot = GameObject.Find("Foot");
+
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(timeCount<0)
+        if (playerOn) timeCount -= Time.deltaTime;
+
+        if (timeCount < 0)
         {
             if (PhotonNetwork.IsMasterClient)
             {
                 MonitorManager.DealDamageToMonitor(damage);
             }
+            animator.SetTrigger("damage");
             timeCount = time;
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject == playerFoot)
         {
-            timeCount -= Time.deltaTime;
+            playerOn = true;
         }
     }
 
@@ -47,6 +55,7 @@ public class JumpDamageBlock : MonoBehaviour
         if (collision.gameObject == playerFoot)
         {
             timeCount = time;
+            playerOn = false;
         }
     }
 }

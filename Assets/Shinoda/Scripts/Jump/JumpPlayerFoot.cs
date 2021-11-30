@@ -13,11 +13,11 @@ public class JumpPlayerFoot : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != "Player") playerControllerComponent.isJump = true;
+        if (collision.gameObject.tag != "Player") playerControllerComponent.JumpOn();
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != "Player") playerControllerComponent.isJump = false;
+        if (collision.gameObject.tag != "Player") playerControllerComponent.JumpOff();
     }
 }
