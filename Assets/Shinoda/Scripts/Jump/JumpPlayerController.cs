@@ -9,6 +9,7 @@ public class JumpPlayerController : MonoBehaviour
     public bool isJump = false;
     public GameObject lastFlag;
     Vector2 padVec;
+    Animator animator;
 
     [Header("Player")]
     [SerializeField] float jumpForce = 10f;
@@ -28,6 +29,7 @@ public class JumpPlayerController : MonoBehaviour
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
         originScale = arrow.transform.localScale;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -72,6 +74,20 @@ public class JumpPlayerController : MonoBehaviour
     void ArrowControll(Vector2 _dir)
     {
         arrow.transform.localScale = originScale * (_dir.magnitude * arrowScaleRatio);
-        arrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, _dir);
+        arrow.transform.rotation = Quaternion.FromToRotation(Vector3.up, _dir);
+    }
+
+    public void JumpOn()
+    {
+        isJump = true;
+        animator.SetBool("stand", false);
+        animator.SetBool("jump", true);
+    }
+
+    public void JumpOff()
+    {
+        isJump = false;
+        animator.SetBool("jump", false);
+        animator.SetBool("stand", true);
     }
 }
