@@ -4,8 +4,16 @@ using UnityEngine;
 using UnityEngine.VFX;
 using Photon.Pun;
 
+public interface ICool
+{
+    void OnCooled(float _coolPower);
+}
+
 public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
 {
+
+
+
     [Header("Required Reference")]
     [SerializeField] MonitorManager monitorManager;
     [SerializeField] VisualEffect coolingEffect;
@@ -18,9 +26,15 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     [SerializeField] float repairMonitorPerSeconds = 0.1f;
     [SerializeField] float rotateAnglePerSeconds = 10.0f;
 
+
     //int controlXinputIndex = 0;
     bool running = false;
     CoolerRotater runningRotator;
+
+    [Header("Battery Holder")]
+    [SerializeField] BatteryHolder batteryHolder;
+    [SerializeField] float consumeBatteryPerSeconds = 1.0f;
+
 
     void Start()
     {
@@ -32,8 +46,16 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     // Update is called once per frame
     void Update()
     {
+        //電池なかったら落とす
+        if (PhotonNetwork.IsMasterClient && running && batteryHolder.GetBatterylevel() <= 0)
+        {
+            CallSetRunning(false);
+        }
+
         if (running)
         {
+            batteryHolder.ConsumptionOwnBattery(consumeBatteryPerSeconds * Time.deltaTime);
+
             //レイとばして冷却ターゲット削除        
             //11/19 なんかforwardの逆にレイが飛んでるっぽい
             Debug.DrawRay(coolingMuzzule.position, -coolingMuzzule.forward * 10000.0f, Color.blue);
@@ -42,13 +64,26 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
                 Debug.Log("hit!:" + hit.collider.gameObject.name);
                 if (hit.collider.CompareTag("CoolingTarget"))
                 {
-                    if (hit.collider.gameObject.GetComponent<CoolingTargetStatus>().TryToKill(damageToCoolingTargetPerSeconds * Time.deltaTime))
+                    //if (hit.collider.gameObject.GetComponent<CoolingTargetStatus>().TryToKill(damageToCoolingTargetPerSeconds * Time.deltaTime))
+                    //{
+                    //    if (PhotonNetwork.IsMasterClient)
+                    //    {
+                    //        monitorManager.CallRepairMonitor(hit.collider.gameObject.GetComponent<CoolingTargetStatus>().damageToMonitor);
+                    //    }
+
+                    //    PhotonNetwork.Destroy(hit.collider.gameObject);
+
+                    //}
+
+                    //Interfaceを呼ぶ
+                    ICool iCool;
+                    if (hit.collider.gameObject.TryGetComponent(out iCool))
                     {
-                        if (PhotonNetwork.IsMasterClient)
-                        {
-                            monitorManager.CallRepairMonitor(hit.collider.gameObject.GetComponent<CoolingTargetStatus>().damageToMonitor);
-                        }
-                        Destroy(hit.collider.gameObject);
+                        iCool.OnCooled(damageToCoolingTargetPerSeconds * Time.deltaTime);
+                    }
+                    else
+                    {
+                        Debug.LogError("CoolingTargetObjectにはICoolを継承したコンポーネントをアタッチしてください");
                     }
 
                     //targetに一回でもあたったら終了
@@ -67,7 +102,10 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         //おそらくIsMineで呼ばれてるので同期関数をそのまま呼び出す
 
         Debug.Log("CoolingDeviceのStartPlayerActionが呼ばれました");
-        CallSetRunning(true);
+        if (batteryHolder.GetBatterylevel() > 0)
+        {
+            CallSetRunning(true);
+        }
 
         runningRotator = _desc.playerObj.AddComponent<CoolerRotater>();
         runningRotator.rotateTarget = this;
@@ -92,7 +130,7 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
 
     void CallSetRunning(bool _value)
     {
-        photonView.RPC(nameof(RPCSetRunning), RpcTarget.AllViaServer, _value);
+        photonView.RPC(nameof(RPCSetRunning), RpcTarget.All, _value);
     }
     [PunRPC]
     void RPCSetRunning(bool _value)

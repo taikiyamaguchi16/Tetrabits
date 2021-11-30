@@ -39,12 +39,10 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     struct KeyGameObject { public string key; public GameObject go; }
     [Header("Cooling Target Prefabs")]
     [SerializeField] List<KeyGameObject> coolingTargetPrefabs;
-    List<GameObject> createdCoolingTargets;
+    List<GameObject> createdCoolingTargets = new List<GameObject>();
 
     [Header("Option")]
     [SerializeField] Slider monitorHpBarSlider;
-
-
 
     private void Awake()
     {
@@ -58,7 +56,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         //初期回復
         monitorHp = monitorHpMax;
         //List作成
-        createdCoolingTargets = new List<GameObject>();
+        //createdCoolingTargets = new List<GameObject>();
     }
 
     private void Update()
@@ -104,6 +102,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     {
         //**********************************************************
         //冷却ターゲット生成
+
         GameObject prefab = null;
         foreach (var keyObj in coolingTargetPrefabs)
         {
@@ -117,15 +116,19 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             Debug.LogError("damageId:" + _damageId + "  用の冷却用ダメージPrefabは登録されていません");
             return;
         }
+
+        //HPが0になるならそもそも破壊されるので生成しない
+        var monitorHpBuff = monitorHp;
+        monitorHpBuff -= prefab.GetComponent<CoolingTargetStatus>().damageToMonitor;
         //ダメージ発生 生成場所どーしよ
-        var createdObj = Instantiate(prefab, _damagePosition, Quaternion.identity);
-        //生成登録
-        createdCoolingTargets.Add(createdObj);
+        if (PhotonNetwork.IsMasterClient && monitorHpBuff > 0)
+        {
+            PhotonNetwork.InstantiateRoomObject("GameMain/Monitor/" + prefab.name, _damagePosition, Quaternion.identity);
+        }
 
         //**********************************************************
-        //ダメージ処理
-        monitorHp -= createdObj.GetComponent<CoolingTargetStatus>().damageToMonitor;
-
+        //実際のダメージ処理
+        monitorHp -= prefab.GetComponent<CoolingTargetStatus>().damageToMonitor;
         //ダメージ段階進行処理
         if (monitorHp <= 0)
         {
@@ -164,10 +167,18 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         {
             if (obj)
             {
-                Destroy(obj);
+                PhotonNetwork.Destroy(obj);
             }
         }
-        createdCoolingTargets.Clear();
+
+        //foreach (var obj in GameObject.FindGameObjectsWithTag("CoolingTarget"))
+        //{
+        //    if (obj)
+        //    {
+        //        PhotonNetwork.Destroy(obj);
+        //    }
+        //}
+
     }
 
 
@@ -208,13 +219,29 @@ public class MonitorManager : MonoBehaviourPunCallbacks
 
     //**********************************************************
     //static
-    static MonitorManager sMonitorManager;
+    private static MonitorManager sMonitorManager;
 
     public static void DealDamageToMonitor(string _damageId)
     {
         if (sMonitorManager)
         {
             sMonitorManager.CallDealDamage(_damageId);
+        }
+    }
+
+    public static void RepairMonitor(float _repairHp)
+    {
+        if (sMonitorManager)
+        {
+            sMonitorManager.CallRepairMonitor(_repairHp);
+        }
+    }
+
+    public static void AddCoolingTargets(GameObject _go)
+    {
+        if (sMonitorManager)
+        {
+            sMonitorManager.createdCoolingTargets.Add(_go);
         }
     }
 }
