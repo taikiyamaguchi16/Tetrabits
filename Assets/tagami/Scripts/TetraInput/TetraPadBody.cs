@@ -7,8 +7,11 @@ public class TetraPadBody : MonoBehaviour
     [Header("Reference")]
     [SerializeField] Transform spriteMaskTransform;
     [SerializeField] GameObject touchedPadEffectPrefab;
+    
 
     public List<GameObject> onPadObjects { private set; get; }
+
+    [HideInInspector] public bool creatableEffect;
 
     private void Awake()
     {
@@ -32,8 +35,11 @@ public class TetraPadBody : MonoBehaviour
         TryToAddOnPadObject(collision.gameObject);
 
         //エフェクト生成
-        var effectObj = Instantiate(touchedPadEffectPrefab);
-        effectObj.transform.position = new Vector3(collision.transform.position.x, spriteMaskTransform.position.y, collision.transform.position.z);
+        if (creatableEffect)
+        {
+            var effectObj = Instantiate(touchedPadEffectPrefab);
+            effectObj.transform.position = new Vector3(collision.transform.position.x, spriteMaskTransform.position.y, collision.transform.position.z);
+        }
     }
 
     private void OnCollisionStay(Collision collision)

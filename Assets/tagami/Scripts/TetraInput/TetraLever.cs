@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 using Photon.Pun;
 
 public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
@@ -11,9 +12,13 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
 
     [Header("Status")]
     [SerializeField] float batteryConsumptionPerSeconds = 1.0f;
-
-    [Header("Option")]
     [SerializeField] float switchingTime = 1.0f;
+
+    [Header("Indicator")]
+    [SerializeField] EmissionIndicator emissionIndicator;
+
+    [Header("Effect")]
+    [SerializeField] VisualEffect sparkEffect;
 
     [System.NonSerialized]
     public bool deadBatteryDebug;
@@ -23,9 +28,7 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
     Quaternion offQt;
 
     protected bool leverState;
-    //bool oldLeverState;
 
-    // Start is called before the first frame update
     void Start()
     {
         if (fulcrumObj)
@@ -45,12 +48,17 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
         if (!deadBatteryDebug && batteryHolder && batteryHolder.GetBatterylevel() <= 0)
         {
             leverState = false;
+            emissionIndicator.SetColor(EmissionIndicator.ColorType.Unusable);
         }
-
         //電力消費
-        if (leverState)
-        {
+        else if (leverState)
+        {//使用中
             batteryHolder.ConsumptionOwnBattery(batteryConsumptionPerSeconds * Time.deltaTime);
+            emissionIndicator.SetColor(EmissionIndicator.ColorType.Using);
+        }
+        else
+        {//使用可能
+            emissionIndicator.SetColor(EmissionIndicator.ColorType.Usable);
         }
 
         //支点回転
@@ -89,6 +97,11 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
         if ((batteryHolder && batteryHolder.GetBatterylevel() > 0) || deadBatteryDebug)
         {
             leverState = !leverState;
+
+            if(leverState)
+            {
+                sparkEffect.Play();
+            }
         }
     }
 
