@@ -11,10 +11,7 @@ public class AIStateMidAir : AIState
     AttitudeCtrlInRace attitudeCtrlInRace = null;
 
     [SerializeField]
-    ColliderSensor colliderSensorFront = null;
-
-    [SerializeField]
-    ColliderSensor colliderSensorBack = null;
+    ColliderSensor colliderSensor = null;
 
     [SerializeField,Range(0, 2)]
     float min = 0f;
@@ -50,8 +47,7 @@ public class AIStateMidAir : AIState
 
     public override bool CheckShiftCondition()
     {
-        if(!colliderSensorFront.GetExistInCollider() &&
-            !colliderSensorBack.GetExistInCollider())
+        if(colliderSensor.GetExistInCollider())
         {
             return true;
         }

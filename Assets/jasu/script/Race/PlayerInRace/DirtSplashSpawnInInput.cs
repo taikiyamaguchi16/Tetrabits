@@ -8,13 +8,9 @@ public class DirtSplashSpawnInInput : DirtSplashSpawn
     // Update is called once per frame
     void Update()
     {
-        if(colliderSensorFront.GetExistInCollider() ||
-            colliderSensorFront.GetExistInCollider())
+        if (TetraInput.sTetraButton.GetTrigger())
         {
-            if (TetraInput.sTetraButton.GetTrigger())
-            {
-                photonView.RPC(nameof(RPCInstantiateDirtSplash), RpcTarget.All);
-            }
+            photonView.RPC(nameof(RPCInstantiateDirtSplash), RpcTarget.All);
         }
     }
 }

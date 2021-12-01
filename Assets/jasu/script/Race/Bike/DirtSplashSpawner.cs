@@ -11,8 +11,11 @@ public class DirtSplashSpawner : MonoBehaviour
     [SerializeField]
     RaceStageMolder raceStageMolder;
 
+    //[SerializeField]
+    //GameObject dirtParentObj = null;    // 泥が着地時に生成される泥だまりの親obj stage
+
     [SerializeField]
-    GameObject dirtParentObj = null;    // 泥が着地時に生成される泥だまりの親obj stage
+    GameObject[] dirtSplashParents;
 
     [SerializeField]
     GameObject player = null;
@@ -30,7 +33,8 @@ public class DirtSplashSpawner : MonoBehaviour
         dirtSplash.parentInstanceID = gameObject.GetInstanceID();
         dirtSplash.parentMoveForce = _moveForce * dirtSplashForceMultiply;
         dirtSplash.raceStageMolder = raceStageMolder;
-        dirtSplash.parentObj = dirtParentObj;
+        //dirtSplash.parentObj = dirtParentObj;
+        dirtSplash.parentObjs = dirtSplashParents;
         dirtSplash.laneLength = raceStageMolder.GetLaneLength;
         PositionCorrectionWhenWarpPlayer posCorrect = dirtSplashObj.GetComponent<PositionCorrectionWhenWarpPlayer>();
         posCorrect.player = player;

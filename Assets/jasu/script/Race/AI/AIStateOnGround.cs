@@ -17,10 +17,7 @@ public class AIStateOnGround : AIState
     DirtSplashSpawn dirtSplashSpawn;
 
     [SerializeField]
-    ColliderSensor colliderSensorFront = null;
-
-    [SerializeField]
-    ColliderSensor colliderSensorBack = null;
+    ColliderSensor colliderSensor = null;
 
     [SerializeField]
     float correctSeconds = 1f;
@@ -69,8 +66,7 @@ public class AIStateOnGround : AIState
 
     public override bool CheckShiftCondition()
     {
-        if ((colliderSensorFront.GetExistInCollider() ||
-            colliderSensorBack.GetExistInCollider()))
+        if (colliderSensor.GetExistInCollider())
         {
             return true;
         }

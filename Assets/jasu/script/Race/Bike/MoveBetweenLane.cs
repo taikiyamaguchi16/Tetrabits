@@ -16,13 +16,7 @@ public class MoveBetweenLane : MonoBehaviour
     protected BikeSlipDown bikeSlipDown;
 
     [SerializeField]
-    protected ColliderSensor colliderSensorFront = null;
-
-    [SerializeField]
-    protected ColliderSensor colliderSensorBack = null;
-
-    [SerializeField]
-    protected float outsideRange = 3f;
+    protected ColliderSensor colliderSensor = null;
 
     [SerializeField]
     protected float spd;
@@ -84,8 +78,7 @@ public class MoveBetweenLane : MonoBehaviour
     public void SetMoveLane(int _laneId)
     {
         // 接地中
-        if (colliderSensorFront.GetExistInCollider() ||
-            colliderSensorBack.GetExistInCollider())
+        if (colliderSensor.GetExistInCollider())
         {
             if (!bikeSlipDown.isSliping)
             {

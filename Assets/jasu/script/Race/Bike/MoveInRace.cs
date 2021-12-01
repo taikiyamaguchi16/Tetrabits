@@ -10,10 +10,7 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     public Rigidbody rb { get; protected set; }
 
     [SerializeField]
-    protected ColliderSensor colliderSensorFront = null;
-
-    [SerializeField]
-    protected ColliderSensor colliderSensorBack = null;
+    protected ColliderSensor colliderSensor = null;
 
     [SerializeField]
     protected BikeSlipDown bikeSlipDown = null;
@@ -21,8 +18,22 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     [SerializeField]
     protected DirtSplashSpawn dirtSplashSpawn;
 
+    [SerializeField]
+    protected AttitudeCtrlInRace attitudeCtrl;
+
+    [Header("パラメータ")]
+    
+    [SerializeField]
+    protected float moveSpd;
+
     [SerializeField,Tooltip("移動速度")]
-    protected float moveSpd = 10f;
+    protected float moveSpdStandard = 10f;
+
+    [SerializeField, Tooltip("加速倍率")]
+    protected float accelerateMultiply = 1.3f;
+
+    [SerializeField, Tooltip("減速倍率")]
+    protected float decelerateMultiply = 0.7f;
 
     [SerializeField, Tooltip("坂を上る時移動速度にかける倍率")]
     protected float moveSlopeMultiply = 2f;
@@ -32,6 +43,12 @@ public class MoveInRace : MonoBehaviourPunCallbacks
 
     [SerializeField, Tooltip("移動速度の入力に対する追従度, 値が大きいとキビキビ動く")]
     protected float moveForceMultiplyStop = 5f;
+
+    [SerializeField, Tooltip("坂登る時の回転率")]
+    protected float rotLateSlope = 0.25f;
+
+    [SerializeField, Tooltip("平らな所にいる時の平面に戻る回転率")]
+    protected float rotLateFlat = 0.25f;
 
     [SerializeField]
     protected float gravity = -100f; // 重力
@@ -52,6 +69,12 @@ public class MoveInRace : MonoBehaviourPunCallbacks
         }
     }
 
+    private void LateUpdate()
+    {
+        // 移動速度決定
+        SetMoveSpd();
+    }
+
     private void FixedUpdate()
     {
         moveVec = Vector3.zero;
@@ -66,6 +89,31 @@ public class MoveInRace : MonoBehaviourPunCallbacks
         AccelerationToMoveVec();
     }
 
+    protected void SetMoveSpd()
+    {
+        // -180 ~ 180 に補正
+        float angleX = transform.localRotation.eulerAngles.x;
+        if (angleX > 180)
+        {
+            angleX -= 360;
+        }
+
+        moveSpd = moveSpdStandard;
+        if (wheelonSlopeNum <= 0 && colliderSensor.GetExistInCollider())
+        {
+            if (angleX < 0)
+            {
+                float decelerate = 1 - ((1 - decelerateMultiply) * Mathf.Abs(angleX) / Mathf.Abs(attitudeCtrl.GetRotMinOnGround));
+                moveSpd *= decelerate;
+            }
+            else if (angleX > 0)
+            {
+                float accelerate = 1 + ((accelerateMultiply - 1) * Mathf.Abs(angleX) / Mathf.Abs(attitudeCtrl.GetRotMinOnGround));
+                moveSpd *= accelerate;
+            }
+        }
+    }
+
     protected void SetMoveVec()
     {
         if (!bikeSlipDown.isSliping)
@@ -73,11 +121,24 @@ public class MoveInRace : MonoBehaviourPunCallbacks
             if (wheelonSlopeNum > 0)
             {
                 moveVec = Vector3.ProjectOnPlane(Vector3.forward, groundNormalVec);
+
+                transform.parent.localRotation = Quaternion.Lerp(transform.parent.localRotation, Quaternion.LookRotation(moveVec), rotLateSlope);
+                if (attitudeCtrl.CorrectAngle(transform.parent.localRotation.eulerAngles.x) <= attitudeCtrl.CorrectAngle(Quaternion.LookRotation(moveVec).eulerAngles.x))
+                {
+                    transform.parent.localRotation = Quaternion.LookRotation(moveVec);
+                }
+
                 moveVec.y *= (moveSpd / moveVec.z) * moveSlopeMultiply;
             }
             else
             {
                 groundNormalVec = Vector3.zero;
+
+                // 空中でのみ重力
+                if (colliderSensor.GetExistInCollider())
+                {
+                    transform.parent.localRotation = Quaternion.Lerp(transform.parent.localRotation, Quaternion.LookRotation(Vector3.forward), rotLateFlat);
+                }
             }
 
             moveVec.z = moveSpd;
@@ -88,8 +149,7 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     protected void SetGravity()
     {
         // 空中でのみ重力
-        if (!colliderSensorFront.GetExistInCollider() &&
-            !colliderSensorBack.GetExistInCollider())
+        if (!colliderSensor.GetExistInCollider())
         {
             wheelonSlopeNum = 0;
             moveVec.y = gravity;
@@ -143,7 +203,7 @@ public class MoveInRace : MonoBehaviourPunCallbacks
         if (collision.gameObject.tag == "SlopeRoadInRace" ||
             collision.transform.parent.gameObject.tag == "SlopeRoadInRace")
         {
-            wheelonSlopeNum--;
+            //wheelonSlopeNum--;
         }
     }
 }

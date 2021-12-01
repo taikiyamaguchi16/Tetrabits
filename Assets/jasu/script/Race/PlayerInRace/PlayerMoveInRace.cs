@@ -30,6 +30,12 @@ public class PlayerMoveInRace : MoveInRace
         }
     }
 
+    private void LateUpdate()
+    {
+        // 移動速度決定
+        SetMoveSpd();
+    }
+
     private void FixedUpdate()
     {
         moveVec = Vector3.zero;
