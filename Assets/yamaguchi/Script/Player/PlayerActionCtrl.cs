@@ -36,8 +36,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
     //同一優先度の場合に近いほうを実行するためのリスト
     List<GameObject> highPriorityList = new List<GameObject>();
 
-
-    //自身の情報を送る(仮)
+    //自身の情報を送る
     PlayerActionDesc desc;
 
     // 実行中アクション
@@ -63,7 +62,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                 //持ち運んでいるオブジェクトがある場合それをアクション候補に加える
                 GameObject carryObj = holder.GetItem();
                 if (carryObj != null)
-                {
+                {                   
                     if (!allActionItem.Contains(carryObj))
                     {
                         allActionItem.Add(carryObj);
@@ -92,7 +91,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     SetActionAnim();
                 }               
 
-                allActionItem.Remove(carryObj);
+                allActionItem.Remove(carryObj);   
             }
             else if (Input.GetKeyUp("e") || XInputManager.GetButtonRelease(playerMove.controllerID, XButtonType.B))   // アクションボタンリリース
             {
@@ -105,8 +104,12 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     candidates.Clear();
                     highPriorityList.Clear();
                 }
-            }   
+            }
 
+            if (holder.GetItem() != null)
+                playerMove.SetCarryObjFg(true);
+            else
+                playerMove.SetCarryObjFg(false);
         }
     }
 

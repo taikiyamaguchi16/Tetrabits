@@ -114,8 +114,6 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
         
         elpsedTime = 0f;
         //smokeEfect.time = 0f;
-
-        b_obj.transform.position = Vector3.zero;
     }
 
     [PunRPC]
