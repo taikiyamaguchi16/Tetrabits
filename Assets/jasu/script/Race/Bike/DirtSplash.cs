@@ -7,8 +7,8 @@ public class DirtSplash : MonoBehaviour
     [SerializeField]
     Rigidbody rb;
 
-    [SerializeField]
-    GameObject dirtPrefab = null;
+    //[SerializeField]
+    //GameObject dirtPrefab = null;
 
     [SerializeField]
     float gravity = -100f; // 重力
@@ -16,7 +16,9 @@ public class DirtSplash : MonoBehaviour
     [SerializeField]
     Vector3 moveForce = Vector3.forward;
 
-    public GameObject parentObj { get; set; } = null;
+    //public GameObject parentObj { get; set; } = null;
+
+    public GameObject[] parentObjs { get; set; } = null;
 
     public Vector3 parentMoveForce { get; set; } = Vector3.zero;
 
@@ -42,48 +44,64 @@ public class DirtSplash : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.transform.tag == "FlatRoadInRace" &&
-            rb.velocity.y < 0f)
+        foreach(GameObject parent in parentObjs)
         {
-            GameObject dirt = Instantiate(dirtPrefab, parentObj.transform);
-            Vector3 pos = Vector3.zero;
-            dirt.transform.localPosition = pos;
-            //pos = dirt.transform.position;
-            pos.x = other.transform.position.x;
-            pos.y = (other.transform.localPosition.y * 2) - 2.5f;
-            if(transform.position.z > laneLength)
-            {
-                pos.z = transform.position.z - laneLength;
-            }
-            else
-            {
-                pos.z = transform.position.z;
-            }
-            dirt.transform.position = pos;
-
-            dirt.GetComponent<DirtDestroy>().raceStageMolder = raceStageMolder;
-
-            SpriteRenderOnRoadCtrl spriteRenderOnRoadCtrl;
-            if ((spriteRenderOnRoadCtrl = dirt.GetComponent<SpriteRenderOnRoadCtrl>()) != null)
-            {
-                spriteRenderOnRoadCtrl.GetSetLaneInfo = other.transform.parent.parent.GetComponent<LaneInfo>();
-            }
-
-            raceStageMolder.GetDummyRoadMolder.DummyRoadMold(); // ダミー作成
-            Destroy(gameObject);
+            if (other.gameObject.GetInstanceID() == parent.GetInstanceID())
+                return;
         }
-        //else if(other.gameObject.transform.parent.tag == "SlopeRoadInRace")
-        //{
-        //    GameObject dirt = Instantiate(dirtPrefab, other.transform.parent.parent);
-        //    Vector3 pos = Vector3.zero;
-        //    dirt.transform.localPosition = pos;
-        //    pos = dirt.transform.position;
-        //    pos.z = transform.position.z;
-        //    dirt.transform.position = pos;
 
-        //    dirt.transform.localRotation = other.transform.parent.localRotation;
+        if ((other.gameObject.transform.tag == "FlatRoadInRace" && rb.velocity.y > 0f) ||
+            other.gameObject.transform.tag == "Slip")
+            return;
 
-        //    Destroy(gameObject);
-        //}
+        Destroy(gameObject);
     }
+
+    // 泥だまり生成
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if(other.gameObject.transform.tag == "FlatRoadInRace" &&
+    //        rb.velocity.y < 0f)
+    //    {
+    //        GameObject dirt = Instantiate(dirtPrefab, parentObj.transform);
+    //        Vector3 pos = Vector3.zero;
+    //        dirt.transform.localPosition = pos;
+    //        //pos = dirt.transform.position;
+    //        pos.x = other.transform.position.x;
+    //        pos.y = (other.transform.localPosition.y * 2) - 2.5f;
+    //        if(transform.position.z > laneLength)
+    //        {
+    //            pos.z = transform.position.z - laneLength;
+    //        }
+    //        else
+    //        {
+    //            pos.z = transform.position.z;
+    //        }
+    //        dirt.transform.position = pos;
+
+    //        dirt.GetComponent<DirtDestroy>().raceStageMolder = raceStageMolder;
+
+    //        SpriteRenderOnRoadCtrl spriteRenderOnRoadCtrl;
+    //        if ((spriteRenderOnRoadCtrl = dirt.GetComponent<SpriteRenderOnRoadCtrl>()) != null)
+    //        {
+    //            spriteRenderOnRoadCtrl.GetSetLaneInfo = other.transform.parent.parent.GetComponent<LaneInfo>();
+    //        }
+
+    //        raceStageMolder.GetDummyRoadMolder.DummyRoadMold(); // ダミー作成
+    //        Destroy(gameObject);
+    //    }
+    //    //else if(other.gameObject.transform.parent.tag == "SlopeRoadInRace")
+    //    //{
+    //    //    GameObject dirt = Instantiate(dirtPrefab, other.transform.parent.parent);
+    //    //    Vector3 pos = Vector3.zero;
+    //    //    dirt.transform.localPosition = pos;
+    //    //    pos = dirt.transform.position;
+    //    //    pos.z = transform.position.z;
+    //    //    dirt.transform.position = pos;
+
+    //    //    dirt.transform.localRotation = other.transform.parent.localRotation;
+
+    //    //    Destroy(gameObject);
+    //    //}
+    //}
 }

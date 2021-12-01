@@ -9,12 +9,6 @@ public class DirtSplashSpawn : MonoBehaviourPunCallbacks
     protected DirtSplashSpawner dirtSplashSpawner = null;
 
     [SerializeField]
-    protected ColliderSensor colliderSensorFront = null;
-
-    [SerializeField]
-    protected ColliderSensor colliderSensorBack = null;
-
-    [SerializeField]
     protected MoveInRace moveInRace;
 
     public Vector3 moveVec { get; set; }
@@ -27,14 +21,10 @@ public class DirtSplashSpawn : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if(colliderSensorFront.GetExistInCollider() ||
-            colliderSensorFront.GetExistInCollider())
+        if (dirtSplashFlag)
         {
-            if (dirtSplashFlag)
-            {
-                dirtSplashFlag = false;
-                photonView.RPC(nameof(RPCInstantiateDirtSplash), RpcTarget.All);
-            }
+            dirtSplashFlag = false;
+            photonView.RPC(nameof(RPCInstantiateDirtSplash), RpcTarget.All);
         }
     }
 

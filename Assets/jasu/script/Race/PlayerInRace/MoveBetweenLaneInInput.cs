@@ -5,6 +5,9 @@ using UnityEngine;
 public class MoveBetweenLaneInInput : MoveBetweenLane
 {
     [SerializeField]
+    float outsideRange = 3f;
+
+    [SerializeField]
     float padInputRangeY = 0.35f;
 
     // Start is called before the first frame update
@@ -19,8 +22,7 @@ public class MoveBetweenLaneInInput : MoveBetweenLane
         moveDir = 0;
 
         // 接地中
-        if (colliderSensorFront.GetExistInCollider() ||
-            colliderSensorBack.GetExistInCollider())
+        if (colliderSensor.GetExistInCollider())
         {
             if (TetraInput.sTetraPad.GetVector().y > padInputRangeY)
             {
