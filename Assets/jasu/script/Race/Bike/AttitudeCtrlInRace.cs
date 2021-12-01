@@ -109,13 +109,21 @@ public class AttitudeCtrlInRace : MonoBehaviourPunCallbacks
                 rotVec.x = Mathf.Abs(dirRot) * min;
                 transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(rotVec), rotRate);
             }
-
-            if (dirRot > 0 && angleX < max)
+            else if (dirRot > 0 && angleX < max)
             {
                 //rb.AddTorque(Vector3.right * torqueForceMultiply * dirRot, ForceMode.Acceleration);
                 Vector3 rotVec = transform.localEulerAngles;
                 rotVec.x = Mathf.Abs(dirRot) * max;
                 transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(rotVec), rotRate);
+            }
+            else
+            {
+                if (colliderSensor.GetExistInCollider())
+                {
+                    Vector3 rotVec = transform.localEulerAngles;
+                    rotVec.x = 0;
+                    transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(rotVec), rotRate);
+                }
             }
 
             //// 接地時

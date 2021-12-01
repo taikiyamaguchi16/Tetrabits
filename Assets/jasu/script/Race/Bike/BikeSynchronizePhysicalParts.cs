@@ -5,7 +5,7 @@ using UnityEngine;
 public class BikeSynchronizePhysicalParts : MonoBehaviour
 {
     [SerializeField]
-    GameObject physicalParts;
+    GameObject[] physicalParts;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +29,12 @@ public class BikeSynchronizePhysicalParts : MonoBehaviour
 
     private void LateUpdate()
     {
-        transform.localRotation = physicalParts.transform.localRotation;
+        Quaternion rotation = Quaternion.identity;
+        foreach (var parts in physicalParts)
+        {
+            rotation *= parts.transform.localRotation;
+        }
+
+        transform.localRotation = rotation;
     }
 }
