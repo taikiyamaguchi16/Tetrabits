@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 2974844748994253862}
   m_Layer: 0
   m_Name: RushEnemy
-  m_TagString: Enemy
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -214,6 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 1
+  explosionPrefab: {fileID: 1134382769561322846, guid: 6cd0cadedbc6b3b49920e19c5cbf10f9, type: 3}
   additionalDestroyObjects: []
 --- !u!114 &5763088989165246672
 MonoBehaviour:
@@ -230,7 +231,7 @@ MonoBehaviour:
   bombItemPrefab: {fileID: 9040590151488574267, guid: 4fa59e8ce244e294f9df500dafa75c22, type: 3}
   bombDropPercent: 30
   levelUpItemPrefab: {fileID: 6066741890700599634, guid: b8a87e49207036649a3959c57fd9d805, type: 3}
-  levelUpDropPercent: 30
+  levelUpDropPercent: 0
 --- !u!114 &2974844748994253862
 MonoBehaviour:
   m_ObjectHideFlags: 0

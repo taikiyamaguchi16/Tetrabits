@@ -20,6 +20,8 @@ public class JumpBumperBlock : MonoBehaviour
     [SerializeField] float bouncePower = 3f;
     Vector2 bounceDir;
 
+    Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +32,8 @@ public class JumpBumperBlock : MonoBehaviour
         targetPos = new Vector3(originPos.x + (moveX * blockSize), originPos.y + (moveY * blockSize), originPos.z);
         // 移動床設定
         this.transform.DOMove(targetPos, moveTime).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
+
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -43,6 +47,7 @@ public class JumpBumperBlock : MonoBehaviour
         if (collision.gameObject == player)
         {
             playerRb.AddForce(bounceDir.normalized * bouncePower, ForceMode2D.Impulse);
+            animator.SetTrigger("bumper");
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

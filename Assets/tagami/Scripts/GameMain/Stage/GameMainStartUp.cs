@@ -5,17 +5,12 @@ using UnityEngine.Events;
 
 public class GameMainStartUp : MonoBehaviour
 {
-
-    //テスト中
-    [SerializeField] Material mat;
-    float intensity = 6.0f;
-
-   
-
     [Header("Material Start Up")]
     [SerializeField] Color initialColor = new Color(0, 0, 0, 1);
     [SerializeField] float materialLerpSeconds = 1.0f;
     [SerializeField] List<Renderer> startUpRenderers;
+    [SerializeField] List<EmissionIndicator> emissionIndicators;
+    
 
     [Header("Enable Lights")]
     [SerializeField] List<Light> startUpLights;
@@ -31,7 +26,7 @@ public class GameMainStartUp : MonoBehaviour
 
     private void Start()
     {
-        //カラーの一時保存、値を全て0にする      
+        //カラーの一時保存、値を全て0にする
         foreach (var renderer in startUpRenderers)
         {
             //保存
@@ -45,6 +40,11 @@ public class GameMainStartUp : MonoBehaviour
 
     public void StartUpGameMain()
     {
+        var batterySpoawnerObj = GameObject.Find("BatterySpawner");
+        batterySpoawnerObj.GetComponent<BatterySpowner>().StartSpawn();
+
+        VirtualCameraManager.OnlyActive(1);
+
         StartCoroutine(StartUp());
     }
 

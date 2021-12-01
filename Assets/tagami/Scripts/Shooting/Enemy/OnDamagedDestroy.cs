@@ -7,6 +7,8 @@ public class OnDamagedDestroy : MonoBehaviour, IShootingEnemy
     [SerializeField] int hp = 1;
 
     [Header("Option")]
+
+    [SerializeField] GameObject explosionPrefab;
     [SerializeField] List<GameObject> additionalDestroyObjects;
 
     public void OnDamaged()
@@ -14,6 +16,11 @@ public class OnDamagedDestroy : MonoBehaviour, IShootingEnemy
         hp--;
         if (hp <= 0)
         {
+            if (explosionPrefab)
+            {
+                Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            }
+
             Destroy(gameObject);
 
             foreach (var obj in additionalDestroyObjects)

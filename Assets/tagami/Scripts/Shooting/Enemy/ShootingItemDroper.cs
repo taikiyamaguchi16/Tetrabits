@@ -33,14 +33,15 @@ public class ShootingItemDroper : MonoBehaviour
                 }              
                 created = true;
             }
-            if (!created && Random.Range(0, 100) < levelUpDropPercent)
-            {
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    ShootingGameManager.sShootingGameManager.CallLocalInstantiate(levelUpItemPrefab.name, transform.position, Quaternion.identity);
-                }
-                created = true;
-            }
+            //12/1 現在の仕様ではレベルアップアイテムを使用しない
+            //if (!created && Random.Range(0, 100) < levelUpDropPercent)
+            //{
+            //    if (PhotonNetwork.IsMasterClient)
+            //    {
+            //        ShootingGameManager.sShootingGameManager.CallLocalInstantiate(levelUpItemPrefab.name, transform.position, Quaternion.identity);
+            //    }
+            //    created = true;
+            //}
         }
     }
 }

@@ -6,9 +6,12 @@ public class JumpPlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
     bool isParasol = false;
-    public bool isJump = false;
+    bool isJump = false;
     public GameObject lastFlag;
     Vector2 padVec;
+    Animator animator;
+    float beforeVelocityY;
+    bool beforeParasol;
 
     [Header("Player")]
     [SerializeField] float jumpForce = 10f;
@@ -28,6 +31,7 @@ public class JumpPlayerController : MonoBehaviour
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
         originScale = arrow.transform.localScale;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -40,9 +44,34 @@ public class JumpPlayerController : MonoBehaviour
         if (TetraInput.sTetraLever.GetPoweredOn()) isParasol = true;
         else isParasol = false;
 
+        // 落下開始時にparasol状態なら傘を開く
+        if (beforeVelocityY >= 0 && rb.velocity.y < 0)
+        {
+            Debug.Log("落下開始");
+            animator.SetBool("stand", false);
+            animator.SetBool("jump", false);
+            if (isParasol) animator.SetBool("open", true);
+        }
+        if (rb.velocity.y < 0)
+        {
+            if (beforeParasol && !isParasol)
+            {
+                animator.SetBool("open", false);
+                animator.SetBool("close", true);
+            }
+            else if (!beforeParasol && isParasol)
+            {
+                animator.SetBool("close", false);
+                animator.SetBool("open", true);
+            }
+        }
+
         //isParasol中の落下速度軽減
         if (isParasol && rb.velocity.y < 0) rb.gravityScale = parasolGravity;
         else rb.gravityScale = gravityScale;
+
+        beforeVelocityY = rb.velocity.y;
+        beforeParasol = isParasol;
     }
 
     void FixedUpdate()
@@ -72,6 +101,22 @@ public class JumpPlayerController : MonoBehaviour
     void ArrowControll(Vector2 _dir)
     {
         arrow.transform.localScale = originScale * (_dir.magnitude * arrowScaleRatio);
-        arrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, _dir);
+        arrow.transform.rotation = Quaternion.FromToRotation(Vector3.up, _dir);
+    }
+
+    public void JumpOn()
+    {
+        isJump = true;
+        animator.SetBool("stand", false);
+        animator.SetBool("jump", true);
+    }
+
+    public void JumpOff()
+    {
+        isJump = false;
+        animator.SetBool("open", false);
+        animator.SetBool("jump", false);
+        animator.SetBool("close", false);
+        animator.SetBool("stand", true);
     }
 }

@@ -41,6 +41,9 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     [SerializeField] List<KeyGameObject> coolingTargetPrefabs;
     List<GameObject> createdCoolingTargets = new List<GameObject>();
 
+    [Header("Stage Debris")]
+    [SerializeField] List<StageDebris> stageDebrisList;
+
     [Header("Option")]
     [SerializeField] Slider monitorHpBarSlider;
 
@@ -163,21 +166,40 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         //HP全回復
         monitorHp = monitorHpMax;
         //冷却ターゲット消去
-        foreach (var obj in createdCoolingTargets)
+        if (PhotonNetwork.IsMasterClient)
         {
-            if (obj)
+            foreach (var obj in createdCoolingTargets)
             {
-                PhotonNetwork.Destroy(obj);
+                if (obj)
+                {
+                    PhotonNetwork.Destroy(obj);
+                }
             }
         }
 
-        //foreach (var obj in GameObject.FindGameObjectsWithTag("CoolingTarget"))
-        //{
-        //    if (obj)
-        //    {
-        //        PhotonNetwork.Destroy(obj);
-        //    }
-        //}
+        //破片を降り注がせる
+        if (PhotonNetwork.IsMasterClient)
+        {
+            for (int count = 0; count < 3; count++)
+            {
+                //空き検索
+                List<int> usableIndexList = new List<int>();
+                for (int i = 0; i < stageDebrisList.Count; i++)
+                {
+                    if (!stageDebrisList[i].GetActiveSelf())
+                    {
+                        usableIndexList.Add(i);
+                    }
+                }
+                //有効化
+                if (usableIndexList.Count > 0)
+                {
+                    var usableRandomIndex = usableIndexList[Random.Range(0, usableIndexList.Count)];
+                    stageDebrisList[usableRandomIndex].CallSetActive(true);
+                }
+            }//何回か行う
+        }
+
 
     }
 

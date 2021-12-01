@@ -19,6 +19,7 @@ public class PlayerBulletController : MonoBehaviour
                 }
             }
 
+            //問答無用で自身を消去
             Destroy(gameObject);
         }
         if(collision.CompareTag("EnemyBullet"))
@@ -31,6 +32,8 @@ public class PlayerBulletController : MonoBehaviour
                 {
                     ishootingEnemy.OnDamaged();
                 }
+
+                //OnDamagedが実装されてるなら消去
                 Destroy(gameObject);
             }
         }
