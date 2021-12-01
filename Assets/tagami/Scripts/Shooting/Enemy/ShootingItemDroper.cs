@@ -29,7 +29,7 @@ public class ShootingItemDroper : MonoBehaviour
             {
                 if (PhotonNetwork.IsMasterClient)
                 {
-                    ShootingGameManager.sShootingGameManager.CallLocalInstantiate(bombItemPrefab.name, transform.position, Quaternion.identity);
+                    ShootingGameManager.sShootingGameManager?.CallLocalInstantiate(bombItemPrefab.name, transform.position, Quaternion.identity);
                 }              
                 created = true;
             }

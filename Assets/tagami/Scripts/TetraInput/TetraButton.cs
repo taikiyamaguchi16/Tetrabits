@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 using Photon.Pun;
 
 public class TetraButton : MonoBehaviourPunCallbacks
@@ -15,11 +16,15 @@ public class TetraButton : MonoBehaviourPunCallbacks
 
     [Header("Status")]
     [SerializeField] float batteryConsumptionOnPressed = 1.0f;
-
-    [Header("Option")]
     [SerializeField, Tooltip("ボタン押し返し力")] float pressedYSpring = 100.0f;
     [SerializeField] float stdYSpring = 5000.0f;
     [SerializeField, Tooltip("この値よりボタンと土台のY値の差分が低くなった時ボタンが押されます")] float pressableDifferenceY = 0;
+
+    [Header("Indicator")]
+    [SerializeField] EmissionIndicator emissionIndicator;
+
+    [Header("Effect")]
+    [SerializeField] VisualEffect smokeEffect;
 
     [System.NonSerialized] public bool deadBatteryDebug;
 
@@ -43,20 +48,28 @@ public class TetraButton : MonoBehaviourPunCallbacks
                 }
             }
 
-            //電力消費
+            //電力消費(GetTriggerが同期しているのでローカル処理でおｋ)
             if (GetTrigger())
             {
+                smokeEffect.Play();
                 batteryHolder.ConsumptionOwnBattery(batteryConsumptionOnPressed);
             }
 
-            //if (GetTrigger())
-            //{
-            //    Debug.Log("ボタン.y-土台.y:" + (buttonRb.transform.localPosition.y - foundationJoint.transform.localPosition.y) + "< difference:" + pressableDifferenceY);
-            //}
+            //エミッション処理
+            if(buttonState)
+            {
+                emissionIndicator.SetColor(EmissionIndicator.ColorType.Using);
+            }
+            else
+            {
+                emissionIndicator.SetColor(EmissionIndicator.ColorType.Usable);
+            }
         }
         else
         {
+            //使用不可
             buttonState = false;
+            emissionIndicator.SetColor(EmissionIndicator.ColorType.Unusable);
         }
 
         //押し返し力の設定
@@ -70,6 +83,7 @@ public class TetraButton : MonoBehaviourPunCallbacks
             SetYDrive(stdYSpring);
         }
     }
+
 
     private void SetYDrive(float _spring)
     {
@@ -85,7 +99,6 @@ public class TetraButton : MonoBehaviourPunCallbacks
     {
         photonView.RPC(nameof(RPCSetButtonState), RpcTarget.AllViaServer, _value);
     }
-
     [PunRPC]
     void RPCSetButtonState(bool _value)
     {

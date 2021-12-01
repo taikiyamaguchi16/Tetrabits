@@ -36,6 +36,12 @@ public class GameMainStartUp : MonoBehaviour
             //値を0にする
             mat.SetColor("_EmissionColor", initialColor);
         }
+
+        //インジケーターを占有状態にする
+        foreach (var indicator in emissionIndicators)
+        {
+            indicator.startUpOccupancy = true;
+        }
     }
 
     public void StartUpGameMain()
@@ -57,7 +63,7 @@ public class GameMainStartUp : MonoBehaviour
         }
 
         //カメラ引くのちょっと待つ
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(1.0f);
 
         //マテリアルの色あげてく処理
         bool materialLerpLoop = true;
@@ -79,6 +85,12 @@ public class GameMainStartUp : MonoBehaviour
             }
 
             yield return null;
+        }
+
+        //インジケーターの色あげてく
+        foreach(var indicator in emissionIndicators)
+        {
+            indicator.StartUpEmissionIndicator();
         }
 
         yield return new WaitForSeconds(1.0f);

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 [RequireComponent(typeof(Renderer))]
 public class EmissionIndicator : MonoBehaviour
 {
+    [Header("Status")]
     [SerializeField] IndicatorColorData indicatorColorData;
 
     public enum ColorType
@@ -17,8 +16,15 @@ public class EmissionIndicator : MonoBehaviour
         Unusable
     }
     ColorType currentType = ColorType.None;
+    IndicatorColorData.EmissionColor currentEmissionColor;
 
     Renderer myRenderer;
+
+    //startUp
+    [HideInInspector] public bool startUpOccupancy = false;
+    bool startUp;
+    float startUpTimer;
+    float startUpSeconds = 1.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +36,33 @@ public class EmissionIndicator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (startUp)
+        {
+            startUpTimer += Time.deltaTime;
+            if (startUpTimer >= startUpSeconds)
+            {
+                startUpTimer = startUpSeconds;
+                startUp = false;
+                startUpOccupancy = false;
+            }
+        }
+        if (startUpOccupancy)
+        {
+            if (currentType != ColorType.None)
+            {
+                //色をあげてく
+                SetEmissionColor(Color.Lerp(Color.black, currentEmissionColor.CalcEmissionColor(), startUpTimer / startUpSeconds));            }
+            else
+            {
+                SetEmissionColor(Color.black);
+            }
+        }
+    }
 
+    public void StartUpEmissionIndicator()
+    {
+        startUp = true;
+        startUpTimer = 0.0f;
     }
 
     public void SetColor(ColorType _type)
@@ -46,24 +78,27 @@ public class EmissionIndicator : MonoBehaviour
         switch (_type)
         {
             case ColorType.Using:
-                SetEmissionColor(indicatorColorData.usingColor);
+                currentEmissionColor = indicatorColorData.usingColor;
                 break;
             case ColorType.Usable:
-                SetEmissionColor(indicatorColorData.usableColor);
+                currentEmissionColor = indicatorColorData.usableColor;
                 break;
             case ColorType.Unusable:
-                SetEmissionColor(indicatorColorData.unusableColor);
+                currentEmissionColor = indicatorColorData.unusableColor;
                 break;
             default:
                 Debug.LogWarning("設定されていないIndicatorTypeです");
                 break;
         }
+
+        if (!startUpOccupancy)
+        {//実際に色を設定する
+            SetEmissionColor(currentEmissionColor.CalcEmissionColor());
+        }
     }
 
-    private void SetEmissionColor(IndicatorColorData.EmissionColor _emissionColor)
+    private void SetEmissionColor(Color _color)
     {
-        float factor = Mathf.Pow(2, _emissionColor.intensity);
-        var color = new Color(_emissionColor.color.r * factor, _emissionColor.color.g * factor, _emissionColor.color.b * factor);
-        myRenderer.material.SetColor("_EmissionColor", color);
+        myRenderer.material.SetColor("_EmissionColor", _color);
     }
 }
