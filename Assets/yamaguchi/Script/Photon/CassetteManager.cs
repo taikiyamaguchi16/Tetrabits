@@ -20,12 +20,10 @@ public class CassetteManager : MonoBehaviourPunCallbacks
     {
         foreach (var ca in cassetteList)
         {
-            if (noCassetteAppearConditions)
-            {
-                ca.gameObject.SetActive(true);
-            }
+            ca.gameObject.SetActive(false);
             ca.gameObject.transform.parent = null;
         }
+        HideAllCassette();
     }
 
     private void Update()
