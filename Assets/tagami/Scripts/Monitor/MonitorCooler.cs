@@ -16,16 +16,23 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
 
     [Header("Required Reference")]
     [SerializeField] MonitorManager monitorManager;
-    [SerializeField] VisualEffect coolingEffect;
-    [SerializeField] Transform rotateTarget;
-    [SerializeField] Transform coolingMuzzule;
-    Quaternion endRotation;
 
     [Header("Status")]
     [SerializeField] float damageToCoolingTargetPerSeconds = 1.0f;
     [SerializeField] float repairMonitorPerSeconds = 0.1f;
     [SerializeField] float rotateAnglePerSeconds = 10.0f;
 
+    [Header("Effect")]
+    [SerializeField] VisualEffect coolingEffect;
+    [SerializeField] Transform coolingMuzzule;
+
+    [Header("RotateTarget")]
+    [SerializeField] Transform rotateXTransform;
+    [SerializeField] Transform rotateYTransform;
+
+    //最終回転Qt
+    Quaternion endQtX;
+    Quaternion endQtY;
 
     //int controlXinputIndex = 0;
     bool running = false;
@@ -35,10 +42,14 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     [SerializeField] BatteryHolder batteryHolder;
     [SerializeField] float consumeBatteryPerSeconds = 1.0f;
 
+    [Header("Indicator")]
+    [SerializeField] List<EmissionIndicator> emissionIndicatorList;
+
 
     void Start()
     {
-        endRotation = rotateTarget.rotation;
+        endQtX = rotateXTransform.localRotation;
+        endQtY = rotateYTransform.localRotation;
 
         coolingEffect.Stop();
     }
@@ -64,17 +75,6 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
                 Debug.Log("hit!:" + hit.collider.gameObject.name);
                 if (hit.collider.CompareTag("CoolingTarget"))
                 {
-                    //if (hit.collider.gameObject.GetComponent<CoolingTargetStatus>().TryToKill(damageToCoolingTargetPerSeconds * Time.deltaTime))
-                    //{
-                    //    if (PhotonNetwork.IsMasterClient)
-                    //    {
-                    //        monitorManager.CallRepairMonitor(hit.collider.gameObject.GetComponent<CoolingTargetStatus>().damageToMonitor);
-                    //    }
-
-                    //    PhotonNetwork.Destroy(hit.collider.gameObject);
-
-                    //}
-
                     //Interfaceを呼ぶ
                     ICool iCool;
                     if (hit.collider.gameObject.TryGetComponent(out iCool))
@@ -85,7 +85,6 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
                     {
                         Debug.LogError("CoolingTargetObjectにはICoolを継承したコンポーネントをアタッチしてください");
                     }
-
                     //targetに一回でもあたったら終了
                     break;
                 }
@@ -94,7 +93,28 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         }
 
         //回転処理
-        rotateTarget.rotation = Quaternion.Slerp(rotateTarget.rotation, endRotation, 0.1f);
+        rotateXTransform.localRotation = Quaternion.Slerp(rotateXTransform.localRotation, endQtX, 0.1f);
+        rotateYTransform.localRotation = Quaternion.Slerp(rotateYTransform.localRotation, endQtY, 0.1f);
+
+        //インジケーター
+        if (batteryHolder && batteryHolder.GetBatterylevel() > 0)
+        {
+            if (running)
+            {
+                foreach (var indicator in emissionIndicatorList)
+                    indicator.SetColor(EmissionIndicator.ColorType.Using);
+            }
+            else
+            {
+                foreach (var indicator in emissionIndicatorList)
+                    indicator.SetColor(EmissionIndicator.ColorType.Usable);
+            }
+        }
+        else
+        {
+            foreach (var indicator in emissionIndicatorList)
+                indicator.SetColor(EmissionIndicator.ColorType.Unusable);
+        }
     }
 
     public void StartPlayerAction(PlayerActionDesc _desc)
@@ -108,7 +128,7 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         }
 
         runningRotator = _desc.playerObj.AddComponent<CoolerRotater>();
-        runningRotator.rotateTarget = this;
+        runningRotator.monitorCooler = this;    //Call関数を呼んでもらうため
     }
 
     public void EndPlayerAction(PlayerActionDesc _desc)
@@ -146,14 +166,15 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         }
     }
 
-    public void CallMultiplyRotation(Quaternion _qt)
+    public void CallMultiplyRotation(Quaternion _qtX, Quaternion _qtY)
     {
-        photonView.RPC(nameof(RPCMultiplyRotation), RpcTarget.AllViaServer, _qt);
+        photonView.RPC(nameof(RPCMultiplyRotation), RpcTarget.AllViaServer, _qtX, _qtY);
     }
     [PunRPC]
-    void RPCMultiplyRotation(Quaternion _qt)
+    void RPCMultiplyRotation(Quaternion _qtX, Quaternion _qtY)
     {
-        endRotation *= _qt;
+        endQtX *= _qtX;
+        endQtY *= _qtY;
     }
 
 

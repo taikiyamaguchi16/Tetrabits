@@ -10,6 +10,12 @@ public class IndicatorColorData : ScriptableObject
     {
         public Color color;
         public float intensity;
+
+        public Color CalcEmissionColor()
+        {
+            float factor = Mathf.Pow(2, intensity);
+            return new Color(color.r * factor, color.g * factor, color.b * factor);
+        }
     }
 
     [SerializeField] EmissionColor UsingColor;

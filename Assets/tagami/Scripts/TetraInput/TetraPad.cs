@@ -13,6 +13,10 @@ public class TetraPad : MonoBehaviour
     [Header("Status")]
     [SerializeField] float batteryConsumptionPerSeconds = 1.0f;
 
+    [Header("Emission")]
+    [SerializeField] EmissionIndicator emissionIndicator;
+    [SerializeField] EmissionIndicator padMonitorEmission;
+
     [Header("Option")]
     [SerializeField] bool reverseVector;
 
@@ -49,8 +53,25 @@ public class TetraPad : MonoBehaviour
                     padVector.y += localVec.z;
                 }
             }
-        }
 
+            if (numOnPad > 0)
+            { //使用中
+                emissionIndicator.SetColor(EmissionIndicator.ColorType.Using);
+                padMonitorEmission.SetColor(EmissionIndicator.ColorType.Using);
+            }
+            else
+            {//使用可能
+                emissionIndicator.SetColor(EmissionIndicator.ColorType.Usable);
+                padMonitorEmission.SetColor(EmissionIndicator.ColorType.Usable);
+            }
+            tetraPadBody.creatableEffect = true;
+        }
+        else
+        {//電気なし
+            emissionIndicator.SetColor(EmissionIndicator.ColorType.Unusable);
+            padMonitorEmission.SetColor(EmissionIndicator.ColorType.Unusable);
+            tetraPadBody.creatableEffect = false;
+        }
 
         //電力消費
         if (numOnPad > 0)
