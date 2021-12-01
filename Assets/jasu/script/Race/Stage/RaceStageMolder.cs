@@ -87,10 +87,10 @@ public class RaceStageMolder : MonoBehaviour
                     // スプライト調整
                     scale = roadInfo.spriteRenderer.transform.localScale;
                     scale.x = raceObjWidth * laneWidthMultiply;
-                    scale.y = raceObjWidth * laneWidthMultiply;
+                    scale.y = 1.2987f * laneWidthMultiply;
                     roadInfo.spriteRenderer.transform.localScale = scale;
 
-                    roadInfo.spriteRenderer.size = new Vector2(laneLength / (raceObjWidth * laneWidthMultiply), 1);
+                    roadInfo.spriteRenderer.size = new Vector2(laneLength / (raceObjWidth * laneWidthMultiply), roadInfo.spriteRenderer.size.y);
 
                     pos = roadInfo.spriteRenderer.transform.localPosition;
                     pos.z = laneLength / 2;

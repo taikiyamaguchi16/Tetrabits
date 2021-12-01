@@ -19,7 +19,7 @@ public class SlipSensorForPlayer : MonoBehaviour
         {
             if (!bikeSlipDown.isSliping)
             {
-                bikeSlipDown.SlipStart("small");
+                //bikeSlipDown.SlipStart("small");
             }
         }
     }

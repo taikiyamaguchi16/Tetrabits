@@ -23,7 +23,7 @@ public class PlayerMoveInRace : MoveInRace
     void Update()
     {
         // 移動入力
-        moveInput = false;
+        moveInput = true;
         if (TetraInput.sTetraLever.GetPoweredOn())
         {
             moveInput = true;

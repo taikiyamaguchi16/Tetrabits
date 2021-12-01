@@ -91,7 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb5988c6681893a4f958182cac380d43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  physicalParts: {fileID: 2487003247870755375}
+  physicalParts:
+  - {fileID: 2487003247870755375}
 --- !u!1 &2487003247870755375
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,10 +166,10 @@ MonoBehaviour:
   bikeSlipDown: {fileID: 5219267999466606608}
   dirtSplashSpawn: {fileID: 2635770476168120973}
   attitudeCtrl: {fileID: 396231687437029225}
+  moveSpd: 0
   moveSpdStandard: 10
   accelerateMultiply: 1.3
   decelerateMultiply: 0.7
-  moveSpd: 0
   moveSlopeMultiply: 2
   moveForceMultiplyStart: 2
   moveForceMultiplyStop: 1
@@ -192,7 +193,6 @@ MonoBehaviour:
   laneManager: {fileID: 0}
   bikeSlipDown: {fileID: 5219267999466606608}
   colliderSensor: {fileID: 3019873534829246529}
-  outsideRange: 2
   spd: 20
 --- !u!114 &396231687437029225
 MonoBehaviour:
