@@ -78,6 +78,11 @@ public class PlayerMove : MonoBehaviourPunCallbacks
         myPocket = GetComponent<ItemPocket>();
         photonTransformView = GetComponent<PhotonTransformViewClassic>();
 
+        if(photonView.IsMine)
+        {
+            jumpSensor.enabled = true;
+        }
+
     }
 
     // Update is called once per frame
@@ -93,7 +98,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                     moveSpd = speedInRatio.moveSpd;
             }
 
-            jumpable = jumpSensor.GetExistInTrigger();
+            //jumpable = jumpSensor.GetExistInTrigger();
 
             moveDir = Vector3.zero;
 
@@ -155,58 +160,12 @@ public class PlayerMove : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             Vector3 moveVec = moveDir * moveSpd;
-            rb.velocity = new Vector3(moveVec.x, rb.velocity.y, moveVec.z);
             // 重力
             rb.AddForce(new Vector3(0, gravity, 0));
+            rb.velocity = new Vector3(moveVec.x, rb.velocity.y, moveVec.z);           
             photonTransformView.SetSynchronizedValues(speed: rb.velocity, turnSpeed: 0);
 
-            if(moveDir.magnitude>0)
-            {
-                zenmai.DecreaseZenmaiPower();
-                if (moveVec.x > 0f)
-                {
-                    SerWalkState();
-                    playerAnim.SetBool("Back", false);
-                    playerAnim.SetBool("Side", true);
-                    playerAnim.SetBool("Forward", false);
-
-                    // キャラクターの大きさ。負数にすると反転される
-                    Vector3 scale = transform.localScale;
-                    scale.x = -Mathf.Abs(scale.x);  // 通常方向(スプライトと同じ右向き)
-                    transform.localScale = scale;
-                }
-                else if (moveVec.x < 0f)
-                {
-                    SerWalkState();
-                    playerAnim.SetBool("Back", false);
-                    playerAnim.SetBool("Side", true);
-                    playerAnim.SetBool("Forward", false);
-
-                    // キャラクターの大きさ。負数にすると反転される
-                    Vector3 scale = transform.localScale;
-                    scale.x = Mathf.Abs(scale.x);  // 通常方向(スプライトと同じ右向き)
-                    transform.localScale = scale;
-                }
-                else if (moveVec.z > 0f)
-                {
-                    SerWalkState();
-                    playerAnim.SetBool("Back", true);
-                    playerAnim.SetBool("Side", false);
-                    playerAnim.SetBool("Forward", false);
-                }
-                else if (moveVec.z < 0f)
-                {
-                    SerWalkState();
-                    playerAnim.SetBool("Back", false);
-                    playerAnim.SetBool("Side", false);
-                    playerAnim.SetBool("Forward", true);
-                }              
-            }
-            else
-            {
-                playerAnim.SetBool("Walking", false);
-                playerAnim.SetBool("Waiting", true);
-            }
+            SetPlayerAnimation(moveVec);            
         }
     }
 
@@ -221,5 +180,61 @@ public class PlayerMove : MonoBehaviourPunCallbacks
     public void SetPlayerMovable(bool _fg)
     {
         movable = _fg;
+    }
+
+    private void SetPlayerAnimation(Vector3 _moveVec)
+    {
+        if (moveDir.magnitude > 0)
+        {
+            zenmai.DecreaseZenmaiPower();
+            if (_moveVec.x > 0f)
+            {
+                SerWalkState();
+                playerAnim.SetBool("Back", false);
+                playerAnim.SetBool("Side", true);
+                playerAnim.SetBool("Forward", false);
+
+                // キャラクターの大きさ。負数にすると反転される
+                Vector3 scale = transform.localScale;
+                scale.x = -Mathf.Abs(scale.x);  // 通常方向(スプライトと同じ右向き)
+                transform.localScale = scale;
+            }
+            else if (_moveVec.x < 0f)
+            {
+                SerWalkState();
+                playerAnim.SetBool("Back", false);
+                playerAnim.SetBool("Side", true);
+                playerAnim.SetBool("Forward", false);
+
+                // キャラクターの大きさ。負数にすると反転される
+                Vector3 scale = transform.localScale;
+                scale.x = Mathf.Abs(scale.x);  // 通常方向(スプライトと同じ右向き)
+                transform.localScale = scale;
+            }
+            else if (_moveVec.z > 0f)
+            {
+                SerWalkState();
+                playerAnim.SetBool("Back", true);
+                playerAnim.SetBool("Side", false);
+                playerAnim.SetBool("Forward", false);
+            }
+            else if (_moveVec.z < 0f)
+            {
+                SerWalkState();
+                playerAnim.SetBool("Back", false);
+                playerAnim.SetBool("Side", false);
+                playerAnim.SetBool("Forward", true);
+            }
+        }
+        else
+        {
+            playerAnim.SetBool("Walking", false);
+            playerAnim.SetBool("Waiting", true);
+        }
+    }
+
+    public void SetPlayerJumpable(bool _fg)
+    {
+        jumpable = _fg;
     }
 }
