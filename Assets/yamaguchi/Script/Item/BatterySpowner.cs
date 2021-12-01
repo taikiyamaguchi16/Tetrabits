@@ -19,8 +19,10 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
     private float elpsedTime;
 
     [SerializeField]
+    BatteryLift batteryLift;
+    [SerializeField]
     ParticleSystem smokeEfect;
-
+    //生成可能かどうか
     private bool canSpawn;
     // Start is called before the first frame update
 
@@ -47,6 +49,8 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
             if (ownBattery == null && canSpawn)
             {
                 elpsedTime += Time.deltaTime;
+                //リフトの位置決定
+                batteryLift.SetBatteryLiftPos(elpsedTime, spownBatteryTime);
                 if (spownBatteryTime < elpsedTime)
                 {
                     photonView.RPC(nameof(RPCPlaySmokeEfect), RpcTarget.All);
@@ -63,18 +67,7 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
         //エフェクト再生中には取れないように
         if (smokeEfect.isStopped)
         {
-            photonView.RPC(nameof(RPCSpownerBatteryAction), RpcTarget.AllBufferedViaServer, _desc.playerObj.GetPhotonView().ViewID);
-            //ItemPocket otherPocket = _desc.playerObj.GetComponent<ItemPocket>();
-            ////プレイヤーが何も持っていない場合
-            //if (otherPocket.GetItem() == null)
-            //{
-            //    //バッテリーが生成されていた場合
-            //    if (ownBattery != null)
-            //    {
-            //        ownBattery.CallPickUp(_desc.playerObj.GetPhotonView().ViewID);
-            //        photonView.RPC(nameof(RPCStolenOwnBattery), RpcTarget.All);
-            //    }
-            //}
+            photonView.RPC(nameof(RPCSpownerBatteryAction), RpcTarget.AllBufferedViaServer, _desc.playerObj.GetPhotonView().ViewID);   
         }
     }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
