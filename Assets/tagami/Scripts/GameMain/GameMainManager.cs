@@ -11,6 +11,7 @@ public class GameMainManager : MonoBehaviourPunCallbacks
     [Header("Scene")]
     [SerializeField] SceneObject titleScene;
     [SerializeField] SceneObject resultScene;
+    [SerializeField] Trisibo.SceneField waitInsertCassetteScene;
 
     private void Start()
     {
@@ -40,11 +41,8 @@ public class GameMainManager : MonoBehaviourPunCallbacks
     {
         Debug.Log(_gameInGameName + "を" + _clearSeconds + "秒でクリア");
 
-
-        //カセット吐き出したり
-        cassetteManager.ActiveCassetIsClearOn();
-
-        
+        //カセット吐き出し
+        cassetteManager.ActiveCassetIsClearOn();    
 
         //すべてクリアしたら結果画面へ
         if (cassetteManager.CheckAllCassette())
@@ -53,12 +51,9 @@ public class GameMainManager : MonoBehaviourPunCallbacks
                 GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene(resultScene);
         }
         else
-        { //ゲームを落とす
+        { //カセット待機シーンへ
             if (PhotonNetwork.IsMasterClient)
-                GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene("");
-
-            //カセット再表示
-            cassetteManager.AppearAllCassette();
+                GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(waitInsertCassetteScene.BuildIndex));
         }
     }
 
