@@ -36,6 +36,10 @@ public class PlayerMove : MonoBehaviourPunCallbacks
     [SerializeField, Tooltip("ゼンマイパワーの割合とそれに応じた移動速度")]
     List<MoveSpeedInRatio> moveSpeedInRatios = new List<MoveSpeedInRatio>();
 
+    private bool carryObjFg;
+    [SerializeField]
+    float carryMoveSpeed;
+
     [SerializeField]
     float jumpPower = 1500f;    //ジャンプ力
 
@@ -77,7 +81,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
         myPocket = GetComponent<ItemPocket>();
         photonTransformView = GetComponent<PhotonTransformViewClassic>();
-
+        //自分以外は着地判定を取らない
         if(photonView.IsMine)
         {
             jumpSensor.enabled = true;
@@ -98,7 +102,8 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                     moveSpd = speedInRatio.moveSpd;
             }
 
-            //jumpable = jumpSensor.GetExistInTrigger();
+            if (carryObjFg)
+                moveSpd = carryMoveSpeed;
 
             moveDir = Vector3.zero;
 
@@ -236,5 +241,10 @@ public class PlayerMove : MonoBehaviourPunCallbacks
     public void SetPlayerJumpable(bool _fg)
     {
         jumpable = _fg;
+    }
+
+    public void SetCarryObjFg(bool _fg)
+    {
+        carryObjFg = _fg;
     }
 }
