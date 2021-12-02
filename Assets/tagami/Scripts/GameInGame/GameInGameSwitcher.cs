@@ -7,6 +7,10 @@ using Photon.Pun;
 
 public class GameInGameSwitcher : MonoBehaviourPunCallbacks
 {
+    [Header("Noise")]
+    [SerializeField] CRTNoise crtNoise;
+    [SerializeField] float noiseDuration = 1.0f;
+
     [Header("Switch Scene On Debug Window")]
     [SerializeField] List<Trisibo.SceneField> gameInGameScenesOnDebugWindow;
 
@@ -66,5 +70,11 @@ public class GameInGameSwitcher : MonoBehaviourPunCallbacks
 
         //シーン名更新
         currentGameInGameSceneName = _nextSceneName;
+
+        //ノイズをはしらせる
+        if (crtNoise)
+        {
+            crtNoise.AlWaysNoiseWithTimeLimit(noiseDuration, false);
+        }
     }
 }

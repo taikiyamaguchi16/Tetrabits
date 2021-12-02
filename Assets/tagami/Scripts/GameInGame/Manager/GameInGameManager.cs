@@ -8,6 +8,7 @@ public class GameInGameManager : MonoBehaviour
 
     [System.NonSerialized]
     public bool isGameEnd;
+    bool isGameEndTriggered;
 
     private void Awake()
     {
@@ -24,6 +25,20 @@ public class GameInGameManager : MonoBehaviour
         }
     }
 
+    public bool IsGameEndTrigger()
+    {
+        if (isGameEnd && !isGameEndTriggered)
+        {
+            isGameEndTriggered = true;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+    //**********************************************************
     //static
     public static GameInGameManager sCurrentGameInGameManager { private set; get; }
 }

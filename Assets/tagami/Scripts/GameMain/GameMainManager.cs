@@ -26,7 +26,7 @@ public class GameMainManager : MonoBehaviourPunCallbacks
 
         //多分ここのGameEndの通知マスタークライアントに処理させたほうがいい
         //終了チェック(必ず存在確認はする)
-        if (PhotonNetwork.IsMasterClient && GameInGameManager.sCurrentGameInGameManager && GameInGameManager.sCurrentGameInGameManager.isGameEnd)
+        if (PhotonNetwork.IsMasterClient && GameInGameManager.sCurrentGameInGameManager && GameInGameManager.sCurrentGameInGameManager.IsGameEndTrigger())
         {
             CallClearCurrentGameInGame(GameInGameManager.sCurrentGameInGameManager.gameName, 0.0f);
         }
@@ -42,18 +42,22 @@ public class GameMainManager : MonoBehaviourPunCallbacks
         Debug.Log(_gameInGameName + "を" + _clearSeconds + "秒でクリア");
 
         //カセット吐き出し
-        cassetteManager.ActiveCassetIsClearOn();    
+        cassetteManager.ActiveCassetIsClearOn();
 
         //すべてクリアしたら結果画面へ
         if (cassetteManager.CheckAllCassette())
         {
             if (PhotonNetwork.IsMasterClient)
+            {
                 GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene(resultScene);
+            }
         }
         else
         { //カセット待機シーンへ
             if (PhotonNetwork.IsMasterClient)
+            {
                 GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(waitInsertCassetteScene.BuildIndex));
+            }
         }
     }
 
