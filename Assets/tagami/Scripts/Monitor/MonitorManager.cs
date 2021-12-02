@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
+
 using Photon.Pun;
 using UnityEngine.Events;
 
@@ -17,6 +19,9 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     [Header("Status")]
     [SerializeField] float monitorHpMax = 100;
     float monitorHp;
+    [SerializeField] VisualEffect hpEffect;
+    int hpEffectRateMax = 1;
+
 
     [System.Serializable]
     struct MonitorStageStatus
@@ -53,13 +58,13 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         {
             Debug.LogWarning("static変数の上書き登録を行います 場合によってはバグを引き起こす可能性があります");
         }
-
         sMonitorManager = this;
 
         //初期回復
         monitorHp = monitorHpMax;
-        //List作成
-        //createdCoolingTargets = new List<GameObject>();
+
+        //EffectRateの記録
+        hpEffectRateMax = hpEffect.GetInt("Rate");
     }
 
     private void Update()
@@ -137,6 +142,10 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         {
             NextDestructionStage();
         }
+
+        //EffectのRate更新
+        float rate = hpEffectRateMax * (monitorHp / monitorHpMax);
+        hpEffect.SetInt("Rate", (int)rate);
 
         //コールバック
         monitorDamageEvent.Invoke();
