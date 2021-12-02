@@ -92,6 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physicalParts:
+  - {fileID: 3531962826933777949}
   - {fileID: 2487003247870755375}
 --- !u!1 &2487003247870755375
 GameObject:
@@ -125,14 +126,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2487003247870755375}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5031391295419710491}
   - {fileID: 6715924988366471157}
-  m_Father: {fileID: 4178323175449870650}
-  m_RootOrder: 1
+  m_Father: {fileID: 3522283900017444367}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &7603701497981581255
 Rigidbody:
@@ -167,8 +168,8 @@ MonoBehaviour:
   dirtSplashSpawn: {fileID: 2635770476168120973}
   attitudeCtrl: {fileID: 396231687437029225}
   moveSpd: 0
-  moveSpdStandard: 10
-  accelerateMultiply: 1.3
+  moveSpdStandard: 90
+  accelerateMultiply: 1.2
   decelerateMultiply: 0.7
   moveSlopeMultiply: 2
   moveForceMultiplyStart: 2
@@ -378,12 +379,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f9d2a0f94c62154409b4647533bebd99, type: 3}
+  m_Sprite: {fileID: -3649090187404375534, guid: 477734e3e88b66c4597eda425831b4cb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 6.06, y: 5.4}
+  m_Size: {x: 1, y: 1.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -433,9 +434,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b294747fc7513cd4f8aff2f0da850023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 5410619500459272887}
+  animator: {fileID: 5370417530253789386}
+  overrideSprite: {fileID: 53809765152959015}
+  slipSprite: {fileID: 21300000, guid: c9af71f978dfe1c4f812bcfecda4fce0, type: 3}
   slipingTimeSeconds: 1
-  correctionTimeSeconds: 3
-  slipSpd: 5
+  rotAngle: 360
 --- !u!114 &4140811107228069799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,6 +476,37 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!1 &3531962826933777949
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3522283900017444367}
+  m_Layer: 0
+  m_Name: PhysicalPartsParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3522283900017444367
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3531962826933777949}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7564720750192745863}
+  m_Father: {fileID: 4178323175449870650}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4878758953354832212
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,7 +546,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1142538657956307913}
-  - {fileID: 7564720750192745863}
+  - {fileID: 3522283900017444367}
   - {fileID: 1974192286032237867}
   m_Father: {fileID: 0}
   m_RootOrder: 0

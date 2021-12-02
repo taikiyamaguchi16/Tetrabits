@@ -133,8 +133,7 @@ public class MoveInRace : MonoBehaviourPunCallbacks
             else
             {
                 groundNormalVec = Vector3.zero;
-
-                // 空中でのみ重力
+                
                 if (colliderSensor.GetExistInCollider())
                 {
                     transform.parent.localRotation = Quaternion.Lerp(transform.parent.localRotation, Quaternion.LookRotation(Vector3.forward), rotLateFlat);

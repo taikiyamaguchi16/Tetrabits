@@ -8,22 +8,37 @@ public class BikeSlipDown : MonoBehaviourPunCallbacks
     public bool isSliping { get; private set; }
 
     [SerializeField]
+    SpriteRenderer spriteRenderer = null;
+
+    [SerializeField]
+    Animator animator = null;
+
+    [SerializeField]
+    OverrideSprite overrideSprite = null;
+
+    Sprite defaultSprite;
+
+    [SerializeField]
+    Sprite slipSprite = null;
+
+    [SerializeField]
     float slipingTimeSeconds = 2f;
 
     [SerializeField]
-    float correctionTimeSeconds = 0.5f;
-
-    [SerializeField]
-    float slipSpd = 5f;
-
-    float slipingTimer = 0f;
+    float rotAngle = 360f;
 
     Vector3 eulerWhenSlipStart;
+    
+    float variation;
+
+    float rotCounter;
 
     // Start is called before the first frame update
     void Start()
     {
-        slipingTimeSeconds += correctionTimeSeconds;
+        defaultSprite = spriteRenderer.sprite;
+
+        variation = rotAngle / slipingTimeSeconds;
     }
 
     // Update is called once per frame
@@ -31,14 +46,11 @@ public class BikeSlipDown : MonoBehaviourPunCallbacks
     {
         if (isSliping)
         {
-            slipingTimer += Time.deltaTime;
-            transform.Rotate(0, slipSpd * (1 - slipingTimer / slipingTimeSeconds), 0);
-            if (slipingTimer > slipingTimeSeconds - correctionTimeSeconds)
+            transform.Rotate(0, 0, variation * Time.deltaTime);
+            rotCounter += variation * Time.deltaTime;
+            if (rotCounter >= rotAngle)
             {
-                if (Mathf.Abs(transform.localEulerAngles.y - eulerWhenSlipStart.y) < 1f)
-                {
-                    photonView.RPC(nameof(RPCSlipEnd), RpcTarget.All);
-                }
+                photonView.RPC(nameof(RPCSlipEnd), RpcTarget.All);
             }
         }
     }
@@ -51,7 +63,15 @@ public class BikeSlipDown : MonoBehaviourPunCallbacks
 
         isSliping = true;
         eulerWhenSlipStart = new Vector3(0, transform.localEulerAngles.y, 0);
-        slipingTimer = 0f;
+        rotCounter = 0f;
+
+        if (animator != null)
+            animator.enabled = false;
+
+        if (overrideSprite != null)
+            overrideSprite.enabled = false;
+
+        spriteRenderer.sprite = slipSprite;
     }
 
     [PunRPC]
@@ -59,6 +79,14 @@ public class BikeSlipDown : MonoBehaviourPunCallbacks
     {
         transform.localEulerAngles = eulerWhenSlipStart;
         isSliping = false;
+
+        if (animator != null)
+            animator.enabled = true;
+
+        if (overrideSprite != null)
+            overrideSprite.enabled = true;
+
+        spriteRenderer.sprite = defaultSprite;
     }
 
     public void SlipStart()

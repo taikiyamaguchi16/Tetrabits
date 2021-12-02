@@ -54,6 +54,8 @@ public class DirtSplash : MonoBehaviour
             other.gameObject.transform.tag == "Slip")
             return;
 
+        Debug.Log(other.transform.parent.name + "にぶつかった");
+        Debug.Log(rb.velocity.y);
         Destroy(gameObject);
     }
 
