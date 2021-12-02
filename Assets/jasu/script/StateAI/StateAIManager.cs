@@ -40,7 +40,7 @@ public class StateAIManager : MonoBehaviour
         {
             foreach(var state in stateDic)
             {
-                if (state.Value.CheckShiftCondition())  // ‘JˆÚğŒ‚ğ–‚½‚µ‚Ä‚¢‚½‚ç‘JˆÚ‚µ‚Äbreak
+                if (state.Value.CheckShiftCondition() && state.Value != activeState)  // ‘JˆÚğŒ‚ğ–‚½‚µ‚Ä‚¢‚½‚ç‘JˆÚ‚µ‚Äbreak
                 { 
                     StateShift(state.Value);
                     break;

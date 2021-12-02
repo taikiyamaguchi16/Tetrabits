@@ -149,7 +149,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 96
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &5071266085724038936
 MonoBehaviour:
@@ -175,7 +175,7 @@ MonoBehaviour:
   moveForceMultiplyStart: 2
   moveForceMultiplyStop: 1
   rotLateSlope: 0.25
-  rotLateFlat: 0.01
+  rotLateFlat: 0.25
   gravity: -50
   moveVec: {x: 0, y: 0, z: 0}
 --- !u!114 &7197532588029266713
@@ -194,7 +194,7 @@ MonoBehaviour:
   laneManager: {fileID: 0}
   bikeSlipDown: {fileID: 5219267999466606608}
   colliderSensor: {fileID: 3019873534829246529}
-  spd: 20
+  spd: 30
 --- !u!114 &396231687437029225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,15 +210,13 @@ MonoBehaviour:
   rb: {fileID: 7603701497981581255}
   colliderSensor: {fileID: 3019873534829246529}
   bikeSlipDown: {fileID: 5219267999466606608}
-  torqueForceMultiply: 4
-  correctionTorqueMultiply: 2
   rotMin: -80
-  rotMax: 60
-  rotMinOnGround: -80
-  rotMaxOnGround: 60
-  slipAngleMin: -75
-  slipAngleMax: 55
-  rotRate: 0.25
+  rotMax: 90
+  rotMinOnGround: -40
+  rotMaxOnGround: 40
+  slipAngleMin: -35
+  slipAngleMax: 35
+  rotRate: 0.1
 --- !u!114 &469488877297773314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -594,7 +592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkPoint: {fileID: 0}
-  passJudgeRange: 100
+  passJudgeRange: 90
   raceManager: {fileID: 0}
   bikeCtrlWhenStartAndGoal: {fileID: 3903591124720499}
   actualLapCount: 0
@@ -682,11 +680,11 @@ MonoBehaviour:
   manager: {fileID: 4395545781944696137}
   shiftStateTable:
     list: []
-  phisicalParts: {fileID: 2487003247870755375}
-  attitudeCtrlInRace: {fileID: 396231687437029225}
+  playerObj: {fileID: 0}
+  raceManager: {fileID: 0}
+  attitudeCtrl: {fileID: 396231687437029225}
   colliderSensor: {fileID: 3019873534829246529}
-  min: 0
-  max: 1
+  attitudeDistance: 10
 --- !u!114 &1137678447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -702,13 +700,19 @@ MonoBehaviour:
   manager: {fileID: 4395545781944696137}
   shiftStateTable:
     list: []
+  playerObj: {fileID: 0}
   sensorDistanceTarget: {fileID: 8426434430513307605}
   moveBetweenLane: {fileID: 7197532588029266713}
   playerMoveBetweenLane: {fileID: 7197532588029266713}
+  attitudeCtrl: {fileID: 396231687437029225}
   dirtSplashSpawn: {fileID: 2635770476168120973}
   colliderSensor: {fileID: 3019873534829246529}
+  raceManager: {fileID: 0}
+  accelerateDistance: 15
+  decelerateDistance: 30
   correctSeconds: 1
   dirtIntervalSeconds: 5
+  distanceToPlayer: 0
 --- !u!114 &7030274486372367719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -883,6 +887,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   existInCollider: 0
+  distanceToGround: 3
   objList: []
 --- !u!136 &6697220324346904073
 CapsuleCollider:

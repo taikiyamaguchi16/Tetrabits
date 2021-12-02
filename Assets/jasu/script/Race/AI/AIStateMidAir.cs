@@ -5,49 +5,66 @@ using UnityEngine;
 public class AIStateMidAir : AIState
 {
     [SerializeField]
-    GameObject phisicalParts;
+    GameObject playerObj = null;
 
     [SerializeField]
-    AttitudeCtrlInRace attitudeCtrlInRace = null;
+    RaceManager raceManager;
+
+    [SerializeField]
+    AttitudeCtrlInRace attitudeCtrl = null;
 
     [SerializeField]
     ColliderSensor colliderSensor = null;
 
-    [SerializeField,Range(0, 2)]
-    float min = 0f;
+    float dirRot = 0f;
 
-    [SerializeField,Range(0, 2)]
-    float max = 10f;
+    [Header("パラメータ")]
 
-    float dirRot = 1f;
+    [SerializeField, Tooltip("姿勢制御の成否判定距離")]
+    float attitudeDistance = 10f;
 
     public override void StateStart()
     {
-        dirRot = Random.Range(min, max);
+        dirRot = Random.Range(-1, 1);
+        Debug.Log(dirRot);
     }
 
     public override void StateUpdate()
     {
-        // -180 ~ 180 に補正
-        float angleX = phisicalParts.transform.localRotation.eulerAngles.x;
-        if (angleX > 180)
+        // 姿勢制御
+        float distanceToPlayer = raceManager.GetPositionInRace(gameObject.GetInstanceID()) - raceManager.GetPositionInRace(playerObj.GetInstanceID());
+        if (distanceToPlayer < -attitudeDistance) // 負けてるなら成功させる
         {
-            angleX -= 360;
+            attitudeCtrl.dirRot = 0;
         }
+        else if (distanceToPlayer > attitudeDistance)
+        {
+            attitudeCtrl.dirRot = dirRot;
+        }
+        else 
+        {
+            attitudeCtrl.dirRot = 0;
+        }
+        //// -180 ~ 180 に補正
+        //float angleX = phisicalParts.transform.localRotation.eulerAngles.x;
+        //if (angleX > 180)
+        //{
+        //    angleX -= 360;
+        //}
 
-        if(angleX > 5)
-        {
-            attitudeCtrlInRace.dirRot = -dirRot;
-        }
-        else if(angleX < -5)
-        {
-            attitudeCtrlInRace.dirRot = dirRot;
-        }
+        //if(angleX > 5)
+        //{
+        //    attitudeCtrlInRace.dirRot = -dirRot;
+        //}
+        //else if(angleX < -5)
+        //{
+        //    attitudeCtrlInRace.dirRot = dirRot;
+        //}
     }
 
     public override bool CheckShiftCondition()
     {
-        if(colliderSensor.GetExistInCollider())
+        if(!colliderSensor.GetExistInCollider())
         {
             return true;
         }

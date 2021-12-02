@@ -13,6 +13,13 @@ public class BikeMoveWhenGoal : MonoBehaviour
     [SerializeField]
     protected float gravity = -100f; // 重力
 
+    private void Update()
+    {
+        Vector3 rotVec = transform.localEulerAngles;
+        rotVec.x = 0;
+        transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(rotVec), 0.25f);
+    }
+
     private void FixedUpdate()
     {
         Vector3 moveVec = Vector3.zero;
