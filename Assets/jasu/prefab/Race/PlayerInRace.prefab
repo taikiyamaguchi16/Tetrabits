@@ -222,8 +222,6 @@ MonoBehaviour:
   rb: {fileID: 7603701497981581255}
   colliderSensor: {fileID: 3070685040492917561}
   bikeSlipDown: {fileID: 1446960286}
-  torqueForceMultiply: 4
-  correctionTorqueMultiply: 2
   rotMin: -80
   rotMax: 90
   rotMinOnGround: -40
@@ -618,6 +616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   existInCollider: 0
+  distanceToGround: 3
   objList: []
 --- !u!136 &9135241588772786613
 CapsuleCollider:
