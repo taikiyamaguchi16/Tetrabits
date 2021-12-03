@@ -476,6 +476,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 85534197}
   m_CullTransparentMesh: 0
+--- !u!2083052967 &107287979 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 4860874956090592013, guid: fb71f94b9a237fa41815de75bc6b1efd, type: 3}
+  m_PrefabInstance: {fileID: 135209496}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &107363919 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4093512745827785090, guid: 0afabee5e980297449567aaec54f44ad, type: 3}
@@ -600,7 +605,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4860874956090592012, guid: fb71f94b9a237fa41815de75bc6b1efd, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4860874956090592012, guid: fb71f94b9a237fa41815de75bc6b1efd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -608,11 +613,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4860874956090592012, guid: fb71f94b9a237fa41815de75bc6b1efd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12.23
+      value: 12.9
       objectReference: {fileID: 0}
     - target: {fileID: 4860874956090592012, guid: fb71f94b9a237fa41815de75bc6b1efd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.62
+      value: -2.2
       objectReference: {fileID: 0}
     - target: {fileID: 4860874956090592012, guid: fb71f94b9a237fa41815de75bc6b1efd, type: 3}
       propertyPath: m_LocalRotation.w
@@ -668,11 +673,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4860874956090592013, guid: fb71f94b9a237fa41815de75bc6b1efd, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
-      value: 18.9
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 4860874956090592013, guid: fb71f94b9a237fa41815de75bc6b1efd, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.y
-      value: 1.9
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860874956090592013, guid: fb71f94b9a237fa41815de75bc6b1efd, type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4860874956090592013, guid: fb71f94b9a237fa41815de75bc6b1efd, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Overridden
@@ -3062,6 +3071,7 @@ MonoBehaviour:
   gameInGameSwitcher: {fileID: 1213106693}
   globalVolumeController: {fileID: 1975499434}
   monitorHpMax: 10
+  hpEffect: {fileID: 107287979}
   monitorStatuses:
   - monitorModelObject: {fileID: 1939478883}
     colorFilter: {r: 0.8392157, g: 0.89411765, b: 0.94509804, a: 1}
@@ -3199,7 +3209,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 831166501}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3100eccc8c43c248a123fd3a4044774, type: 3}
   m_Name: 
