@@ -3117,6 +3117,8 @@ MonoBehaviour:
     go: {fileID: 6850451668721480156, guid: d111bd5769f40d8489b8f55d21938a77, type: 3}
   - key: large
     go: {fileID: 4917163889294702972, guid: 15ebf0dd1dea7da4e911dd843594afc5, type: 3}
+  - key: tutorial
+    go: {fileID: 674251976929837243, guid: 198d201d670407846a75d58eab1aa163, type: 3}
   stageDebrisList:
   - {fileID: 1432099141}
   - {fileID: 107363919}
@@ -3209,7 +3211,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 831166501}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3100eccc8c43c248a123fd3a4044774, type: 3}
   m_Name: 
@@ -5622,6 +5624,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8d1204ca5276f44a8bf3459de3461b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  crtNoise: {fileID: 2113594501}
+  noiseDuration: 0.5
   gameInGameScenesOnDebugWindow:
   - sceneAsset: {fileID: 102900000, guid: fce0bef3e33adc942bfb94d30da8e873, type: 3}
     required: 0
@@ -5638,6 +5642,9 @@ MonoBehaviour:
   - sceneAsset: {fileID: 102900000, guid: 25887a4d3aaf9f24eb450af45061ab35, type: 3}
     required: 0
     buildIndex: 4
+  - sceneAsset: {fileID: 102900000, guid: bbdb383860fee8e4bb85d67062b7d3b7, type: 3}
+    required: 0
+    buildIndex: 32
 --- !u!4 &1213106694
 Transform:
   m_ObjectHideFlags: 0
@@ -5851,6 +5858,25 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1240416355 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8796671594985737589, guid: ecc0c73def1f4fe4181b6a8eb28354b6, type: 3}
+  m_PrefabInstance: {fileID: 299069099}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1240416359
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240416355}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8838185926278935402, guid: b8f1a53881da98a49b066b083538926a, type: 3}
 --- !u!1 &1283446991 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5806624240663650090, guid: 0e98f4968e6b8e84c88d240c67fafb4d, type: 3}
@@ -9660,6 +9686,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5778284023396054937, guid: ecc0c73def1f4fe4181b6a8eb28354b6, type: 3}
   m_PrefabInstance: {fileID: 299069099}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2113594501 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6340297176849112216, guid: 73f15916ec5453444908e3149f7fd51e, type: 3}
+  m_PrefabInstance: {fileID: 536417272}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb89fe8d55050d34a894f82607927bb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2117064204 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1503472991, guid: f5d37d252f524494eb17b46f948b917e, type: 3}
