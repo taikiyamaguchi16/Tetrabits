@@ -118,12 +118,9 @@ public class AttitudeCtrlInRace : MonoBehaviourPunCallbacks
             }
             else
             {
-                if (colliderSensor.GetExistInCollider())
-                {
-                    Vector3 rotVec = transform.localEulerAngles;
-                    rotVec.x = 0;
-                    transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(rotVec), rotRate);
-                }
+                Vector3 rotVec = transform.localEulerAngles;
+                rotVec.x = 0;
+                transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(rotVec), rotRate);
             }
 
             //// 接地時
