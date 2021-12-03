@@ -191,6 +191,19 @@ public class XInputManager : MonoBehaviour
         return gamePadState[_index].origin.IsConnected;
     }
 
+    public static bool GetAnyButtonTrigger(int _index)
+    {
+        for (int i = 0; i < System.Enum.GetNames(typeof(XButtonType)).Length; i++)
+        {
+            if (GetButtonTrigger(_index, (XButtonType)i))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     //PressedかReleaseかをGamePadStatePlusの内容からXButtonTypeから判断
     private static ButtonState GetButtonState(GamePadStatePlus _target, XButtonType _type)
     {
