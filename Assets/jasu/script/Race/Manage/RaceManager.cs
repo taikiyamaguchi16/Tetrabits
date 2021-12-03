@@ -34,9 +34,13 @@ public class RaceManager : MonoBehaviourPunCallbacks
 
     public int GetLapNum { get { return lapNum; } }
 
+    Progress[] racersProgress;
+
     // Start is called before the first frame update
     void Start()
     {
+        racersProgress = new Progress[racers.Length];
+
         racersInfo = new RacerInfo[racers.Length];
         for(int i = 0; i < racers.Length; i++)
         {
@@ -66,8 +70,6 @@ public class RaceManager : MonoBehaviourPunCallbacks
 
     public void RankingCalculation()
     {
-        Progress[] racersProgress = new Progress[racers.Length];
-
         for (int i = 0; i < racers.Length; i++)
         {
             racersProgress[i].index = i;
@@ -98,5 +100,25 @@ public class RaceManager : MonoBehaviourPunCallbacks
         {
             racersInfo[racersProgress[i].index].ranking = i + 1;
         }
+    }
+
+    // 引数と同じinstanceIDのレーサーのステージ上での位置を返す
+    public float GetPositionInRace(int _instanceId)
+    {
+        RankingCalculation();
+        
+        for(int i = 0; i < racers.Length; i++)
+        {
+            if(racers[i].GetInstanceID() == _instanceId)
+            {
+                foreach(var progress in racersProgress)
+                {
+                    if (progress.index == i)
+                        return progress.progressVal;
+                }
+            }
+        }
+
+        return 0f;
     }
 }

@@ -29,7 +29,7 @@ public class TutorialBatteryLamp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (batteryHolder.GetBatterylevel() > 0)
+        if (batteryHolder && batteryHolder.GetBatterylevel() > 0)
         {
             controlImage.color = Color.cyan;
         }

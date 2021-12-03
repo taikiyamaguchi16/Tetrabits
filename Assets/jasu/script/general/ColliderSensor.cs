@@ -7,6 +7,9 @@ public class ColliderSensor : MonoBehaviour
     [SerializeField]
     bool existInCollider = false; // コリジョン内に何かしらのオブジェクトがあればtrue;
 
+    [SerializeField]
+    float distanceToGround = 1f;
+
     public List<GameObject> objList = new List<GameObject>();
 
     private void Start()
@@ -32,6 +35,17 @@ public class ColliderSensor : MonoBehaviour
         {
             existInCollider = false;
             objList.Clear();
+        }
+
+        Vector3 rayPosition = transform.position;
+        Ray ray = new Ray(rayPosition, Vector3.down);
+        if(Physics.Raycast(ray, distanceToGround))
+        {
+            existInCollider = true;
+        }
+        else
+        {
+            existInCollider = false;
         }
     }
 

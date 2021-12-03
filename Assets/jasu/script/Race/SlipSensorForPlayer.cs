@@ -19,7 +19,20 @@ public class SlipSensorForPlayer : MonoBehaviour
         {
             if (!bikeSlipDown.isSliping)
             {
-                //bikeSlipDown.SlipStart("small");
+                DirtInRace dirt = null;
+
+                // -180 ~ 180 に補正
+                float angleX = transform.localRotation.eulerAngles.x;
+                if (angleX > 180)
+                {
+                    angleX -= 360;
+                }
+
+                // 泥だまりのとき減速中なら滑らない
+                if (angleX >= -10f || (dirt = other.transform.parent.GetComponent<DirtInRace>()) == null)
+                {
+                    bikeSlipDown.SlipStart("small");
+                }
             }
         }
     }

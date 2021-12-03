@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class DirtDestroy : MonoBehaviourPunCallbacks
+public class DirtInRace : MonoBehaviourPunCallbacks
 {
     public RaceStageMolder raceStageMolder = null;
 
+    [SerializeField, Tooltip("ぶつかったら消える")]
+    bool destroyIfHitOther = true;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Bike")
+        if (destroyIfHitOther && other.gameObject.tag == "Bike")
         {
             DummyObj dummy;
             if ((dummy = GetComponent<DummyObj>()) != null)

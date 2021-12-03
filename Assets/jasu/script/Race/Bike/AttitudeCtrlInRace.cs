@@ -10,16 +10,17 @@ public class AttitudeCtrlInRace : MonoBehaviourPunCallbacks
 
     [SerializeField]
     protected ColliderSensor colliderSensor = null;
+
     [SerializeField]
     protected BikeSlipDown bikeSlipDown = null;
 
     [Header("パラメータ")]
 
-    [SerializeField]
-    protected float torqueForceMultiply = 5f;
+    //[SerializeField]
+    //protected float torqueForceMultiply = 5f;
 
-    [SerializeField]
-    protected float correctionTorqueMultiply = 1f;
+    //[SerializeField]
+    //protected float correctionTorqueMultiply = 1f;
 
     [SerializeField, Range(-90f, 0f)]
     protected float rotMin = -80f;
@@ -118,12 +119,9 @@ public class AttitudeCtrlInRace : MonoBehaviourPunCallbacks
             }
             else
             {
-                if (colliderSensor.GetExistInCollider())
-                {
-                    Vector3 rotVec = transform.localEulerAngles;
-                    rotVec.x = 0;
-                    transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(rotVec), rotRate);
-                }
+                Vector3 rotVec = transform.localEulerAngles;
+                rotVec.x = 0;
+                transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(rotVec), rotRate);
             }
 
             //// 接地時

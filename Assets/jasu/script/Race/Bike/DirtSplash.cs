@@ -53,7 +53,7 @@ public class DirtSplash : MonoBehaviour
         if ((other.gameObject.transform.tag == "FlatRoadInRace" && rb.velocity.y > 0f) ||
             other.gameObject.transform.tag == "Slip")
             return;
-
+        
         Destroy(gameObject);
     }
 

@@ -105,11 +105,11 @@ GameObject:
   - component: {fileID: 4717983805591257336}
   - component: {fileID: 935646690359824256}
   - component: {fileID: 8486535655794146373}
+  - component: {fileID: 3743806979556830801}
   - component: {fileID: 4421796239360097713}
   - component: {fileID: 7428666028572337702}
   - component: {fileID: 1212288839}
   - component: {fileID: 1212288837}
-  - component: {fileID: 3743806979556830801}
   m_Layer: 0
   m_Name: PhysicalParts
   m_TagString: Untagged
@@ -222,16 +222,27 @@ MonoBehaviour:
   rb: {fileID: 7603701497981581255}
   colliderSensor: {fileID: 3070685040492917561}
   bikeSlipDown: {fileID: 1446960286}
-  torqueForceMultiply: 4
-  correctionTorqueMultiply: 2
   rotMin: -80
-  rotMax: 80
+  rotMax: 90
   rotMinOnGround: -40
   rotMaxOnGround: 40
   slipAngleMin: -35
   slipAngleMax: 35
   rotRate: 0.1
   padInputRangeX: 0.4
+--- !u!114 &3743806979556830801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487003247870755375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e28aa5f3771e514daab7818b89496e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bikeSlipDown: {fileID: 1446960286}
 --- !u!114 &4421796239360097713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,19 +317,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &3743806979556830801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2487003247870755375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e28aa5f3771e514daab7818b89496e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bikeSlipDown: {fileID: 1446960286}
 --- !u!1 &3643461864264366053
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,6 +616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   existInCollider: 0
+  distanceToGround: 3
   objList: []
 --- !u!136 &9135241588772786613
 CapsuleCollider:
@@ -795,9 +794,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b294747fc7513cd4f8aff2f0da850023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 6277164325014835238}
+  animator: {fileID: 325502094143592943}
+  overrideSprite: {fileID: 0}
+  slipSprite: {fileID: 21300000, guid: 05a81b81af73c484ea2e981295b56107, type: 3}
   slipingTimeSeconds: 1
-  correctionTimeSeconds: 3
-  slipSpd: 5
+  rotAngle: 360
 --- !u!114 &1889406115244632827
 MonoBehaviour:
   m_ObjectHideFlags: 0

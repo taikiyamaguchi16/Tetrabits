@@ -8,7 +8,7 @@ public class TutorialBatteryManager : MonoBehaviour
     [Header("Status")]
     [SerializeField] List<TutorialBatteryLamp> batteryLamps;
 
-    [Header("Next")]    
+    [Header("Next")]
     [SerializeField] Trisibo.SceneField nextScene;
     [SerializeField] GameObject allOKObject;
     bool switched;
@@ -28,7 +28,7 @@ public class TutorialBatteryManager : MonoBehaviour
         int numBatteryExists = 0;
         foreach (var lamp in batteryLamps)
         {
-            if (lamp.batteryHolder.GetBatterylevel() > 0)
+            if (lamp.batteryHolder && lamp.batteryHolder.GetBatterylevel() > 0)
             {
                 numBatteryExists++;
             }
@@ -52,6 +52,9 @@ public class TutorialBatteryManager : MonoBehaviour
 
         yield return new WaitForSeconds(3);
 
-        GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(nextScene.BuildIndex));
+        if (Photon.Pun.PhotonNetwork.IsMasterClient)
+        {
+            GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(nextScene.BuildIndex));
+        }
     }
 }
