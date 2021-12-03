@@ -36,6 +36,9 @@ public class TutorialCoolingManager : MonoBehaviour
 
         yield return new WaitForSeconds(3);
 
-        GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(nextScene.BuildIndex));
+        if (PhotonNetwork.IsMasterClient)
+        {
+            GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(nextScene.BuildIndex));
+        }
     }
 }

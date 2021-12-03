@@ -52,6 +52,9 @@ public class TutorialBatteryManager : MonoBehaviour
 
         yield return new WaitForSeconds(3);
 
-        GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(nextScene.BuildIndex));
+        if (Photon.Pun.PhotonNetwork.IsMasterClient)
+        {
+            GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(nextScene.BuildIndex));
+        }
     }
 }
