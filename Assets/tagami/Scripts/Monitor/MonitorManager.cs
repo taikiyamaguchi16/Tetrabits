@@ -48,6 +48,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
 
     [Header("Stage Debris")]
     [SerializeField] List<StageDebris> stageDebrisList;
+    [SerializeField] int numCreateRandomDebris = 1;
 
     [Header("Option")]
     [SerializeField] Slider monitorHpBarSlider;
@@ -189,7 +190,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         //破片を降り注がせる
         if (PhotonNetwork.IsMasterClient)
         {
-            for (int count = 0; count < 3; count++)
+            for (int count = 0; count < numCreateRandomDebris; count++)
             {
                 //空き検索
                 List<int> usableIndexList = new List<int>();
