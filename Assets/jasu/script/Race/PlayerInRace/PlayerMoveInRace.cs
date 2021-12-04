@@ -34,7 +34,7 @@ public class PlayerMoveInRace : MoveInRace
     {
         // 移動速度決定
         float moveSpdHolder = moveSpdStandard;
-        moveSpdStandard *= (1f + (0.1f * TetraInput.sTetraPad.GetNumOnPad())); // padの上に乗ってる分加速
+        //moveSpdStandard *= (1f + (0.1f * TetraInput.sTetraPad.GetNumOnPad())); // padの上に乗ってる分加速
 
         SetMoveSpd();
         moveSpdStandard = moveSpdHolder;
@@ -44,11 +44,16 @@ public class PlayerMoveInRace : MoveInRace
     {
         moveVec = Vector3.zero;
 
+        // スロープチェック
+        CheckSlope();
+
         // 移動ベクトル作成
-        if (moveInput)
+        if (!moveInput)
         {
-            SetMoveVec();
+            moveSpd = 0f;
         }
+
+        SetMoveVec();
 
         // 空中でのy軸の加速を切る
         SetGravity();

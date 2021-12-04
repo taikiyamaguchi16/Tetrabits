@@ -13,10 +13,12 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
 
     //残機
     [Header("Player")]
-    [SerializeField] int lifeMax = 3;
+    [SerializeField] int lifeMax = 10;
+    public int life { private set; get; }
 
     [Header("Bomb")]
     [SerializeField] int initialBombNum = 3;
+    public int bomb { private set; get; }
 
     //再開処理
     [Header("Restart")]
@@ -26,16 +28,17 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
     bool restart;
     Vector3 destroyedPlayerPosition;
 
-    [Header("Game Clear Over")]
+    [Header("Game Clear")]
     [SerializeField] Trisibo.SceneField nextScene;
+    [SerializeField] GameObject clearUIObject;
 
     [Header("Local Instantiate")]
     [SerializeField] List<GameObject> localInstantiatePrefabs;
 
     //static 持ち越し要素
-    static bool sInitialized = false;
-    public static int sBombNum { private set; get; }
-    public static int sLife { private set; get; }
+    //static bool sInitialized = false;
+    //public static int sBombNum { private set; get; }
+    //public static int sLife { private set; get; }
 
     private void Awake()
     {
@@ -43,14 +46,17 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
         sShootingGameManager = this;
         destroyedPlayerPosition = transform.position;
 
+        life = lifeMax;
+        bomb = initialBombNum;
+
         //static
-        if (!sInitialized)
-        {
-            //初期設定を行う
-            sLife = lifeMax;
-            sBombNum = initialBombNum;
-            sInitialized = true;
-        }
+        //if (!sInitialized)
+        //{
+        //    //初期設定を行う
+        //    sLife = lifeMax;
+        //    sBombNum = initialBombNum;
+        //    sInitialized = true;
+        //}
     }
 
     private void Start()
@@ -83,11 +89,24 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
 
     public void StageClear()
     {
+        StartCoroutine(CoStageClear());
+    }
+
+    IEnumerator CoStageClear()
+    {
+        //クリア表示
+        if (clearUIObject)
+        {
+            clearUIObject.SetActive(true);
+        }
+
+        yield return new WaitForSeconds(5);
+
         if (nextScene == null || nextScene.BuildIndex < 0)
         {
             Debug.Log("Shooting最終ステージクリア 全ステージクリアにより強制ダウンを行います");
             GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
-            sInitialized = false;
+            //sInitialized = false;
         }
         else
         {
@@ -106,10 +125,10 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
         //残機消費
         Debug.Log(_destroyedPosition + ":でShootingPlayerが爆散しました");
 
-        sLife--;
+        life--;
         destroyedPlayerPosition = _destroyedPosition;
 
-        if (sLife <= 0)
+        if (life <= 0)
         {
             //ゲームオーバーUI表示
             if (PhotonNetwork.IsMasterClient)
@@ -117,7 +136,7 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
                 MonitorManager.DealDamageToMonitor("large");
 
                 //ステージの最初に戻る
-                sInitialized = false;   //設定リセット
+                //sInitialized = false;   //設定リセット
                 GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(restartScene.BuildIndex));
             }
         }
@@ -138,7 +157,12 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
 
     public void AddBomb(int _num)
     {
-        sBombNum += _num;
+        bomb += _num;
+    }
+
+    public void AddLife(int _num)
+    {
+        life += _num;
     }
 
     public void CallLocalInstantiateWithVelocity(string _prefabName, Vector3 _position, Quaternion _rotation, Vector3 _velocity)

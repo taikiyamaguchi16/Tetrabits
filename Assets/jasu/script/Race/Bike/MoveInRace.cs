@@ -58,9 +58,12 @@ public class MoveInRace : MonoBehaviourPunCallbacks
 
     protected Vector3 groundNormalVec = Vector3.zero; // 地面の法線ベクトル
 
+    [Header("デバッグ用")]
+
     [SerializeField]
     protected Vector3 moveVec = Vector3.zero;
 
+    [SerializeField]
     protected int wheelonSlopeNum = 0; 
 
     // Start is called before the first frame update
@@ -82,6 +85,9 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     {
         moveVec = Vector3.zero;
 
+        // スロープチェック
+        CheckSlope();
+
         // 移動ベクトル作成
         SetMoveVec();
 
@@ -90,6 +96,20 @@ public class MoveInRace : MonoBehaviourPunCallbacks
 
         // 加速
         AccelerationToMoveVec();
+    }
+
+    protected void CheckSlope()
+    {
+        Vector3 rayPosition = transform.position;
+        Ray ray = new Ray(rayPosition, Vector3.down);
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, distanceToGround))
+        {
+            if(hitInfo.transform.gameObject.tag != "SlopeRoadInRace" &&
+            hitInfo.transform.parent.gameObject.tag != "SlopeRoadInRace")
+            {
+                wheelonSlopeNum = 0;
+            }
+        }
     }
 
     protected void SetMoveSpd()
@@ -125,6 +145,12 @@ public class MoveInRace : MonoBehaviourPunCallbacks
             {
                 moveVec = Vector3.ProjectOnPlane(Vector3.forward, groundNormalVec);
 
+                // ありえん角度なら坂判定リセット
+                if (attitudeCtrl.CorrectAngle(Quaternion.LookRotation(moveVec).eulerAngles.x) < -90f)
+                {
+                    wheelonSlopeNum = 0;
+                }
+
                 transform.parent.localRotation = Quaternion.Lerp(transform.parent.localRotation, Quaternion.LookRotation(moveVec), rotLateSlope);
                 if (attitudeCtrl.CorrectAngle(transform.parent.localRotation.eulerAngles.x) <= attitudeCtrl.CorrectAngle(Quaternion.LookRotation(moveVec).eulerAngles.x))
                 {
@@ -139,7 +165,7 @@ public class MoveInRace : MonoBehaviourPunCallbacks
                 
                 if (colliderSensor.GetExistInCollider())
                 {
-                    transform.parent.localRotation = Quaternion.Lerp(transform.parent.localRotation, Quaternion.LookRotation(Vector3.forward), rotLateFlat);
+                    transform.parent.localRotation = Quaternion.Lerp(transform.parent.localRotation, Quaternion.identity, rotLateFlat);
                 }
             }
 

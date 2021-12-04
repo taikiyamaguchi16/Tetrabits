@@ -86,16 +86,18 @@ public class BattleshipBoss : MonoBehaviour, IShootingEnemy
         yield return new WaitForSeconds(_waitTime);
 
         //発射
-        Debug.Log("発射！");
-        ShootingGameManager.sShootingGameManager.CallLocalInstantiateWithVelocity(
-            enemyBulletPrefab.name, transform.position, Quaternion.identity, -Vector3.right * bulletSpeed);
+        if (Photon.Pun.PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("発射！");
+            ShootingGameManager.sShootingGameManager.CallLocalInstantiateWithVelocity(
+                enemyBulletPrefab.name, transform.position, Quaternion.identity, -Vector3.right * bulletSpeed);
 
-        ShootingGameManager.sShootingGameManager.CallLocalInstantiateWithVelocity(
-           enemyBulletPrefab.name, transform.position + new Vector3(0.0f, bulletWidth, 0.0f), Quaternion.identity, -Vector3.right * bulletSpeed);
+            ShootingGameManager.sShootingGameManager.CallLocalInstantiateWithVelocity(
+               enemyBulletPrefab.name, transform.position + new Vector3(0.0f, bulletWidth, 0.0f), Quaternion.identity, -Vector3.right * bulletSpeed);
 
-
-        ShootingGameManager.sShootingGameManager.CallLocalInstantiateWithVelocity(
-           enemyBulletPrefab.name, transform.position + new Vector3(0.0f, -bulletWidth, 0.0f), Quaternion.identity, -Vector3.right * bulletSpeed);
+            ShootingGameManager.sShootingGameManager.CallLocalInstantiateWithVelocity(
+               enemyBulletPrefab.name, transform.position + new Vector3(0.0f, -bulletWidth, 0.0f), Quaternion.identity, -Vector3.right * bulletSpeed);
+        }
 
         //何秒か待つ
         yield return new WaitForSeconds(_waitTime);
