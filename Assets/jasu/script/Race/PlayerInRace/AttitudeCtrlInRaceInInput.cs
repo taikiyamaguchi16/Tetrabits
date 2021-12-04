@@ -7,14 +7,26 @@ public class AttitudeCtrlInRaceInInput : AttitudeCtrlInRace
     [SerializeField]
     float padInputRangeX = 0.15f;
 
+    [Header("デバッグ用")]
+
+    [SerializeField]
+    float inputX;
+
     // Update is called once per frame
     void Update()
     {
-        dirRot = 0f;
-        if(TetraInput.sTetraPad.GetVector().x < -padInputRangeX ||
-            TetraInput.sTetraPad.GetVector().x > padInputRangeX)
+        inputX = 0f;
+        if (TetraInput.sTetraPad.GetNumOnPad() > 0)
         {
-            dirRot = TetraInput.sTetraPad.GetVector().x;
+            inputX = TetraInput.sTetraPad.GetVector().x / TetraInput.sTetraPad.GetNumOnPad();
+        }
+
+        dirRot = 0f;
+
+        if (inputX < -padInputRangeX ||
+            inputX > padInputRangeX)
+        {
+            dirRot = inputX;
         }
 
         OnUpdate();

@@ -55,6 +55,8 @@ public class PlayerMove : MonoBehaviourPunCallbacks
     private Animator playerAnim;
 
     private PhotonTransformViewClassic photonTransformView;
+    [SerializeField]
+    ZenmaiRotation zenmaiRotation;
 
     // Start is called before the first frame update
     void Start()
@@ -203,6 +205,8 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                 Vector3 scale = transform.localScale;
                 scale.x = -Mathf.Abs(scale.x);  // 通常方向(スプライトと同じ右向き)
                 transform.localScale = scale;
+
+                zenmaiRotation.ChangeZenmaiPosition(true);
             }
             else if (_moveVec.x < 0f)
             {
@@ -215,6 +219,8 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                 Vector3 scale = transform.localScale;
                 scale.x = Mathf.Abs(scale.x);  // 通常方向(スプライトと同じ右向き)
                 transform.localScale = scale;
+
+                zenmaiRotation.ChangeZenmaiPosition(true);
             }
             else if (_moveVec.z > 0f)
             {
@@ -222,6 +228,8 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                 playerAnim.SetBool("Back", true);
                 playerAnim.SetBool("Side", false);
                 playerAnim.SetBool("Forward", false);
+
+                zenmaiRotation.ChangeZenmaiPosition(false);
             }
             else if (_moveVec.z < 0f)
             {
@@ -229,6 +237,9 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                 playerAnim.SetBool("Back", false);
                 playerAnim.SetBool("Side", false);
                 playerAnim.SetBool("Forward", true);
+
+                zenmaiRotation.ChangeZenmaiPosition(false);
+                zenmaiRotation.HideZenmaiMesh();
             }
         }
         else

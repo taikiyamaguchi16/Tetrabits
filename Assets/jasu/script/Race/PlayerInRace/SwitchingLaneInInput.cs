@@ -13,14 +13,20 @@ public class SwitchingLaneInInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(TetraInput.sTetraPad.GetVector().y < -padInputRangeY)
+        float inputY = 0f;
+        if(TetraInput.sTetraPad.GetNumOnPad() > 0)
+        {
+            inputY = TetraInput.sTetraPad.GetVector().y / TetraInput.sTetraPad.GetNumOnPad();
+        }
+            
+        if (inputY < -padInputRangeY)
         {
             if(moveBetweenLane.belongingLaneId != 0)
             {
                 moveBetweenLane.SetMoveLane(0);
             }
         }
-        else if(TetraInput.sTetraPad.GetVector().y > padInputRangeY)
+        else if(inputY > padInputRangeY)
         {
             if (moveBetweenLane.belongingLaneId != 2)
             {

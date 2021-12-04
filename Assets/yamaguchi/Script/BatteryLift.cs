@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class BatteryLift : MonoBehaviour
+public class BatteryLift : MonoBehaviourPunCallbacks
 {
     // 第二引数をTrueにするとHDRカラーパネルになる
     [ColorUsage(false, true)] public Color color1;
@@ -27,6 +28,7 @@ public class BatteryLift : MonoBehaviour
     private bool blinkFg;
     private bool nowBlinkingFg;
 
+
     private void Start()
     {
         //lightMesh.material.EnableKeyword("_EMISSION");
@@ -41,15 +43,15 @@ public class BatteryLift : MonoBehaviour
             _time = _minus;
             if (!nowBlinkingFg)
             {
-                StartCoroutine(StartBlink());
-                
+                photonView.RPC(nameof(StartBlink), RpcTarget.All);
+                //StartCoroutine(StartBlink());
             }
         }
         float rate = Mathf.Clamp01(_time / _minus);   // 割合計算
         // 移動・回転
         carryBattery.transform.position = Vector3.Lerp(startPos.position, endPos.position, rate);
     }
-
+    [PunRPC]
     IEnumerator StartBlink()
     {
         nowBlinkingFg = true;
@@ -80,5 +82,11 @@ public class BatteryLift : MonoBehaviour
             blinkFg = !blinkFg;
             yield return new WaitForSeconds(blinkingInterval);
         }
+    }
+
+    [PunRPC]
+    public void RPCStartBlink()
+    {
+        StartCoroutine(StartBlink());
     }
 }
