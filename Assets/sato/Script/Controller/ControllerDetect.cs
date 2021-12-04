@@ -25,12 +25,10 @@ public class ControllerDetect : MonoBehaviour
         if (currentControllerNum == 0)
         {
             ControllerFlag = false;
-            Debug.Log(ControllerFlag);
         }
         else if (currentControllerNum > 0)
         {
             ControllerFlag = true;
-            Debug.Log(ControllerFlag);
         }
 
         oldControllerNum = currentControllerNum;
@@ -59,13 +57,11 @@ public class ControllerDetect : MonoBehaviour
         if (currentControllerNum == 0 && oldControllerNum != currentControllerNum)
         {
             ControllerFlag = false;
-            Debug.Log(ControllerFlag);
         }
 
         if (currentControllerNum > 0 && oldControllerNum != currentControllerNum)
         {
             ControllerFlag = true;
-            Debug.Log(ControllerFlag);
         }
 
         oldControllerNum = currentControllerNum;
