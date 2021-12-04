@@ -28,8 +28,9 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
     bool restart;
     Vector3 destroyedPlayerPosition;
 
-    [Header("Game Clear Over")]
+    [Header("Game Clear")]
     [SerializeField] Trisibo.SceneField nextScene;
+    [SerializeField] GameObject clearUIObject;
 
     [Header("Local Instantiate")]
     [SerializeField] List<GameObject> localInstantiatePrefabs;
@@ -88,6 +89,19 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
 
     public void StageClear()
     {
+        StartCoroutine(CoStageClear());
+    }
+
+    IEnumerator CoStageClear()
+    {
+        //クリア表示
+        if (clearUIObject)
+        {
+            clearUIObject.SetActive(true);
+        }
+
+        yield return new WaitForSeconds(5);
+
         if (nextScene == null || nextScene.BuildIndex < 0)
         {
             Debug.Log("Shooting最終ステージクリア 全ステージクリアにより強制ダウンを行います");
