@@ -74,8 +74,9 @@ public class AttitudeCtrlInRace : MonoBehaviourPunCallbacks
 
         if (bikeSlipDown.isSliping) // スリップ時
         {
-            angle.x = 0f;
-            transform.localEulerAngles = angle;
+            //angle.x = 0f;
+            //transform.localEulerAngles = angle;
+            transform.rotation = Quaternion.identity;
         }
         else 
         {
@@ -119,9 +120,9 @@ public class AttitudeCtrlInRace : MonoBehaviourPunCallbacks
             }
             else
             {
-                Vector3 rotVec = transform.localEulerAngles;
-                rotVec.x = 0;
-                transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(rotVec), rotRate);
+                //Vector3 rotVec = transform.localEulerAngles;
+                //rotVec.x = 0;
+                transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, rotRate);
             }
 
             //// 接地時
