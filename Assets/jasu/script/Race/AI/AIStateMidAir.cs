@@ -26,7 +26,6 @@ public class AIStateMidAir : AIState
     public override void StateStart()
     {
         dirRot = Random.Range(-1, 1);
-        Debug.Log(dirRot);
     }
 
     public override void StateUpdate()
@@ -45,21 +44,6 @@ public class AIStateMidAir : AIState
         {
             attitudeCtrl.dirRot = 0;
         }
-        //// -180 ~ 180 に補正
-        //float angleX = phisicalParts.transform.localRotation.eulerAngles.x;
-        //if (angleX > 180)
-        //{
-        //    angleX -= 360;
-        //}
-
-        //if(angleX > 5)
-        //{
-        //    attitudeCtrlInRace.dirRot = -dirRot;
-        //}
-        //else if(angleX < -5)
-        //{
-        //    attitudeCtrlInRace.dirRot = dirRot;
-        //}
     }
 
     public override bool CheckShiftCondition()

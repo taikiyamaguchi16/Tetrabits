@@ -77,6 +77,15 @@ public class MoveBetweenLane : MonoBehaviour
 
     public void SetMoveLane(int _laneId)
     {
+        if(_laneId < 0)
+        {
+            _laneId = 0;
+        }
+        else if(_laneId > laneNum)
+        {
+            _laneId = laneNum;
+        }
+
         // 接地中
         if (colliderSensor.GetExistInCollider())
         {

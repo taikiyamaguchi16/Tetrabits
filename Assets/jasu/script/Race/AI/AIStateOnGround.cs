@@ -8,6 +8,9 @@ public class AIStateOnGround : AIState
     GameObject playerObj = null;
 
     [SerializeField]
+    GameObject[] otherNPCs; 
+
+    [SerializeField]
     AISensorDistanceTarget sensorDistanceTarget;
 
     [SerializeField]
@@ -15,6 +18,9 @@ public class AIStateOnGround : AIState
 
     [SerializeField]
     MoveBetweenLane playerMoveBetweenLane;
+
+    [SerializeField]
+    MoveBetweenLane[] otherMoveBetweenLane;
 
     [SerializeField]
     AttitudeCtrlInRace attitudeCtrl;
@@ -51,6 +57,8 @@ public class AIStateOnGround : AIState
     [SerializeField]
     float distanceToPlayer;
 
+    List<float> distances = new List<float>();
+
     public override void StateStart()
     {
 
@@ -61,23 +69,41 @@ public class AIStateOnGround : AIState
         // 姿勢制御
         attitudeCtrl.dirRot = 0f;
         distanceToPlayer = raceManager.GetPositionInRace(gameObject.GetInstanceID()) - raceManager.GetPositionInRace(playerObj.GetInstanceID());
-        if (distanceToPlayer > decelerateDistance)
-        {
-            attitudeCtrl.dirRot = -0.8f;
-        }
-        else if(distanceToPlayer < -accelerateDistance)
+        //if (distanceToPlayer > decelerateDistance)
+        //{
+        //    attitudeCtrl.dirRot = -0.8f;
+        //}
+        //else 
+        if (distanceToPlayer < -accelerateDistance)
         {
             attitudeCtrl.dirRot = 0.8f;
         }
 
         // レーン移動
+        distances.Add(Vector3.Distance(transform.position, playerObj.transform.position));
+        foreach (var other in otherNPCs)
+        {
+            distances.Add(Vector3.Distance(transform.position, other.transform.position));
+        }
+
+        //for(int i = 0; i< )
+
         if (sensorDistanceTarget.sensorActive && moveBetweenLane.belongingLaneId != playerMoveBetweenLane.belongingLaneId)
         {
             correctTimer += Time.deltaTime;
-            if(correctTimer > correctSeconds)
+            if (correctTimer > correctSeconds)
             {
                 correctTimer = 0f;
                 moveBetweenLane.SetMoveLane(playerMoveBetweenLane.belongingLaneId);
+            }
+        }
+        else
+        {
+            correctTimer += Time.deltaTime;
+            if (correctTimer > correctSeconds)
+            {
+                correctTimer = 0f;
+                moveBetweenLane.SetMoveLane(moveBetweenLane.belongingLaneId + Random.Range(-1, 1));
             }
         }
 
