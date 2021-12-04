@@ -121,10 +121,9 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         if (PhotonNetwork.IsMasterClient)
         {
             elpsedTime += Time.deltaTime;
-            //10秒に一回くらい同期取る
-            if (elpsedTime > 10f)
+            //1秒に一回くらい同期取る
+            if (elpsedTime > 1f)
             {
-                Debug.Log("同期「");
                 photonView.RPC(nameof(RPCSetBatteryLevel), RpcTarget.Others, level);
                 elpsedTime = 0f;
             }
