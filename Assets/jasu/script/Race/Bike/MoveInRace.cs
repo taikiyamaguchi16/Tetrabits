@@ -51,6 +51,9 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     protected float rotLateFlat = 0.25f;
 
     [SerializeField]
+    float distanceToGround = 5f;
+
+    [SerializeField]
     protected float gravity = -100f; // 重力
 
     protected Vector3 groundNormalVec = Vector3.zero; // 地面の法線ベクトル
@@ -202,7 +205,12 @@ public class MoveInRace : MonoBehaviourPunCallbacks
         if (collision.gameObject.tag == "SlopeRoadInRace" ||
             collision.transform.parent.gameObject.tag == "SlopeRoadInRace")
         {
-            //wheelonSlopeNum--;
+            Vector3 rayPosition = transform.position;
+            Ray ray = new Ray(rayPosition, Vector3.down);
+            if (!Physics.Raycast(ray, distanceToGround))
+            {
+                wheelonSlopeNum--;
+            }
         }
     }
 }

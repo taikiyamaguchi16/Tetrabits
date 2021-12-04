@@ -21,6 +21,9 @@ public class RaceStageMolder : MonoBehaviour
     public GameObject GetOutfieldBackObj { get { return outfieldBack.gameObject; } }
 
     [SerializeField]
+    GameObject backGround = null;
+
+    [SerializeField]
     float raceObjWidth = 5f;
 
     public float GetRaceObjWidth { get { return raceObjWidth; } }
@@ -156,6 +159,12 @@ public class RaceStageMolder : MonoBehaviour
                 outfieldBack.spriteRenderer.transform.localScale = scale;
 
                 outfieldBack.spriteRenderer.size = new Vector2(laneLength / (raceObjWidth * laneWidthMultiply), outfieldBackWidthNum);
+            }
+
+            // 背景
+            if(backGround != null)
+            {
+
             }
 
             // 周回用のダミーの道を生成

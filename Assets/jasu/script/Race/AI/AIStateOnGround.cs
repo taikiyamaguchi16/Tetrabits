@@ -8,13 +8,22 @@ public class AIStateOnGround : AIState
     GameObject playerObj = null;
 
     [SerializeField]
+    GameObject[] otherNPCs; 
+
+    [SerializeField]
     AISensorDistanceTarget sensorDistanceTarget;
+
+    [SerializeField]
+    DirtSensor dirtSensor;
 
     [SerializeField]
     MoveBetweenLane moveBetweenLane;
 
     [SerializeField]
     MoveBetweenLane playerMoveBetweenLane;
+
+    [SerializeField]
+    MoveBetweenLane[] otherMoveBetweenLane;
 
     [SerializeField]
     AttitudeCtrlInRace attitudeCtrl;
@@ -42,7 +51,7 @@ public class AIStateOnGround : AIState
     float correctTimer = 0f;
 
     [SerializeField]
-    float dirtIntervalSeconds = 5f;
+    float dirtIntervalSeconds = 3f;
 
     float dirtIntervalTimer = 0f;
 
@@ -50,6 +59,8 @@ public class AIStateOnGround : AIState
 
     [SerializeField]
     float distanceToPlayer;
+
+    List<float> distances = new List<float>();
 
     public override void StateStart()
     {
@@ -59,25 +70,48 @@ public class AIStateOnGround : AIState
     public override void StateUpdate()
     {
         // 姿勢制御
-        attitudeCtrl.dirRot = 0f;
+        attitudeCtrl.dirRot = 1f;
         distanceToPlayer = raceManager.GetPositionInRace(gameObject.GetInstanceID()) - raceManager.GetPositionInRace(playerObj.GetInstanceID());
-        if (distanceToPlayer > decelerateDistance)
+        //if (distanceToPlayer > decelerateDistance)
+        //{
+        //    attitudeCtrl.dirRot = -0.8f;
+        //}
+        //else 
+        if (distanceToPlayer < -accelerateDistance)
         {
-            attitudeCtrl.dirRot = -0.8f;
+            attitudeCtrl.dirRot = 1f;
         }
-        else if(distanceToPlayer < -accelerateDistance)
+
+        if (dirtSensor.sensorActive)
         {
-            attitudeCtrl.dirRot = 0.8f;
+            attitudeCtrl.dirRot = -0.5f;
         }
 
         // レーン移動
-        if (sensorDistanceTarget.sensorActive && moveBetweenLane.belongingLaneId != playerMoveBetweenLane.belongingLaneId)
+        distances.Add(Vector3.Distance(transform.position, playerObj.transform.position));
+        foreach (var other in otherNPCs)
+        {
+            distances.Add(Vector3.Distance(transform.position, other.transform.position));
+        }
+
+        //for(int i = 0; i< )
+
+        if (sensorDistanceTarget.sensorActive && moveBetweenLane.belongingLaneId != playerMoveBetweenLane.belongingLaneId && canBeDirt)
         {
             correctTimer += Time.deltaTime;
-            if(correctTimer > correctSeconds)
+            if (correctTimer > correctSeconds)
             {
                 correctTimer = 0f;
                 moveBetweenLane.SetMoveLane(playerMoveBetweenLane.belongingLaneId);
+            }
+        }
+        else
+        {
+            correctTimer += Time.deltaTime;
+            if (correctTimer > correctSeconds)
+            {
+                correctTimer = 0f;
+                moveBetweenLane.SetMoveLane(moveBetweenLane.belongingLaneId + Random.Range(-1, 1));
             }
         }
 
@@ -92,6 +126,20 @@ public class AIStateOnGround : AIState
         {
             canBeDirt = false;
             dirtIntervalTimer = 0f;
+
+            if(moveBetweenLane.belongingLaneId - 1 < 0)
+            {
+                moveBetweenLane.SetMoveLane(1);
+            }
+            else if(moveBetweenLane.belongingLaneId + 1 > moveBetweenLane.GetLaneNum())
+            {
+                moveBetweenLane.SetMoveLane(moveBetweenLane.GetLaneNum() - 1);
+            }
+            else
+            {
+                moveBetweenLane.SetMoveLane(moveBetweenLane.belongingLaneId + 1);
+            }
+            
 
             dirtSplashSpawn.dirtSplashFlag = true;
         }
