@@ -26,39 +26,24 @@ public class AIStateMidAir : AIState
     public override void StateStart()
     {
         dirRot = Random.Range(-1, 1);
-        Debug.Log(dirRot);
     }
 
     public override void StateUpdate()
     {
         // 姿勢制御
-        float distanceToPlayer = raceManager.GetPositionInRace(gameObject.GetInstanceID()) - raceManager.GetPositionInRace(playerObj.GetInstanceID());
-        if (distanceToPlayer < -attitudeDistance) // 負けてるなら成功させる
-        {
-            attitudeCtrl.dirRot = 0;
-        }
-        else if (distanceToPlayer > attitudeDistance)
-        {
-            attitudeCtrl.dirRot = dirRot;
-        }
-        else 
-        {
-            attitudeCtrl.dirRot = 0;
-        }
-        //// -180 ~ 180 に補正
-        //float angleX = phisicalParts.transform.localRotation.eulerAngles.x;
-        //if (angleX > 180)
+        attitudeCtrl.dirRot = 0;
+        //float distanceToPlayer = raceManager.GetPositionInRace(gameObject.GetInstanceID()) - raceManager.GetPositionInRace(playerObj.GetInstanceID());
+        //if (distanceToPlayer < -attitudeDistance) // 負けてるなら成功させる
         //{
-        //    angleX -= 360;
+        //    attitudeCtrl.dirRot = 0;
         //}
-
-        //if(angleX > 5)
+        //else if (distanceToPlayer > attitudeDistance)
         //{
-        //    attitudeCtrlInRace.dirRot = -dirRot;
+        //    attitudeCtrl.dirRot = dirRot;
         //}
-        //else if(angleX < -5)
+        //else 
         //{
-        //    attitudeCtrlInRace.dirRot = dirRot;
+        //    attitudeCtrl.dirRot = 0;
         //}
     }
 

@@ -25,6 +25,8 @@ public class MoveBetweenLane : MonoBehaviour
 
     protected int laneNum = 0;
 
+    public int GetLaneNum() { return laneNum; }
+
     protected bool laneIdUpdated = false;
 
     protected bool arrivalLane = false;
@@ -77,6 +79,15 @@ public class MoveBetweenLane : MonoBehaviour
 
     public void SetMoveLane(int _laneId)
     {
+        if(_laneId < 0)
+        {
+            _laneId = 0;
+        }
+        else if(_laneId > laneNum)
+        {
+            _laneId = laneNum;
+        }
+
         // 接地中
         if (colliderSensor.GetExistInCollider())
         {

@@ -14,7 +14,7 @@ public class AttitudeCtrlInRaceInInput : AttitudeCtrlInRace
         if(TetraInput.sTetraPad.GetVector().x < -padInputRangeX ||
             TetraInput.sTetraPad.GetVector().x > padInputRangeX)
         {
-            dirRot = TetraInput.sTetraPad.GetVector().x * 0.8f;
+            dirRot = TetraInput.sTetraPad.GetVector().x;
         }
 
         OnUpdate();

@@ -23,7 +23,7 @@ public class PlayerMoveInRace : MoveInRace
     void Update()
     {
         // 移動入力
-        moveInput = true;
+        moveInput = false;
         if (TetraInput.sTetraLever.GetPoweredOn())
         {
             moveInput = true;
@@ -33,7 +33,11 @@ public class PlayerMoveInRace : MoveInRace
     private void LateUpdate()
     {
         // 移動速度決定
+        float moveSpdHolder = moveSpdStandard;
+        moveSpdStandard *= (1f + (0.1f * TetraInput.sTetraPad.GetNumOnPad())); // padの上に乗ってる分加速
+
         SetMoveSpd();
+        moveSpdStandard = moveSpdHolder;
     }
 
     private void FixedUpdate()
