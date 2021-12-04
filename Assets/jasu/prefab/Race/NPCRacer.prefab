@@ -27,7 +27,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1557146903613605887}
   m_Father: {fileID: 4178323175449870650}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -168,7 +169,7 @@ MonoBehaviour:
   dirtSplashSpawn: {fileID: 2635770476168120973}
   attitudeCtrl: {fileID: 396231687437029225}
   moveSpd: 0
-  moveSpdStandard: 90
+  moveSpdStandard: 100
   accelerateMultiply: 1.2
   decelerateMultiply: 0.7
   moveSlopeMultiply: 2
@@ -176,6 +177,7 @@ MonoBehaviour:
   moveForceMultiplyStop: 1
   rotLateSlope: 0.25
   rotLateFlat: 0.25
+  distanceToGround: 5
   gravity: -50
   moveVec: {x: 0, y: 0, z: 0}
 --- !u!114 &7197532588029266713
@@ -214,8 +216,8 @@ MonoBehaviour:
   rotMax: 90
   rotMinOnGround: -40
   rotMaxOnGround: 40
-  slipAngleMin: -35
-  slipAngleMax: 35
+  slipAngleMin: -45
+  slipAngleMax: 45
   rotRate: 0.1
 --- !u!114 &469488877297773314
 MonoBehaviour:
@@ -301,6 +303,64 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!1 &2681990653121167863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1557146903613605887}
+  - component: {fileID: 278066806307887370}
+  - component: {fileID: 4466933913019798648}
+  m_Layer: 0
+  m_Name: DirtSensor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1557146903613605887
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2681990653121167863}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1974192286032237867}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &278066806307887370
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2681990653121167863}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 5, z: 20}
+  m_Center: {x: 0, y: 0, z: 10}
+--- !u!114 &4466933913019798648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2681990653121167863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac6838a2aeb53c4ea74db9300c5f96a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensorActive: 0
 --- !u!1 &3405693731458820472
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,9 +761,12 @@ MonoBehaviour:
   shiftStateTable:
     list: []
   playerObj: {fileID: 0}
+  otherNPCs: []
   sensorDistanceTarget: {fileID: 8426434430513307605}
+  dirtSensor: {fileID: 4466933913019798648}
   moveBetweenLane: {fileID: 7197532588029266713}
   playerMoveBetweenLane: {fileID: 7197532588029266713}
+  otherMoveBetweenLane: []
   attitudeCtrl: {fileID: 396231687437029225}
   dirtSplashSpawn: {fileID: 2635770476168120973}
   colliderSensor: {fileID: 3019873534829246529}

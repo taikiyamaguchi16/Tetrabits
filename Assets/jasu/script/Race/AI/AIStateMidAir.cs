@@ -31,19 +31,20 @@ public class AIStateMidAir : AIState
     public override void StateUpdate()
     {
         // 姿勢制御
-        float distanceToPlayer = raceManager.GetPositionInRace(gameObject.GetInstanceID()) - raceManager.GetPositionInRace(playerObj.GetInstanceID());
-        if (distanceToPlayer < -attitudeDistance) // 負けてるなら成功させる
-        {
-            attitudeCtrl.dirRot = 0;
-        }
-        else if (distanceToPlayer > attitudeDistance)
-        {
-            attitudeCtrl.dirRot = dirRot;
-        }
-        else 
-        {
-            attitudeCtrl.dirRot = 0;
-        }
+        attitudeCtrl.dirRot = 0;
+        //float distanceToPlayer = raceManager.GetPositionInRace(gameObject.GetInstanceID()) - raceManager.GetPositionInRace(playerObj.GetInstanceID());
+        //if (distanceToPlayer < -attitudeDistance) // 負けてるなら成功させる
+        //{
+        //    attitudeCtrl.dirRot = 0;
+        //}
+        //else if (distanceToPlayer > attitudeDistance)
+        //{
+        //    attitudeCtrl.dirRot = dirRot;
+        //}
+        //else 
+        //{
+        //    attitudeCtrl.dirRot = 0;
+        //}
     }
 
     public override bool CheckShiftCondition()

@@ -25,6 +25,8 @@ public class MoveBetweenLane : MonoBehaviour
 
     protected int laneNum = 0;
 
+    public int GetLaneNum() { return laneNum; }
+
     protected bool laneIdUpdated = false;
 
     protected bool arrivalLane = false;

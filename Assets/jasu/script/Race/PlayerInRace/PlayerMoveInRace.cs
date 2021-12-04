@@ -33,7 +33,11 @@ public class PlayerMoveInRace : MoveInRace
     private void LateUpdate()
     {
         // 移動速度決定
+        float moveSpdHolder = moveSpdStandard;
+        moveSpdStandard *= (1f + (0.1f * TetraInput.sTetraPad.GetNumOnPad())); // padの上に乗ってる分加速
+
         SetMoveSpd();
+        moveSpdStandard = moveSpdHolder;
     }
 
     private void FixedUpdate()
