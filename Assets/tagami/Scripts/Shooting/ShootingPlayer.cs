@@ -21,7 +21,7 @@ namespace Shooting
         float shotIntervalTimer;
 
         [Header("Shot Level")]
-        [SerializeField, Range(1, 3)] int shotLevel = 1;
+       // [SerializeField, Range(1, 3)] int shotLevel = 1;
         [SerializeField] float dualShotWidth = 1.0f;
         [SerializeField] float tripleShotWidth = 1.0f;
 
@@ -119,7 +119,7 @@ namespace Shooting
                             CallShotBullet(Vector3.zero, (Vector3.right + Vector3.down * tripleShotWidth).normalized * bulletSpeed);
                             break;
                         default:
-                            Debug.LogWarning("対応していないショットレベル：" + shotLevel);
+                            Debug.LogWarning("対応していないショットレベル：");
                             break;
                     }
                 }
@@ -127,7 +127,7 @@ namespace Shooting
 
             if (PhotonNetwork.IsMasterClient
                 && TetraInput.sTetraButton.GetTrigger()
-                && ShootingGameManager.sBombNum > 0)
+                && ShootingGameManager.sShootingGameManager.bomb > 0)
             { //ボム
                 CallInstantiateBombLocal();                
             }
@@ -268,11 +268,14 @@ namespace Shooting
         [PunRPC]
         public void RPCShotLevelUp()
         {
-            shotLevel++;
-            if (shotLevel >= 3)
-            {
-                shotLevel = 3;
-            }
+            //そのまま回復の処理にする
+            ShootingGameManager.sShootingGameManager.AddLife(1);
+
+            //shotLevel++;
+            //if (shotLevel >= 3)
+            //{
+            //    shotLevel = 3;
+            //}
         }
 
         private void CallDealDamageToPlayer()
@@ -288,16 +291,16 @@ namespace Shooting
             isInvincible = true;
 
             //レベル２以上ならレベルを一つ下げて一時無敵に
-            if (shotLevel >= 2)
-            {
-                shotLevel--;
+            //if (shotLevel >= 2)
+            //{
+            //    shotLevel--;
 
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    MonitorManager.DealDamageToMonitor("small");
-                }
-            }
-            else
+            //    if (PhotonNetwork.IsMasterClient)
+            //    {
+            //        MonitorManager.DealDamageToMonitor("small");
+            //    }
+            //}
+            //else
             {
                 //爆発
                 Instantiate(explosionPrefab, transform.position, Quaternion.identity);
