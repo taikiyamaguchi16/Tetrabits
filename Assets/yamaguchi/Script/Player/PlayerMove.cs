@@ -8,6 +8,7 @@ public struct MoveSpeedInRatio
 {
     [Tooltip("割合(0~1)")] public float ratio;
     [Tooltip("移動速度")] public float moveSpd;
+    public float zenmaiRotationSpeed;
 }
 
 public class PlayerMove : MonoBehaviourPunCallbacks
@@ -101,7 +102,10 @@ public class PlayerMove : MonoBehaviourPunCallbacks
             foreach (var speedInRatio in moveSpeedInRatios)
             {
                 if (ratio <= speedInRatio.ratio)
+                {
                     moveSpd = speedInRatio.moveSpd;
+                    zenmaiRotation.SetZenmaiRotationSpeed(speedInRatio.zenmaiRotationSpeed);
+                }
             }
 
             if (carryObjFg)
@@ -194,6 +198,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
         if (moveDir.magnitude > 0)
         {
             zenmai.DecreaseZenmaiPower();
+
             if (_moveVec.x > 0f)
             {
                 SerWalkState();
