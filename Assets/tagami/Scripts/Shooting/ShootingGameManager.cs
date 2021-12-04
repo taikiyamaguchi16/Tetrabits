@@ -127,7 +127,7 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
             restart = true;
             if (PhotonNetwork.IsMasterClient)
             {
-                MonitorManager.DealDamageToMonitor("medium");
+                MonitorManager.DealDamageToMonitor("small");
             }
         }
 
