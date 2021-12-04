@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 6153072252092116769}
   - component: {fileID: 2816363108835154189}
   - component: {fileID: 6751071448299187984}
+  - component: {fileID: 7613678436390971133}
   m_Layer: 0
   m_Name: BatterySpawner
   m_TagString: Untagged
@@ -148,7 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spownObj: {fileID: 5348215941343250890, guid: 754dccfd5a0cd1e4ebd70335be187362, type: 3}
   spownBatteryTime: 10
-  batteryLift: {fileID: 7979919361156809031}
+  batteryLift: {fileID: 7613678436390971133}
   smokeEfect: {fileID: 5588990977058841092}
 --- !u!114 &4496309126412484114
 MonoBehaviour:
@@ -215,6 +216,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc0696baf7e51d14a84a06e4d39e80ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7613678436390971133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227463159763246234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a995cda77310db49846a9760dcd0970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color1: {r: 11.984314, g: 8.031373, b: 0, a: 0}
+  color2: {r: 1.4980392, g: 1.0039216, b: 0, a: 0}
+  startPos: {fileID: 2343356820960682912}
+  endPos: {fileID: 8678882464148138511}
+  carryBattery: {fileID: 6917600797851543047}
+  blinkingTime: 1.5
+  blinkingInterval: 0.3
+  lightMesh: {fileID: 3515243179929448113}
 --- !u!114 &485805829888633747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,26 +252,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 0
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &7979919361156809031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6925338305483657293}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a995cda77310db49846a9760dcd0970, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color1: {r: 11.984314, g: 8.031373, b: 0, a: 0}
-  color2: {r: 1.4980392, g: 1.0039216, b: 0, a: 0}
-  startPos: {fileID: 2343356820960682912}
-  endPos: {fileID: 8678882464148138511}
-  carryBattery: {fileID: 6917600797851543047}
-  blinkingTime: 1.5
-  blinkingInterval: 0.3
-  lightMesh: {fileID: 3515243179929448113}
 --- !u!1 &7593453920472376331
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,11 +511,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7154807921467402869, guid: 0b83dbd57da5a4d4e9f031bab6db16c8, type: 3}
   m_PrefabInstance: {fileID: 1412014762156935637}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6925338305483657293 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8323713753279011224, guid: 0b83dbd57da5a4d4e9f031bab6db16c8, type: 3}
-  m_PrefabInstance: {fileID: 1412014762156935637}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2757494898576848746
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -687,14 +683,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7bf18dd20422304ea868e95c3518f19, type: 3}
---- !u!4 &5588990977074070144 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 445260, guid: d7bf18dd20422304ea868e95c3518f19, type: 3}
-  m_PrefabInstance: {fileID: 5588990977073990092}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &5588990977058841092 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 19885000, guid: d7bf18dd20422304ea868e95c3518f19, type: 3}
+  m_PrefabInstance: {fileID: 5588990977073990092}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5588990977074070144 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 445260, guid: d7bf18dd20422304ea868e95c3518f19, type: 3}
   m_PrefabInstance: {fileID: 5588990977073990092}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7066451109424232929
