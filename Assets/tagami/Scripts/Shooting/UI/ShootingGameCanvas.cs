@@ -12,8 +12,8 @@ public class ShootingGameCanvas : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        lifeText.text = "残りライフ：" + ShootingGameManager.sLife;
+        lifeText.text = "×" + ShootingGameManager.sShootingGameManager.life;
 
-        bombText.text = "残りボム数：" + ShootingGameManager.sBombNum;
+        bombText.text = "×" + ShootingGameManager.sShootingGameManager.bomb;
     }
 }
