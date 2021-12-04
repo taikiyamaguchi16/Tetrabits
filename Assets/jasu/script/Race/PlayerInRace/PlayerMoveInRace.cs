@@ -34,7 +34,7 @@ public class PlayerMoveInRace : MoveInRace
     {
         // 移動速度決定
         float moveSpdHolder = moveSpdStandard;
-        moveSpdStandard *= (1f + (0.1f * TetraInput.sTetraPad.GetNumOnPad())); // padの上に乗ってる分加速
+        //moveSpdStandard *= (1f + (0.1f * TetraInput.sTetraPad.GetNumOnPad())); // padの上に乗ってる分加速
 
         SetMoveSpd();
         moveSpdStandard = moveSpdHolder;
