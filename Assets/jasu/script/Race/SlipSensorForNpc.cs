@@ -19,8 +19,6 @@ public class SlipSensorForNpc : MonoBehaviour
         {
             if (!bikeSlipDown.isSliping)
             {
-                DirtInRace dirt = null;
-
                 // -180 ~ 180 に補正
                 float angleX = transform.localRotation.eulerAngles.x;
                 if (angleX > 180)
@@ -29,8 +27,7 @@ public class SlipSensorForNpc : MonoBehaviour
                 }
 
                 // 泥だまりのとき減速中なら滑らない
-                dirt = other.transform.parent.GetComponent<DirtInRace>();
-                if (angleX >= -10f || dirt == null)
+                if (angleX >= -10f || other.transform.parent.tag != "Dirt")
                 {
                     bikeSlipDown.SlipStart();
                 }

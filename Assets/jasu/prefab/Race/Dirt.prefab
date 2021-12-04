@@ -139,9 +139,10 @@ GameObject:
   - component: {fileID: 8377866479552349666}
   - component: {fileID: 3030476277874374206}
   - component: {fileID: 5579806184061065474}
+  - component: {fileID: 5081565981696225912}
   m_Layer: 0
   m_Name: Dirt
-  m_TagString: Slip
+  m_TagString: Dirt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -203,6 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raceStageMolder: {fileID: 0}
+  destroyIfHitOther: 1
 --- !u!54 &5579806184061065474
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -219,3 +221,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!65 &5081565981696225912
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6599665773391567015}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4, y: 1, z: 4}
+  m_Center: {x: 0, y: 2, z: 2.5}
