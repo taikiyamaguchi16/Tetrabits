@@ -45,22 +45,17 @@ public class PowerSwitch : MonoBehaviour
         if (controllerDetect.GetControllerFlag())
         {
             tmp.text = "B   電源 ON";
-
-            // PadのB
-            if (XInputManager.GetButtonTrigger(controllerID, XButtonType.B))
-            {
-                isPower = true;
-            }
         }
         // コントローラー非接続時
         else if (!controllerDetect.GetControllerFlag())
         {
             tmp.text = "SPACE or ENTER   電源 ON";
+        }
 
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
-            {
-                isPower = true;
-            }
+        // メニュー表示インプット
+        if (XInputManager.GetButtonTrigger(controllerID, XButtonType.B) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        {
+            isPower = true;
         }
     }
 }
