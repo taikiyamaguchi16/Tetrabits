@@ -12,6 +12,10 @@ public class RecoverZenmaiPower : MonoBehaviourPunCallbacks, IPlayerAction
 
     [SerializeField]
     PlayerMove movePlayer;
+
+    [SerializeField]
+    ZenmaiRotation zenmaiRot;
+
     bool windFlag = false;  // 巻きフラグ
 
     // Start is called before the first frame update
@@ -22,9 +26,9 @@ public class RecoverZenmaiPower : MonoBehaviourPunCallbacks, IPlayerAction
 
     private void Update()
     {
-        if (windFlag)   // ゼンマイを巻く
+        if (windFlag&&photonView.IsMine)   // ゼンマイを巻く
         {
-            zenmai.zenmaiPower += recoveryAmount;
+            zenmai.zenmaiPower += recoveryAmount*Time.deltaTime;
             if (zenmai.zenmaiPower > zenmai.maxZenmaiPower)
                 zenmai.zenmaiPower = zenmai.maxZenmaiPower;
         }
@@ -66,6 +70,7 @@ public class RecoverZenmaiPower : MonoBehaviourPunCallbacks, IPlayerAction
                 zenmai.decreaseTrigger = false;
 
                 movePlayer.SetPlayerMovable(false);
+                zenmaiRot.SetRecoverFg(true);
             }
         }
     }
@@ -81,6 +86,7 @@ public class RecoverZenmaiPower : MonoBehaviourPunCallbacks, IPlayerAction
                 zenmai.decreaseTrigger = true;
 
                 movePlayer.SetPlayerMovable(true);
+                zenmaiRot.SetRecoverFg(false);
             }
         }
     }
