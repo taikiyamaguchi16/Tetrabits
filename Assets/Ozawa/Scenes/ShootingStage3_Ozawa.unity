@@ -13059,6 +13059,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6926390078095025538, guid: d5a05d6b90d738f4d9114e7a8612c975, type: 3}
   m_PrefabInstance: {fileID: 1381849147}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1422006200 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 515006641, guid: cdb076b179d11d34e9b465e84eea7fc5, type: 3}
+  m_PrefabInstance: {fileID: 1218384718}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a1c58f8c1d4cd841bb14ce7b7cda3d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1430063429
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13438,6 +13449,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 673203524}
     m_Modifications:
+    - target: {fileID: 3790916819810655465, guid: 32ddb50f7d83f4d4496f40665e6b77cb, type: 3}
+      propertyPath: shootingCamera
+      value: 
+      objectReference: {fileID: 1422006200}
     - target: {fileID: 6572393710086118668, guid: 32ddb50f7d83f4d4496f40665e6b77cb, type: 3}
       propertyPath: m_Name
       value: Boss
