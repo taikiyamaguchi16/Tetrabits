@@ -177,6 +177,7 @@ MonoBehaviour:
   distanceToGround: 5
   gravity: -50
   moveVec: {x: 0, y: 0, z: 0}
+  wheelonSlopeNum: 0
 --- !u!114 &4717983805591257336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -618,7 +619,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   existInCollider: 0
   distanceToGround: 5
-  objList: []
+  exceptionList:
+  - {fileID: 3643461864264366053}
 --- !u!136 &9135241588772786613
 CapsuleCollider:
   m_ObjectHideFlags: 0

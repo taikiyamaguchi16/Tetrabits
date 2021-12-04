@@ -4,29 +4,44 @@ using UnityEngine;
 
 public class DirtSensor : AISensor
 {
-    //int dirtNum = 0;
+    [SerializeField]
+    List<GameObject> dirtList = new List<GameObject>();
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    DirtInRace dirt = other.transform.parent.GetComponent<DirtInRace>();
-    //    if (dirt != null)
-    //    {
-    //        dirtNum++;
-    //        sensorActive = true;
-    //    }
-    //}
+    private void Update()
+    {
+        for (int i = 0; i < dirtList.Count; i++)
+        {
+            if (dirtList[i] == null)
+            {
+                dirtList.Remove(dirtList[i]);
+            }
+        }
 
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    DirtInRace dirt = other.transform.parent.GetComponent<DirtInRace>();
-    //    if (dirt != null)
-    //    {
-    //        dirtNum--;
-    //        if(dirtNum <= 0)
-    //        {
-    //            dirtNum = 0;
-    //            sensorActive = false;
-    //        }
-    //    }
-    //}
+        if(dirtList.Count <= 0)
+        {
+            sensorActive = false;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == "Dirt")
+        {
+            dirtList.Add(other.transform.gameObject);
+            sensorActive = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.transform.tag == "Dirt")
+        {
+            dirtList.Remove(other.transform.gameObject);
+            if (dirtList.Count <= 0)
+            {
+                dirtList.Clear();
+                sensorActive = false;
+            }
+        }
+    }
 }
