@@ -102,10 +102,11 @@ public class GameInGameResultManager : MonoBehaviour
             //ルーム解散処理？
             Photon.Pun.PhotonNetwork.LeaveRoom();
             Photon.Pun.PhotonNetwork.LeaveLobby();
+            Photon.Pun.PhotonNetwork.Disconnect();
 
             VirtualCameraManager.OnlyActive(0);
 
-            //オフライン関数
+            //オフライン関数でタイトルへ戻る
             GameInGameUtil.SwitchGameInGameSceneOffline(nextScene);
         }
     }
