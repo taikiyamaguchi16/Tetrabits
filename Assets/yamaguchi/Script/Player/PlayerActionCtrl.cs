@@ -103,7 +103,25 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     runningAction = null;
                     candidates.Clear();
                     highPriorityList.Clear();
-                }  
+                }
+                //持ち運んでいるオブジェクトがある場合それをアクション候補に加える
+                GameObject carryObj = holder.GetItem();
+                if (carryObj != null)
+                {
+                    if (!allActionItem.Contains(carryObj))
+                    {
+                        allActionItem.Add(carryObj);
+                    }
+                }               
+
+                if (allActionItem.Count > 0)
+                    CheckItemPossible();
+                if (candidates.Count > 0)
+                {
+                    //優先度が高いアクションを判別して実行
+                    PriorityCheck();
+                    CheckHighPriorityAction();
+                }
             }
 
             if (holder.GetItem() != null)
