@@ -76,15 +76,18 @@ public class VirtualCameraManager : MonoBehaviour
             cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
         }
 
-        if (sVirtualCameraWithDepthOfFieldList.Count == 0)
+        if(sVirtualCameraWithDepthOfFieldList.Count != 0)
         {
-            sVirtualCameraWithDepthOfFieldList.AddRange(virtualCameraWithDepthOfFields);
+            sVirtualCameraWithDepthOfFieldList.Clear();
         }
+        sVirtualCameraWithDepthOfFieldList.AddRange(virtualCameraWithDepthOfFields);
 
         if (globalVolumeController != null)
         {
             sHavingGlobalVolumeController = true;
         }
+
+        isMovingCamera = false;
     }
 
     private void Update()
