@@ -19,8 +19,6 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
 
     [Header("Status")]
     [SerializeField] float damageToCoolingTargetPerSeconds = 1.0f;
-    [SerializeField] float repairMonitorPerSeconds = 0.1f;
-    [SerializeField] float rotateAnglePerSeconds = 10.0f;
 
     [Header("Effect")]
     [SerializeField] VisualEffect coolingEffect;

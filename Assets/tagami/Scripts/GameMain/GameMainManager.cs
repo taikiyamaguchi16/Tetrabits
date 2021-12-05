@@ -13,6 +13,14 @@ public class GameMainManager : MonoBehaviourPunCallbacks
     [SerializeField] SceneObject resultScene;
     [SerializeField] Trisibo.SceneField waitInsertCassetteScene;
 
+    public class GameInGameTimer
+    {
+        public string tag;
+        public float startTime;
+        public float endTime;
+    }
+    List<GameInGameTimer> gameInGameTimerList = new List<GameInGameTimer>();
+
     private void Start()
     {
         GetComponent<GameInGameSwitcher>().RPCSwitchGameInGameScene(titleScene);
@@ -31,7 +39,6 @@ public class GameMainManager : MonoBehaviourPunCallbacks
             CallClearCurrentGameInGame(GameInGameManager.sCurrentGameInGameManager.gameName, 0.0f);
         }
     }
-
     void CallClearCurrentGameInGame(string _gameInGameName, float _clearSeconds)
     {
         photonView.RPC(nameof(RPCClearCurrentGameInGame), RpcTarget.AllViaServer, _gameInGameName, _clearSeconds);
@@ -61,5 +68,42 @@ public class GameMainManager : MonoBehaviourPunCallbacks
         }
     }
 
+    //**********************************************************
+    //GameInGameに呼んでもらう
+    public void StartGameInGameTimer(string _gameTag)
+    {
+        GameInGameTimer gameInGameTimer = new GameInGameTimer();
+        gameInGameTimer.tag = _gameTag;
+        gameInGameTimer.startTime = Time.realtimeSinceStartup;
+        gameInGameTimerList.Add(gameInGameTimer);
+    }
+
+    public void StopGameInGameTimer(string _gameTag)
+    {
+        //タイマーを取得
+        GameInGameTimer gameInGameTimer = null;
+        foreach (var timer in gameInGameTimerList)
+        {
+            if (timer.tag == _gameTag)
+            {
+                gameInGameTimer = timer;
+                break;
+            }
+        }
+        if (gameInGameTimer == null)
+        {
+            Debug.LogError(_gameTag + ":タグのタイマーが作成されていません　StartGameInGameTimer(string)を呼んでください");
+            return;
+        }
+
+        gameInGameTimer.endTime = Time.realtimeSinceStartup;
+    }
+
+    //**********************************************************
+    //Resultで使用
+    public List<GameInGameTimer> GetGameInGameTimerList()
+    {
+        return gameInGameTimerList;
+    }
 
 }

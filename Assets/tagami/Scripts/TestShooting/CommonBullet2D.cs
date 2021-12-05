@@ -28,6 +28,7 @@ public class CommonBullet2D : MonoBehaviourPunCallbacks
             if(destroyGameClear)
             {
                 GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
+                GameInGameUtil.StopGameInGameTimer("shooting");
                 Destroy(collision.gameObject);
             }
 

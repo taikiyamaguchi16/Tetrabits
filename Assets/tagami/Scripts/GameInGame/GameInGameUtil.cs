@@ -40,6 +40,33 @@ public class GameInGameUtil : MonoBehaviour
         }
     }
 
+    public static void StartGameInGameTimer(string _gameInGameTag)
+    {
+        var managerObj = GameObject.Find("GameMainManager");
+        if (managerObj)
+        {
+            managerObj.GetComponent<GameMainManager>().StartGameInGameTimer(_gameInGameTag);
+        }
+        else
+        {
+            Debug.LogError("GameMainManagerが見つかりませんでした");
+        }
+    }
+
+    public static void StopGameInGameTimer(string _gameInGameTag)
+    {
+        var managerObj = GameObject.Find("GameMainManager");
+        if (managerObj)
+        {
+            managerObj.GetComponent<GameMainManager>().StopGameInGameTimer(_gameInGameTag);
+        }
+        else
+        {
+            Debug.LogError("GameMainManagerが見つかりませんでした");
+        }
+    }
+
+
     public static string GetSceneNameByBuildIndex(int _index)
     {
         string path = SceneUtility.GetScenePathByBuildIndex(_index);

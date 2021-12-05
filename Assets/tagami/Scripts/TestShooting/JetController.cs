@@ -27,6 +27,8 @@ public class JetController : MonoBehaviourPunCallbacks
     void Start()
     {
         shotTimer = Random.Range(0.0f, shotIntervalTime);
+
+        GameInGameUtil.StartGameInGameTimer("shooting");
     }
 
     // Update is called once per frame
