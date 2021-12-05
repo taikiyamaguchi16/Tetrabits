@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 {
@@ -25,8 +26,22 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     [SerializeField, ReadOnly]
     private float level = 100f;
 
+    [SerializeField]
+    private Text actionText;
+
     private ItemPocket ownerSc;
 
+    private void Update()
+    {
+        if (!isOwned)
+        {
+            actionText.text = "拾う";
+        }
+        else
+        {
+            actionText.text = "すてる";
+        }
+    }
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -44,10 +59,12 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         if (!isOwned)
         {
             photonView.RPC(nameof(PickUp), RpcTarget.AllBufferedViaServer, _desc.playerObj.GetPhotonView().ViewID);
+           
         }
         else
+        {
             photonView.RPC(nameof(Dump), RpcTarget.AllBufferedViaServer, _desc.playerObj.GetPhotonView().ViewID);
-
+        }
     }
 
     public void EndPlayerAction(PlayerActionDesc _desc) { }

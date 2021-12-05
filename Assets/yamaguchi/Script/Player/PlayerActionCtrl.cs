@@ -104,6 +104,24 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     candidates.Clear();
                     highPriorityList.Clear();
                 }
+                //持ち運んでいるオブジェクトがある場合それをアクション候補に加える
+                GameObject carryObj = holder.GetItem();
+                if (carryObj != null)
+                {
+                    if (!allActionItem.Contains(carryObj))
+                    {
+                        allActionItem.Add(carryObj);
+                    }
+                }               
+
+                if (allActionItem.Count > 0)
+                    CheckItemPossible();
+                if (candidates.Count > 0)
+                {
+                    //優先度が高いアクションを判別して実行
+                    PriorityCheck();
+                    CheckHighPriorityAction();
+                }
             }
 
             if (holder.GetItem() != null)
@@ -138,6 +156,14 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
         {
             allActionItem.Remove(other.gameObject);  // アクション候補のリスト
 
+            GameObject carryObj = holder.GetItem();
+            if (carryObj != null)
+            {
+                if (!allActionItem.Contains(carryObj))
+                {
+                    allActionItem.Add(carryObj);
+                }
+            }
             if (allActionItem.Count > 0)
             {
                 CheckItemPossible();
@@ -145,6 +171,22 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                 {
                     PriorityCheck();
                     CheckHighPriorityAction();
+                }
+                else
+                {
+                    if(selectedObj!=null)
+                    {
+                        selectedObj.GetComponent<ControlUIActivator>().SetControlUIActive(false);
+                        selectedObj = null;
+                    }
+                }
+            }
+            else
+            {
+                if (selectedObj != null)
+                {
+                    selectedObj.GetComponent<ControlUIActivator>().SetControlUIActive(false);
+                    selectedObj = null;
                 }
             }
         }
@@ -193,8 +235,14 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     Vector3.Distance(transform.position, nearest.transform.position))
                     nearest = can;
             }
+            //前のオブジェクトのUIを非表示に
+            if (selectedObj != null)
+                selectedObj.GetComponent<ControlUIActivator>().SetControlUIActive(false);
             //IAction持ちの一番近いやつ取得
             selectedObj = nearest;
+
+            selectedObj.GetComponent<ControlUIActivator>().SetControlUIActive(true);
+            Debug.Log("追加しました");
         }
     }
     private void CheckItemPossible()

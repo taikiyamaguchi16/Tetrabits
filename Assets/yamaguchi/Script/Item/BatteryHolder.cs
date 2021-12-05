@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.VFX;
+using UnityEngine.UI;
 
 public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
 {
@@ -14,6 +15,9 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
 
     [SerializeField]
     List<VisualEffect> sparkEfects = new List<VisualEffect>();
+
+    [SerializeField]
+    Text actionText;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +48,13 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
             //渡されたのがバッテリーだった場合
             if (possibleBattery != null)
             {
+                actionText.text = "入れる";
+
+                //自分がバッテリを持っていた場合swapする
+                if (checkbattery != null)
+                {
+                    actionText.text = "入れ替える";
+                }
                 return true;
             }
             //バッテリーでなかった場合元に戻す
@@ -58,6 +69,7 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
             //自分がバッテリを持っていた場合渡す
             if (ownBattery != null)
             {
+                actionText.text = "取り出す";
                 return true;
             }
         }

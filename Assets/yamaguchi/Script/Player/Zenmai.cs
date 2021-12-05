@@ -16,9 +16,8 @@ public class Zenmai : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        zenmaiPower = maxZenmaiPower;
-
-        decreaseTrigger = false;
+        //zenmaiPower = maxZenmaiPower;
+        decreaseTrigger = true;
     }
 
     public void DecreaseZenmaiPower()

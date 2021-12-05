@@ -315,8 +315,8 @@ RectTransform:
   m_Father: {fileID: 5281397341507701503}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -423,7 +423,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9146681685473700304
 RectTransform:
   m_ObjectHideFlags: 0
@@ -555,7 +555,6 @@ GameObject:
   - component: {fileID: 3963862280272364308}
   - component: {fileID: 8801801403219837859}
   - component: {fileID: 840877276256960314}
-  - component: {fileID: 324682614042655473}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -616,10 +615,13 @@ MonoBehaviour:
   moveSpeedInRatios:
   - ratio: 1
     moveSpd: 12
+    zenmaiRotationSpeed: 1.5
   - ratio: 0.5
     moveSpd: 10
+    zenmaiRotationSpeed: 0.8
   - ratio: 0.2
     moveSpd: 6
+    zenmaiRotationSpeed: 0.3
   carryMoveSpeed: 6
   jumpPower: 1000
   gravity: -100
@@ -637,8 +639,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 460e9f2a7feed4b4e8c2e223f0c4c5fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoveryAmount: 0.1
+  recoveryAmount: 10
   movePlayer: {fileID: 7772201493524667833}
+  zenmaiRot: {fileID: 3397908250154933518}
 --- !u!135 &8889787103556452775
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -721,7 +724,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxZenmaiPower: 100
   zenmaiPower: 0
-  decrease: 0.005
+  decrease: 0.05
   decreaseTrigger: 1
 --- !u!114 &-674107463794023483
 MonoBehaviour:
@@ -795,18 +798,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 7809969131510274072}
   overrideSprite: {fileID: 199375553321426398}
---- !u!114 &324682614042655473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7772201493524667844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91400a66839af814ca621e9e847cd06a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7993158077866682890
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,7 +1038,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a69165799fbe9b45a76f67f41c8d790, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zenmaiRotationSpeed: 0.52
   sidewaysPosition: {fileID: 256092204069021141}
 --- !u!114 &2413545341148386078
 MonoBehaviour:
@@ -1098,7 +1088,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
