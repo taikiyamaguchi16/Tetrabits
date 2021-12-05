@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
 {
@@ -25,6 +26,9 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
     [SerializeField]
     bool isClear;
 
+    [SerializeField]
+    private Text actionText;
+
     private ItemPocket ownerSc;
 
     void Start()
@@ -38,7 +42,17 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
 
         rendererObj.GetComponent<Renderer>().material.color = cassetteColor;
     }
-
+    private void Update()
+    {
+        if (!isOwned)
+        {
+            actionText.text = "拾う";
+        }
+        else
+        {
+            actionText.text = "すてる";
+        }
+    }
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
         if (!isOwned)

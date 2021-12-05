@@ -16,7 +16,7 @@ public class ZenmaiRotation : MonoBehaviour
     private bool recoverFg;
 
     private MeshRenderer zenmaiMesh;
-    private void Start()
+    private void Awake()
     {
         backPosition=this.transform.localPosition;
         fowardVec = transform.forward;
