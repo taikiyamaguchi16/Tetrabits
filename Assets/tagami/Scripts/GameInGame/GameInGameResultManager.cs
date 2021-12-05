@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameInGameResultManager : MonoBehaviour
 {
@@ -17,7 +18,8 @@ public class GameInGameResultManager : MonoBehaviour
     [SerializeField] bool useDebugResult;
 
     private void Start()
-    {
+    {       
+
         List<GameMainManager.GameInGameTimer> gameInGameTimers = new List<GameMainManager.GameInGameTimer>();
         if (useDebugResult)
         {//Debug用データ用意
@@ -97,6 +99,9 @@ public class GameInGameResultManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //カメラよる
+        VirtualCameraManager.OnlyActive(0);
+
         if ((XInputManager.GetButtonTrigger(0, XButtonType.A) || Input.GetKeyDown(KeyCode.Return)))
         {
             //ルーム解散処理？
@@ -104,10 +109,17 @@ public class GameInGameResultManager : MonoBehaviour
             Photon.Pun.PhotonNetwork.LeaveLobby();
             Photon.Pun.PhotonNetwork.Disconnect();
 
-            VirtualCameraManager.OnlyActive(0);
 
+            //12/6 田上　初期化とか面倒すぎるのでコメントアウト
             //オフライン関数でタイトルへ戻る
-            GameInGameUtil.SwitchGameInGameSceneOffline(nextScene);
+            //GameInGameUtil.SwitchGameInGameSceneOffline(nextScene);
+
+            //コンテナをクリア
+            NetworkObjContainer.NetworkObjDictionary.Clear();
+
+            //GameMainの再読み込み
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
         }
     }
 }
