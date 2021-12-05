@@ -23,7 +23,7 @@ public class PlayerMoveInRace : MoveInRace
     void Update()
     {
         // 移動入力
-        moveInput = false;
+        moveInput = true;
         if (TetraInput.sTetraLever.GetPoweredOn())
         {
             moveInput = true;
@@ -62,10 +62,10 @@ public class PlayerMoveInRace : MoveInRace
         AccelerationToMoveVec();
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        WhenOnCollisionEnter(collision);
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    WhenOnCollisionEnter(collision);
+    //}
 
     //private void OnTriggerEnter(Collider other)
     //{

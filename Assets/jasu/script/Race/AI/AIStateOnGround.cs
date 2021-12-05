@@ -116,33 +116,33 @@ public class AIStateOnGround : AIState
         }
 
         // 泥掛け
-        dirtIntervalTimer += Time.deltaTime;
-        if(dirtIntervalTimer > dirtIntervalSeconds)
-        {
-            canBeDirt = true;
-        }
+        //dirtIntervalTimer += Time.deltaTime;
+        //if(dirtIntervalTimer > dirtIntervalSeconds)
+        //{
+        //    canBeDirt = true;
+        //}
 
-        if (moveBetweenLane.belongingLaneId == playerMoveBetweenLane.belongingLaneId && sensorDistanceTarget.sensorActive && canBeDirt)
-        {
-            canBeDirt = false;
-            dirtIntervalTimer = 0f;
+        //if (moveBetweenLane.belongingLaneId == playerMoveBetweenLane.belongingLaneId && sensorDistanceTarget.sensorActive && canBeDirt)
+        //{
+        //    canBeDirt = false;
+        //    dirtIntervalTimer = 0f;
 
-            if(moveBetweenLane.belongingLaneId - 1 < 0)
-            {
-                moveBetweenLane.SetMoveLane(1);
-            }
-            else if(moveBetweenLane.belongingLaneId + 1 > moveBetweenLane.GetLaneNum())
-            {
-                moveBetweenLane.SetMoveLane(moveBetweenLane.GetLaneNum() - 1);
-            }
-            else
-            {
-                moveBetweenLane.SetMoveLane(moveBetweenLane.belongingLaneId + 1);
-            }
+        //    if(moveBetweenLane.belongingLaneId - 1 < 0)
+        //    {
+        //        moveBetweenLane.SetMoveLane(1);
+        //    }
+        //    else if(moveBetweenLane.belongingLaneId + 1 > moveBetweenLane.GetLaneNum())
+        //    {
+        //        moveBetweenLane.SetMoveLane(moveBetweenLane.GetLaneNum() - 1);
+        //    }
+        //    else
+        //    {
+        //        moveBetweenLane.SetMoveLane(moveBetweenLane.belongingLaneId + 1);
+        //    }
             
 
-            dirtSplashSpawn.dirtSplashFlag = true;
-        }
+        //    dirtSplashSpawn.dirtSplashFlag = true;
+        //}
     }
 
     public override bool CheckShiftCondition()

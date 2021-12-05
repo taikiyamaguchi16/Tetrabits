@@ -15,7 +15,7 @@ public class SlipSensorForPlayer : MonoBehaviour
             return;
         }
 
-        if (other.gameObject.tag == "Slip")
+        if (other.gameObject.tag == "Slip" && !TetraInput.sTetraLever.GetPoweredOn())
         {
             if (!bikeSlipDown.isSliping)
             {

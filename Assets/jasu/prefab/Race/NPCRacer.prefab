@@ -169,7 +169,7 @@ MonoBehaviour:
   dirtSplashSpawn: {fileID: 2635770476168120973}
   attitudeCtrl: {fileID: 396231687437029225}
   moveSpd: 0
-  moveSpdStandard: 100
+  moveSpdStandard: 95
   accelerateMultiply: 1.2
   decelerateMultiply: 0.7
   moveSlopeMultiply: 2
@@ -362,6 +362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensorActive: 0
+  dirtList: []
 --- !u!1 &3405693731458820472
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,7 +633,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4878758953354832212}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d831eaf284405c47b4d45afcdf63c7f, type: 3}
   m_Name: 
@@ -687,11 +688,9 @@ MonoBehaviour:
   - {fileID: 5071266085724038936}
   - {fileID: 7197532588029266713}
   - {fileID: 396231687437029225}
-  - {fileID: 2635770476168120973}
   componentsOffAfterGoal:
   - {fileID: 5071266085724038936}
   - {fileID: 7197532588029266713}
-  - {fileID: 2635770476168120973}
   componentsOnAfterGoal:
   - {fileID: 7428666028572337702}
 --- !u!114 &3599895164103927051
@@ -766,7 +765,7 @@ MonoBehaviour:
   sensorDistanceTarget: {fileID: 8426434430513307605}
   dirtSensor: {fileID: 4466933913019798648}
   moveBetweenLane: {fileID: 7197532588029266713}
-  playerMoveBetweenLane: {fileID: 7197532588029266713}
+  playerMoveBetweenLane: {fileID: 0}
   otherMoveBetweenLane: []
   attitudeCtrl: {fileID: 396231687437029225}
   dirtSplashSpawn: {fileID: 2635770476168120973}

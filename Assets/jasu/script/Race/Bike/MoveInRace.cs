@@ -64,7 +64,10 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     protected Vector3 moveVec = Vector3.zero;
 
     [SerializeField]
-    protected int wheelonSlopeNum = 0; 
+    protected bool onSlope = false;
+
+    //[SerializeField]
+    //protected int wheelonSlopeNum = 0; 
 
     // Start is called before the first frame update
     void Start()
@@ -85,9 +88,6 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     {
         moveVec = Vector3.zero;
 
-        // スロープチェック
-        CheckSlope();
-
         // 移動ベクトル作成
         SetMoveVec();
 
@@ -100,14 +100,16 @@ public class MoveInRace : MonoBehaviourPunCallbacks
 
     protected void CheckSlope()
     {
+        onSlope = false;
         Vector3 rayPosition = transform.position;
         Ray ray = new Ray(rayPosition, Vector3.down);
         if (Physics.Raycast(ray, out RaycastHit hitInfo, distanceToGround))
         {
-            if(hitInfo.transform.gameObject.tag != "SlopeRoadInRace" &&
-            hitInfo.transform.parent.gameObject.tag != "SlopeRoadInRace")
+            if(hitInfo.transform.gameObject.tag == "SlopeRoadInRace" ||
+            hitInfo.transform.parent.gameObject.tag == "SlopeRoadInRace")
             {
-                wheelonSlopeNum = 0;
+                onSlope = true;
+                groundNormalVec = hitInfo.normal;
             }
         }
     }
@@ -122,7 +124,7 @@ public class MoveInRace : MonoBehaviourPunCallbacks
         }
 
         moveSpd = moveSpdStandard;
-        if (wheelonSlopeNum <= 0 && colliderSensor.GetExistInCollider())
+        if (!onSlope && colliderSensor.GetExistInCollider())
         {
             if (angleX < 0)
             {
@@ -139,17 +141,20 @@ public class MoveInRace : MonoBehaviourPunCallbacks
 
     protected void SetMoveVec()
     {
+        // スロープチェック
+        CheckSlope();
+
         if (!bikeSlipDown.isSliping)
         {
-            if (wheelonSlopeNum > 0)
+            if (onSlope)
             {
                 moveVec = Vector3.ProjectOnPlane(Vector3.forward, groundNormalVec);
 
                 // ありえん角度なら坂判定リセット
-                if (attitudeCtrl.CorrectAngle(Quaternion.LookRotation(moveVec).eulerAngles.x) < -90f)
-                {
-                    wheelonSlopeNum = 0;
-                }
+                //if (attitudeCtrl.CorrectAngle(Quaternion.LookRotation(moveVec).eulerAngles.x) < -90f)
+                //{
+                //    onSlope = false;
+                //}
 
                 transform.parent.localRotation = Quaternion.Lerp(transform.parent.localRotation, Quaternion.LookRotation(moveVec), rotLateSlope);
                 if (attitudeCtrl.CorrectAngle(transform.parent.localRotation.eulerAngles.x) <= attitudeCtrl.CorrectAngle(Quaternion.LookRotation(moveVec).eulerAngles.x))
@@ -179,7 +184,6 @@ public class MoveInRace : MonoBehaviourPunCallbacks
         // 空中でのみ重力
         if (!colliderSensor.GetExistInCollider())
         {
-            wheelonSlopeNum = 0;
             moveVec.y = gravity;
         }
     }
@@ -199,44 +203,44 @@ public class MoveInRace : MonoBehaviourPunCallbacks
         dirtSplashSpawn.moveVec = moveVec;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        WhenOnCollisionEnter(collision);
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    WhenOnCollisionEnter(collision);
+    //}
 
-    protected void WhenOnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "SlopeRoadInRace" ||
-            collision.transform.parent.gameObject.tag == "SlopeRoadInRace")
-        {
-            wheelonSlopeNum++;
-            groundNormalVec = collision.contacts[0].normal;
-            //Debug.Log("坂の法線取得" + groundNormalVec);
-        }
-        //else if ((collision.gameObject.tag == "FlatRoadInRace" ||
-        //        collision.transform.parent.gameObject.tag == "FlatRoadInRace") && wheelonSlopeNum <= 0)
-        //{
-        //    groundNormalVec = Vector3.zero;
-        //    //Debug.Log("坂の法線リセット" + groundNormalVec);
-        //}
-    }
+    //protected void WhenOnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.tag == "SlopeRoadInRace" ||
+    //        collision.transform.parent.gameObject.tag == "SlopeRoadInRace")
+    //    {
+    //        wheelonSlopeNum++;
+    //        groundNormalVec = collision.contacts[0].normal;
+    //        //Debug.Log("坂の法線取得" + groundNormalVec);
+    //    }
+    //    //else if ((collision.gameObject.tag == "FlatRoadInRace" ||
+    //    //        collision.transform.parent.gameObject.tag == "FlatRoadInRace") && wheelonSlopeNum <= 0)
+    //    //{
+    //    //    groundNormalVec = Vector3.zero;
+    //    //    //Debug.Log("坂の法線リセット" + groundNormalVec);
+    //    //}
+    //}
 
-    private void OnCollisionExit(Collision collision)
-    {
-        WhenOnCollisionExit(collision);
-    }
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    WhenOnCollisionExit(collision);
+    //}
 
-    protected void WhenOnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag == "SlopeRoadInRace" ||
-            collision.transform.parent.gameObject.tag == "SlopeRoadInRace")
-        {
-            Vector3 rayPosition = transform.position;
-            Ray ray = new Ray(rayPosition, Vector3.down);
-            if (!Physics.Raycast(ray, distanceToGround))
-            {
-                wheelonSlopeNum--;
-            }
-        }
-    }
+    //protected void WhenOnCollisionExit(Collision collision)
+    //{
+    //    if (collision.gameObject.tag == "SlopeRoadInRace" ||
+    //        collision.transform.parent.gameObject.tag == "SlopeRoadInRace")
+    //    {
+    //        Vector3 rayPosition = transform.position;
+    //        Ray ray = new Ray(rayPosition, Vector3.down);
+    //        if (!Physics.Raycast(ray, distanceToGround))
+    //        {
+    //            wheelonSlopeNum--;
+    //        }
+    //    }
+    //}
 }
