@@ -10,13 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 8710313272171507198}
   - component: {fileID: 6723040694713649711}
-  - component: {fileID: 2328458660494865031}
   - component: {fileID: 1246738250878520225}
   - component: {fileID: 5311372173085832482}
   - component: {fileID: 5040694322774631259}
   - component: {fileID: 1740635131023863372}
   - component: {fileID: 6224457482702864122}
   - component: {fileID: 8216332752838159715}
+  - component: {fileID: 2139661869423234754}
   m_Layer: 0
   m_Name: Battery 1
   m_TagString: Untagged
@@ -59,26 +59,10 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 2328458660494865031}
+  - {fileID: 2139661869423234754}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &2328458660494865031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5348215941343250890}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!54 &1246738250878520225
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -162,6 +146,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c85e5d79731228d4581f6f9702ad8dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2139661869423234754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5348215941343250890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PositionModel:
+    SynchronizeEnabled: 1
+    TeleportEnabled: 1
+    TeleportIfDistanceGreaterThan: 3
+    InterpolateOption: 4
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 1
+    ExtrapolateOption: 0
+    ExtrapolateSpeed: 1
+    ExtrapolateIncludingRoundTripTime: 1
+    ExtrapolateNumberOfStoredPositions: 1
+  m_RotationModel:
+    SynchronizeEnabled: 1
+    InterpolateOption: 1
+    InterpolateRotateTowardsSpeed: 180
+    InterpolateLerpSpeed: 5
+  m_ScaleModel:
+    SynchronizeEnabled: 0
+    InterpolateOption: 0
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 0
 --- !u!114 &2460977906160017837
 MonoBehaviour:
   m_ObjectHideFlags: 0
