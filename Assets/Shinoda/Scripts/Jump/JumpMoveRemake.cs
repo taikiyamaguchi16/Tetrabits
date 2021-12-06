@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Photon.Pun;
 
-public class JumpMoveRemake : MonoBehaviour
+public class JumpMoveRemake : MonoBehaviourPunCallbacks
 {
     Transform parent;
     GameObject player;
@@ -34,14 +35,15 @@ public class JumpMoveRemake : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject == playerFoot)
         {
-            player.transform.parent = this.transform;
+            //player.transform.parent = this.transform;
+            photonView.RPC(nameof(PlayerEntry), RpcTarget.AllBufferedViaServer);
         }
     }
 
@@ -49,7 +51,20 @@ public class JumpMoveRemake : MonoBehaviour
     {
         if (collision.gameObject == playerFoot)
         {
-            player.transform.parent = parent;
+            //player.transform.parent = parent;
+            photonView.RPC(nameof(PlayerExit), RpcTarget.AllBufferedViaServer);
         }
+    }
+
+    [PunRPC]
+    public void PlayerEntry()
+    {
+        player.transform.parent = this.transform;
+    }
+
+    [PunRPC]
+    public void PlayerExit()
+    {
+        player.transform.parent = parent;
     }
 }
