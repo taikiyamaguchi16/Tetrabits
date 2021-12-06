@@ -3,6 +3,8 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
+
 public class CassetteManager : MonoBehaviourPunCallbacks
 {
     //出現条件なし設定
@@ -13,6 +15,9 @@ public class CassetteManager : MonoBehaviourPunCallbacks
 
     [SerializeField]
     CassetteHolder cassetHolder;
+
+    [SerializeField]
+    VisualEffect outCassetteEfect;
 
     private Cassette activeCassette;
     // Start is called before the first frame update
@@ -71,6 +76,8 @@ public class CassetteManager : MonoBehaviourPunCallbacks
             activeCassette.CallDumpCassette(photonView.ViewID);
 
             activeCassette.GetComponent<Rigidbody>().AddForce(-this.transform.forward * 3f + Vector3.up * 15f,ForceMode.Impulse);
+
+            outCassetteEfect.SendEvent("OnPlay");
         }
     }
 }

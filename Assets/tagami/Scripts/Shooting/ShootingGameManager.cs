@@ -10,6 +10,7 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
     [Header("Prefab Reference")]
     [SerializeField] GameObject playerPrefab;
     [SerializeField] ShootingCamera shootingCamera;
+    [SerializeField] float shootingCameraLocalPositionTolerance = 5.0f;
 
     //残機
     [Header("Player")]
@@ -21,16 +22,20 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
     public int bomb { private set; get; }
 
     //再開処理
-    [Header("Restart")]
+    [Header("Restart or GameOver")]
     [SerializeField] Trisibo.SceneField restartScene;
     [SerializeField] float restartSeconds = 1.0f;
     float restartTimer;
     bool restart;
     Vector3 destroyedPlayerPosition;
 
+    [SerializeField] GameObject gameoverUIObject;
+    [SerializeField] float gameoverDispSeconds = 3.0f;
+
     [Header("Game Clear")]
     [SerializeField] Trisibo.SceneField nextScene;
     [SerializeField] GameObject clearUIObject;
+    [SerializeField] float clearUIDispSeconds = 3.0f;
 
     [Header("Local Instantiate")]
     [SerializeField] List<GameObject> localInstantiatePrefabs;
@@ -48,15 +53,6 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
 
         life = lifeMax;
         bomb = initialBombNum;
-
-        //static
-        //if (!sInitialized)
-        //{
-        //    //初期設定を行う
-        //    sLife = lifeMax;
-        //    sBombNum = initialBombNum;
-        //    sInitialized = true;
-        //}
     }
 
     private void Start()
@@ -67,6 +63,9 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
         }
 
         InstantiatePlayer();
+
+        //タイマースタート
+        GameInGameUtil.StartGameInGameTimer("shooting");
     }
 
     // Update is called once per frame
@@ -82,7 +81,11 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
                 restartTimer = 0.0f;
                 //再開
                 InstantiatePlayer();
-                shootingCamera.enabled = true;
+
+                if (shootingCamera && PhotonNetwork.IsMasterClient)
+                {
+                    CallSetEnabledShootingCamera(true, shootingCamera.transform.localPosition);
+                }
             }
         }
     }
@@ -100,12 +103,13 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
             clearUIObject.SetActive(true);
         }
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(clearUIDispSeconds);
 
         if (nextScene == null || nextScene.BuildIndex < 0)
         {
             Debug.Log("Shooting最終ステージクリア 全ステージクリアにより強制ダウンを行います");
             GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
+            GameInGameUtil.StopGameInGameTimer("shooting");
             //sInitialized = false;
         }
         else
@@ -130,15 +134,7 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
 
         if (life <= 0)
         {
-            //ゲームオーバーUI表示
-            if (PhotonNetwork.IsMasterClient)
-            {
-                MonitorManager.DealDamageToMonitor("large");
-
-                //ステージの最初に戻る
-                //sInitialized = false;   //設定リセット
-                GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(restartScene.BuildIndex));
-            }
+            StartCoroutine(CoGameOver());
         }
         else
         {
@@ -151,8 +147,46 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
         }
 
         //カメラの動きを止めておく
-        if(shootingCamera)
-        shootingCamera.enabled = false;
+        if (shootingCamera && PhotonNetwork.IsMasterClient)
+        {
+            CallSetEnabledShootingCamera(false, shootingCamera.transform.localPosition);
+        }
+    }
+
+    IEnumerator CoGameOver()
+    {       
+        if (PhotonNetwork.IsMasterClient)
+        {
+            MonitorManager.DealDamageToMonitor("large");
+        }
+
+        //ゲームオーバーUI表示
+        gameoverUIObject.SetActive(true);
+
+        yield return new WaitForSeconds(gameoverDispSeconds);
+
+        //ステージの最初に戻る
+        if (PhotonNetwork.IsMasterClient)
+        {
+            GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(restartScene.BuildIndex));
+        }
+
+    }
+
+
+    void CallSetEnabledShootingCamera(bool _enabled, Vector3 _masterLocalPosition)
+    {
+        photonView.RPC(nameof(RPCSetEnabledShootingCamera), RpcTarget.AllViaServer, _enabled, _masterLocalPosition);
+    }
+    [PunRPC]
+    void RPCSetEnabledShootingCamera(bool _enabled, Vector3 _masterLocalPosition)
+    {
+        shootingCamera.enabled = _enabled;
+        if (Vector3.Distance(shootingCamera.transform.localPosition, _masterLocalPosition) > shootingCameraLocalPositionTolerance)
+        {
+            Debug.LogWarning("シューティングカメラがあまりにずれているので修正しました");
+            shootingCamera.transform.localPosition = _masterLocalPosition;
+        }
     }
 
     public void AddBomb(int _num)

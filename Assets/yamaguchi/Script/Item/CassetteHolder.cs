@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.VFX;
 
 public class CassetteHolder : MonoBehaviourPunCallbacks, IPlayerAction
 {
@@ -10,6 +11,8 @@ public class CassetteHolder : MonoBehaviourPunCallbacks, IPlayerAction
     private ItemPocket pocket;
 
     private GameInGameSwitcher sceneChanger;
+    [SerializeField]
+    VisualEffect inCassetteEfect;
 
     [SerializeField]
     CassetteManager cassetteManager;
@@ -36,7 +39,6 @@ public class CassetteHolder : MonoBehaviourPunCallbacks, IPlayerAction
                 //カセットに設定されているシーンの読み込み
                 sceneChanger.CallSwitchGameInGameScene(ownCassette.GetLoadSceneObj());
                 //プレイヤーのアイテムを取得してセット
-
                 ownCassette.CallPickUpCassette(photonView.ViewID);
 
                 otherPocket.SetItem(null);
@@ -45,6 +47,8 @@ public class CassetteHolder : MonoBehaviourPunCallbacks, IPlayerAction
                 cassetteManager.HideAllCassette();
                 //managerの現在のカセットを更新
                 cassetteManager.SetActiveCassette(ownCassette);
+
+                inCassetteEfect.SendEvent("OnPlay");
             }
         }
     }

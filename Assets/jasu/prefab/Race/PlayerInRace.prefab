@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 4717983805591257336}
   - component: {fileID: 935646690359824256}
   - component: {fileID: 8486535655794146373}
+  - component: {fileID: 8062376074647808739}
   - component: {fileID: 3743806979556830801}
   - component: {fileID: 4421796239360097713}
   - component: {fileID: 7428666028572337702}
@@ -177,7 +178,7 @@ MonoBehaviour:
   distanceToGround: 5
   gravity: -50
   moveVec: {x: 0, y: 0, z: 0}
-  wheelonSlopeNum: 0
+  onSlope: 0
 --- !u!114 &4717983805591257336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,6 +234,20 @@ MonoBehaviour:
   rotRate: 0.1
   padInputRangeX: 0.4
   inputX: 0
+--- !u!114 &8062376074647808739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487003247870755375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a05689a82fca24478b732709be67142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  acceleratePower: 300
 --- !u!114 &3743806979556830801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,6 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bikeSlipDown: {fileID: 1446960286}
+  rainbowSprite: {fileID: 7639508263863198705}
 --- !u!114 &4421796239360097713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,7 +458,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4878758953354832212}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56f1d387e6f37ef45978778ee894ef5c, type: 3}
   m_Name: 
@@ -497,11 +513,11 @@ MonoBehaviour:
   - {fileID: 7784544147762866932}
   - {fileID: 4717983805591257336}
   - {fileID: 8486535655794146373}
-  - {fileID: 1212288838}
+  - {fileID: 8062376074647808739}
   componentsOffAfterGoal:
   - {fileID: 7784544147762866932}
   - {fileID: 4717983805591257336}
-  - {fileID: 1212288838}
+  - {fileID: 8062376074647808739}
   componentsOnAfterGoal:
   - {fileID: 7428666028572337702}
 --- !u!114 &422271014724654505
@@ -695,6 +711,7 @@ GameObject:
   - component: {fileID: 1446960286}
   - component: {fileID: 1889406115244632827}
   - component: {fileID: 1212288840}
+  - component: {fileID: 7639508263863198705}
   m_Layer: 0
   m_Name: BikeSprite
   m_TagString: Untagged
@@ -840,3 +857,16 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &7639508263863198705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8546367658723180559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63d5e0e99151c8243b4954399a2234b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 6277164325014835238}

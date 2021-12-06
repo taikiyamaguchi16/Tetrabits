@@ -41,6 +41,18 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         {
             actionText.text = "すてる";
         }
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            elpsedTime += Time.deltaTime;
+            //1秒に一回くらい同期取る
+            if (elpsedTime > 1f)
+            {
+                photonView.RPC(nameof(RPCSetBatteryLevel), RpcTarget.Others, level);
+                elpsedTime = 0f;
+            }
+
+        }
     }
     void Awake()
     {
@@ -75,7 +87,21 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
     public bool GetIsActionPossible(PlayerActionDesc _desc)
     {
-        return true;
+        if(isOwned)
+        {
+            if(ownerSc.gameObject.GetPhotonView().ViewID==_desc.playerObj.GetPhotonView().ViewID)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }        
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public void CallPickUp(int _id)
@@ -134,17 +160,6 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         {
             level = 0f;
             energyGazeObj.transform.localScale = Vector3.zero;
-        }
-        if (PhotonNetwork.IsMasterClient)
-        {
-            elpsedTime += Time.deltaTime;
-            //1秒に一回くらい同期取る
-            if (elpsedTime > 1f)
-            {
-                photonView.RPC(nameof(RPCSetBatteryLevel), RpcTarget.Others, level);
-                elpsedTime = 0f;
-            }
-
         }
     }
 

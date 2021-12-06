@@ -10,6 +10,10 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
     private GameObject rendererObj;
     [SerializeField]
     private Color cassetteColor;
+    [SerializeField]
+    Sprite titleSprite;
+
+    private CassetteTitleImage cassetteTitleImage;
 
     private Rigidbody rb;
     private Collider col;
@@ -55,6 +59,11 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
     }
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
+        if (cassetteTitleImage != null)
+        {
+            cassetteTitleImage.SetCassetteImageActive(false);
+            cassetteTitleImage = null;
+        }
         if (!isOwned)
         {
             photonView.RPC(nameof(PickUp), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
@@ -133,5 +142,32 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
     public bool GetIsClear()
     {
         return isClear;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            ItemPocket playerPocket = other.gameObject.GetComponent<ItemPocket>();
+            //Playerが何も持っていない場合
+            if (playerPocket.GetItem() == null)
+            {
+                cassetteTitleImage = other.gameObject.GetComponent<CassetteTitleImage>();
+                cassetteTitleImage.SetCassetteImageActive(true);
+                cassetteTitleImage.SetCassetteTexture(titleSprite);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            if (cassetteTitleImage != null)
+            {
+                cassetteTitleImage.SetCassetteImageActive(false);
+                cassetteTitleImage = null;
+            }
+        }
     }
 }
