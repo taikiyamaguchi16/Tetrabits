@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 4717983805591257336}
   - component: {fileID: 935646690359824256}
   - component: {fileID: 8486535655794146373}
+  - component: {fileID: 8062376074647808739}
   - component: {fileID: 3743806979556830801}
   - component: {fileID: 4421796239360097713}
   - component: {fileID: 7428666028572337702}
@@ -233,6 +234,19 @@ MonoBehaviour:
   rotRate: 0.1
   padInputRangeX: 0.4
   inputX: 0
+--- !u!114 &8062376074647808739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487003247870755375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a05689a82fca24478b732709be67142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
 --- !u!114 &3743806979556830801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,7 +456,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4878758953354832212}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56f1d387e6f37ef45978778ee894ef5c, type: 3}
   m_Name: 
@@ -497,11 +511,11 @@ MonoBehaviour:
   - {fileID: 7784544147762866932}
   - {fileID: 4717983805591257336}
   - {fileID: 8486535655794146373}
-  - {fileID: 1212288838}
+  - {fileID: 8062376074647808739}
   componentsOffAfterGoal:
   - {fileID: 7784544147762866932}
   - {fileID: 4717983805591257336}
-  - {fileID: 1212288838}
+  - {fileID: 8062376074647808739}
   componentsOnAfterGoal:
   - {fileID: 7428666028572337702}
 --- !u!114 &422271014724654505
