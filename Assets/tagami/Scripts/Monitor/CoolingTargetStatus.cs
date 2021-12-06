@@ -14,13 +14,23 @@ public class CoolingTargetStatus : MonoBehaviourPunCallbacks, ICool
 
     [Header("Option")]
     [SerializeField] UnityEngine.UI.Slider slider;
+    [SerializeField] GameObject fireEffectObject;
+    [SerializeField, Range(0, 1)] float fireEffectLocalScaleMinMultiplier = 0.3f;
+    Vector3 fireEffectLocalScaleMax;
 
     bool isDead;
 
     private void Awake()
     {
         hp = hpMax;
-        slider.maxValue = hpMax;
+        if (slider)
+        {
+            slider.maxValue = hpMax;
+        }
+        if (fireEffectObject)
+        {
+            fireEffectLocalScaleMax = fireEffectObject.transform.localScale;
+        }
 
         //登録
         MonitorManager.AddCoolingTargets(gameObject);
@@ -28,7 +38,14 @@ public class CoolingTargetStatus : MonoBehaviourPunCallbacks, ICool
 
     private void Update()
     {
-        slider.value = hp;
+        if (slider)
+        {
+            slider.value = hp;
+        }
+        if (fireEffectObject)
+        {
+            fireEffectObject.transform.localScale = Vector3.Lerp(fireEffectLocalScaleMax * fireEffectLocalScaleMinMultiplier, fireEffectLocalScaleMax, hp / hpMax);
+        }
     }
 
     public void OnCooled(float _damage)
@@ -61,7 +78,7 @@ public class CoolingTargetStatus : MonoBehaviourPunCallbacks, ICool
     void RPCCompleteCooled()
     {
         var obj = GameObject.Find("TutorialCoolingManager");
-        if(obj)
+        if (obj)
         {
             obj.GetComponent<TutorialCoolingManager>().CompleteCooled();
         }
