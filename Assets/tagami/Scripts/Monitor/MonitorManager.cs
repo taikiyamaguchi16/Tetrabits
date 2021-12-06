@@ -160,7 +160,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             Debug.Log("これ以上モニターの破壊段階を進めることはできません");
             Debug.Log("GameMainOverを確認");
             //ゲーム画面落としてゲームオーバーシーンへ遷移とか？
-            gameInGameSwitcher.CallSwitchGameInGameScene("");
+            gameInGameSwitcher.CallSwitchGameInGameScene("GameInGameResult");
             return;
         }
 
