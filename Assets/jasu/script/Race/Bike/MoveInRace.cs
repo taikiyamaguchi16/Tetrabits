@@ -168,10 +168,10 @@ public class MoveInRace : MonoBehaviourPunCallbacks
             {
                 groundNormalVec = Vector3.zero;
                 
-                if (colliderSensor.GetExistInCollider())
-                {
+                //if (colliderSensor.GetExistInCollider())
+                //{
                     transform.parent.localRotation = Quaternion.Lerp(transform.parent.localRotation, Quaternion.identity, rotLateFlat);
-                }
+                //}
             }
 
             moveVec.z = moveSpd;

@@ -7,6 +7,21 @@ public class SlipSensorForPlayer : MonoBehaviour
     [SerializeField]
     BikeSlipDown bikeSlipDown;
 
+    [SerializeField]
+    RainbowSprite rainbowSprite;
+
+    private void Update()
+    {
+        if (TetraInput.sTetraLever.GetPoweredOn())
+        {
+            rainbowSprite.SetActive(true);
+        }
+        else
+        {
+            rainbowSprite.SetActive(false);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<DirtSplash>() != null &&
