@@ -72,6 +72,16 @@ public class GameMainManager : MonoBehaviourPunCallbacks
     //GameInGameに呼んでもらう
     public void StartGameInGameTimer(string _gameTag)
     {
+        foreach (var timer in gameInGameTimerList)
+        {
+            if (timer.tag == _gameTag)
+            {
+                Debug.Log("そのゲームタグはすでに登録されているのでタイマーを作成しません");
+                return;
+            }
+        }
+
+        //タイマー作成
         GameInGameTimer gameInGameTimer = new GameInGameTimer();
         gameInGameTimer.tag = _gameTag;
         gameInGameTimer.startTime = Time.realtimeSinceStartup;

@@ -37,8 +37,6 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject clearUIObject;
     [SerializeField] float clearUIDispSeconds = 3.0f;
 
-
-
     [Header("Local Instantiate")]
     [SerializeField] List<GameObject> localInstantiatePrefabs;
 
@@ -65,6 +63,9 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
         }
 
         InstantiatePlayer();
+
+        //タイマースタート
+        GameInGameUtil.StartGameInGameTimer("shooting");
     }
 
     // Update is called once per frame
@@ -108,6 +109,7 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
         {
             Debug.Log("Shooting最終ステージクリア 全ステージクリアにより強制ダウンを行います");
             GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
+            GameInGameUtil.StopGameInGameTimer("shooting");
             //sInitialized = false;
         }
         else
