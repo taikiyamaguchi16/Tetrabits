@@ -10,6 +10,7 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
     [Header("Prefab Reference")]
     [SerializeField] GameObject playerPrefab;
     [SerializeField] ShootingCamera shootingCamera;
+    [SerializeField] float shootingCameraLocalPositionTolerance = 5.0f;
 
     //残機
     [Header("Player")]
@@ -82,7 +83,11 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
                 restartTimer = 0.0f;
                 //再開
                 InstantiatePlayer();
-                shootingCamera.enabled = true;
+
+                if (shootingCamera && PhotonNetwork.IsMasterClient)
+                {
+                    CallSetEnabledShootingCamera(true, shootingCamera.transform.localPosition);
+                }
             }
         }
     }
@@ -151,8 +156,25 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
         }
 
         //カメラの動きを止めておく
-        if(shootingCamera)
-        shootingCamera.enabled = false;
+        if (shootingCamera && PhotonNetwork.IsMasterClient)
+        {
+            CallSetEnabledShootingCamera(false, shootingCamera.transform.localPosition);
+        }
+    }
+
+    void CallSetEnabledShootingCamera(bool _enabled, Vector3 _masterLocalPosition)
+    {
+        photonView.RPC(nameof(RPCSetEnabledShootingCamera), RpcTarget.AllViaServer, _enabled, _masterLocalPosition);
+    }
+    [PunRPC]
+    void RPCSetEnabledShootingCamera(bool _enabled, Vector3 _masterLocalPosition)
+    {
+        shootingCamera.enabled = _enabled;
+        if (Vector3.Distance(shootingCamera.transform.localPosition, _masterLocalPosition) > shootingCameraLocalPositionTolerance)
+        {
+            Debug.LogWarning("シューティングカメラがあまりにずれているので修正しました");
+            shootingCamera.transform.localPosition = _masterLocalPosition;
+        }
     }
 
     public void AddBomb(int _num)
