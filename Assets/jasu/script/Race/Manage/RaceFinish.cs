@@ -51,6 +51,7 @@ public class RaceFinish : MonoBehaviourPunCallbacks
                 {
                     if (finalStage)
                     {
+                        GameInGameUtil.StopGameInGameTimer("race");
                         GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
                     }
                     else if (nextStageScene != null)

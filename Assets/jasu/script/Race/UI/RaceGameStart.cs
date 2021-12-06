@@ -12,6 +12,7 @@ public class RaceGameStart : MonoBehaviour
     {
         if (TetraInput.sTetraButton.GetTrigger() && firstStageScene != null)
         {
+            GameInGameUtil.StartGameInGameTimer("race");
             GameInGameUtil.SwitchGameInGameScene(firstStageScene);
         }
     }
