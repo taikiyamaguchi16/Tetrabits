@@ -12,6 +12,18 @@ public class GyroTimeLimitController : MonoBehaviour
     [SerializeField, Tooltip("ダメージ量")] string damage = "small";
     [SerializeField, Tooltip("制限時間の強調表示")] int emphasis = 5;
 
+    [SerializeField] SceneObject nextScene = null;
+    bool loadable = true;
+
+    [SerializeField] GameObject g;
+    Text gText;
+    [SerializeField] GameObject o;
+    Text oText;
+    [SerializeField] GameObject a;
+    Text aText;
+    [SerializeField] GameObject l;
+    Text lText;
+
     Transform timeTransform;
     Text timeText;
 
@@ -20,6 +32,7 @@ public class GyroTimeLimitController : MonoBehaviour
     int beforeTime;
     bool damaging = false;
     bool timeStop = false;
+    bool isGoal = false;
 
     // Start is called before the first frame update
     void Start()
@@ -29,31 +42,39 @@ public class GyroTimeLimitController : MonoBehaviour
         timeCount = limit;
         remainingTime = (int)timeCount;
         beforeTime = remainingTime;
+
+        gText = g.GetComponent<Text>();
+        oText = o.GetComponent<Text>();
+        aText = a.GetComponent<Text>();
+        lText = l.GetComponent<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!damaging) timeCount -= Time.deltaTime;
-        if (timeStop) remainingTime = 0;
-        else remainingTime = (int)timeCount;
-
-        if (timeCount < 0)
+        if (!isGoal)
         {
-            timeStop = true;
+            if (!damaging) timeCount -= Time.deltaTime;
+            if (timeStop) remainingTime = 0;
+            else remainingTime = (int)timeCount;
 
-            if (PhotonNetwork.IsMasterClient)
+            if (timeCount < 0)
             {
-                MonitorManager.DealDamageToMonitor(damage);
+                timeStop = true;
+
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    MonitorManager.DealDamageToMonitor(damage);
+                }
+
+                timeCount = limit;
+                DamageAnimation();
             }
 
-            timeCount = limit;
-            DamageAnimation();
-        }
-
-        if (remainingTime == emphasis && remainingTime != beforeTime)
-        {
-            EmphasisAnimation();
+            if (remainingTime == emphasis && remainingTime != beforeTime)
+            {
+                EmphasisAnimation();
+            }
         }
 
         timeText.text = remainingTime.ToString("f0");
@@ -97,5 +118,26 @@ public class GyroTimeLimitController : MonoBehaviour
                 damaging = false;
             });
         });
+    }
+
+    public void GoalAnimation()
+    {
+        isGoal = true;
+        g.SetActive(true);
+        o.SetActive(true);
+        a.SetActive(true);
+        l.SetActive(true);
+        gText.DOColor(new Color(255, 255, 255, 255), 1).SetEase(Ease.Linear);
+        oText.DOColor(new Color(255, 255, 255, 255), 1).SetDelay(.2f).SetEase(Ease.Linear);
+        aText.DOColor(new Color(255, 255, 255, 255), 1).SetDelay(.4f).SetEase(Ease.Linear);
+        lText.DOColor(new Color(255, 255, 255, 255), 1).SetDelay(.6f).SetEase(Ease.Linear).OnComplete(() =>
+           {
+               if (nextScene == null) GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
+               else if (PhotonNetwork.IsMasterClient && loadable)
+               {
+                   GameInGameUtil.SwitchGameInGameScene(nextScene);
+                   loadable = false;
+               }
+           });
     }
 }

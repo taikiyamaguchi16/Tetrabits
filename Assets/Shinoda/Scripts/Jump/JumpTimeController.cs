@@ -12,9 +12,27 @@ public class JumpTimeController : MonoBehaviour
     //[SerializeField, Tooltip("増える時間")] float plusTime;
     //[SerializeField, Tooltip("何枚で増えるか")] int plusValue;
 
+    [SerializeField] SceneObject nextScene = null;
+    bool loadable = true;
+
+    [SerializeField] GameObject g;
+    RectTransform gTransform;
+    [SerializeField] GameObject o;
+    RectTransform oTransform;
+    [SerializeField] GameObject a;
+    RectTransform aTransform;
+    [SerializeField] GameObject l;
+    RectTransform lTransform;
+
+    [SerializeField] RectTransform gTarget;
+    [SerializeField] RectTransform oTarget;
+    [SerializeField] RectTransform aTarget;
+    [SerializeField] RectTransform lTarget;
+
     Transform timeTransform;
     Text timeText;
     int remainingTime;
+    bool isGoal = false;
     //Transform coinTransform;
     //Text coinText;
     //int coin;
@@ -28,18 +46,26 @@ public class JumpTimeController : MonoBehaviour
         //coinText = coinTransform.GetComponent<Text>();
         remainingTime = (int)time;
         //coin = 0;
+
+        gTransform = g.GetComponent<RectTransform>();
+        oTransform = o.GetComponent<RectTransform>();
+        aTransform = a.GetComponent<RectTransform>();
+        lTransform = l.GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        time -= Time.deltaTime;
-        if (time < 0) time = 0;
-        else if (time > 999) time = 999;
+        if (!isGoal)
+        {
+            time -= Time.deltaTime;
+            if (time < 0) time = 0;
+            else if (time > 999) time = 999;
 
-        remainingTime = (int)time;
-        timeText.text = remainingTime.ToString("d3");
-        //coinText.text = coin.ToString();
+            remainingTime = (int)time;
+            timeText.text = remainingTime.ToString("d3");
+            //coinText.text = coin.ToString();
+        }
 
         if (remainingTime == 0)
         {
@@ -56,4 +82,25 @@ public class JumpTimeController : MonoBehaviour
     //        coin = 0;
     //    }
     //}
+
+    public void GoalAnimation()
+    {
+        isGoal = true;
+        g.SetActive(true);
+        o.SetActive(true);
+        a.SetActive(true);
+        l.SetActive(true);
+        gTransform.DOMove(gTarget.position, 1).SetLoops(1, LoopType.Yoyo).SetEase(Ease.Linear);
+        oTransform.DOMove(oTarget.position, 1).SetDelay(.2f).SetLoops(1, LoopType.Yoyo).SetEase(Ease.Linear);
+        aTransform.DOMove(aTarget.position, 1).SetDelay(.4f).SetLoops(1, LoopType.Yoyo).SetEase(Ease.Linear);
+        lTransform.DOMove(lTarget.position, 1).SetDelay(.6f).SetLoops(1, LoopType.Yoyo).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            if (nextScene == null) GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
+            else if (PhotonNetwork.IsMasterClient && loadable)
+            {
+                GameInGameUtil.SwitchGameInGameScene(nextScene);
+                loadable = false;
+            }
+        });
+    }
 }
