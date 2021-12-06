@@ -22,16 +22,22 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
     public int bomb { private set; get; }
 
     //再開処理
-    [Header("Restart")]
+    [Header("Restart or GameOver")]
     [SerializeField] Trisibo.SceneField restartScene;
     [SerializeField] float restartSeconds = 1.0f;
     float restartTimer;
     bool restart;
     Vector3 destroyedPlayerPosition;
 
+    [SerializeField] GameObject gameoverUIObject;
+    [SerializeField] float gameoverDispSeconds = 3.0f;
+
     [Header("Game Clear")]
     [SerializeField] Trisibo.SceneField nextScene;
     [SerializeField] GameObject clearUIObject;
+    [SerializeField] float clearUIDispSeconds = 3.0f;
+
+
 
     [Header("Local Instantiate")]
     [SerializeField] List<GameObject> localInstantiatePrefabs;
@@ -49,15 +55,6 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
 
         life = lifeMax;
         bomb = initialBombNum;
-
-        //static
-        //if (!sInitialized)
-        //{
-        //    //初期設定を行う
-        //    sLife = lifeMax;
-        //    sBombNum = initialBombNum;
-        //    sInitialized = true;
-        //}
     }
 
     private void Start()
@@ -105,7 +102,7 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
             clearUIObject.SetActive(true);
         }
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(clearUIDispSeconds);
 
         if (nextScene == null || nextScene.BuildIndex < 0)
         {
@@ -135,15 +132,7 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
 
         if (life <= 0)
         {
-            //ゲームオーバーUI表示
-            if (PhotonNetwork.IsMasterClient)
-            {
-                MonitorManager.DealDamageToMonitor("large");
-
-                //ステージの最初に戻る
-                //sInitialized = false;   //設定リセット
-                GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(restartScene.BuildIndex));
-            }
+            StartCoroutine(CoGameOver());
         }
         else
         {
@@ -161,6 +150,27 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
             CallSetEnabledShootingCamera(false, shootingCamera.transform.localPosition);
         }
     }
+
+    IEnumerator CoGameOver()
+    {       
+        if (PhotonNetwork.IsMasterClient)
+        {
+            MonitorManager.DealDamageToMonitor("large");
+        }
+
+        //ゲームオーバーUI表示
+        gameoverUIObject.SetActive(true);
+
+        yield return new WaitForSeconds(gameoverDispSeconds);
+
+        //ステージの最初に戻る
+        if (PhotonNetwork.IsMasterClient)
+        {
+            GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(restartScene.BuildIndex));
+        }
+
+    }
+
 
     void CallSetEnabledShootingCamera(bool _enabled, Vector3 _masterLocalPosition)
     {
