@@ -12,10 +12,16 @@ public class GameInGameResultController : MonoBehaviour
     public void SetTime(float _startTime, float _endTime)
     {
         var seconds = (_endTime - _startTime);
+        if (seconds <= 0)
+        {
+            Debug.Log("GameInGameTime計測不可能です GameOverならOK");
+            return;
+        }
+
         int minutes = (int)(seconds / 60.0f);
         seconds -= minutes * 60.0f;
 
-        timerText.text = minutes+"分"+(int)seconds + "秒";
+        timerText.text = minutes + "分" + (int)seconds + "秒";
     }
 
     public void SetPosition(Vector3 _pos)
