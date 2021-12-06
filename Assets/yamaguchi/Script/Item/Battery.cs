@@ -75,7 +75,21 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
     public bool GetIsActionPossible(PlayerActionDesc _desc)
     {
-        return true;
+        if(isOwned)
+        {
+            if(ownerSc.gameObject.GetPhotonView().ViewID==_desc.playerObj.GetPhotonView().ViewID)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }        
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public void CallPickUp(int _id)

@@ -104,6 +104,8 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     candidates.Clear();
                     highPriorityList.Clear();
                 }
+
+                /*
                 //持ち運んでいるオブジェクトがある場合それをアクション候補に加える
                 GameObject carryObj = holder.GetItem();
                 if (carryObj != null)
@@ -113,6 +115,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                         allActionItem.Add(carryObj);
                     }
                 }               
+                */
 
                 if (allActionItem.Count > 0)
                     CheckItemPossible();
@@ -132,19 +135,22 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
     }
 
     private void OnTriggerEnter(Collider other)
-    {   
-        if (other.gameObject.GetComponent<IPlayerAction>() != null)
+    {
+        if (photonView.IsMine)
         {
-            if (!allActionItem.Contains(other.gameObject))
+            if (other.gameObject.GetComponent<IPlayerAction>() != null)
             {
-                allActionItem.Add(other.gameObject);  // アクション候補のリストに追加
-
-                CheckItemPossible();
-                if (candidates.Count > 0)
+                if (!allActionItem.Contains(other.gameObject))
                 {
-                    //優先度が高いアクションを判別
-                    PriorityCheck();
-                    CheckHighPriorityAction();
+                    allActionItem.Add(other.gameObject);  // アクション候補のリストに追加
+
+                    CheckItemPossible();
+                    if (candidates.Count > 0)
+                    {
+                        //優先度が高いアクションを判別
+                        PriorityCheck();
+                        CheckHighPriorityAction();
+                    }
                 }
             }
         }
@@ -152,41 +158,44 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.GetComponent<IPlayerAction>() != null)
+        if (photonView.IsMine)
         {
-            allActionItem.Remove(other.gameObject);  // アクション候補のリスト
+            if (other.gameObject.GetComponent<IPlayerAction>() != null)
+            {
+                allActionItem.Remove(other.gameObject);  // アクション候補のリスト
 
-            GameObject carryObj = holder.GetItem();
-            if (carryObj != null)
-            {
-                if (!allActionItem.Contains(carryObj))
+                GameObject carryObj = holder.GetItem();
+                if (carryObj != null)
                 {
-                    allActionItem.Add(carryObj);
+                    if (!allActionItem.Contains(carryObj))
+                    {
+                        allActionItem.Add(carryObj);
+                    }
                 }
-            }
-            if (allActionItem.Count > 0)
-            {
-                CheckItemPossible();
-                if (candidates.Count > 0)
+                if (allActionItem.Count > 0)
                 {
-                    PriorityCheck();
-                    CheckHighPriorityAction();
+                    CheckItemPossible();
+                    if (candidates.Count > 0)
+                    {
+                        PriorityCheck();
+                        CheckHighPriorityAction();
+                    }
+                    else
+                    {
+                        if (selectedObj != null)
+                        {
+                            selectedObj.GetComponent<ControlUIActivator>().SetControlUIActive(false);
+                            selectedObj = null;
+                        }
+                    }
                 }
                 else
                 {
-                    if(selectedObj!=null)
+                    if (selectedObj != null)
                     {
                         selectedObj.GetComponent<ControlUIActivator>().SetControlUIActive(false);
                         selectedObj = null;
                     }
-                }
-            }
-            else
-            {
-                if (selectedObj != null)
-                {
-                    selectedObj.GetComponent<ControlUIActivator>().SetControlUIActive(false);
-                    selectedObj = null;
                 }
             }
         }
