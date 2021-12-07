@@ -43,6 +43,9 @@ public class PlayerDemo : DOManager
     bool isLeft = false;
     bool isRight = false;
 
+    // スプライト取得用
+    SpriteRenderer sprite;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,17 +53,19 @@ public class PlayerDemo : DOManager
         RightGoal = GameObject.Find("PlayerSpawnerRight");
         DemoManager = GameObject.Find("DemoManager");
 
+        sprite = gameObject.GetComponent<SpriteRenderer>();
+
         // Z移動の子のために初期スケール0
         gameObject.transform.localScale = Vector3.zero;
 
-        if(gameObject.transform.position.x < 0 && !IamZ)
+        if(gameObject.transform.position.x < RightGoal.transform.position.x && !IamZ)
         {
             // サイズ指定
             gameObject.transform.localScale = new Vector3(1.0f,1.0f,1.0f);
             gameObject.GetComponent<SpriteRenderer>().flipX = true;
             isLeft = true;
         }
-        else if(gameObject.transform.position.x > 0 && !IamZ)
+        else if(gameObject.transform.position.x > LeftGoal.transform.position.x && !IamZ)
         {
             // サイズ指定
             gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
@@ -80,29 +85,36 @@ public class PlayerDemo : DOManager
             // スケールを目標値まで変化させたのち破棄
             gameObject.transform.DOScale(ZGoal, scaleTime).SetEase(easeTypes).OnComplete(() =>
             {
-                Destroy(gameObject);
-                DemoManager.GetComponent<TitleDemoManager>().PlayerCountDown();
+                sprite.DOFade(fadeRange, fadeTime).SetEase(easeTypes).OnComplete(() => 
+                {
+                    Destroy(gameObject);
+                    DemoManager.GetComponent<TitleDemoManager>().PlayerCountDown();
+                });
             });
         }
         else
         {
-            // 左に行く人
+            // 右に行く人
             if (isLeft)
             {
-                gameObject.transform.DOMove(RightGoal.transform.position, moveTime).SetEase(easeTypes).OnComplete(() =>
+                moveRange = RightGoal.transform.position;
+
+                gameObject.transform.DOMove(moveRange, moveTime).SetEase(easeTypes).OnComplete(() =>
                 {
                     Destroy(gameObject);
                     DemoManager.GetComponent<TitleDemoManager>().PlayerCountDown();
-                }); ;
+                });
             }
-            // 右に行く人
+            // 左に行く人
             else if (isRight)
             {
-                gameObject.transform.DOMove(LeftGoal.transform.position, moveTime).SetEase(easeTypes).OnComplete(() =>
+                moveRange = LeftGoal.transform.position;
+
+                gameObject.transform.DOMove(moveRange, moveTime).SetEase(easeTypes).OnComplete(() =>
                 {
                     Destroy(gameObject);
                     DemoManager.GetComponent<TitleDemoManager>().PlayerCountDown();
-                }); ;
+                });
             }
         }
     }
