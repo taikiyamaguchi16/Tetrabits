@@ -11,19 +11,24 @@ public class ControlUIController : MonoBehaviour
 
     private void Start()
     {//初期設定
-        buttonImage.texture = keyButtonTexture;
+        UpdateImage();
     }
 
     private void Update()
     {
+        UpdateImage();
+    }
+
+    void UpdateImage()
+    {
         //XInputとKeyboardに対応する
-        if (Input.anyKeyDown)
-        {
-            buttonImage.texture = keyButtonTexture;
-        }
-        if (XInputManager.GetAnyButtonTrigger(0))
+        if (XInputManager.IsConnected(0))
         {
             buttonImage.texture = xinputButtonTexture;
+        }
+        else
+        {
+            buttonImage.texture = keyButtonTexture;
         }
     }
 }
