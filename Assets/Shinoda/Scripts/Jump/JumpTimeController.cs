@@ -24,11 +24,6 @@ public class JumpTimeController : MonoBehaviour
     [SerializeField] GameObject l;
     RectTransform lTransform;
 
-    [SerializeField] RectTransform gTarget;
-    [SerializeField] RectTransform oTarget;
-    [SerializeField] RectTransform aTarget;
-    [SerializeField] RectTransform lTarget;
-
     Transform timeTransform;
     Text timeText;
     int remainingTime;
@@ -90,10 +85,10 @@ public class JumpTimeController : MonoBehaviour
         o.SetActive(true);
         a.SetActive(true);
         l.SetActive(true);
-        gTransform.DOMove(gTarget.position, 1).SetLoops(1, LoopType.Yoyo).SetEase(Ease.Linear);
-        oTransform.DOMove(oTarget.position, 1).SetDelay(.2f).SetLoops(1, LoopType.Yoyo).SetEase(Ease.Linear);
-        aTransform.DOMove(aTarget.position, 1).SetDelay(.4f).SetLoops(1, LoopType.Yoyo).SetEase(Ease.Linear);
-        lTransform.DOMove(lTarget.position, 1).SetDelay(.6f).SetLoops(1, LoopType.Yoyo).SetEase(Ease.Linear).OnComplete(() =>
+        gTransform.DOScale(new Vector3(1, 1, 1), 1).SetEase(Ease.Linear);
+        oTransform.DOScale(new Vector3(1,1,1),1).SetDelay(.2f).SetEase(Ease.Linear);
+        aTransform.DOScale(new Vector3(1,1,1),1).SetDelay(.4f).SetEase(Ease.Linear);
+        lTransform.DOScale(new Vector3(1,1,1),1).SetDelay(.6f).SetEase(Ease.Linear).OnComplete(() =>
         {
             if (nextScene == null) GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
             else if (PhotonNetwork.IsMasterClient && loadable)
