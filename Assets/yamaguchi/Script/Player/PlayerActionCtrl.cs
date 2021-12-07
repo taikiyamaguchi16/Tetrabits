@@ -58,7 +58,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {           
             if (Input.GetKeyDown("e") || XInputManager.GetButtonTrigger(playerMove.controllerID, XButtonType.B))  // アクションボタン
-            {       
+            {           
                 //持ち運んでいるオブジェクトがある場合それをアクション候補に加える
                 GameObject carryObj = holder.GetItem();
                 if (carryObj != null)
@@ -104,18 +104,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     candidates.Clear();
                     highPriorityList.Clear();
                 }
-
-                /*
-                //持ち運んでいるオブジェクトがある場合それをアクション候補に加える
-                GameObject carryObj = holder.GetItem();
-                if (carryObj != null)
-                {
-                    if (!allActionItem.Contains(carryObj))
-                    {
-                        allActionItem.Add(carryObj);
-                    }
-                }               
-                */
+            
 
                 if (allActionItem.Count > 0)
                     CheckItemPossible();
@@ -172,6 +161,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                         allActionItem.Add(carryObj);
                     }
                 }
+
                 if (allActionItem.Count > 0)
                 {
                     CheckItemPossible();
@@ -186,6 +176,10 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                         {
                             selectedObj.GetComponent<ControlUIActivator>().SetControlUIActive(false);
                             selectedObj = null;
+                            runningAction = null;
+
+                            candidates.Clear();
+                            highPriorityList.Clear();
                         }
                     }
                 }
@@ -195,6 +189,10 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     {
                         selectedObj.GetComponent<ControlUIActivator>().SetControlUIActive(false);
                         selectedObj = null;
+                        runningAction = null;
+
+                        candidates.Clear();
+                        highPriorityList.Clear();
                     }
                 }
             }
@@ -251,7 +249,6 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
             selectedObj = nearest;
 
             selectedObj.GetComponent<ControlUIActivator>().SetControlUIActive(true);
-            Debug.Log("追加しました");
         }
     }
     private void CheckItemPossible()
