@@ -19,11 +19,17 @@ public class RaceFinish : MonoBehaviourPunCallbacks
     RacerInfo playerInfo;
 
     [SerializeField]
+    RacerInfo[] racerInfos;
+
+    [SerializeField]
     GameObject textObjWhenWin;
 
     [SerializeField]
     GameObject textObjWhenLose;
-    
+
+    [SerializeField]
+    GameObject textObjWhenLoseOthersGoal;
+
     public bool goaled { get; private set; } = false;
 
     [SerializeField]
@@ -81,14 +87,19 @@ public class RaceFinish : MonoBehaviourPunCallbacks
 
     private void LateUpdate()
     {
-        // ゴール時のみ
-        if (playerInfo.lapCounter.goaled && !goaled)   
+        foreach(RacerInfo racerInfo in racerInfos)
         {
-            goaled = true;
-            if (PhotonNetwork.IsMasterClient)
+            // ゴール時のみ
+            if (racerInfo.lapCounter.goaled && !goaled)
             {
-                raceManager.RankingCalculation();
-                photonView.RPC(nameof(RPCWhenGoal), RpcTarget.All, playerInfo.ranking);
+                goaled = true;
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    raceManager.RankingCalculation();
+                    photonView.RPC(nameof(RPCWhenGoal), RpcTarget.All, playerInfo.ranking);
+                }
+
+                break;
             }
         }
     }
@@ -106,6 +117,7 @@ public class RaceFinish : MonoBehaviourPunCallbacks
         else
         {
             textObjWhenLose.SetActive(true);
+            textObjWhenLoseOthersGoal.SetActive(true);
         }
     }
 }

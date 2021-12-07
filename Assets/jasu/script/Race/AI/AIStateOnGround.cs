@@ -8,10 +8,10 @@ public class AIStateOnGround : AIState
     GameObject playerObj = null;
 
     [SerializeField]
-    GameObject[] otherNPCs; 
+    GameObject[] otherRacers; 
 
-    [SerializeField]
-    AISensorDistanceTarget sensorDistanceTarget;
+    //[SerializeField]
+    //AISensorDistanceTarget sensorDistanceTarget;
 
     [SerializeField]
     DirtSensor dirtSensor;
@@ -20,45 +20,35 @@ public class AIStateOnGround : AIState
     MoveBetweenLane moveBetweenLane;
 
     [SerializeField]
-    MoveBetweenLane playerMoveBetweenLane;
-
-    [SerializeField]
-    MoveBetweenLane[] otherMoveBetweenLane;
-
-    [SerializeField]
     AttitudeCtrlInRace attitudeCtrl;
 
-    [SerializeField]
-    DirtSplashSpawn dirtSplashSpawn;
+    //[SerializeField]
+    //DirtSplashSpawn dirtSplashSpawn;
 
     [SerializeField]
     ColliderSensor colliderSensor = null;
 
-    [SerializeField]
-    RaceManager raceManager = null;
+    //[SerializeField]
+    //RaceManager raceManager = null;
 
     [Header("パラメータ")]
 
-    [SerializeField, Tooltip("加速距離")]
-    float accelerateDistance = 10f;
+    //[SerializeField, Tooltip("加速距離")]
+    //float accelerateDistance = 10f;
 
-    [SerializeField, Tooltip("減速距離")]
-    float decelerateDistance = 10f;
+    //[SerializeField, Tooltip("減速距離")]
+    //float decelerateDistance = 10f;
 
-    [SerializeField]
-    float correctSeconds = 1f;
+    //[SerializeField]
+    //float correctSeconds = 1f;
 
-    float correctTimer = 0f;
+    //float correctTimer = 0f;
 
-    [SerializeField]
-    float dirtIntervalSeconds = 3f;
+    //[SerializeField]
+    //float dirtIntervalSeconds = 3f;
 
-    float dirtIntervalTimer = 0f;
-
-    bool canBeDirt = true;
-
-    [SerializeField]
-    float distanceToPlayer;
+    //[SerializeField]
+    //float distanceToPlayer;
 
     List<float> distances = new List<float>();
 
@@ -70,50 +60,50 @@ public class AIStateOnGround : AIState
     public override void StateUpdate()
     {
         // 姿勢制御
-        attitudeCtrl.dirRot = 1f;
-        distanceToPlayer = raceManager.GetPositionInRace(gameObject.GetInstanceID()) - raceManager.GetPositionInRace(playerObj.GetInstanceID());
+        attitudeCtrl.dirRot = 1f; // 基本加速
+        //distanceToPlayer = raceManager.GetPositionInRace(gameObject.GetInstanceID()) - raceManager.GetPositionInRace(playerObj.GetInstanceID());
         //if (distanceToPlayer > decelerateDistance)
         //{
         //    attitudeCtrl.dirRot = -0.8f;
         //}
         //else 
-        if (distanceToPlayer < -accelerateDistance)
-        {
-            attitudeCtrl.dirRot = 1f;
-        }
+        //if (distanceToPlayer < -accelerateDistance)
+        //{
+        //    attitudeCtrl.dirRot = 1f;
+        //}
 
-        if (dirtSensor.sensorActive)
+        if (dirtSensor.sensorActive)    // 泥あったら減速
         {
-            attitudeCtrl.dirRot = -0.5f;
+            attitudeCtrl.dirRot = -1f;
         }
 
         // レーン移動
         distances.Add(Vector3.Distance(transform.position, playerObj.transform.position));
-        foreach (var other in otherNPCs)
+        foreach (var other in otherRacers)
         {
             distances.Add(Vector3.Distance(transform.position, other.transform.position));
         }
 
         //for(int i = 0; i< )
 
-        if (sensorDistanceTarget.sensorActive && moveBetweenLane.belongingLaneId != playerMoveBetweenLane.belongingLaneId && canBeDirt)
-        {
-            correctTimer += Time.deltaTime;
-            if (correctTimer > correctSeconds)
-            {
-                correctTimer = 0f;
-                moveBetweenLane.SetMoveLane(playerMoveBetweenLane.belongingLaneId);
-            }
-        }
-        else
-        {
-            correctTimer += Time.deltaTime;
-            if (correctTimer > correctSeconds)
-            {
-                correctTimer = 0f;
-                moveBetweenLane.SetMoveLane(moveBetweenLane.belongingLaneId + Random.Range(-1, 1));
-            }
-        }
+        //if (sensorDistanceTarget.sensorActive && moveBetweenLane.belongingLaneId != playerMoveBetweenLane.belongingLaneId && canBeDirt)
+        //{
+        //    correctTimer += Time.deltaTime;
+        //    if (correctTimer > correctSeconds)
+        //    {
+        //        correctTimer = 0f;
+        //        moveBetweenLane.SetMoveLane(playerMoveBetweenLane.belongingLaneId);
+        //    }
+        //}
+        //else
+        //{
+        //    correctTimer += Time.deltaTime;
+        //    if (correctTimer > correctSeconds)
+        //    {
+        //        correctTimer = 0f;
+        //        moveBetweenLane.SetMoveLane(moveBetweenLane.belongingLaneId + Random.Range(-1, 1));
+        //    }
+        //}
 
         // 泥掛け
         //dirtIntervalTimer += Time.deltaTime;
