@@ -6,7 +6,7 @@ using Photon.Pun;
 
 public class JumpMoveRemake : MonoBehaviourPunCallbacks
 {
-    Transform parent;
+    GameObject parent;
     GameObject player;
     GameObject playerFoot;
 
@@ -22,7 +22,7 @@ public class JumpMoveRemake : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        parent = GameObject.Find("GameInGame").transform;
+        parent = GameObject.Find("GameInGame");
         player = GameObject.Find("JumpMan");
         playerFoot = player.transform.Find("Foot").gameObject;
 
@@ -43,7 +43,7 @@ public class JumpMoveRemake : MonoBehaviourPunCallbacks
         if (collision.gameObject == playerFoot)
         {
             //player.transform.parent = this.transform;
-            photonView.RPC(nameof(PlayerEntry), RpcTarget.AllBufferedViaServer);
+            photonView.RPC(nameof(PlayerEntry), RpcTarget.AllBufferedViaServer, player.GetPhotonView().ViewID, this.gameObject.GetPhotonView().ViewID);
         }
     }
 
@@ -52,19 +52,23 @@ public class JumpMoveRemake : MonoBehaviourPunCallbacks
         if (collision.gameObject == playerFoot)
         {
             //player.transform.parent = parent;
-            photonView.RPC(nameof(PlayerExit), RpcTarget.AllBufferedViaServer);
+            photonView.RPC(nameof(PlayerExit), RpcTarget.AllBufferedViaServer, player.GetPhotonView().ViewID, parent.GetPhotonView().ViewID);
         }
     }
 
     [PunRPC]
-    public void PlayerEntry()
+    public void PlayerEntry(int _playerID,int _thisID)
     {
-        player.transform.parent = this.transform;
+        GameObject playerObj= NetworkObjContainer.NetworkObjDictionary[_playerID];
+        GameObject thisObj = NetworkObjContainer.NetworkObjDictionary[_thisID];
+        playerObj.transform.parent = thisObj.transform;
     }
 
     [PunRPC]
-    public void PlayerExit()
+    public void PlayerExit(int _playerID,int _parentID)
     {
-        player.transform.parent = parent;
+        GameObject playerObj = NetworkObjContainer.NetworkObjDictionary[_playerID];
+        GameObject parentObj = NetworkObjContainer.NetworkObjDictionary[_parentID];
+        playerObj.transform.parent = parentObj.transform;
     }
 }
