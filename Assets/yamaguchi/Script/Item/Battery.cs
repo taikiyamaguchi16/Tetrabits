@@ -29,6 +29,9 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     [SerializeField]
     private Text actionText;
 
+    [SerializeField]
+    Vector3 throwForce;
+
     private ItemPocket ownerSc;
 
     private void Update()
@@ -140,6 +143,8 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
             this.transform.parent = null;
             isOwned = false;
             priority = 40;
+
+            rb.AddForce(throwForce, ForceMode.Impulse);
         }
     }
     public float GetLevel()
