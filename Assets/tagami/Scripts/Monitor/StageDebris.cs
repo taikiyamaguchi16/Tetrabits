@@ -16,6 +16,11 @@ public class StageDebris : MonoBehaviourPunCallbacks, ICool
     float fallTimer;
     Vector3 bodyEndLocalPosition;
 
+    [Header("Effect")]
+    [SerializeField] GameObject fireEffect;
+    Vector3 fireEffectScaleMax;
+    [SerializeField,Range(0,1)] float fireEffectScaleMinMultiplier = 0.3f;
+
     [Header("Option")]
     [SerializeField] UnityEngine.UI.Slider debugSlider;
 
@@ -23,6 +28,8 @@ public class StageDebris : MonoBehaviourPunCallbacks, ICool
     void Start()
     {
         bodyEndLocalPosition = bodyObject.transform.localPosition;
+
+        fireEffectScaleMax = fireEffect.transform.localScale;
     }
 
     // Update is called once per frame
@@ -34,10 +41,12 @@ public class StageDebris : MonoBehaviourPunCallbacks, ICool
         {
             fallTimer = fallSeconds;
         }
-
         bodyObject.transform.localPosition = Vector3.Lerp(Vector3.up * fallOffsetY, bodyEndLocalPosition, fallTimer / fallSeconds);
 
+        //炎の大きさ更新
+        fireEffect.transform.localScale = Vector3.Lerp(fireEffectScaleMax * fireEffectScaleMinMultiplier, fireEffectScaleMax, hp / hpMax);
 
+        //UI更新
         if (debugSlider)
         {
             debugSlider.value = hp / hpMax;
