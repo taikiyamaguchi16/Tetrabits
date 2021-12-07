@@ -96,6 +96,7 @@ MonoBehaviour:
   priority: 50
   level: 100
   actionText: {fileID: 5403389549892578179}
+  throwForce: {x: 0, y: 1000, z: 0}
 --- !u!65 &5040694322774631259
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -360,7 +361,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3568274508195229131, guid: 253d3c0516d7aca459eec01546507870, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 253d3c0516d7aca459eec01546507870, type: 3}

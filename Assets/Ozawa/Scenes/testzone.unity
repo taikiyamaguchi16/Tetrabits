@@ -196,6 +196,10 @@ MonoBehaviour:
     m_SceneName: Title
   resultScene:
     m_SceneName: GameInGameResult
+  waitInsertCassetteScene:
+    sceneAsset: {fileID: 0}
+    required: 0
+    buildIndex: -1
 --- !u!114 &14087094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,13 +226,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8d1204ca5276f44a8bf3459de3461b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameInGameSwitchByKeys:
-  - sceneObject:
-      m_SceneName: ShootingProto
-    keyCode: 112
-  - sceneObject:
-      m_SceneName: GameInGameShooting
-    keyCode: 111
+  crtNoise: {fileID: 0}
+  noiseDuration: 1
+  gameInGameScenesOnDebugWindow: []
 --- !u!4 &22521136 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9143656352735587575, guid: 0e98f4968e6b8e84c88d240c67fafb4d, type: 3}
@@ -2671,11 +2671,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monitorManager: {fileID: 2029351022}
-  coolingEffect: {fileID: 1847898453}
-  rotateTarget: {fileID: 311834172}
   damageToCoolingTargetPerSeconds: 1
-  repairMonitorPerSeconds: 0.1
-  rotateAnglePerSeconds: 30
+  coolingEffect: {fileID: 1847898453}
+  coolingMuzzule: {fileID: 0}
+  rotateXTransform: {fileID: 0}
+  rotateYTransform: {fileID: 0}
+  batteryHolder: {fileID: 0}
+  consumeBatteryPerSeconds: 1
+  emissionIndicatorList: []
 --- !u!65 &924473911
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4253,9 +4256,21 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -17.85
       objectReference: {fileID: 0}
+    - target: {fileID: 2703281344413429949, guid: f5303d109921485409daf5feb12495bd, type: 3}
+      propertyPath: sceneViewId
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2835235328372336801, guid: f5303d109921485409daf5feb12495bd, type: 3}
+      propertyPath: sceneViewId
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2952317553939390482, guid: f5303d109921485409daf5feb12495bd, type: 3}
       propertyPath: sceneViewId
       value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 3978144146166622022, guid: f5303d109921485409daf5feb12495bd, type: 3}
+      propertyPath: sceneViewId
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4206031556522381720, guid: f5303d109921485409daf5feb12495bd, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -4963,25 +4978,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1 &1583811018 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3935461345170646858, guid: f5d37d252f524494eb17b46f948b917e, type: 3}
-  m_PrefabInstance: {fileID: 385005901}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &1583811022
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1583811018}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2476829511902327823, guid: 3505fb8bc2d3bab4a9515bd899687b75, type: 3}
 --- !u!1 &1606912100
 GameObject:
   m_ObjectHideFlags: 0
@@ -6473,11 +6469,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameInGameSwitcher: {fileID: 0}
+  globalVolumeController: {fileID: 0}
   monitorHpMax: 3
+  hpEffect: {fileID: 0}
   monitorStatuses:
   - monitorModelObject: {fileID: 1016928226}
+    colorFilter: {r: 0, g: 0, b: 0, a: 0}
   - monitorModelObject: {fileID: 1036944601}
+    colorFilter: {r: 0, g: 0, b: 0, a: 0}
   - monitorModelObject: {fileID: 465826562}
+    colorFilter: {r: 0, g: 0, b: 0, a: 0}
+  monitorDamageEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  displayTransform: {fileID: 0}
+  coolingTargetOffset: {x: 0, y: 0, z: 0}
   coolingTargetPrefabs:
   - key: small
     go: {fileID: 1152768742167004558, guid: 8a0d9690dc4415c41a16c6c5d329ce4a, type: 3}
@@ -6485,6 +6491,8 @@ MonoBehaviour:
     go: {fileID: 1152768742167004558, guid: 8a0d9690dc4415c41a16c6c5d329ce4a, type: 3}
   - key: large
     go: {fileID: 1152768742167004558, guid: 8a0d9690dc4415c41a16c6c5d329ce4a, type: 3}
+  stageDebrisList: []
+  numCreateRandomDebris: 1
   monitorHpBarSlider: {fileID: 596337160}
 --- !u!4 &2029351023
 Transform:

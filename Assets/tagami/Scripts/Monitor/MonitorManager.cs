@@ -21,7 +21,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     float monitorHp;
     [SerializeField] VisualEffect hpEffect;
     int hpEffectRateMax = 1;
-
+    [SerializeField] Gradient hpEffectColorGradient;
 
     [System.Serializable]
     struct MonitorStageStatus
@@ -66,6 +66,8 @@ public class MonitorManager : MonoBehaviourPunCallbacks
 
         //EffectRateの記録
         hpEffectRateMax = hpEffect.GetInt("Rate");
+        //初期カラー設定
+        UpdateMonitorHpEffectGradient();
     }
 
     private void Update()
@@ -76,10 +78,6 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             monitorHpBarSlider.value = (float)monitorHp / (float)monitorHpMax;
         }
     }
-
-
-
-
 
     public void CallRepairMonitor(float _repairHp)
     {
@@ -147,10 +145,21 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         //EffectのRate更新
         float rate = hpEffectRateMax * (monitorHp / monitorHpMax);
         hpEffect.SetInt("Rate", (int)rate);
+        //Effectのグラデ更新
+        UpdateMonitorHpEffectGradient();
 
         //コールバック
         monitorDamageEvent.Invoke();
     }
+    private void UpdateMonitorHpEffectGradient()
+    {
+        var hpEffectGradient = hpEffect.GetGradient("Gradient");
+        var colorKeys = hpEffectGradient.colorKeys;
+        colorKeys[1].color = hpEffectColorGradient.Evaluate(monitorHp / monitorHpMax);
+        hpEffectGradient.colorKeys = colorKeys;
+        hpEffect.SetGradient("Gradient", hpEffectGradient);
+    }
+
 
     [ContextMenu("NextStage")]
     private void NextDestructionStage()

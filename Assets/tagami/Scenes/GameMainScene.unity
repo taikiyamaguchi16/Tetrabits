@@ -3399,6 +3399,35 @@ MonoBehaviour:
   globalVolumeController: {fileID: 1975499434}
   monitorHpMax: 10
   hpEffect: {fileID: 107287979}
+  hpEffectColorGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 0, b: 0, a: 1}
+    key1: {r: 1, g: 1, b: 0, a: 1}
+    key2: {r: 0, g: 1, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 32768
+    ctime2: 65535
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 3
+    m_NumAlphaKeys: 2
   monitorStatuses:
   - monitorModelObject: {fileID: 1939478883}
     colorFilter: {r: 0.8392157, g: 0.89411765, b: 0.94509804, a: 1}
@@ -3477,11 +3506,6 @@ MonoBehaviour:
   sceneViewId: 99998
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!108 &788879764 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 2261016998507691350, guid: f5d37d252f524494eb17b46f948b917e, type: 3}
-  m_PrefabInstance: {fileID: 1327462109}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &807357319 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6870341170022770599, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
@@ -6192,8 +6216,7 @@ MonoBehaviour:
   - {fileID: 2117064206}
   - {fileID: 1378785464}
   - {fileID: 529305811}
-  disableLights:
-  - {fileID: 788879764}
+  disableLights: []
   startUpEvent:
     m_PersistentCalls:
       m_Calls:
@@ -6869,7 +6892,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5435006112103098262, guid: f5d37d252f524494eb17b46f948b917e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6216006201759335781, guid: f5d37d252f524494eb17b46f948b917e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6941,6 +6964,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4485536344916298881, guid: f5303d109921485409daf5feb12495bd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4727228168792148359, guid: f5303d109921485409daf5feb12495bd, type: 3}
       propertyPath: sceneViewId
       value: 66
@@ -6948,6 +6975,10 @@ PrefabInstance:
     - target: {fileID: 4824064673026487570, guid: f5303d109921485409daf5feb12495bd, type: 3}
       propertyPath: m_Name
       value: CassetteHolder
+      objectReference: {fileID: 0}
+    - target: {fileID: 6603917432367890176, guid: f5303d109921485409daf5feb12495bd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6999227156231622481, guid: f5303d109921485409daf5feb12495bd, type: 3}
       propertyPath: m_LocalPosition.z
