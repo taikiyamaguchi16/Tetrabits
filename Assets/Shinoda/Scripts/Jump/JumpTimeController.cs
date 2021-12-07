@@ -8,10 +8,9 @@ using Photon.Pun;
 public class JumpTimeController : MonoBehaviour
 {
     [SerializeField, Tooltip("制限時間")] float time;
-    [SerializeField] SceneObject thisScene = null;
-    //[SerializeField, Tooltip("増える時間")] float plusTime;
-    //[SerializeField, Tooltip("何枚で増えるか")] int plusValue;
+    [SerializeField, Tooltip("ダメージ量")] string damage = "large";
 
+    [SerializeField] SceneObject thisScene = null;
     [SerializeField] SceneObject nextScene = null;
     bool loadable = true;
 
@@ -28,19 +27,13 @@ public class JumpTimeController : MonoBehaviour
     Text timeText;
     int remainingTime;
     bool isGoal = false;
-    //Transform coinTransform;
-    //Text coinText;
-    //int coin;
 
     // Start is called before the first frame update
     void Start()
     {
         timeTransform = transform.Find("Time");
         timeText = timeTransform.GetComponent<Text>();
-        //coinTransform = transform.Find("Coin");
-        //coinText = coinTransform.GetComponent<Text>();
         remainingTime = (int)time;
-        //coin = 0;
 
         gTransform = g.GetComponent<RectTransform>();
         oTransform = o.GetComponent<RectTransform>();
@@ -59,24 +52,17 @@ public class JumpTimeController : MonoBehaviour
 
             remainingTime = (int)time;
             timeText.text = remainingTime.ToString("d3");
-            //coinText.text = coin.ToString();
         }
 
         if (remainingTime == 0)
         {
-            if (PhotonNetwork.IsMasterClient) GameInGameUtil.SwitchGameInGameScene(thisScene);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                MonitorManager.DealDamageToMonitor(damage);
+                GameInGameUtil.SwitchGameInGameScene(thisScene);
+            }
         }
     }
-
-    //public void AddCoin()
-    //{
-    //    coin += 1;
-    //    if (coin >= plusValue)
-    //    {
-    //        time += plusTime;
-    //        coin = 0;
-    //    }
-    //}
 
     public void GoalAnimation()
     {

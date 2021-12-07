@@ -195,20 +195,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5e484c40bc0844c89fe6d144518615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSlip: 1
-  limit: 20
-  damage: small
-  emphasis: 5
+  time: 0
+  damage: large
+  thisScene:
+    m_SceneName: 
   nextScene:
     m_SceneName: 
   g: {fileID: 8872342791574487752}
   o: {fileID: 1609929626365923267}
   a: {fileID: 7463449466706122803}
   l: {fileID: 8245681100681998650}
-  gTarget: {fileID: 0}
-  oTarget: {fileID: 0}
-  aTarget: {fileID: 0}
-  lTarget: {fileID: 0}
 --- !u!1 &6472849261536230796
 GameObject:
   m_ObjectHideFlags: 0
