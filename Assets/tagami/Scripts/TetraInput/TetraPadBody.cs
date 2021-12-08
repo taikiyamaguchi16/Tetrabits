@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class TetraPadBody : MonoBehaviour
 {
-    [Header("Reference")]
+    [Header("Effect")]
     [SerializeField] Transform spriteMaskTransform;
     [SerializeField] GameObject touchedPadEffectPrefab;
     
-
+    //使ってもらう
     public List<GameObject> onPadObjects { private set; get; }
-
     [HideInInspector] public bool creatableEffect;
 
     private void Awake()
@@ -32,13 +31,14 @@ public class TetraPadBody : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        TryToAddOnPadObject(collision.gameObject);
-
-        //エフェクト生成
-        if (creatableEffect)
+        if (TryToAddOnPadObject(collision.gameObject))
         {
-            var effectObj = Instantiate(touchedPadEffectPrefab);
-            effectObj.transform.position = new Vector3(collision.transform.position.x, spriteMaskTransform.position.y, collision.transform.position.z);
+            //エフェクト生成
+            if (creatableEffect)
+            {
+                var effectObj = Instantiate(touchedPadEffectPrefab);
+                effectObj.transform.position = new Vector3(collision.transform.position.x, spriteMaskTransform.position.y, collision.transform.position.z);
+            }
         }
     }
 
@@ -49,10 +49,16 @@ public class TetraPadBody : MonoBehaviour
 
     private bool TryToAddOnPadObject(GameObject _go)
     {
+        //同じオブジェクトははじく
         foreach (var obj in onPadObjects)
         {
             if (obj == _go)
                 return false;
+        }
+        //タグがPlayerでないならはじく
+        if(!_go.CompareTag("Player"))
+        {
+            return false;
         }
 
         onPadObjects.Add(_go);
