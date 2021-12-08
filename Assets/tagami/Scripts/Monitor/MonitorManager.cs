@@ -66,8 +66,8 @@ public class MonitorManager : MonoBehaviourPunCallbacks
 
         //EffectRateの記録
         hpEffectRateMax = hpEffect.GetInt("Rate");
-        //初期カラー設定
-        UpdateMonitorHpEffectGradient();
+        //エフェクト初期カラー設定
+        UpdateMonitorHpEffect();
     }
 
     private void Update()
@@ -92,6 +92,9 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         {
             monitorHp = monitorHpMax;
         }
+
+        //エフェクト更新
+        UpdateMonitorHpEffect();
     }
 
     void CallDealDamage(string _damageId)
@@ -109,7 +112,6 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     {
         //**********************************************************
         //冷却ターゲット生成
-
         GameObject prefab = null;
         foreach (var keyObj in coolingTargetPrefabs)
         {
@@ -123,7 +125,6 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             Debug.LogError("damageId:" + _damageId + "  用の冷却用ダメージPrefabは登録されていません");
             return;
         }
-
         //HPが0になるならそもそも破壊されるので生成しない
         var monitorHpBuff = monitorHp;
         monitorHpBuff -= prefab.GetComponent<CoolingTargetStatus>().damageToMonitor;
@@ -142,17 +143,21 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             NextDestructionStage();
         }
 
-        //EffectのRate更新
-        float rate = hpEffectRateMax * (monitorHp / monitorHpMax);
-        hpEffect.SetInt("Rate", (int)rate);
-        //Effectのグラデ更新
-        UpdateMonitorHpEffectGradient();
+       //**********************************************************
+
+        //エフェクト更新
+        UpdateMonitorHpEffect();
 
         //コールバック
         monitorDamageEvent.Invoke();
     }
-    private void UpdateMonitorHpEffectGradient()
+    private void UpdateMonitorHpEffect()
     {
+        //EffectのRate更新
+        float rate = hpEffectRateMax * (monitorHp / monitorHpMax);
+        hpEffect.SetInt("Rate", (int)rate);
+
+        //Effectのグラデ更新
         var hpEffectGradient = hpEffect.GetGradient("Gradient");
         var colorKeys = hpEffectGradient.colorKeys;
         colorKeys[1].color = hpEffectColorGradient.Evaluate(monitorHp / monitorHpMax);
@@ -199,27 +204,30 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         //破片を降り注がせる
         if (PhotonNetwork.IsMasterClient)
         {
-            for (int count = 0; count < numCreateRandomDebris; count++)
-            {
-                //空き検索
-                List<int> usableIndexList = new List<int>();
-                for (int i = 0; i < stageDebrisList.Count; i++)
-                {
-                    if (!stageDebrisList[i].GetActiveSelf())
-                    {
-                        usableIndexList.Add(i);
-                    }
-                }
-                //有効化
-                if (usableIndexList.Count > 0)
-                {
-                    var usableRandomIndex = usableIndexList[Random.Range(0, usableIndexList.Count)];
-                    stageDebrisList[usableRandomIndex].CallSetActive(true);
-                }
-            }//何回か行う
+            CallScatterDebris(numCreateRandomDebris);
         }
+    }
 
-
+    void CallScatterDebris(int _numDebris)
+    {
+        for (int count = 0; count < _numDebris; count++)
+        {
+            //空き検索
+            List<int> usableIndexList = new List<int>();
+            for (int i = 0; i < stageDebrisList.Count; i++)
+            {
+                if (!stageDebrisList[i].GetActiveSelf())
+                {
+                    usableIndexList.Add(i);
+                }
+            }
+            //有効化
+            if (usableIndexList.Count > 0)
+            {
+                var usableRandomIndex = usableIndexList[Random.Range(0, usableIndexList.Count)];
+                stageDebrisList[usableRandomIndex].CallSetActive(true);
+            }
+        }//何回か行う
     }
 
 
@@ -278,6 +286,16 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public static void CallScatterDebrisInGameMainStage(int _numDebris)
+    {
+        if (sMonitorManager)
+        {
+            sMonitorManager.CallScatterDebris(_numDebris);
+        }
+    }
+
+    //ほぼ専用関数
+    //一気に破壊する用に登録してもらう
     public static void AddCoolingTargets(GameObject _go)
     {
         if (sMonitorManager)
@@ -285,4 +303,6 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             sMonitorManager.createdCoolingTargets.Add(_go);
         }
     }
+
+
 }
