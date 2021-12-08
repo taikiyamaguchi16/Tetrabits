@@ -53,6 +53,10 @@ public class TetraPad : MonoBehaviour
                     padVector.y += localVec.z;
                 }
             }
+            //合算ベクトルを単位ベクトルにする
+            padVector.Normalize();
+            //長さを人数分にする
+            padVector *= numOnPad;
 
             if (numOnPad > 0)
             { //使用中
