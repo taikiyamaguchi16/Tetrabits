@@ -98,7 +98,7 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
         {
             leverState = !leverState;
 
-            if(leverState)
+            if (leverState)
             {
                 sparkEffect.Play();
             }

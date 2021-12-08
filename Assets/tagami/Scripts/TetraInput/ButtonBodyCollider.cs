@@ -4,14 +4,39 @@ using UnityEngine;
 
 public class ButtonBodyCollider : MonoBehaviour
 {
-    public int collisionNum { private set; get; } = 0;
+    [HideInInspector]
+    public List<GameObject> collidingObjects;
 
     [System.NonSerialized]
     public bool triggerEnter;
 
+    private void FixedUpdate()
+    {
+        collidingObjects.Clear();
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        collisionNum++;
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            foreach (var obj in collidingObjects)
+            {
+                if (obj == collision.gameObject)
+                {
+                    return;
+                }
+            }
+
+            collidingObjects.Add(collision.gameObject);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collidingObjects.Remove(collision.gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -20,10 +45,5 @@ public class ButtonBodyCollider : MonoBehaviour
         {
             triggerEnter = true;
         }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        collisionNum--;
     }
 }
