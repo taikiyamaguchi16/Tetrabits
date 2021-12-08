@@ -37,6 +37,7 @@ public class CommonBullet2D : MonoBehaviourPunCallbacks
             if (GameInGameUtil.IsMasterClient())
             {//マスターのみが行う処理
                 MonitorManager.DealDamageToMonitor("medium");
+                MonitorManager.CallScatterDebrisInGameMainStage(2);
             }
 
             //自身弾の消去
