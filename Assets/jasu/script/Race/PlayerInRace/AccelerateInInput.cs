@@ -8,6 +8,14 @@ public class AccelerateInInput : MonoBehaviour
     Rigidbody rb = null;
 
     [SerializeField]
+    GameObject effectPrefab = null;
+
+    [SerializeField]
+    Transform effectInstanceTrans;
+
+    [Header("パラメータ")]
+
+    [SerializeField]
     float acceleratePower = 300f;
     
     bool input = false;
@@ -34,6 +42,10 @@ public class AccelerateInInput : MonoBehaviour
         {
             input = false;
             rb.AddForce(Vector3.forward * acceleratePower, ForceMode.Impulse);
+            GameObject accelEffect = Instantiate(effectPrefab, effectInstanceTrans);
+            accelEffect.transform.position = effectInstanceTrans.position;
+            accelEffect.transform.localScale = effectInstanceTrans.localScale;
+            //GameInGameUtil.MoveGameObjectToOwnerScene(accelEffect, gameObject);
         }
     }
 }

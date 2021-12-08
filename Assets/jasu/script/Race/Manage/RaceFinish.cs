@@ -57,6 +57,10 @@ public class RaceFinish : MonoBehaviourPunCallbacks
                 {
                     if (finalStage)
                     {
+                        //if (PhotonNetwork.IsMasterClient)
+                        //{
+                        //    photonView.RPC(nameof(RPCStopGameTimer), RpcTarget.All);
+                        //}
                         GameInGameUtil.StopGameInGameTimer("race");
                         GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
                     }
@@ -120,4 +124,10 @@ public class RaceFinish : MonoBehaviourPunCallbacks
             textObjWhenLoseOthersGoal.SetActive(true);
         }
     }
+
+    //[PunRPC]
+    //private void RPCStopGameTimer()
+    //{
+    //    GameInGameUtil.StopGameInGameTimer("race");
+    //}
 }
