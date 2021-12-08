@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class AIStateMidAir : AIState
 {
-    [SerializeField]
-    GameObject playerObj = null;
+    //[SerializeField]
+    //GameObject playerObj = null;
 
-    [SerializeField]
-    RaceManager raceManager;
+    //[SerializeField]
+    //RaceManager raceManager;
 
     [SerializeField]
     AttitudeCtrlInRace attitudeCtrl = null;
@@ -18,10 +18,10 @@ public class AIStateMidAir : AIState
 
     float dirRot = 0f;
 
-    [Header("パラメータ")]
+    //[Header("パラメータ")]
 
-    [SerializeField, Tooltip("姿勢制御の成否判定距離")]
-    float attitudeDistance = 10f;
+    //[SerializeField, Tooltip("姿勢制御の成否判定距離")]
+    //float attitudeDistance = 10f;
 
     public override void StateStart()
     {

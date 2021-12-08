@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMoveInRace : MoveInRace
 {
-    bool moveInput = false;
+    //bool moveInput = false;
 
     //[SerializeField]
     //List<int> slipObjList = new List<int>();
@@ -23,11 +23,11 @@ public class PlayerMoveInRace : MoveInRace
     void Update()
     {
         // 移動入力
-        moveInput = true;
-        if (TetraInput.sTetraLever.GetPoweredOn())
-        {
-            moveInput = true;
-        }
+        //moveInput = true;
+        //if (TetraInput.sTetraLever.GetPoweredOn())
+        //{
+        //    moveInput = true;
+        //}
     }
 
     private void LateUpdate()
@@ -44,14 +44,11 @@ public class PlayerMoveInRace : MoveInRace
     {
         moveVec = Vector3.zero;
 
-        // スロープチェック
-        CheckSlope();
-
         // 移動ベクトル作成
-        if (!moveInput)
-        {
-            moveSpd = 0f;
-        }
+        //if (!moveInput)
+        //{
+        //    moveSpd = 0f;
+        //}
 
         SetMoveVec();
 

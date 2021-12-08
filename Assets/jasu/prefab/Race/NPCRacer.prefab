@@ -180,7 +180,7 @@ MonoBehaviour:
   distanceToGround: 5
   gravity: -50
   moveVec: {x: 0, y: 0, z: 0}
-  wheelonSlopeNum: 0
+  onSlope: 0
 --- !u!114 &7197532588029266713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,8 +315,9 @@ GameObject:
   - component: {fileID: 1557146903613605887}
   - component: {fileID: 278066806307887370}
   - component: {fileID: 4466933913019798648}
+  - component: {fileID: 7381131053446857208}
   m_Layer: 0
-  m_Name: DirtSensor
+  m_Name: FrontSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -363,6 +364,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensorActive: 0
   dirtList: []
+--- !u!114 &7381131053446857208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2681990653121167863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9289e53261fb5564bae63d6f9ea3b46d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensorActive: 0
+  bikeList: []
 --- !u!1 &3405693731458820472
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,21 +776,12 @@ MonoBehaviour:
   shiftStateTable:
     list: []
   playerObj: {fileID: 0}
-  otherNPCs: []
-  sensorDistanceTarget: {fileID: 8426434430513307605}
+  otherRacers: []
   dirtSensor: {fileID: 4466933913019798648}
   moveBetweenLane: {fileID: 7197532588029266713}
-  playerMoveBetweenLane: {fileID: 0}
-  otherMoveBetweenLane: []
   attitudeCtrl: {fileID: 396231687437029225}
-  dirtSplashSpawn: {fileID: 2635770476168120973}
   colliderSensor: {fileID: 3019873534829246529}
   raceManager: {fileID: 0}
-  accelerateDistance: 15
-  decelerateDistance: 30
-  correctSeconds: 1
-  dirtIntervalSeconds: 5
-  distanceToPlayer: 0
 --- !u!114 &7030274486372367719
 MonoBehaviour:
   m_ObjectHideFlags: 0

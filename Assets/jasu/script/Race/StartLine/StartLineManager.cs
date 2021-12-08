@@ -23,16 +23,25 @@ public class StartLineManager : MonoBehaviour
         // レーサー整列
         for(int i = 0; i < racers.Length; i++)
         {
-            if(i < laneManager.GetLaneNum())
+            int laneId;
+            if (i < laneManager.GetLaneNum())
             {
-                Vector3 pos = racers[i].transform.localPosition;
-                pos.x = laneManager.GetLaneLocalPosX(i);
-                pos.y = 0f;
-                pos.z = startLineTrans.localPosition.z - laneManager.GetLaneWidth() / 2 * (i + 2.5f);
-                racers[i].transform.localPosition = pos;
-
-                racers[i].GetComponentInChildren<MoveBetweenLane>().belongingLaneId = i;
+                laneId = i;
             }
+            else
+            {
+                laneId = i % laneManager.GetLaneNum();
+            }
+
+            int orderId = i / laneManager.GetLaneNum() + 1;
+
+            Vector3 pos = racers[i].transform.localPosition;
+            pos.x = laneManager.GetLaneLocalPosX(laneId);
+            pos.y = 0f;
+            pos.z = startLineTrans.localPosition.z - laneManager.GetLaneWidth() / 2 * (laneId + (2.5f * orderId));
+            racers[i].transform.localPosition = pos;
+
+            racers[i].GetComponentInChildren<MoveBetweenLane>().belongingLaneId = laneId;
         }
     }
 }
