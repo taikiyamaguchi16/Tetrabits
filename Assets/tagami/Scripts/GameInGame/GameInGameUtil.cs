@@ -49,7 +49,7 @@ public class GameInGameUtil : MonoBehaviour
         }
         else
         {
-            Debug.LogError("GameMainManagerが見つかりませんでした");
+            Debug.LogError("GameMainManagerが見つからないのでタイマーをStartできませんでした");
         }
     }
 
@@ -62,7 +62,7 @@ public class GameInGameUtil : MonoBehaviour
         }
         else
         {
-            Debug.LogError("GameMainManagerが見つかりませんでした");
+            Debug.LogError("GameMainManagerが見つからないので、タイマーをストップできませんでした");
         }
     }
 
