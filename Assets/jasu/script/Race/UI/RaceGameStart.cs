@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class RaceGameStart : MonoBehaviour
+public class RaceGameStart : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     SceneObject firstStageScene = null;
@@ -12,8 +13,18 @@ public class RaceGameStart : MonoBehaviour
     {
         if (TetraInput.sTetraButton.GetTrigger() && firstStageScene != null)
         {
+            //if (PhotonNetwork.IsMasterClient)
+            //{
+            //    photonView.RPC(nameof(RPCStartGameTimer), RpcTarget.All);
+            //}
             GameInGameUtil.StartGameInGameTimer("race");
             GameInGameUtil.SwitchGameInGameScene(firstStageScene);
         }
     }
+
+    //[PunRPC]
+    //private void RPCStartGameTimer()
+    //{
+    //    GameInGameUtil.StartGameInGameTimer("race");
+    //}
 }
