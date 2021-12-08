@@ -80,7 +80,6 @@ public class PlayerAnimationManager : MonoBehaviourPunCallbacks
     {
         if (playerTextures.Count > 0)
         {
-            Debug.Log(animatorStateEvent.CurrentStateName + "　に切り替えます");
             overrideSprite.SetTexture(playerTextures[animatorStateEvent.CurrentStateName]);
         }
     }
