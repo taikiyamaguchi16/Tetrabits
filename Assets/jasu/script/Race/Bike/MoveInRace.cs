@@ -161,17 +161,23 @@ public class MoveInRace : MonoBehaviourPunCallbacks
                 {
                     transform.parent.localRotation = Quaternion.LookRotation(moveVec);
                 }
+                //transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.LookRotation(moveVec), rotLateSlope);
+                //if (attitudeCtrl.CorrectAngle(transform.localRotation.eulerAngles.x) <= attitudeCtrl.CorrectAngle(Quaternion.LookRotation(moveVec).eulerAngles.x))
+                //{
+                //    transform.localRotation = Quaternion.LookRotation(moveVec);
+                //}
 
                 moveVec.y *= (moveSpd / moveVec.z) * moveSlopeMultiply;
             }
             else
             {
                 groundNormalVec = Vector3.zero;
-                
+
                 //if (colliderSensor.GetExistInCollider())
                 //{
-                    transform.parent.localRotation = Quaternion.Lerp(transform.parent.localRotation, Quaternion.identity, rotLateFlat);
+                transform.parent.localRotation = Quaternion.Lerp(transform.parent.localRotation, Quaternion.identity, rotLateFlat);
                 //}
+                //transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, rotLateFlat);
             }
 
             moveVec.z = moveSpd;
