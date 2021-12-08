@@ -78,8 +78,11 @@ public class PlayerAnimationManager : MonoBehaviourPunCallbacks
 
     public void ChangeTexture()
     {
-        if(playerTextures.Count>0)
+        if (playerTextures.Count > 0)
+        {
+            Debug.Log(animatorStateEvent.CurrentStateName + "　に切り替えます");
             overrideSprite.SetTexture(playerTextures[animatorStateEvent.CurrentStateName]);
+        }
     }
 
     [PunRPC]
@@ -135,6 +138,7 @@ public class PlayerAnimationManager : MonoBehaviourPunCallbacks
             {
                 if (!playerTextures.ContainsKey(tex.name))
                 {
+                    //Debug.Log(tex.name + "  を追加しました");
                     playerTextures.Add(tex.name, tex);
                 }
             }
