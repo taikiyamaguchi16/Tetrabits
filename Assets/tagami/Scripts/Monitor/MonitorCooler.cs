@@ -117,9 +117,22 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
 
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
+        if (runningRotator)
+        {
+            Debug.LogError("誰かが(多分自分)冷却起動中のため冷却装置を起動できません");
+            return;
+        }
+        CoolerRotater cr;
+        if(_desc.playerObj.TryGetComponent(out cr))
+        {
+            Debug.LogError("なぜか冷却装置回転用コンポーネントがすでについています　破壊します");
+            Destroy(cr);
+        }
+
+
         //おそらくIsMineで呼ばれてるので同期関数をそのまま呼び出す
 
-        Debug.Log("CoolingDeviceのStartPlayerActionが呼ばれました");
+        //Debug.Log("CoolingDeviceのStartPlayerActionが呼ばれました");
         if (batteryHolder.GetBatterylevel() > 0)
         {
             CallSetRunning(true);
@@ -134,6 +147,7 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         CallSetRunning(false);
 
         Destroy(runningRotator);
+        runningRotator = null;
     }
 
     public int GetPriority()
