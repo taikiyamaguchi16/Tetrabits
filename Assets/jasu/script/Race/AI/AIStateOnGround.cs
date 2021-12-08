@@ -17,6 +17,15 @@ public class AIStateOnGround : AIState
     DirtSensor dirtSensor;
 
     [SerializeField]
+    BikeSensor frontBikeSensor;
+
+    [SerializeField]
+    BikeSensor widthBikeSensor;
+
+    [SerializeField]
+    BikeSensor nearBikeSensor;
+
+    [SerializeField]
     MoveBetweenLane moveBetweenLane;
 
     [SerializeField]
@@ -59,6 +68,19 @@ public class AIStateOnGround : AIState
 
     public override void StateUpdate()
     {
+        // スロープ上にいるか
+        bool onSlope = false;
+        Vector3 rayPosition = transform.position;
+        Ray ray = new Ray(rayPosition, new Vector3(0, -1, 1));
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, 3))
+        {
+            if (hitInfo.transform.gameObject.tag == "SlopeRoadInRace" ||
+            hitInfo.transform.parent.gameObject.tag == "SlopeRoadInRace")
+            {
+                onSlope = true;
+            }
+        }
+
         // 姿勢制御
         attitudeCtrl.dirRot = 1f; // 基本加速
         //distanceToPlayer = raceManager.GetPositionInRace(gameObject.GetInstanceID()) - raceManager.GetPositionInRace(playerObj.GetInstanceID());
@@ -77,14 +99,26 @@ public class AIStateOnGround : AIState
             attitudeCtrl.dirRot = -1f;
         }
 
-        // レーン移動
-        distances.Add(Vector3.Distance(transform.position, playerObj.transform.position));
-        foreach (var other in otherRacers)
+        if (onSlope)   // 坂道では中速
         {
-            distances.Add(Vector3.Distance(transform.position, other.transform.position));
+            attitudeCtrl.dirRot = 0f;
         }
 
-        //for(int i = 0; i< )
+        // レーン移動
+        if (widthBikeSensor.sensorActive)  // 横のレーンに他のバイクがいるか
+        {
+            if (nearBikeSensor.sensorActive)
+            {
+                ShiftLane();
+            }
+        }
+        else
+        {
+            if (frontBikeSensor.sensorActive)
+            {
+                ShiftLane();
+            }
+        }
 
         //if (sensorDistanceTarget.sensorActive && moveBetweenLane.belongingLaneId != playerMoveBetweenLane.belongingLaneId && canBeDirt)
         //{
@@ -142,5 +176,30 @@ public class AIStateOnGround : AIState
             return true;
         }
         return false;
+    }
+
+    private void ShiftLane()
+    {
+        int moveLaneId = moveBetweenLane.belongingLaneId;
+        if (moveBetweenLane.belongingLaneId <= 0)
+        {
+            moveLaneId = 1;
+        }
+        else if (moveBetweenLane.belongingLaneId >= moveBetweenLane.GetLaneNum() - 1)
+        {
+            moveLaneId = moveBetweenLane.GetLaneNum() - 2;
+        }
+        else
+        {
+            if (Random.Range(0, 2) == 0)
+            {
+                moveLaneId--;
+            }
+            else
+            {
+                moveLaneId++;
+            }
+        }
+        moveBetweenLane.SetMoveLane(moveLaneId);
     }
 }

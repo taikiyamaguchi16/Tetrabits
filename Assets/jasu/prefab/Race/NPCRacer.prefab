@@ -29,6 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1557146903613605887}
+  - {fileID: 4748873219635045372}
   m_Father: {fileID: 4178323175449870650}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -95,6 +96,65 @@ MonoBehaviour:
   physicalParts:
   - {fileID: 3531962826933777949}
   - {fileID: 2487003247870755375}
+--- !u!1 &1574372938890959281
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4748873219635045372}
+  - component: {fileID: 2380147663606250420}
+  - component: {fileID: 8577493795081313330}
+  m_Layer: 0
+  m_Name: WidthSensor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4748873219635045372
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574372938890959281}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1974192286032237867}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2380147663606250420
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574372938890959281}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 20, y: 2, z: 10}
+  m_Center: {x: 0, y: 3, z: 0}
+--- !u!114 &8577493795081313330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574372938890959281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9289e53261fb5564bae63d6f9ea3b46d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensorActive: 0
+  bikeList: []
 --- !u!1 &2487003247870755375
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,8 +408,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3, y: 5, z: 20}
-  m_Center: {x: 0, y: 0, z: 10}
+  m_Size: {x: 3, y: 5, z: 24}
+  m_Center: {x: 0, y: 0, z: 12}
 --- !u!114 &4466933913019798648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,7 +573,7 @@ MonoBehaviour:
   animator: {fileID: 5370417530253789386}
   overrideSprite: {fileID: 53809765152959015}
   slipSprite: {fileID: 21300000, guid: c9af71f978dfe1c4f812bcfecda4fce0, type: 3}
-  slipingTimeSeconds: 1
+  slipingTimeSeconds: 0.7
   rotAngle: 360
 --- !u!114 &4140811107228069799
 MonoBehaviour:
@@ -755,11 +815,8 @@ MonoBehaviour:
   manager: {fileID: 4395545781944696137}
   shiftStateTable:
     list: []
-  playerObj: {fileID: 0}
-  raceManager: {fileID: 0}
   attitudeCtrl: {fileID: 396231687437029225}
   colliderSensor: {fileID: 3019873534829246529}
-  attitudeDistance: 10
 --- !u!114 &1137678447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -778,10 +835,12 @@ MonoBehaviour:
   playerObj: {fileID: 0}
   otherRacers: []
   dirtSensor: {fileID: 4466933913019798648}
+  frontBikeSensor: {fileID: 7381131053446857208}
+  widthBikeSensor: {fileID: 8577493795081313330}
+  nearBikeSensor: {fileID: 776082333562466475}
   moveBetweenLane: {fileID: 7197532588029266713}
   attitudeCtrl: {fileID: 396231687437029225}
   colliderSensor: {fileID: 3019873534829246529}
-  raceManager: {fileID: 0}
 --- !u!114 &7030274486372367719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -831,6 +890,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6715924988366471157}
   - component: {fileID: 135900603398136718}
+  - component: {fileID: 776082333562466475}
   m_Layer: 0
   m_Name: SlipCol
   m_TagString: Slip
@@ -865,6 +925,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &776082333562466475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6291139973812066315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9289e53261fb5564bae63d6f9ea3b46d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensorActive: 0
+  bikeList: []
 --- !u!1 &6478769947772253936
 GameObject:
   m_ObjectHideFlags: 0
