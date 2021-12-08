@@ -23,6 +23,7 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     [Header("Effect")]
     [SerializeField] VisualEffect coolingEffect;
     [SerializeField] Transform coolingMuzzule;
+    [SerializeField] VisualEffect coolingCollisionEffect;
 
     [Header("RotateTarget")]
     [SerializeField] Transform rotateXTransform;
@@ -61,16 +62,39 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
             CallSetRunning(false);
         }
 
+        bool hitting = false;
         if (running)
         {
+            //電池消費
             batteryHolder.ConsumptionOwnBattery(consumeBatteryPerSeconds * Time.deltaTime);
+
+            bool setHitPoint = false;
 
             //レイとばして冷却ターゲット削除        
             //11/19 なんかforwardの逆にレイが飛んでるっぽい
             Debug.DrawRay(coolingMuzzule.position, -coolingMuzzule.forward * 10000.0f, Color.blue);
-            foreach (var hit in Physics.RaycastAll(new Ray(coolingMuzzule.position, -coolingMuzzule.forward), 10000.0f))
+            var hits = Physics.RaycastAll(new Ray(coolingMuzzule.position, -coolingMuzzule.forward), 10000.0f);
+            // 結果を発射元から距離が近い順でソート
+            System.Array.Sort(hits, (a, b) => (int)Vector3.Distance(a.point, transform.position) - (int)Vector3.Distance(b.point, transform.position));
+            foreach (var hit in hits)
             {
-                Debug.Log("hit!:" + hit.collider.gameObject.name);
+                //Debug.Log("hit!:" + hit.collider.gameObject.name);
+
+                hitting = true;
+
+                //エフェクトの移動
+                if (!setHitPoint                                //このフレームでは未設定
+                    && hit.collider.gameObject != gameObject    //自分自身でない
+                    && !hit.collider.isTrigger                  //トリガーの当たり判定ではない
+                    && coolingCollisionEffect)                  //エフェクトが設定されている
+                {
+                    setHitPoint = true;
+                    coolingCollisionEffect.transform.position = hit.point;
+                    coolingCollisionEffect.Play();
+                    //Debug.Log(hit.collider.gameObject.name + "の場所にエフェクトを出しています");
+                }
+
+                //炎ターゲットに当たっているか
                 if (hit.collider.CompareTag("CoolingTarget"))
                 {
                     //Interfaceを呼ぶ
@@ -87,7 +111,10 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
                     break;
                 }
             }
-
+        }
+        if (!hitting && coolingCollisionEffect)
+        {
+            coolingCollisionEffect.Stop();
         }
 
         //回転処理
@@ -123,7 +150,7 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
             return;
         }
         CoolerRotater cr;
-        if(_desc.playerObj.TryGetComponent(out cr))
+        if (_desc.playerObj.TryGetComponent(out cr))
         {
             Debug.LogError("なぜか冷却装置回転用コンポーネントがすでについています　破壊します");
             Destroy(cr);
