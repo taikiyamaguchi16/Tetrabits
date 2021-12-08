@@ -31,10 +31,12 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
             {
                 ownBattery.CallDump(_desc.playerObj.GetPhotonView().ViewID);
 
-                photonView.RPC(nameof(RPCDestroyBattery), RpcTarget.AllBufferedViaServer, ownBattery.photonView.ViewID);               
+                photonView.RPC(nameof(RPCDestroyBattery), RpcTarget.AllBufferedViaServer, ownBattery.photonView.ViewID);
                 ownBattery = null;
 
                 batteryDustEfect.Play();
+
+                photonView.RPC(nameof(RPCNotifyThrowBatteryAway), RpcTarget.AllBufferedViaServer);
             }
             //バッテリーでなかった場合元に戻す
             else
@@ -43,6 +45,13 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
             }
         }
     }
+    //12/8 田上　チュートリアルへバッテリーを捨てたことを通知する関数
+    [PunRPC]
+    void RPCNotifyThrowBatteryAway()
+    {
+        GameObject.Find("TutorialThrowBatteryAwayManager")?.GetComponent<TutorialThrowBatteryAwayManager>()?.NotifyThrowBatteryAway();
+    }
+
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()
     {
@@ -79,7 +88,7 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
     [PunRPC]
     public void RPCDestroyBattery(int _id)
     {
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
             PhotonNetwork.Destroy(NetworkObjContainer.NetworkObjDictionary[_id]);
     }
 }
