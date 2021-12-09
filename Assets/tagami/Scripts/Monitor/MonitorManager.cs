@@ -32,6 +32,8 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     [Header("MonitorStage")]
     [SerializeField] List<MonitorStageStatus> monitorStatuses;
     int currentMonitorStatusIndex = 0;
+    [SerializeField] List<VisualEffect> nextStageEffects;
+    [SerializeField] float playNextStageEffectIntervalSeconds = 0.5f;
 
     [Header("Monitor Damage Callback")]
     [SerializeField] UnityEvent monitorDamageEvent;
@@ -48,7 +50,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
 
     [Header("Stage Debris")]
     [SerializeField] List<StageDebris> stageDebrisList;
-    [SerializeField] int numCreateRandomDebris = 1;
+    int numCreateRandomDebris = 1;
     [SerializeField] float debrisGaugeMax = 10.0f;
     float debrisGauge;
     [SerializeField] Slider debrisGaugeSlider;
@@ -139,14 +141,20 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         //破片処理
         debrisGauge += prefab.GetComponent<CoolingTargetStatus>().damageToMonitor;
         if (debrisGauge >= debrisGaugeMax)
-        {
+        {//破片発生処理
             debrisGauge = 0.0f;
-            //破片発生
+
             if (PhotonNetwork.IsMasterClient)
             {
                 CallScatterDebris(numCreateRandomDebris);
             }
+            numCreateRandomDebris++;
+            if (numCreateRandomDebris >= stageDebrisList.Count)
+            {
+                numCreateRandomDebris = stageDebrisList.Count;
+            }
         }
+        //Slider更新
         debrisGaugeSlider.maxValue = debrisGaugeMax;
         debrisGaugeSlider.value = debrisGauge;
 
@@ -208,11 +216,23 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             }
         }
 
+        //エフェクトを再生する
+        StartCoroutine(CoPlayNextStageEffects());
+
         //破片を降り注がせる
         //if (PhotonNetwork.IsMasterClient)
         //{
         //    CallScatterDebris(numCreateRandomDebris);
         //}
+    }
+
+    IEnumerator CoPlayNextStageEffects()
+    {
+        foreach (var effect in nextStageEffects)
+        {
+            effect.Play();
+            yield return new WaitForSeconds(playNextStageEffectIntervalSeconds);
+        }
     }
 
     void CallScatterDebris(int _numDebris)
