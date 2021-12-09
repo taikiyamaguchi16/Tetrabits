@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Photon.Pun;
 
 public class InGameTitleController : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class InGameTitleController : MonoBehaviour
     [SerializeField] GameObject optionPanel;
 
     [SerializeField] SceneObject nextScene;
+    bool loadable = true;
 
     RectTransform optionTransform;
 
@@ -34,7 +36,11 @@ public class InGameTitleController : MonoBehaviour
         if (TetraInput.sTetraButton.GetTrigger())
         {
             if (state == CanvasState.Title) OpenOption();
-            else if (state == CanvasState.Option) GameInGameUtil.SwitchGameInGameScene(nextScene);
+            else if (state == CanvasState.Option && PhotonNetwork.IsMasterClient && loadable)
+            {
+                GameInGameUtil.SwitchGameInGameScene(nextScene);
+                loadable = false;
+            }
         }
     }
 
