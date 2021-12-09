@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class JumpGoalBlock : MonoBehaviour
+public class JumpGoalBlock : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject JumpUI;
     JumpTimeController JumpTimeControllerComponent;
+
+    bool isGoal = false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +24,12 @@ public class JumpGoalBlock : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (PhotonNetwork.IsMasterClient) photonView.RPC(nameof(JumpGoal), RpcTarget.AllBufferedViaServer);
+    }
+
+    [PunRPC]
+    public void JumpGoal()
     {
         JumpTimeControllerComponent.GoalAnimation();
     }
