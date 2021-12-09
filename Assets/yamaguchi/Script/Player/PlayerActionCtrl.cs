@@ -80,7 +80,9 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                 {
                     Transform dumyObj = transform.Find("Battery 1(Clone)");
                     if (dumyObj != null)
-                        PhotonNetwork.Destroy(dumyObj.gameObject.GetPhotonView());
+                    {
+                        dumyObj.GetComponent<Battery>().CallDump(photonView.ViewID);
+                    }
                 }
 
                 if (allActionItem.Count > 0)
