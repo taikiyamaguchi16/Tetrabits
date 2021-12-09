@@ -165,9 +165,13 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
 
         yield return new WaitForSeconds(gameoverDispSeconds);
 
-        //ステージの最初に戻る
+       
         if (PhotonNetwork.IsMasterClient)
         {
+            //Debrisの数を追加
+            MonitorManager.CallAddNumDebrisInGameMainStage();
+
+            //ステージの最初に戻る
             GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(restartScene.BuildIndex));
         }
 

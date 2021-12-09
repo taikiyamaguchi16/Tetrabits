@@ -54,6 +54,8 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     [SerializeField] float debrisGaugeMax = 10.0f;
     float debrisGauge;
     [SerializeField] Slider debrisGaugeSlider;
+    [SerializeField] Text numDebrisText;
+
 
     private void Awake()
     {
@@ -70,6 +72,14 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         hpEffectRateMax = hpEffect.GetInt("Rate");
         //エフェクト初期カラー設定
         UpdateMonitorHpEffect();
+    }
+
+    private void Update()
+    {
+        if(numDebrisText)
+        {
+            numDebrisText.text = "破片落下数："+numCreateRandomDebris;
+        }
     }
 
 
@@ -147,12 +157,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             if (PhotonNetwork.IsMasterClient)
             {
                 CallScatterDebris(numCreateRandomDebris);
-            }
-            numCreateRandomDebris++;
-            if (numCreateRandomDebris >= stageDebrisList.Count)
-            {
-                numCreateRandomDebris = stageDebrisList.Count;
-            }
+            }            
         }
         //Slider更新
         debrisGaugeSlider.maxValue = debrisGaugeMax;
@@ -232,6 +237,30 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         {
             effect.Play();
             yield return new WaitForSeconds(playNextStageEffectIntervalSeconds);
+        }
+    }
+
+    void CallResetNumDebris()
+    {
+        photonView.RPC(nameof(RPCResetNumScatterDebris), RpcTarget.AllViaServer);
+    }
+    [PunRPC]
+    void RPCResetNumScatterDebris()
+    {
+        numCreateRandomDebris = 1;
+    }
+
+    void CallAddNumDebris()
+    {
+        photonView.RPC(nameof(RPCAddNumScatterDebris), RpcTarget.AllViaServer);
+    }
+    [PunRPC]
+    void RPCAddNumScatterDebris()
+    {
+        numCreateRandomDebris++;
+        if (numCreateRandomDebris >= stageDebrisList.Count)
+        {
+            numCreateRandomDebris = stageDebrisList.Count;
         }
     }
 
@@ -319,6 +348,16 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         {
             sMonitorManager.CallScatterDebris(_numDebris);
         }
+    }
+
+    public static void CallResetNumDebrisInGameMainStage()
+    {
+        sMonitorManager?.CallResetNumDebris();
+    }
+
+    public static void CallAddNumDebrisInGameMainStage()
+    {
+        sMonitorManager?.CallAddNumDebris();
     }
 
     //ほぼ専用関数
