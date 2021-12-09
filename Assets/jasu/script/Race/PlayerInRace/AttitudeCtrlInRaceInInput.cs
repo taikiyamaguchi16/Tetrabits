@@ -7,10 +7,20 @@ public class AttitudeCtrlInRaceInInput : AttitudeCtrlInRace
     [SerializeField]
     float padInputRangeX = 0.15f;
 
-    [Header("デバッグ用")]
+    Vector3 padPos;
+
+    [SerializeField]
+    float padLength = 3.5f;
+
+   [Header("デバッグ用")]
 
     [SerializeField]
     float inputX;
+
+    private void Start()
+    {
+        padPos = TetraInput.sTetraPad.transform.position;
+    }
 
     // Update is called once per frame
     void Update()
@@ -18,7 +28,24 @@ public class AttitudeCtrlInRaceInInput : AttitudeCtrlInRace
         inputX = 0f;
         if (TetraInput.sTetraPad.GetNumOnPad() > 0)
         {
-            inputX = TetraInput.sTetraPad.GetVector().x / TetraInput.sTetraPad.GetNumOnPad();
+            List<GameObject> onPadObjList = TetraInput.sTetraPad.GetObjectsOnPad();
+
+            List<float> xLengthList = new List<float>();
+
+            foreach(GameObject onPad in onPadObjList)
+            {
+                xLengthList.Add(onPad.transform.position.x - padPos.x);
+            }
+
+            float total = 0;
+            foreach(float xLength in xLengthList)
+            {
+                total += xLength;
+            }
+
+            inputX = total / xLengthList.Count / padLength;
+
+            //inputX = TetraInput.sTetraPad.GetVector().x / TetraInput.sTetraPad.GetNumOnPad();
         }
 
         dirRot = 0f;
