@@ -2729,6 +2729,7 @@ namespace Photon.Pun
             {
                 //独自のネットワーク用コンテナからオブジェクトを削除
                 NetworkObjContainer.NetworkObjDictionary.Remove(targetView.ViewID);
+                Debug.Log("photon Object Delete");
                 RemoveInstantiatedGO(targetView.gameObject, !InRoom);
             }
             else
