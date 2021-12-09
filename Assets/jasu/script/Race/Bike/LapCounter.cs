@@ -44,7 +44,7 @@ public class LapCounter : MonoBehaviourPunCallbacks
         LapCount();
     }
     
-    public void LapCount()
+    private void LapCount()
     {
         if (Vector3.Distance(checkPoint.position, transform.position) < passJudgeRange &&
             Vector3.Distance(transform.position, oldPos) < passJudgeRange) // 範囲を超える瞬間移動は通過とみなさない
