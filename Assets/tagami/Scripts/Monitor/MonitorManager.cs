@@ -49,9 +49,9 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     [Header("Stage Debris")]
     [SerializeField] List<StageDebris> stageDebrisList;
     [SerializeField] int numCreateRandomDebris = 1;
-
-    [Header("Option")]
-    [SerializeField] Slider monitorHpBarSlider;
+    [SerializeField] float debrisGaugeMax = 10.0f;
+    float debrisGauge;
+    [SerializeField] Slider debrisGaugeSlider;
 
     private void Awake()
     {
@@ -70,14 +70,6 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         UpdateMonitorHpEffect();
     }
 
-    private void Update()
-    {
-        //スライダー？更新
-        if (monitorHpBarSlider)
-        {
-            monitorHpBarSlider.value = (float)monitorHp / (float)monitorHpMax;
-        }
-    }
 
     public void CallRepairMonitor(float _repairHp)
     {
@@ -143,7 +135,22 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             NextDestructionStage();
         }
 
-       //**********************************************************
+        //**********************************************************
+        //破片処理
+        debrisGauge += prefab.GetComponent<CoolingTargetStatus>().damageToMonitor;
+        if (debrisGauge >= debrisGaugeMax)
+        {
+            debrisGauge = 0.0f;
+            //破片発生
+            if (PhotonNetwork.IsMasterClient)
+            {
+                CallScatterDebris(numCreateRandomDebris);
+            }
+        }
+        debrisGaugeSlider.maxValue = debrisGaugeMax;
+        debrisGaugeSlider.value = debrisGauge;
+
+        //**********************************************************
 
         //エフェクト更新
         UpdateMonitorHpEffect();
@@ -202,10 +209,10 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         }
 
         //破片を降り注がせる
-        if (PhotonNetwork.IsMasterClient)
-        {
-            CallScatterDebris(numCreateRandomDebris);
-        }
+        //if (PhotonNetwork.IsMasterClient)
+        //{
+        //    CallScatterDebris(numCreateRandomDebris);
+        //}
     }
 
     void CallScatterDebris(int _numDebris)
