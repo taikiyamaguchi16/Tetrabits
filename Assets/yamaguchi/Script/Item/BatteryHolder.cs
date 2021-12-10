@@ -121,7 +121,7 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
                 //渡されたのがバッテリーだった場合
                 if (ownBattery != null)
                 {
-                    ownBattery.CallDump(_id);
+                    //ownBattery.CallDump(_id);
                     ownBattery.CallPickUp(photonView.ViewID);
                     otherPocket.SetItem(null);
                     //自分がバッテリを持っていた場合swapする
