@@ -31,10 +31,20 @@ public class NameManager : MonoBehaviourPunCallbacks
     [Header("デバッグ用(trueで名前入力必須)")]
     bool debugFlag = false;
 
+    Player[] players;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        //Debug.Log(PhotonNetwork.PlayerList);
+
+        //players = PhotonNetwork.PlayerList;
+
+        // 初期化
+        //for (int i = 0; i < players.Length; i++)
+        //{
+        //    players[i].NickName = null;
+        //}
     }
 
     // Update is called once per frame
@@ -67,6 +77,8 @@ public class NameManager : MonoBehaviourPunCallbacks
         inputField.SetActive(true);
 
         TextObjects.SetActive(true);
+
+        players = PhotonNetwork.PlayerList;
     }
 
     //--------------------------------------------------
@@ -91,7 +103,9 @@ public class NameManager : MonoBehaviourPunCallbacks
     public void NameInputExit()
     {
         // プレイヤー自身の名前を設定する
-        PhotonNetwork.NickName = text.text;
+//        PhotonNetwork.NickName = text.text;
+
+        players[PhotonNetwork.LocalPlayer.GetPlayerNum()].NickName = text.text;
 
         GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().RPCSwitchGameInGameScene(scene);
     }
