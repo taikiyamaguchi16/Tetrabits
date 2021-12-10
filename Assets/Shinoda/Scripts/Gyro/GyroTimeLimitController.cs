@@ -26,6 +26,9 @@ public class GyroTimeLimitController : MonoBehaviour
     Transform timeTransform;
     Text timeText;
 
+    [SerializeField] GameObject missPanel;
+    RectTransform panelTransform;
+
     int remainingTime;
     bool isGoal = false;
 
@@ -40,6 +43,7 @@ public class GyroTimeLimitController : MonoBehaviour
         oText = o.GetComponent<Text>();
         aText = a.GetComponent<Text>();
         lText = l.GetComponent<Text>();
+        panelTransform = missPanel.GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
@@ -56,32 +60,41 @@ public class GyroTimeLimitController : MonoBehaviour
 
         if (remainingTime == 0)
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                MonitorManager.DealDamageToMonitor(damage);
-                GameInGameUtil.SwitchGameInGameScene(thisScene);
-            }
+            TimeUpAnimation();
         }
     }
 
     public void GoalAnimation()
     {
         isGoal = true;
-        g.SetActive(true);
-        o.SetActive(true);
-        a.SetActive(true);
-        l.SetActive(true);
         gText.DOColor(new Color(255, 255, 255, 255), 1).SetEase(Ease.Linear);
         oText.DOColor(new Color(255, 255, 255, 255), 1).SetDelay(.2f).SetEase(Ease.Linear);
         aText.DOColor(new Color(255, 255, 255, 255), 1).SetDelay(.4f).SetEase(Ease.Linear);
         lText.DOColor(new Color(255, 255, 255, 255), 1).SetDelay(.6f).SetEase(Ease.Linear).OnComplete(() =>
            {
-               if (nextScene == null) GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
+               if (nextScene == null)
+               {
+                   GameInGameUtil.StopGameInGameTimer("gyro");
+                   GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
+               }
                else if (PhotonNetwork.IsMasterClient && loadable)
                {
                    GameInGameUtil.SwitchGameInGameScene(nextScene);
                    loadable = false;
                }
            });
+    }
+
+    public void TimeUpAnimation()
+    {
+        panelTransform.DOScale(new Vector3(1, 1, 1), 1).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                MonitorManager.DealDamageToMonitor(damage);
+                MonitorManager.CallAddNumDebrisInGameMainStage();
+                GameInGameUtil.SwitchGameInGameScene(thisScene);
+            }
+        });
     }
 }
