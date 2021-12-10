@@ -28,6 +28,7 @@ public class InGameTitleController : MonoBehaviour
         optionTransform.localScale = new Vector3(1, 0, 1);
         //titlePanel.SetActive(true);
         //optionPanel.SetActive(false);
+        if (PhotonNetwork.IsMasterClient) MonitorManager.CallResetNumDebrisInGameMainStage();
     }
 
     // Update is called once per frame
