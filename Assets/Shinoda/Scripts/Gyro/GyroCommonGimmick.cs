@@ -7,6 +7,8 @@ public class GyroCommonGimmick : MonoBehaviour
     [SerializeField] Sprite offSprite;
     [SerializeField] Sprite onSprite;
 
+    [SerializeField] bool offStart = false;
+
     SpriteRenderer spriteRenderer;
     BoxCollider2D boxCollider;
 
@@ -18,8 +20,16 @@ public class GyroCommonGimmick : MonoBehaviour
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         boxCollider = this.gameObject.GetComponent<BoxCollider2D>();
 
-        if (boxCollider.enabled) spriteRenderer.sprite = onSprite;
-        else spriteRenderer.sprite = offSprite;
+        if (offStart)
+        {
+            spriteRenderer.sprite = offSprite;
+            boxCollider.enabled = false;
+        }
+        else
+        {
+            spriteRenderer.sprite = onSprite;
+            boxCollider.enabled = true;
+        }
     }
 
     // Update is called once per frame
