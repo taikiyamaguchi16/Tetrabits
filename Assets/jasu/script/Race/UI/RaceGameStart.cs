@@ -18,7 +18,11 @@ public class RaceGameStart : MonoBehaviourPunCallbacks
             //    photonView.RPC(nameof(RPCStartGameTimer), RpcTarget.All);
             //}
             GameInGameUtil.StartGameInGameTimer("race");
-            GameInGameUtil.SwitchGameInGameScene(firstStageScene);
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                GameInGameUtil.SwitchGameInGameScene(firstStageScene);
+            }
         }
     }
 

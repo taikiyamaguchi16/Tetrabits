@@ -113,7 +113,6 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
         photonView.RPC(nameof(RPCSpawonBattery), RpcTarget.All, b_obj.GetPhotonView().ViewID);
         
         elpsedTime = 0f;
-        //smokeEfect.time = 0f;
     }
 
     [PunRPC]

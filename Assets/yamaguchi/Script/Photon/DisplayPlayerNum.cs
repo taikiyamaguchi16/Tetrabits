@@ -13,6 +13,6 @@ public class DisplayPlayerNum : MonoBehaviour
     void Update()
     {
         if (PhotonNetwork.InRoom)
-            playerNumText.text = "参加人数" + "\n"+ PhotonNetwork.CurrentRoom.PlayerCount;
+            playerNumText.text = "参加人数" + "\n" + PhotonNetwork.CurrentRoom.PlayerCount + " / 4";
     }
 }

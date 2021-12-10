@@ -23,6 +23,9 @@ public class JumpTimeController : MonoBehaviour
     [SerializeField] GameObject l;
     RectTransform lTransform;
 
+    [SerializeField] GameObject missPanel;
+    RectTransform panelTransform;
+
     Transform timeTransform;
     Text timeText;
     int remainingTime;
@@ -39,6 +42,7 @@ public class JumpTimeController : MonoBehaviour
         oTransform = o.GetComponent<RectTransform>();
         aTransform = a.GetComponent<RectTransform>();
         lTransform = l.GetComponent<RectTransform>();
+        panelTransform = missPanel.GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
@@ -56,31 +60,40 @@ public class JumpTimeController : MonoBehaviour
 
         if (remainingTime == 0)
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                MonitorManager.DealDamageToMonitor(damage);
-                GameInGameUtil.SwitchGameInGameScene(thisScene);
-            }
+            TimeUpAnimation();
         }
     }
 
     public void GoalAnimation()
     {
         isGoal = true;
-        g.SetActive(true);
-        o.SetActive(true);
-        a.SetActive(true);
-        l.SetActive(true);
         gTransform.DOScale(new Vector3(1, 1, 1), 1).SetEase(Ease.Linear);
-        oTransform.DOScale(new Vector3(1,1,1),1).SetDelay(.2f).SetEase(Ease.Linear);
-        aTransform.DOScale(new Vector3(1,1,1),1).SetDelay(.4f).SetEase(Ease.Linear);
-        lTransform.DOScale(new Vector3(1,1,1),1).SetDelay(.6f).SetEase(Ease.Linear).OnComplete(() =>
+        oTransform.DOScale(new Vector3(1, 1, 1), 1).SetDelay(.2f).SetEase(Ease.Linear);
+        aTransform.DOScale(new Vector3(1, 1, 1), 1).SetDelay(.4f).SetEase(Ease.Linear);
+        lTransform.DOScale(new Vector3(1, 1, 1), 1).SetDelay(.6f).SetEase(Ease.Linear).OnComplete(() =>
+           {
+               if (nextScene == null)
+               {
+                   GameInGameUtil.StopGameInGameTimer("jump");
+                   GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
+               }
+               else if (PhotonNetwork.IsMasterClient && loadable)
+               {
+                   GameInGameUtil.SwitchGameInGameScene(nextScene);
+                   loadable = false;
+               }
+           });
+    }
+
+    public void TimeUpAnimation()
+    {
+        panelTransform.DOScale(new Vector3(1, 1, 1), 1).SetEase(Ease.Linear).OnComplete(() =>
         {
-            if (nextScene == null) GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
-            else if (PhotonNetwork.IsMasterClient && loadable)
+            if (PhotonNetwork.IsMasterClient)
             {
-                GameInGameUtil.SwitchGameInGameScene(nextScene);
-                loadable = false;
+                MonitorManager.DealDamageToMonitor(damage);
+                MonitorManager.CallAddNumDebrisInGameMainStage();
+                GameInGameUtil.SwitchGameInGameScene(thisScene);
             }
         });
     }
