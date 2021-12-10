@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-1)]
 public class TetraInput : MonoBehaviour
 {
     [Header("Reference")]
@@ -22,6 +23,7 @@ public class TetraInput : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //GameInGameとgameMain両方に存在するのでStartでなければならない
         sTetraButton = tetraButton;
         sTetraLever = tetraLever;
         sTetraPad = tetraPad;
