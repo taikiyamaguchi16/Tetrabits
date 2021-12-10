@@ -13,6 +13,7 @@ public class GyroBallController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameInGameUtil.StartGameInGameTimer("gyro");
         rb = this.gameObject.GetComponent<Rigidbody2D>();
     }
 
