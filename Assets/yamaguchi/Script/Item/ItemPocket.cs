@@ -21,7 +21,6 @@ public class ItemPocket : MonoBehaviour
         {
             ownObj.transform.position = pocketPos.position;
             ownObj.transform.eulerAngles = pocketPos.eulerAngles;
-
         }
     }
     

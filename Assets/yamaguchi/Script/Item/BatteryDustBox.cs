@@ -90,7 +90,6 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("DustBox action");
             PhotonNetwork.Destroy(NetworkObjContainer.NetworkObjDictionary[_id]);
         }
     }
