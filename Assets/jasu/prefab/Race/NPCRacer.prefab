@@ -292,6 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad61e1a26791d241a55b04c1004223b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 7603701497981581255}
   bikeSlipDown: {fileID: 5219267999466606608}
 --- !u!114 &4421796239360097713
 MonoBehaviour:
@@ -424,6 +425,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensorActive: 0
   dirtList: []
+  randomAdd: 1
+  addProbability: 30
 --- !u!114 &7381131053446857208
 MonoBehaviour:
   m_ObjectHideFlags: 0

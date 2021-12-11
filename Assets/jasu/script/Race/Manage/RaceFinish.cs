@@ -69,7 +69,7 @@ public class RaceFinish : MonoBehaviourPunCallbacks
                         if (PhotonNetwork.IsMasterClient && !sceneShifted)
                         {
                             sceneShifted = true;
-                            GameInGameUtil.SwitchGameInGameScene(nextStageScene);
+                            GameInGameUtil.SwitchGameInGameScene(nextStageScene);   //シーン遷移
                         }
                     }
                 }
@@ -81,6 +81,7 @@ public class RaceFinish : MonoBehaviourPunCallbacks
                         {
                             sceneShifted = true;
                             GameInGameUtil.SwitchGameInGameScene(nowStageScene);
+                            MonitorManager.CallAddNumDebrisInGameMainStage();   // 破片の落下数を増やす
                             MonitorManager.DealDamageToMonitor("large");
                         }
                     }
