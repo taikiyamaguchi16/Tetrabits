@@ -108,7 +108,7 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
     private void SpawonBattery()
     {
         var b_obj = PhotonNetwork.InstantiateRoomObject(spownObj.name, new Vector3(100,100,100), Quaternion.identity);
-
+        PhotonNetwork.AllocateViewID(b_obj.GetPhotonView().ViewID);
 
         photonView.RPC(nameof(RPCSpawonBattery), RpcTarget.All, b_obj.GetPhotonView().ViewID);
         
