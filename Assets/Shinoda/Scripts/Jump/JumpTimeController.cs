@@ -35,7 +35,7 @@ public class JumpTimeController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeTransform = transform.Find("Time");
+        timeTransform = GameObject.Find("Time").transform;
         timeText = timeTransform.GetComponent<Text>();
         remainingTime = (int)time;
 

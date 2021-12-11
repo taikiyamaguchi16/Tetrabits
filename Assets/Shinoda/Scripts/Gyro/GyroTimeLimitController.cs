@@ -36,7 +36,7 @@ public class GyroTimeLimitController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeTransform = transform.Find("TimeText");
+        timeTransform = GameObject.Find("TimeText").transform;
         timeText = timeTransform.GetComponent<Text>();
         remainingTime = (int)time;
 
