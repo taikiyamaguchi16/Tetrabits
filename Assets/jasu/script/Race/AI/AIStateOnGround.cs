@@ -96,7 +96,8 @@ public class AIStateOnGround : AIState
 
         if (dirtSensor.sensorActive)    // 泥あったら減速
         {
-            attitudeCtrl.dirRot = -1f;
+            //attitudeCtrl.dirRot = -1f;
+            ShiftLane();
         }
 
         if (onSlope)   // 坂道では中速

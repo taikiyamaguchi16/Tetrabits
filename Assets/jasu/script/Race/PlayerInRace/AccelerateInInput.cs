@@ -17,8 +17,16 @@ public class AccelerateInInput : MonoBehaviour
 
     [SerializeField]
     float acceleratePower = 300f;
-    
+
+    [SerializeField]
+    float bodyBlowActiveSeconds = 0.5f;
+
+    float bodyBlowActiveTimer = 0f;
+
     bool input = false;
+
+    public bool bodyBlowActive { get; private set; } = true;
+
 
     private void Start()
     {
@@ -33,6 +41,17 @@ public class AccelerateInInput : MonoBehaviour
         if (TetraInput.sTetraButton.GetTrigger())
         {
             input = true;
+            bodyBlowActive = true;
+        }
+
+        if (bodyBlowActive)
+        {
+            bodyBlowActiveTimer += Time.deltaTime;
+            if(bodyBlowActiveTimer > bodyBlowActiveSeconds)
+            {
+                bodyBlowActive = false;
+                bodyBlowActiveTimer = 0f;
+            }
         }
     }
 

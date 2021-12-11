@@ -64,7 +64,7 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     protected Vector3 groundNormalVec = Vector3.zero; // 地面の法線ベクトル
 
     [SerializeField]
-    float onDirtSlowMultiply = 0.5f;
+    protected float onDirtSlowMultiply = 0.5f;
 
     [Header("デバッグ用")]
 
@@ -95,6 +95,12 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     private void FixedUpdate()
     {
         moveVec = Vector3.zero;
+
+        if (onDirt.slowDownFlag)
+        {
+            moveSpd *= onDirtSlowMultiply;
+        }
+
 
         // 移動ベクトル作成
         SetMoveVec();
@@ -150,11 +156,6 @@ public class MoveInRace : MonoBehaviourPunCallbacks
 
     protected void SetMoveVec()
     {
-        if (onDirt.slowDownFlag)
-        {
-            moveSpd *= onDirtSlowMultiply;
-        }
-
         // スロープチェック
         CheckSlope();
 

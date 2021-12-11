@@ -13,6 +13,9 @@ public class SlipSensorForPlayer : OnDirt
     [SerializeField]
     RainbowSprite rainbowSprite;
 
+    [SerializeField]
+    AccelerateInInput accelerateInInput;
+
     private void Update()
     {
         if (TetraInput.sTetraLever.GetPoweredOn())
@@ -29,7 +32,7 @@ public class SlipSensorForPlayer : OnDirt
         Ray ray = new Ray(rayPosition, Vector3.down);
         if (Physics.Raycast(ray, out RaycastHit hitInfo, 3))
         {
-            if (hitInfo.transform.gameObject.tag == "Dirt" && !TetraInput.sTetraLever.GetPoweredOn())
+            if (hitInfo.transform.gameObject.tag == "Dirt")
             {
                 float angleX = transform.localRotation.eulerAngles.x;
                 if (angleX > 180)
@@ -39,10 +42,20 @@ public class SlipSensorForPlayer : OnDirt
 
                 if (angleX >= -10f && !slowDownFlag)
                 {
-                    Vector3 velocity = rb.velocity;
-                    velocity.z = 0;
-                    rb.velocity = velocity;
-                    slowDownFlag = true;
+                    if (TetraInput.sTetraLever.GetPoweredOn())
+                    {
+                        Vector3 velocity = rb.velocity;
+                        velocity.z /= 2;
+                        rb.velocity = velocity;
+                        slowDownFlag = true;
+                    }
+                    else
+                    {
+                        Vector3 velocity = rb.velocity;
+                        velocity.z = 0;
+                        rb.velocity = velocity;
+                        slowDownFlag = true;
+                    }
                 }
             }
             else
@@ -60,7 +73,7 @@ public class SlipSensorForPlayer : OnDirt
             return;
         }
 
-        if (other.gameObject.tag == "Slip" && !TetraInput.sTetraLever.GetPoweredOn())
+        if (other.gameObject.tag == "Slip" && !accelerateInInput.bodyBlowActive)
         {
             if (!bikeSlipDown.isSliping)
             {
