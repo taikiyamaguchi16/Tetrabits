@@ -67,10 +67,12 @@ public class AttitudeCtrlInRaceInInput : AttitudeCtrlInRace
             {
                 if (TetraInput.sTetraLever.GetPoweredOn())
                 {
+                    Debug.Log("無敵中姿勢崩した");
                     bikeSlipDown.SlipStart("medium");
                 }
                 else
                 {
+                    Debug.Log("姿勢崩した");
                     bikeSlipDown.SlipStart("small");
                 }
             }
