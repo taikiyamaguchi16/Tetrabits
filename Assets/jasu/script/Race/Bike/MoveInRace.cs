@@ -96,7 +96,7 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     {
         moveVec = Vector3.zero;
 
-        if (onDirt.slowDownFlag)
+        if (onDirt.onDirt)
         {
             moveSpd *= onDirtSlowMultiply;
         }
