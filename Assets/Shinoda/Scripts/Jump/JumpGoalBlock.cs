@@ -25,12 +25,6 @@ public class JumpGoalBlock : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (PhotonNetwork.IsMasterClient) photonView.RPC(nameof(JumpGoal), RpcTarget.AllBufferedViaServer);
-    }
-
-    [PunRPC]
-    public void JumpGoal()
-    {
         JumpTimeControllerComponent.GoalAnimation();
     }
 }
