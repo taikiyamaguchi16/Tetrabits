@@ -182,6 +182,7 @@ public class MoveInRace : MonoBehaviourPunCallbacks
                 //}
 
                 moveVec.y *= (moveSpd / moveVec.z) * moveSlopeMultiply;
+                moveVec.z = moveSpd * moveSlopeMultiply;
             }
             else
             {
@@ -192,9 +193,8 @@ public class MoveInRace : MonoBehaviourPunCallbacks
                 transform.parent.localRotation = Quaternion.Lerp(transform.parent.localRotation, Quaternion.identity, rotLateFlat);
                 //}
                 //transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, rotLateFlat);
+                moveVec.z = moveSpd;
             }
-
-            moveVec.z = moveSpd;
         }
     }
 
