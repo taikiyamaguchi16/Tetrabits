@@ -17,63 +17,57 @@ public class WaitOnlinePlayer : MonoBehaviour
 
     Player[] players;
 
+    [SerializeField]
+    bool isNameDecision = false;
+
+    int controllerID = 0;
+
     // Start is called before the first frame update
     void Start()
     {
-        players = PhotonNetwork.PlayerList;
+        isNameDecision = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Own.name == "Keirei_Yellow(Clone)")
-        {
-            nameText.text = players[0].NickName;
-            nameText.color = Color.yellow;
-        }
-
-        if (Own.name == "Keirei_Red(Clone)")
-        {
-            nameText.text = players[1].NickName;
-            nameText.color = Color.red;
-        }
-
-        if (Own.name == "Keirei_Green(Clone)")
-        {
-            nameText.text = players[2].NickName;
-            nameText.color = Color.green;
-        }
-
-        if (Own.name == "Keirei_Blue(Clone)")
-        {
-            nameText.text = players[3].NickName;
-            nameText.color = Color.blue;
-        }
+        players = PhotonNetwork.PlayerList;
 
         //for (int i = 0; i < players.Length; i++)
         //{
-        //    Debug.Log("プレイヤー" + i + "：" + players[i].NickName);
-
-
-
-        //    switch (i)
+        //    if (NameManager.GetActorNum()[i] == players[i].ActorNumber)
         //    {
-        //        case 0:
-
-        //            break;
-
-        //        case 1:
-
-        //            break;
-
-        //        case 2:
-
-        //            break;
-
-        //        case 3:
-
-        //            break;
-        //    }
+        //        nameText.text = players[i].NickName;
+        //    } 
         //}
+
+        // ここ直す場所あり
+
+        if (Own.activeSelf)
+        {
+            if (Own.name == "Keirei_Yellow(Clone)")
+            {
+                nameText.text = players[0].NickName;
+                nameText.color = Color.yellow;
+            }
+
+            if (Own.name == "Keirei_Red(Clone)")
+            {
+                nameText.text = players[1].NickName;
+                nameText.color = Color.red;
+            }
+
+            if (Own.name == "Keirei_Green(Clone)")
+            {
+                nameText.text = players[2].NickName;
+                nameText.color = Color.green;
+            }
+
+            if (Own.name == "Keirei_Blue(Clone)")
+            {
+                nameText.text = players[3].NickName;
+                nameText.color = Color.blue;
+            }
+        }
     }
 }
