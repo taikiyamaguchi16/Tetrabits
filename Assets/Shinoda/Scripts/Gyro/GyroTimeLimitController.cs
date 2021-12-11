@@ -12,6 +12,7 @@ public class GyroTimeLimitController : MonoBehaviour
 
     [SerializeField] SceneObject thisScene = null;
     [SerializeField] SceneObject nextScene = null;
+    [SerializeField] bool finalStage = false;
     bool loadable = true;
 
     [SerializeField] GameObject g;
@@ -72,10 +73,11 @@ public class GyroTimeLimitController : MonoBehaviour
         aText.DOColor(new Color(255, 255, 255, 255), 1).SetDelay(.4f).SetEase(Ease.Linear);
         lText.DOColor(new Color(255, 255, 255, 255), 1).SetDelay(.6f).SetEase(Ease.Linear).OnComplete(() =>
            {
-               if (nextScene == null)
+               if (finalStage && loadable)
                {
                    GameInGameUtil.StopGameInGameTimer("gyro");
                    GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
+                   loadable = false;
                }
                else if (PhotonNetwork.IsMasterClient && loadable)
                {

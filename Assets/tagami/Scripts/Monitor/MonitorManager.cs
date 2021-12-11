@@ -194,7 +194,10 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             Debug.Log("これ以上モニターの破壊段階を進めることはできません");
             Debug.Log("GameMainOverを確認");
             //ゲーム画面落としてゲームオーバーシーンへ遷移とか？
-            gameInGameSwitcher.CallSwitchGameInGameScene("GameInGameResult");
+            if (PhotonNetwork.IsMasterClient)
+            {
+                gameInGameSwitcher.CallSwitchGameInGameScene("GameInGameResult");
+            }
             return;
         }
 
