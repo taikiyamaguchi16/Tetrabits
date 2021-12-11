@@ -13,44 +13,30 @@ public class StageDebris : MonoBehaviourPunCallbacks, ICool
     [Header("Fall")]
     [SerializeField] float fallOffsetY = 10.0f;
     [SerializeField] float fallSeconds = 1.0f;
-    float fallTimer;
     Vector3 bodyEndLocalPosition;
+
+    [Header("FallingUI")]
+    [SerializeField] float flashSeconds = 5.0f;
+    [SerializeField] SpriteRenderer fallingPositionUIRenderer;
+    [SerializeField] AnimationCurve fallingPositionUIAlphaCurve;
 
     [Header("Effect")]
     [SerializeField] GameObject fireEffect;
     Vector3 fireEffectScaleMax;
-    [SerializeField,Range(0,1)] float fireEffectScaleMinMultiplier = 0.3f;
-
-    [Header("Option")]
-    [SerializeField] UnityEngine.UI.Slider debugSlider;
+    [SerializeField, Range(0, 1)] float fireEffectScaleMinMultiplier = 0.3f;
 
     // Start is called before the first frame update
     void Start()
     {
+        //記録しておく
         bodyEndLocalPosition = bodyObject.transform.localPosition;
-
         fireEffectScaleMax = fireEffect.transform.localScale;
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //落とす
-        fallTimer += Time.deltaTime;
-        if (fallTimer >= fallSeconds)
-        {
-            fallTimer = fallSeconds;
-        }
-        bodyObject.transform.localPosition = Vector3.Lerp(Vector3.up * fallOffsetY, bodyEndLocalPosition, fallTimer / fallSeconds);
-
-        //炎の大きさ更新
-        fireEffect.transform.localScale = Vector3.Lerp(fireEffectScaleMax * fireEffectScaleMinMultiplier, fireEffectScaleMax, hp / hpMax);
-
-        //UI更新
-        if (debugSlider)
-        {
-            debugSlider.value = hp / hpMax;
-        }
+        //bodyとUIをオフに
+        bodyObject.SetActive(false);
+        var color = fallingPositionUIRenderer.color;
+        color.a = 0;
+        fallingPositionUIRenderer.color = color;
     }
 
     public bool GetActiveSelf()
@@ -66,16 +52,69 @@ public class StageDebris : MonoBehaviourPunCallbacks, ICool
     public void RPCSetActive(bool _active)
     {
         bodyObject.SetActive(_active);
-
         GetComponent<Collider>().enabled = _active;
 
         if (_active)
         {
-            //HPをまんたんにする
-            hp = hpMax;
+            StartCoroutine(CoActivate());
+        }
+    }
 
-            //timerをスタートする
-            fallTimer = 0.0f;
+    IEnumerator CoActivate()
+    {
+        //HPをまんたんにする
+        hp = hpMax;
+
+        //炎最大サイズ
+        fireEffect.transform.localScale = Vector3.Lerp(fireEffectScaleMax * fireEffectScaleMinMultiplier, fireEffectScaleMax, 1);
+        //上にあげとく
+        bodyObject.transform.localPosition = Vector3.Lerp(Vector3.up * fallOffsetY, bodyEndLocalPosition, 0);
+
+        //UI点滅
+        float uiTimer = 0.0f;
+        while (true)
+        {
+            uiTimer += Time.deltaTime;
+            if (uiTimer >= flashSeconds)
+            {
+                uiTimer = flashSeconds;
+            }
+
+            var color = fallingPositionUIRenderer.color;
+            color.a = fallingPositionUIAlphaCurve.Evaluate(uiTimer / flashSeconds);
+            fallingPositionUIRenderer.color = color;
+
+            if (uiTimer >= flashSeconds)
+            {
+                break;
+            }
+            else
+            {
+                yield return null;
+            }
+        }
+
+        //落とす
+        var fallTimer = 0.0f;
+        //Timer更新
+        while (true)
+        {
+            fallTimer += Time.deltaTime;
+            if (fallTimer >= fallSeconds)
+            {
+                fallTimer = fallSeconds;
+            }
+            bodyObject.transform.localPosition = Vector3.Lerp(Vector3.up * fallOffsetY, bodyEndLocalPosition, fallTimer / fallSeconds);
+
+            //抜ける
+            if (fallTimer >= fallSeconds)
+            {
+                break;
+            }
+            else
+            {
+                yield return null;
+            }
         }
     }
 
@@ -86,5 +125,8 @@ public class StageDebris : MonoBehaviourPunCallbacks, ICool
         {
             CallSetActive(false);
         }
+
+        //炎の大きさ更新
+        fireEffect.transform.localScale = Vector3.Lerp(fireEffectScaleMax * fireEffectScaleMinMultiplier, fireEffectScaleMax, hp / hpMax);
     }
 }

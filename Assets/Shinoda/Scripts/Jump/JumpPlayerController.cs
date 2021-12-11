@@ -29,6 +29,7 @@ public class JumpPlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameInGameUtil.StartGameInGameTimer("jump");
         rb = this.gameObject.GetComponent<Rigidbody2D>();
         originScale = arrow.transform.localScale;
         animator = GetComponent<Animator>();
