@@ -31,20 +31,15 @@ public class NameManager : MonoBehaviourPunCallbacks
     [Header("デバッグ用(trueで名前入力必須)")]
     bool debugFlag = false;
 
+    Player player;
     Player[] players;
+
+    static List<int> ActorNum;
 
     // Start is called before the first frame update
     void Start()
     {
-        //Debug.Log(PhotonNetwork.PlayerList);
-
-        //players = PhotonNetwork.PlayerList;
-
-        // 初期化
-        //for (int i = 0; i < players.Length; i++)
-        //{
-        //    players[i].NickName = null;
-        //}
+        
     }
 
     // Update is called once per frame
@@ -78,7 +73,16 @@ public class NameManager : MonoBehaviourPunCallbacks
 
         TextObjects.SetActive(true);
 
+        // ローカルプレイヤーとして登録(この段階で固有のものという認識でいいはず)
+        player = PhotonNetwork.LocalPlayer;
+
         players = PhotonNetwork.PlayerList;
+
+        // マスターがルームに入った時に初期化
+        if (PhotonNetwork.IsMasterClient)
+        {
+            ActorNum = new List<int>();
+        }
     }
 
     //--------------------------------------------------
@@ -103,9 +107,16 @@ public class NameManager : MonoBehaviourPunCallbacks
     public void NameInputExit()
     {
         // プレイヤー自身の名前を設定する
-//        PhotonNetwork.NickName = text.text;
+        player.NickName = text.text;
 
-        players[PhotonNetwork.LocalPlayer.GetPlayerNum()].NickName = text.text;
+        //for (int i = 0; i <= players.Length; i++)
+        //{
+        //    if(i == player.ActorNumber)
+        //    {
+        //        // アクターナンバーと同じ番号でアクターの固有番号を格納
+        //        ActorNum.Add(player.ActorNumber);
+        //    }
+        //}
 
         GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().RPCSwitchGameInGameScene(scene);
     }
@@ -113,5 +124,11 @@ public class NameManager : MonoBehaviourPunCallbacks
     public bool DebugFlagName()
     {
         return debugFlag;
+    }
+
+    // staticなアクター番号を格納している変数を返す
+    static public List<int> GetActorNum()
+    {
+        return ActorNum;
     }
 }
