@@ -12,10 +12,16 @@ public class RaceStart : MonoBehaviour
 
     bool started = false;
 
+    [SerializeField]
+    bool firstStage = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (firstStage)
+        {
+            GameInGameUtil.StartGameInGameTimer("race");
+        }
     }
 
     // Update is called once per frame

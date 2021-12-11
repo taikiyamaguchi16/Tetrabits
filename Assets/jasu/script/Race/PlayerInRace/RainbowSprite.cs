@@ -8,7 +8,10 @@ public class RainbowSprite : MonoBehaviour
     [SerializeField]
     SpriteRenderer spriteRenderer = null;
 
-    bool active = false;
+    public bool active { get; private set; } = false;
+
+    [SerializeField]
+    float matlight = 0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +26,7 @@ public class RainbowSprite : MonoBehaviour
         if (active)
         {
             spriteRenderer.color = Color.HSVToRGB(Time.time % 1f, 1f, 1f);
+            spriteRenderer.material.SetFloat("_Additive", matlight);
         }
     }
 
@@ -32,6 +36,7 @@ public class RainbowSprite : MonoBehaviour
         if (!active)
         {
             spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
+            spriteRenderer.material.SetFloat("_Additive", 0f);
         }
     }
 }

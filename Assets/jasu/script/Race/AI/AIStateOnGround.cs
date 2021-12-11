@@ -8,7 +8,7 @@ public class AIStateOnGround : AIState
     GameObject playerObj = null;
 
     [SerializeField]
-    GameObject[] otherRacers; 
+    GameObject[] otherRacers;
 
     //[SerializeField]
     //AISensorDistanceTarget sensorDistanceTarget;

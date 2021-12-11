@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlipSensorForPlayer : MonoBehaviour
+public class SlipSensorForPlayer : OnDirt
 {
     [SerializeField]
     Rigidbody rb;
@@ -12,11 +12,6 @@ public class SlipSensorForPlayer : MonoBehaviour
 
     [SerializeField]
     RainbowSprite rainbowSprite;
-
-    bool slowDownFlag = false;
-
-    [SerializeField, Range(0f, 1f)]
-    float slowMultipy = 0.5f;
 
     private void Update()
     {
@@ -28,11 +23,6 @@ public class SlipSensorForPlayer : MonoBehaviour
         {
             rainbowSprite.SetActive(false);
         }
-
-        //if (slowDownFlag)
-        //{
-
-        //}
     }
 
     private void OnTriggerEnter(Collider other)
@@ -69,6 +59,14 @@ public class SlipSensorForPlayer : MonoBehaviour
                 rb.velocity = velocity;
                 slowDownFlag = true;
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Dirt")
+        {
+            slowDownFlag = false;
         }
     }
 }

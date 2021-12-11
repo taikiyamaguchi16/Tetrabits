@@ -65,7 +65,14 @@ public class AttitudeCtrlInRaceInInput : AttitudeCtrlInRace
         {
             if (angleX > slipAngleMax || angleX < slipAngleMin)
             {
-                bikeSlipDown.SlipStart("small");
+                if (TetraInput.sTetraLever.GetPoweredOn())
+                {
+                    bikeSlipDown.SlipStart("medium");
+                }
+                else
+                {
+                    bikeSlipDown.SlipStart("small");
+                }
             }
         }
     }

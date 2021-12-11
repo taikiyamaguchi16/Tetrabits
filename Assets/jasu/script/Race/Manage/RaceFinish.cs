@@ -82,7 +82,7 @@ public class RaceFinish : MonoBehaviourPunCallbacks
                             sceneShifted = true;
                             GameInGameUtil.SwitchGameInGameScene(nowStageScene);
                             MonitorManager.CallAddNumDebrisInGameMainStage();   // 破片の落下数を増やす
-                            MonitorManager.DealDamageToMonitor("large");
+                            //MonitorManager.DealDamageToMonitor("large");
                         }
                     }
                 }
