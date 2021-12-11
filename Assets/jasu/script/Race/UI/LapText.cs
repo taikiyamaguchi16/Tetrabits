@@ -35,6 +35,6 @@ public class LapText : MonoBehaviour
             lap = raceManager.GetLapNum;
         }
 
-        text.text = "Lap : " + lap + " / " + raceManager.GetLapNum;
+        text.text = "Lap: " + lap + "/" + raceManager.GetLapNum;
     }
 }

@@ -31,7 +31,7 @@ public class StartLineSpriteMolder : MonoBehaviour
                 spriteRenderer.size = size;
 
                 Vector3 pos = transform.localPosition;
-                pos.x = -(laneNum - 1)  * (raceStageMolder.GetRaceObjWidth / 2);
+                pos.x = -(laneNum - 1)  * raceStageMolder.GetRaceObjWidth;
                 transform.localPosition = pos; 
             }
         }

@@ -22,15 +22,15 @@ public class AttitudeCtrlInRace : MonoBehaviourPunCallbacks
     //[SerializeField]
     //protected float correctionTorqueMultiply = 1f;
 
-    [SerializeField, Range(-90f, 0f)]
-    protected float rotMin = -80f;
+    //[SerializeField, Range(-90f, 0f)]
+    //protected float rotMin = -80f;
 
-    public float GetRotMin { get { return rotMin; } }
+    //public float GetRotMin { get { return rotMin; } }
 
-    [SerializeField, Range(0f, 90f)]
-    protected float rotMax = 60f;
+    //[SerializeField, Range(0f, 90f)]
+    //protected float rotMax = 60f;
 
-    public float GetRotMax { get { return rotMax; } }
+    //public float GetRotMax { get { return rotMax; } }
 
     [SerializeField, Range(-90f, 0f)]
     protected float rotMinOnGround = -30f;
@@ -84,13 +84,16 @@ public class AttitudeCtrlInRace : MonoBehaviourPunCallbacks
             SlipCheck();
 
             // 角度制限
-            float min = rotMin;
-            float max = rotMax;
-            if (colliderSensor.GetExistInCollider())
-            {
-                min = rotMinOnGround;
-                max = rotMaxOnGround;
-            }
+            //float min = rotMin;
+            //float max = rotMax;
+            //if (colliderSensor.GetExistInCollider())
+            //{
+            //    min = rotMinOnGround;
+            //    max = rotMaxOnGround;
+            //}
+            float min = rotMinOnGround;
+            float max = rotMaxOnGround;
+
 
             if (angleX < min)
             {
@@ -194,13 +197,15 @@ public class AttitudeCtrlInRace : MonoBehaviourPunCallbacks
         // 角度制限
         Vector3 angle = transform.localEulerAngles;
 
-        float min = rotMin;
-        float max = rotMax;
-        if (colliderSensor.GetExistInCollider())
-        {
-            min = rotMinOnGround;
-            max = rotMaxOnGround;
-        }
+        //float min = rotMin;
+        //float max = rotMax;
+        //if (colliderSensor.GetExistInCollider())
+        //{
+        //    min = rotMinOnGround;
+        //    max = rotMaxOnGround;
+        //}
+        float min = rotMinOnGround;
+        float max = rotMaxOnGround;
 
         if (angleX < min)
         {

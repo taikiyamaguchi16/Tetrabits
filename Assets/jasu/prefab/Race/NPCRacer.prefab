@@ -233,14 +233,14 @@ MonoBehaviour:
   moveSpdStandard: 85
   accelerateMultiply: 1.12
   decelerateMultiply: 0.7
-  moveSlopeMultiply: 2
+  moveSlopeMultiply: 1.2
   moveForceMultiplyStart: 2
   moveForceMultiplyStop: 1
   rotLateSlope: 0.25
   rotLateFlat: 0.25
   distanceToGround: 5
   gravity: -50
-  onDirtSlowMultiply: 0.9
+  onDirtSlowMultiply: 0.4
   moveVec: {x: 0, y: 0, z: 0}
   onSlope: 0
 --- !u!114 &7197532588029266713
@@ -275,10 +275,8 @@ MonoBehaviour:
   rb: {fileID: 7603701497981581255}
   colliderSensor: {fileID: 3019873534829246529}
   bikeSlipDown: {fileID: 5219267999466606608}
-  rotMin: -80
-  rotMax: 90
-  rotMinOnGround: -40
-  rotMaxOnGround: 40
+  rotMinOnGround: -30
+  rotMaxOnGround: 30
   slipAngleMin: -45
   slipAngleMax: 45
   rotRate: 0.1
@@ -473,8 +471,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3405693731458820472}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
-  m_LocalScale: {x: 7, y: 7, z: 1}
+  m_LocalPosition: {x: 0, y: 6, z: 0}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 8678170494582544631}
   m_RootOrder: 0
@@ -911,7 +909,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6291139973812066315}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7564720750192745863}

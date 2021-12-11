@@ -102,7 +102,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2022683707194320006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7564720750192745863}
@@ -201,16 +201,17 @@ MonoBehaviour:
   moveSpdStandard: 80
   accelerateMultiply: 1.2
   decelerateMultiply: 0.7
-  moveSlopeMultiply: 2
+  moveSlopeMultiply: 1.2
   moveForceMultiplyStart: 2
   moveForceMultiplyStop: 1
   rotLateSlope: 0.25
   rotLateFlat: 0.25
   distanceToGround: 5
   gravity: -50
-  onDirtSlowMultiply: 0.9
+  onDirtSlowMultiply: 0.4
   moveVec: {x: 0, y: 0, z: 0}
   onSlope: 0
+  onDirtMultiplyLever: 0.75
 --- !u!114 &4717983805591257336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,7 +242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveBetweenLane: {fileID: 4717983805591257336}
-  padInputRangeY: 0.5
+  padInputRangeY: 0.32
   padLength: 5
   inputY: 0
 --- !u!114 &8486535655794146373
@@ -259,12 +260,10 @@ MonoBehaviour:
   rb: {fileID: 7603701497981581255}
   colliderSensor: {fileID: 3070685040492917561}
   bikeSlipDown: {fileID: 1446960286}
-  rotMin: -75
-  rotMax: 75
-  rotMinOnGround: -40
-  rotMaxOnGround: 40
-  slipAngleMin: -50
-  slipAngleMax: 50
+  rotMinOnGround: -30
+  rotMaxOnGround: 30
+  slipAngleMin: -45
+  slipAngleMax: 45
   rotRate: 0.1
   padInputRangeX: 0.4
   padLength: 5
@@ -284,7 +283,8 @@ MonoBehaviour:
   rb: {fileID: 7603701497981581255}
   effectPrefab: {fileID: 1496107599636398923, guid: 9674a5cf1bbf07444b0d992f5cd33108, type: 3}
   effectInstanceTrans: {fileID: 95986286519900269}
-  acceleratePower: 500
+  acceleratePower: 150
+  bodyBlowActiveSeconds: 0.5
 --- !u!114 &3743806979556830801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +300,7 @@ MonoBehaviour:
   rb: {fileID: 7603701497981581255}
   bikeSlipDown: {fileID: 1446960286}
   rainbowSprite: {fileID: 7639508263863198705}
+  accelerateInInput: {fileID: 8062376074647808739}
 --- !u!114 &4421796239360097713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -766,8 +767,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8546367658723180559}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
-  m_LocalScale: {x: 7, y: 7, z: 1}
+  m_LocalPosition: {x: 0, y: 6, z: 0}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 8678170494582544631}
   m_RootOrder: 0

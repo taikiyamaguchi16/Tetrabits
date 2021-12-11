@@ -29,6 +29,8 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     [SerializeField]
     protected float moveSpd;
 
+    public float GetMoveSpd() { return moveSpd; }
+
     [SerializeField,Tooltip("移動速度")]
     protected float moveSpdStandard = 10f;
 
@@ -62,7 +64,7 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     protected Vector3 groundNormalVec = Vector3.zero; // 地面の法線ベクトル
 
     [SerializeField]
-    float onDirtSlowMultiply = 0.5f;
+    protected float onDirtSlowMultiply = 0.5f;
 
     [Header("デバッグ用")]
 
@@ -93,6 +95,12 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     private void FixedUpdate()
     {
         moveVec = Vector3.zero;
+
+        if (onDirt.onDirt)
+        {
+            moveSpd *= onDirtSlowMultiply;
+        }
+
 
         // 移動ベクトル作成
         SetMoveVec();
@@ -130,9 +138,6 @@ public class MoveInRace : MonoBehaviourPunCallbacks
         }
 
         moveSpd = moveSpdStandard;
-
-        if (onDirt.slowDownFlag)
-            moveSpd *= onDirtSlowMultiply;
 
         if (!onSlope && colliderSensor.GetExistInCollider())
         {
@@ -178,6 +183,7 @@ public class MoveInRace : MonoBehaviourPunCallbacks
                 //}
 
                 moveVec.y *= (moveSpd / moveVec.z) * moveSlopeMultiply;
+                moveVec.z = moveSpd * moveSlopeMultiply;
             }
             else
             {
@@ -188,9 +194,8 @@ public class MoveInRace : MonoBehaviourPunCallbacks
                 transform.parent.localRotation = Quaternion.Lerp(transform.parent.localRotation, Quaternion.identity, rotLateFlat);
                 //}
                 //transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, rotLateFlat);
+                moveVec.z = moveSpd;
             }
-
-            moveVec.z = moveSpd;
         }
     }
 

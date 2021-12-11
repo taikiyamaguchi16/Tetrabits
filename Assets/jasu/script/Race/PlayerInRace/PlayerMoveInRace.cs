@@ -10,6 +10,12 @@ public class PlayerMoveInRace : MoveInRace
     //[SerializeField]
     //List<int> slipObjList = new List<int>();
 
+    [SerializeField]
+    float onDirtMultiplyLever = 0.75f;
+
+    //[SerializeField]
+    //float spdPlayerNumMultiply = 0.2f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,11 +39,11 @@ public class PlayerMoveInRace : MoveInRace
     private void LateUpdate()
     {
         // 移動速度決定
-        float moveSpdHolder = moveSpdStandard;
-        moveSpdStandard *= (1f + (0.1f * TetraInput.sTetraPad.GetNumOnPad())); // padの上に乗ってる分加速
+        //float moveSpdHolder = moveSpdStandard;
+        //moveSpdStandard *= (1f + (spdPlayerNumMultiply * TetraInput.sTetraPad.GetNumOnPad())); // padの上に乗ってる分加速
 
         SetMoveSpd();
-        moveSpdStandard = moveSpdHolder;
+        //moveSpdStandard = moveSpdHolder;
     }
 
     private void FixedUpdate()
@@ -49,6 +55,18 @@ public class PlayerMoveInRace : MoveInRace
         //{
         //    moveSpd = 0f;
         //}
+
+        if (onDirt.onDirt)
+        {
+            if (TetraInput.sTetraLever.GetPoweredOn())
+            {
+                moveSpd *= onDirtMultiplyLever;
+            }
+            else
+            {
+                moveSpd *= onDirtSlowMultiply;
+            }
+        }
 
         SetMoveVec();
 

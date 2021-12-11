@@ -21,6 +21,6 @@ public class RankingText : MonoBehaviour
 
     private void LateUpdate()
     {
-        text.text = racerInfo.ranking + " th";
+        text.text = racerInfo.ranking + "th";
     }
 }
