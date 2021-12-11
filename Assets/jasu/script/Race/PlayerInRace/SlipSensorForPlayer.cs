@@ -29,10 +29,10 @@ public class SlipSensorForPlayer : MonoBehaviour
             rainbowSprite.SetActive(false);
         }
 
-        if (slowDownFlag)
-        {
+        //if (slowDownFlag)
+        //{
 
-        }
+        //}
     }
 
     private void OnTriggerEnter(Collider other)
