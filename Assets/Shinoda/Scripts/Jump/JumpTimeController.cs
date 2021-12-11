@@ -12,6 +12,7 @@ public class JumpTimeController : MonoBehaviour
 
     [SerializeField] SceneObject thisScene = null;
     [SerializeField] SceneObject nextScene = null;
+    [SerializeField] bool finalStage = false;
     bool loadable = true;
 
     [SerializeField] GameObject g;
@@ -72,10 +73,11 @@ public class JumpTimeController : MonoBehaviour
         aTransform.DOScale(new Vector3(1, 1, 1), 1).SetDelay(.4f).SetEase(Ease.Linear);
         lTransform.DOScale(new Vector3(1, 1, 1), 1).SetDelay(.6f).SetEase(Ease.Linear).OnComplete(() =>
            {
-               if (nextScene == null)
+               if (finalStage && loadable)
                {
                    GameInGameUtil.StopGameInGameTimer("jump");
                    GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
+                   loadable = false;
                }
                else if (PhotonNetwork.IsMasterClient && loadable)
                {
