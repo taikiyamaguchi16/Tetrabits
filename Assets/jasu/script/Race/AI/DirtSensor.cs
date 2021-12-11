@@ -7,6 +7,12 @@ public class DirtSensor : AISensor
     [SerializeField]
     List<GameObject> dirtList = new List<GameObject>();
 
+    [SerializeField]
+    bool randomAdd = true;
+
+    [SerializeField, Range(0f, 100f)]
+    float addProbability = 50f;
+
     private void Update()
     {
         for (int i = 0; i < dirtList.Count; i++)
@@ -27,8 +33,20 @@ public class DirtSensor : AISensor
     {
         if (other.transform.tag == "Dirt")
         {
-            dirtList.Add(other.transform.gameObject);
-            sensorActive = true;
+            if (randomAdd)
+            {
+                if (Random.Range(0f, 100f) <= addProbability)
+                {
+                    dirtList.Add(other.transform.gameObject);
+                    sensorActive = true;
+                }
+            }
+            else
+            {
+                dirtList.Add(other.transform.gameObject);
+                sensorActive = true;
+            }
+
         }
     }
 

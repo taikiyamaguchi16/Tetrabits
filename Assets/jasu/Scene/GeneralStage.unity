@@ -948,6 +948,7 @@ MonoBehaviour:
   scanLineBright: 0.5
   scanLineTail: 1.85
   scanLineSpeed: 0.5
+  darknessAtEdge: 1.2
 --- !u!114 &497115272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1572,10 +1573,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8d1204ca5276f44a8bf3459de3461b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameInGameSwitchByKeys:
-  - sceneObject:
-      m_SceneName: Title
-    keyCode: 101
+  crtNoise: {fileID: 0}
+  noiseDuration: 1
+  gameInGameScenesOnDebugWindow: []
 --- !u!4 &1213106694
 Transform:
   m_ObjectHideFlags: 0
@@ -1603,7 +1603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitTestObjects: []
-  completeInactiveUnitTest: 1
+  completeDestroyUnitTest: 0
 --- !u!1 &1224420217
 GameObject:
   m_ObjectHideFlags: 0
@@ -3256,6 +3256,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 122388379}
     m_Modifications:
+    - target: {fileID: 45649508, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
+      propertyPath: sceneViewId
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1176873340, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
+      propertyPath: sceneViewId
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5568306286399505661, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.33
