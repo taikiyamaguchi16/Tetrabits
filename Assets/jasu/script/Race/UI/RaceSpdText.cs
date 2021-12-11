@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RankingText : MonoBehaviour
+public class RaceSpdText : MonoBehaviour
 {
     Text text = null;
 
     [SerializeField]
-    RacerInfo racerInfo;
+    Rigidbody rb;
+
+    [SerializeField]
+    float spd;
 
     // Start is called before the first frame update
     void Start()
@@ -19,8 +22,10 @@ public class RankingText : MonoBehaviour
         }
     }
 
-    private void LateUpdate()
+    // Update is called once per frame
+    void Update()
     {
-        text.text = racerInfo.ranking + "th";
+        text.text = "spd: " + rb.velocity.magnitude.ToString("f0");
+        spd = rb.velocity.magnitude;
     }
 }
