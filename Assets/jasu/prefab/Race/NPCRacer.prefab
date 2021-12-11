@@ -292,6 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad61e1a26791d241a55b04c1004223b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dirtSlipSeconds: 2
   rb: {fileID: 7603701497981581255}
   bikeSlipDown: {fileID: 5219267999466606608}
 --- !u!114 &4421796239360097713
@@ -837,13 +838,18 @@ MonoBehaviour:
     list: []
   playerObj: {fileID: 0}
   otherRacers: []
+  sensorDistanceTarget: {fileID: 8426434430513307605}
   dirtSensor: {fileID: 4466933913019798648}
   frontBikeSensor: {fileID: 7381131053446857208}
   widthBikeSensor: {fileID: 8577493795081313330}
   nearBikeSensor: {fileID: 776082333562466475}
   moveBetweenLane: {fileID: 7197532588029266713}
   attitudeCtrl: {fileID: 396231687437029225}
+  moveInRace: {fileID: 5071266085724038936}
+  racerInfo: {fileID: 8271611299584772535}
   colliderSensor: {fileID: 3019873534829246529}
+  accelerateDistance: 100
+  accelerateMultiply: 1.4
 --- !u!114 &7030274486372367719
 MonoBehaviour:
   m_ObjectHideFlags: 0

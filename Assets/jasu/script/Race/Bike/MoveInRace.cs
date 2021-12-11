@@ -66,6 +66,8 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     [SerializeField]
     protected float onDirtSlowMultiply = 0.5f;
 
+    public float moveSpdMultiply { get; set; } = 1f;
+
     [Header("デバッグ用")]
 
     [SerializeField]
@@ -101,6 +103,7 @@ public class MoveInRace : MonoBehaviourPunCallbacks
             moveSpd *= onDirtSlowMultiply;
         }
 
+        moveSpd *= moveSpdMultiply;
 
         // 移動ベクトル作成
         SetMoveVec();
