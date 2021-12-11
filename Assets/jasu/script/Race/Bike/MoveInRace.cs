@@ -29,6 +29,8 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     [SerializeField]
     protected float moveSpd;
 
+    public float GetMoveSpd() { return moveSpd; }
+
     [SerializeField,Tooltip("移動速度")]
     protected float moveSpdStandard = 10f;
 
@@ -131,9 +133,6 @@ public class MoveInRace : MonoBehaviourPunCallbacks
 
         moveSpd = moveSpdStandard;
 
-        if (onDirt.slowDownFlag)
-            moveSpd *= onDirtSlowMultiply;
-
         if (!onSlope && colliderSensor.GetExistInCollider())
         {
             if (angleX < 0)
@@ -151,6 +150,11 @@ public class MoveInRace : MonoBehaviourPunCallbacks
 
     protected void SetMoveVec()
     {
+        if (onDirt.slowDownFlag)
+        {
+            moveSpd *= onDirtSlowMultiply;
+        }
+
         // スロープチェック
         CheckSlope();
 
