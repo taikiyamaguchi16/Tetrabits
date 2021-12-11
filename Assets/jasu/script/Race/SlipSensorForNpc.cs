@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlipSensorForNpc : MonoBehaviour
+public class SlipSensorForNpc : OnDirt
 {
     [SerializeField]
     Rigidbody rb;
@@ -42,7 +42,16 @@ public class SlipSensorForNpc : MonoBehaviour
                 Vector3 velocity = rb.velocity;
                 velocity.z = 0;
                 rb.velocity = velocity;
+                slowDownFlag = true;
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Dirt")
+        {
+            slowDownFlag = false;
         }
     }
 }

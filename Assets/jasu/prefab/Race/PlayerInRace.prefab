@@ -119,8 +119,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 1.3
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &2487003247870755375
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,8 +196,9 @@ MonoBehaviour:
   bikeSlipDown: {fileID: 1446960286}
   dirtSplashSpawn: {fileID: 1212288838}
   attitudeCtrl: {fileID: 8486535655794146373}
+  onDirt: {fileID: 3743806979556830801}
   moveSpd: 0
-  moveSpdStandard: 78
+  moveSpdStandard: 80
   accelerateMultiply: 1.2
   decelerateMultiply: 0.7
   moveSlopeMultiply: 2
@@ -207,6 +208,7 @@ MonoBehaviour:
   rotLateFlat: 0.25
   distanceToGround: 5
   gravity: -50
+  onDirtSlowMultiply: 0.9
   moveVec: {x: 0, y: 0, z: 0}
   onSlope: 0
 --- !u!114 &4717983805591257336
@@ -282,7 +284,7 @@ MonoBehaviour:
   rb: {fileID: 7603701497981581255}
   effectPrefab: {fileID: 1496107599636398923, guid: 9674a5cf1bbf07444b0d992f5cd33108, type: 3}
   effectInstanceTrans: {fileID: 95986286519900269}
-  acceleratePower: 700
+  acceleratePower: 500
 --- !u!114 &3743806979556830801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,7 +300,6 @@ MonoBehaviour:
   rb: {fileID: 7603701497981581255}
   bikeSlipDown: {fileID: 1446960286}
   rainbowSprite: {fileID: 7639508263863198705}
-  slowMultipy: 0.5
 --- !u!114 &4421796239360097713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -790,7 +791,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 360b8e2b42fe2fb4c91b3b81f8403ea7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -908,3 +909,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 6277164325014835238}
+  matlight: 0.3

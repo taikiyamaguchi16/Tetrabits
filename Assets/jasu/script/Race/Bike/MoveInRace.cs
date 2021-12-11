@@ -21,6 +21,9 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     [SerializeField]
     protected AttitudeCtrlInRace attitudeCtrl;
 
+    [SerializeField]
+    protected OnDirt onDirt;
+
     [Header("パラメータ")]
     
     [SerializeField]
@@ -57,6 +60,9 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     protected float gravity = -100f; // 重力
 
     protected Vector3 groundNormalVec = Vector3.zero; // 地面の法線ベクトル
+
+    [SerializeField]
+    float onDirtSlowMultiply = 0.5f;
 
     [Header("デバッグ用")]
 
@@ -124,6 +130,10 @@ public class MoveInRace : MonoBehaviourPunCallbacks
         }
 
         moveSpd = moveSpdStandard;
+
+        if (onDirt.slowDownFlag)
+            moveSpd *= onDirtSlowMultiply;
+
         if (!onSlope && colliderSensor.GetExistInCollider())
         {
             if (angleX < 0)

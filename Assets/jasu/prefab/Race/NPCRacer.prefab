@@ -228,9 +228,10 @@ MonoBehaviour:
   bikeSlipDown: {fileID: 5219267999466606608}
   dirtSplashSpawn: {fileID: 2635770476168120973}
   attitudeCtrl: {fileID: 396231687437029225}
+  onDirt: {fileID: 469488877297773314}
   moveSpd: 0
-  moveSpdStandard: 95
-  accelerateMultiply: 1.2
+  moveSpdStandard: 85
+  accelerateMultiply: 1.12
   decelerateMultiply: 0.7
   moveSlopeMultiply: 2
   moveForceMultiplyStart: 2
@@ -239,6 +240,7 @@ MonoBehaviour:
   rotLateFlat: 0.25
   distanceToGround: 5
   gravity: -50
+  onDirtSlowMultiply: 0.9
   moveVec: {x: 0, y: 0, z: 0}
   onSlope: 0
 --- !u!114 &7197532588029266713
@@ -732,7 +734,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkPoint: {fileID: 0}
-  passJudgeRange: 90
+  passJudgeRange: 85
   raceManager: {fileID: 0}
   bikeCtrlWhenStartAndGoal: {fileID: 3903591124720499}
   actualLapCount: 0
@@ -926,8 +928,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 1.3
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &776082333562466475
 MonoBehaviour:
   m_ObjectHideFlags: 0

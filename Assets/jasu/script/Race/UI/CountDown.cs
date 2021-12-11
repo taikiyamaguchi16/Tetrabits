@@ -21,12 +21,6 @@ public class CountDown : MonoBehaviour
     [SerializeField]
     Text text = null;
 
-    [SerializeField]
-    GameObject[] deactivateObjs;
-
-    [SerializeField]
-    GameObject[] activateObjs;
-
     public bool isTimeOut { get; private set; } = false;
 
     // Start is called before the first frame update
@@ -58,15 +52,6 @@ public class CountDown : MonoBehaviour
             liveTimer += Time.deltaTime;
             if(liveTimer > liveTimeSeconds)
             {
-                foreach (GameObject activateObj in activateObjs)
-                {
-                    activateObj.SetActive(true);
-                }
-
-                foreach (GameObject deactivateObj in deactivateObjs)
-                {
-                    deactivateObj.SetActive(false);
-                }
                 gameObject.SetActive(false);
             }
         }
