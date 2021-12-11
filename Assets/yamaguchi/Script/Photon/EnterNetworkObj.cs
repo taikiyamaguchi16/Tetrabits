@@ -14,7 +14,6 @@ public class EnterNetworkObj : MonoBehaviourPunCallbacks
     {
         if (!isAddedNetworkObj)
         {
-            Debug.Log("ルーム参加時に追加されました");
             NetworkObjContainer.NetworkObjDictionary.Add(photonView.ViewID, this.gameObject);
         }
         isAddedNetworkObj = true;
