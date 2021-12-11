@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveBetweenLane: {fileID: 4717983805591257336}
-  padInputRangeY: 0.5
+  padInputRangeY: 0.32
   padLength: 5
   inputY: 0
 --- !u!114 &8486535655794146373
@@ -261,10 +261,10 @@ MonoBehaviour:
   bikeSlipDown: {fileID: 1446960286}
   rotMin: -75
   rotMax: 75
-  rotMinOnGround: -40
-  rotMaxOnGround: 40
-  slipAngleMin: -50
-  slipAngleMax: 50
+  rotMinOnGround: -30
+  rotMaxOnGround: 30
+  slipAngleMin: -45
+  slipAngleMax: 45
   rotRate: 0.1
   padInputRangeX: 0.4
   padLength: 5
