@@ -51,7 +51,7 @@ public class SlipSensorForNpc : OnDirt
         {
             if (!bikeSlipDown.isSliping)
             {
-                bikeSlipDown.SlipStart("small");
+                bikeSlipDown.SlipStart();
             }
             return;
         }
