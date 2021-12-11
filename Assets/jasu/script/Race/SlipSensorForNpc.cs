@@ -24,17 +24,28 @@ public class SlipSensorForNpc : OnDirt
                     angleX -= 360;
                 }
 
-                if (angleX >= -10f && !slowDownFlag)
+                if (angleX >= -10f && !onDirt)
                 {
                     Vector3 velocity = rb.velocity;
                     velocity.z = 0;
                     rb.velocity = velocity;
-                    slowDownFlag = true;
+                    dirtSlipTimer = 0f;
+                    onDirt = true;
                 }
             }
             else
             {
-                slowDownFlag = false;
+                onDirt = false;
+            }
+        }
+
+        if (onDirt)
+        {
+            dirtSlipTimer += Time.deltaTime;
+            if (dirtSlipTimer > dirtSlipSeconds)
+            {
+                dirtSlipTimer = 0f;
+                bikeSlipDown.SlipStart();
             }
         }
     }
@@ -71,7 +82,7 @@ public class SlipSensorForNpc : OnDirt
         //        Vector3 velocity = rb.velocity;
         //        velocity.z = 0;
         //        rb.velocity = velocity;
-        //        slowDownFlag = true;
+        //        onDirt = true;
         //    }
         //}
     }
@@ -80,7 +91,7 @@ public class SlipSensorForNpc : OnDirt
     //{
     //    if (other.gameObject.tag == "Dirt")
     //    {
-    //        slowDownFlag = false;
+    //        onDirt = false;
     //    }
     //}
 }

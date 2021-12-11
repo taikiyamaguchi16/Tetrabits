@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class SlipSensorForPlayer : OnDirt
 {
+
+    [SerializeField]
+    float dirtSlipOnLeverSeconds = 3f;
+
+
     [SerializeField]
     Rigidbody rb;
 
@@ -40,27 +45,50 @@ public class SlipSensorForPlayer : OnDirt
                     angleX -= 360;
                 }
 
-                if (angleX >= -10f && !slowDownFlag)
+                if (angleX >= -10f && !onDirt)
                 {
                     if (TetraInput.sTetraLever.GetPoweredOn())
                     {
                         Vector3 velocity = rb.velocity;
                         velocity.z /= 2;
                         rb.velocity = velocity;
-                        slowDownFlag = true;
+                        dirtSlipTimer = 0f;
+                        onDirt = true;
                     }
                     else
                     {
                         Vector3 velocity = rb.velocity;
                         velocity.z = 0;
                         rb.velocity = velocity;
-                        slowDownFlag = true;
+                        dirtSlipTimer = 0f;
+                        onDirt = true;
                     }
                 }
             }
             else
             {
-                slowDownFlag = false;
+                onDirt = false;
+            }
+        }
+
+        if (onDirt)
+        {
+            dirtSlipTimer += Time.deltaTime;
+            if (TetraInput.sTetraLever.GetPoweredOn())
+            {
+                if (dirtSlipTimer > dirtSlipOnLeverSeconds)
+                {
+                    dirtSlipTimer = 0f;
+                    bikeSlipDown.SlipStart("small");
+                }
+            }
+            else
+            {
+                if (dirtSlipTimer > dirtSlipSeconds)
+                {
+                    dirtSlipTimer = 0f;
+                    bikeSlipDown.SlipStart("medium");
+                }
             }
         }
     }
@@ -99,7 +127,7 @@ public class SlipSensorForPlayer : OnDirt
     //{
     //    if (other.gameObject.tag == "Dirt")
     //    {
-    //        slowDownFlag = false;
+    //        onDirt = false;
     //    }
     //}
 }

@@ -240,7 +240,7 @@ MonoBehaviour:
   rotLateFlat: 0.25
   distanceToGround: 5
   gravity: -50
-  onDirtSlowMultiply: 0.5
+  onDirtSlowMultiply: 0.4
   moveVec: {x: 0, y: 0, z: 0}
   onSlope: 0
 --- !u!114 &7197532588029266713
@@ -275,8 +275,6 @@ MonoBehaviour:
   rb: {fileID: 7603701497981581255}
   colliderSensor: {fileID: 3019873534829246529}
   bikeSlipDown: {fileID: 5219267999466606608}
-  rotMin: -80
-  rotMax: 90
   rotMinOnGround: -30
   rotMaxOnGround: 30
   slipAngleMin: -45

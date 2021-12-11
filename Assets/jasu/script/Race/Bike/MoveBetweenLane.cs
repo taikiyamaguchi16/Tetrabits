@@ -31,6 +31,8 @@ public class MoveBetweenLane : MonoBehaviour
 
     protected bool arrivalLane = false;
 
+    public bool GetArrivalLane() { return arrivalLane; } 
+
     public int dirMove { get; set; } = 0;
 
 

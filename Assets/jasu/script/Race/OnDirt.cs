@@ -4,5 +4,10 @@ using UnityEngine;
 
 public class OnDirt : MonoBehaviour
 {
-    public bool slowDownFlag { get; set; } = false;
+    public bool onDirt { get; set; } = false;
+
+    [SerializeField]
+    protected float dirtSlipSeconds = 2f;
+
+    protected float dirtSlipTimer = 0f;
 }

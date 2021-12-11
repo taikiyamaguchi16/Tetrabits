@@ -181,26 +181,29 @@ public class AIStateOnGround : AIState
 
     private void ShiftLane()
     {
-        int moveLaneId = moveBetweenLane.belongingLaneId;
-        if (moveBetweenLane.belongingLaneId <= 0)
+        if (moveBetweenLane.GetArrivalLane())
         {
-            moveLaneId = 1;
-        }
-        else if (moveBetweenLane.belongingLaneId >= moveBetweenLane.GetLaneNum() - 1)
-        {
-            moveLaneId = moveBetweenLane.GetLaneNum() - 2;
-        }
-        else
-        {
-            if (Random.Range(0, 2) == 0)
+            int moveLaneId = moveBetweenLane.belongingLaneId;
+            if (moveBetweenLane.belongingLaneId <= 0)
             {
-                moveLaneId--;
+                moveLaneId = 1;
+            }
+            else if (moveBetweenLane.belongingLaneId >= moveBetweenLane.GetLaneNum() - 1)
+            {
+                moveLaneId = moveBetweenLane.GetLaneNum() - 2;
             }
             else
             {
-                moveLaneId++;
+                if (Random.Range(0, 2) == 0)
+                {
+                    moveLaneId--;
+                }
+                else
+                {
+                    moveLaneId++;
+                }
             }
+            moveBetweenLane.SetMoveLane(moveLaneId);
         }
-        moveBetweenLane.SetMoveLane(moveLaneId);
     }
 }
