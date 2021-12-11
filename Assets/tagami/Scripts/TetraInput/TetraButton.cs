@@ -22,7 +22,7 @@ public class TetraButton : MonoBehaviourPunCallbacks
     [SerializeField, Tooltip("この値よりボタンと土台のY値の差分が低くなった時ボタンが押されます")] float pressableDifferenceY = 0;
 
     [Header("Indicator")]
-    [SerializeField] EmissionIndicator emissionIndicator;
+    [SerializeField] List<EmissionIndicator> emissionIndicators;
 
     [Header("Effect")]
     [SerializeField] VisualEffect smokeEffect;
@@ -69,11 +69,13 @@ public class TetraButton : MonoBehaviourPunCallbacks
             //エミッション処理
             if (buttonState)
             {
-                emissionIndicator.SetColor(EmissionIndicator.ColorType.Using);
+                foreach (var emissionIndicator in emissionIndicators)
+                    emissionIndicator.SetColor(EmissionIndicator.ColorType.Using);
             }
             else
             {
-                emissionIndicator.SetColor(EmissionIndicator.ColorType.Usable);
+                foreach (var emissionIndicator in emissionIndicators)
+                    emissionIndicator.SetColor(EmissionIndicator.ColorType.Usable);
             }
         }
         else
@@ -83,7 +85,9 @@ public class TetraButton : MonoBehaviourPunCallbacks
             {
                 localMasterButtonState = false;
             }
-            emissionIndicator.SetColor(EmissionIndicator.ColorType.Unusable);
+
+            foreach (var emissionIndicator in emissionIndicators)
+                emissionIndicator.SetColor(EmissionIndicator.ColorType.Unusable);
         }
 
         if (PhotonNetwork.IsMasterClient)
