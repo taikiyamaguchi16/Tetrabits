@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 2914618179080714118}
   - component: {fileID: -8645460573041607224}
   - component: {fileID: 5278007490955226804}
-  - component: {fileID: 7429191319418023924}
+  - component: {fileID: -3253726405436131018}
   m_Layer: 0
   m_Name: JumpMan
   m_TagString: Player
@@ -370,14 +370,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lastFlag: {fileID: 0}
-  jumpForce: 10
+  jumpForce: 5
   moveScale: 5
   gravityScale: 1
   parasolGravity: 0.15
   speedLimit: 10
   upOnly: 1
   arrow: {fileID: 3726820300519993325}
-  arrowScaleRatio: 3
+  arrowScaleRatio: 5
 --- !u!114 &2914618179080714118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -398,6 +398,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: -8645460573041607224}
+  - {fileID: -3253726405436131018}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -415,7 +416,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
+  m_SynchronizeScale: 1
   m_UseLocal: 1
 --- !u!95 &5278007490955226804
 Animator:
@@ -436,7 +437,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7429191319418023924
+--- !u!114 &-3253726405436131018
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -445,6 +446,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 9014217376288345532}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc0696baf7e51d14a84a06e4d39e80ca, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 0
+  m_TeleportEnabled: 1
+  m_TeleportIfDistanceGreaterThan: 3
