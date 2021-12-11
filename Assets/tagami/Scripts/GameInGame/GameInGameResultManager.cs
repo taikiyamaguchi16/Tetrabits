@@ -104,6 +104,9 @@ public class GameInGameResultManager : MonoBehaviour
 
         if ((XInputManager.GetButtonTrigger(0, XButtonType.A) || Input.GetKeyDown(KeyCode.Return)))
         {
+            //コンテナをクリア
+            NetworkObjContainer.NetworkObjDictionary.Clear();
+
             //ルーム解散処理？
             Photon.Pun.PhotonNetwork.LeaveRoom();
             Photon.Pun.PhotonNetwork.LeaveLobby();
@@ -114,8 +117,6 @@ public class GameInGameResultManager : MonoBehaviour
             //オフライン関数でタイトルへ戻る
             //GameInGameUtil.SwitchGameInGameSceneOffline(nextScene);
 
-            //コンテナをクリア
-            NetworkObjContainer.NetworkObjDictionary.Clear();
 
             //GameMainの再読み込み
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
