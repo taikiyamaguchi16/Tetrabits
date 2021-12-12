@@ -283,7 +283,7 @@ MonoBehaviour:
   rb: {fileID: 7603701497981581255}
   effectPrefab: {fileID: 1496107599636398923, guid: 9674a5cf1bbf07444b0d992f5cd33108, type: 3}
   effectInstanceTrans: {fileID: 95986286519900269}
-  acceleratePower: 150
+  acceleratePower: 200
   bodyBlowActiveSeconds: 0.5
 --- !u!114 &3743806979556830801
 MonoBehaviour:
@@ -297,6 +297,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e28aa5f3771e514daab7818b89496e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dirtSlipSeconds: 2
+  dirtSlipOnLeverSeconds: 3
   rb: {fileID: 7603701497981581255}
   bikeSlipDown: {fileID: 1446960286}
   rainbowSprite: {fileID: 7639508263863198705}
