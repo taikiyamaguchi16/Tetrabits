@@ -21,11 +21,11 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     [SerializeField] float damageToCoolingTargetPerSeconds = 1.0f;
 
     [Header("Effect")]
-    [SerializeField] VisualEffect coolingEffect;
+    [SerializeField] VisualEffect coolingLaserEffect;
     [SerializeField] Transform coolingMuzzule;
     [SerializeField] VisualEffect coolingCollisionEffect;
-    [SerializeField] float spawnCount=1.0f;
-    [SerializeField] float spawnCountFire=50.0f;
+    [SerializeField] float coolingCollisionEffectSpawnCount = 1.0f;
+    [SerializeField] float coolingCollisionEffectSpawnCountFire = 50.0f;
 
     //[SerializeField] VisualEffect coolingCollisionFireEffect;
     int coolingCollisionEffectFrameCount = 0;
@@ -37,6 +37,12 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     //最終回転Qt
     Quaternion endQtX;
     Quaternion endQtY;
+    float rotateX;
+    float rotateY;
+    [SerializeField] float rotateXMax = 90.0f;
+    [SerializeField] float rotateXMin = -90.0f;
+    [SerializeField] float rotateYMax = 90.0f;
+    [SerializeField] float rotateYMin = -90.0f;
 
     //int controlXinputIndex = 0;
     bool running = false;
@@ -49,20 +55,24 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     [Header("Indicator")]
     [SerializeField] List<EmissionIndicator> emissionIndicatorList;
 
+    [Header("Debug")]
+    [SerializeField] bool deadBatteryDebugLocal = false;
 
     void Start()
     {
         endQtX = rotateXTransform.localRotation;
         endQtY = rotateYTransform.localRotation;
 
-        coolingEffect.Stop();
+        coolingLaserEffect.Stop();
     }
 
     // Update is called once per frame
     void Update()
     {
         //電池なかったら落とす
-        if (PhotonNetwork.IsMasterClient && running && batteryHolder.GetBatterylevel() <= 0)
+        if (PhotonNetwork.IsMasterClient
+            && running
+            && (batteryHolder.GetBatterylevel() <= 0) && !deadBatteryDebugLocal)
         {
             CallSetRunning(false);
         }
@@ -90,19 +100,30 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
                 //エフェクトの移動
                 if (!setHitPoint                                //このフレームでは未設定
                     && hit.collider.gameObject != gameObject    //自分自身でない
-                    && (!hit.collider.isTrigger|| hit.collider.CompareTag("CoolingTarget")))                  //トリガーの当たり判定ではない                
+                    && (!hit.collider.isTrigger || hit.collider.CompareTag("CoolingTarget")))                  //トリガーの当たり判定ではない                
                 {
                     setHitPoint = true;
                     coolingCollisionEffect.transform.position = hit.point;
-                    //coolingCollisionFireEffect.transform.position = hit.point;
 
+
+                    //Play()連打
                     coolingCollisionEffectFrameCount++;
-                    if (coolingCollisionEffectFrameCount > 10)
+                    if (coolingCollisionEffectFrameCount > 20)
                     {
                         coolingCollisionEffectFrameCount = 0;
-                        coolingCollisionEffect.Play();
-                        //coolingCollisionFireEffect.Play();
+                        StartCoroutine(CoVisualEffectLatePlayStop(coolingCollisionEffect, 1.0f, true));
+                        //coolingCollisionEffect.Play();
                     }
+
+                    if (hit.collider.CompareTag("CoolingTarget"))
+                    {
+                        coolingCollisionEffect.SetFloat("spawn count", coolingCollisionEffectSpawnCountFire);
+                    }
+                    else
+                    {
+                        coolingCollisionEffect.SetFloat("spawn count", coolingCollisionEffectSpawnCount);
+                    }
+
                 }//Effect Play OK!
 
                 //炎ターゲットに当たっているか
@@ -119,24 +140,15 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
                         Debug.LogError("CoolingTargetObjectにはICoolを継承したコンポーネントをアタッチしてください");
                     }
 
-                    //coolingCollisionEffect.enabled=false;
-                    //coolingCollisionFireEffect.enabled = true;
-                    coolingCollisionEffect.SetFloat("spawn count", spawnCountFire);
                     //coolingtargetに一回でもあたったら終了
                     break;
-                }
-                else
-                {
-                    //coolingCollisionEffect.enabled = true;
-                    //coolingCollisionFireEffect.enabled = false;
-                    coolingCollisionEffect.SetFloat("spawn count", spawnCount);
                 }
             }
         }//Runnning
         if (!hitting)
         {
-            coolingCollisionEffect.Stop();
-            //coolingCollisionFireEffect.Stop();
+            //coolingCollisionEffect.Stop();
+            StartCoroutine(CoVisualEffectLatePlayStop(coolingCollisionEffect, 1.0f, false));
         }
 
         //回転処理
@@ -164,6 +176,20 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         }
     }
 
+    IEnumerator CoVisualEffectLatePlayStop(VisualEffect _effect, float _lateSeconds, bool _play)
+    {
+        yield return new WaitForSeconds(_lateSeconds);
+        if (_play)
+        {
+            _effect.Play();
+        }
+        else
+        {
+            _effect.Stop();
+        }
+    }
+
+
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
         if (runningRotator)
@@ -182,7 +208,7 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         //おそらくIsMineで呼ばれてるので同期関数をそのまま呼び出す
 
         //Debug.Log("CoolingDeviceのStartPlayerActionが呼ばれました");
-        if (batteryHolder.GetBatterylevel() > 0)
+        if (batteryHolder.GetBatterylevel() > 0 || deadBatteryDebugLocal)
         {
             CallSetRunning(true);
         }
@@ -219,23 +245,45 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         running = _value;
         if (running)
         {
-            coolingEffect.Play();
+            coolingLaserEffect.Play();
         }
         else
         {
-            coolingEffect.Stop();
+            coolingLaserEffect.Stop();
         }
     }
 
-    public void CallMultiplyRotation(Quaternion _qtX, Quaternion _qtY)
+    public void CallMultiplyRotation(float _deltaRotX, float _deltaRotY)
     {
-        photonView.RPC(nameof(RPCMultiplyRotation), RpcTarget.AllViaServer, _qtX, _qtY);
+        photonView.RPC(nameof(RPCMultiplyRotation), RpcTarget.AllViaServer, _deltaRotX, _deltaRotY);
     }
     [PunRPC]
-    void RPCMultiplyRotation(Quaternion _qtX, Quaternion _qtY)
+    void RPCMultiplyRotation(float _deltaRotX, float _deltaRotY)
     {
-        endQtX *= _qtX;
-        endQtY *= _qtY;
+        //delta補正
+        var judgeRotX = rotateX + _deltaRotX;
+        if (rotateXMax < judgeRotX)
+        {
+            _deltaRotX = rotateXMax - rotateX;
+        }
+        else if(judgeRotX<rotateXMin)
+        {
+            _deltaRotX = rotateXMin - rotateX;
+        }
+        endQtX *= Quaternion.AngleAxis(_deltaRotX, Vector3.right);
+        rotateX += _deltaRotX;
+
+        var judgeRotY = rotateY + _deltaRotY;
+        if (rotateYMax < judgeRotY)
+        {
+            _deltaRotY = rotateYMax - rotateY;
+        }
+        else if (judgeRotY < rotateYMin)
+        {
+            _deltaRotY = rotateYMin - rotateY;
+        }
+        endQtY *= Quaternion.AngleAxis(_deltaRotY, Vector3.up);
+        rotateY += _deltaRotY;
     }
 
 
