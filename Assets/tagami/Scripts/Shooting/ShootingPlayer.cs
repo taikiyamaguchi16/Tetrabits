@@ -18,6 +18,7 @@ namespace Shooting
         [SerializeField] GameObject playerBulletPrefab;
         [SerializeField] float bulletSpeed = 10.0f;
         [SerializeField] float shotIntervalSeconds = 1.0f;
+        [SerializeField] AudioClip shotClip;
         float shotIntervalTimer;
 
         [Header("Shot Level")]
@@ -27,7 +28,8 @@ namespace Shooting
 
         [Header("Bomb")]
         [SerializeField] GameObject bombFieldPrefab;
-
+        [SerializeField] AudioClip bombClip;
+        [SerializeField] AudioClip itemGetClip;
 
         //damage    
         [Header("Damage")]
@@ -189,6 +191,11 @@ namespace Shooting
         public void RPCInstantiateBombLocal()
         {
             ShootingGameManager.sShootingGameManager.AddBomb(-1);
+
+            //音を鳴らす
+            SimpleAudioManager.PlayOneShot(bombClip);
+
+            //作成
             var bombObj = Instantiate(bombFieldPrefab, transform.position, Quaternion.identity);
             bombObj.GetComponent<TransformSynchronizer>().targetObject = gameObject;
         }
@@ -201,6 +208,8 @@ namespace Shooting
         [PunRPC]
         public void RPCShotBullet(Vector3 _offset, Vector3 _velocity)
         {
+            SimpleAudioManager.PlayOneShot(shotClip);
+
             var bullet = Instantiate(playerBulletPrefab, transform.position + _offset, Quaternion.identity);
             bullet.GetComponent<Rigidbody2D>().velocity = _velocity;
         }
@@ -234,6 +243,9 @@ namespace Shooting
             //アイテム取得
             if (collision.gameObject.CompareTag("LevelUpItem"))
             {
+                //音を鳴らす
+                SimpleAudioManager.PlayOneShot(itemGetClip);
+
                 ShootingItemController item;
                 if (PhotonNetwork.IsMasterClient && collision.TryGetComponent(out item))
                 {
