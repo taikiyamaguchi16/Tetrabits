@@ -27,6 +27,9 @@ public class VirtualCameraManager : MonoBehaviour
     CinemachineBrain cinemachineBrain = null;
 
     [SerializeField]
+    static CinemachineImpulseSource sImpulseSource = null;
+
+    [SerializeField]
     GlobalVolumeController globalVolumeController = null;
 
     //[SerializeField]
@@ -76,6 +79,11 @@ public class VirtualCameraManager : MonoBehaviour
             cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
         }
 
+        if(sImpulseSource == null)
+        {
+            sImpulseSource = GetComponent<CinemachineImpulseSource>();
+        }
+
         if(sVirtualCameraWithDepthOfFieldList.Count != 0)
         {
             sVirtualCameraWithDepthOfFieldList.Clear();
@@ -92,6 +100,10 @@ public class VirtualCameraManager : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKey(KeyCode.R))
+        {
+            ImpulseNoise();
+        }
         //activeDepthOfFieldParam = sActiveDepthOfFieldParam;
         //oldDepthOfFieldParam = sOldDepthOfFieldParam;
 
@@ -189,5 +201,10 @@ public class VirtualCameraManager : MonoBehaviour
                 sActiveDepthOfFieldParam.focalLength = sVirtualCameraWithDepthOfFieldList[_index].depthOfFieldParameter.focalLength;
             }
         }
+    }
+
+    static public void ImpulseNoise()
+    {
+        sImpulseSource.GenerateImpulse();
     }
 }
