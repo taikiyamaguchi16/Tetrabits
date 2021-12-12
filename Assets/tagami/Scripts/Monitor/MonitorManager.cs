@@ -54,6 +54,10 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     int numCreateRandomDebris = 1;
     [SerializeField] float debrisGaugeMax = 10.0f;
     float debrisGauge;
+    [SerializeField] List<Renderer> debrisGaugeRenderers;
+    [SerializeField] Gradient debrisGaugeGradient;
+    [SerializeField] float debrisGaugeIntensity = 1.0f;
+    [SerializeField] VisualEffect debrisGaugeSmokeEffect;
     [SerializeField] Slider debrisGaugeSlider;
     [SerializeField] Text numDebrisText;
 
@@ -71,15 +75,26 @@ public class MonitorManager : MonoBehaviourPunCallbacks
 
         //EffectRateの記録
         hpEffectRateMax = hpEffect.GetInt("Rate");
+
+        //エミッション設定
+        foreach (var r in debrisGaugeRenderers)
+        {
+            r.material.EnableKeyword("_EMISSION");
+        }
+    }
+
+    private void Start()
+    {
+        //エフェクト側が設定しきれてない時があるのでStartで呼ぶ
         //エフェクト初期カラー設定
         UpdateMonitorHpEffect();
     }
 
     private void Update()
     {
-        if(numDebrisText)
+        if (numDebrisText)
         {
-            numDebrisText.text = "破片落下数："+numCreateRandomDebris;
+            numDebrisText.text = "破片落下数：" + numCreateRandomDebris;
         }
     }
 
@@ -158,12 +173,26 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             if (PhotonNetwork.IsMasterClient)
             {
                 CallScatterDebris(numCreateRandomDebris);
-            }            
+            }
         }
         //Slider更新
         debrisGaugeSlider.maxValue = debrisGaugeMax;
         debrisGaugeSlider.value = debrisGauge;
-
+        foreach (var r in debrisGaugeRenderers)
+        {
+            var gradColor = debrisGaugeGradient.Evaluate(debrisGauge / debrisGaugeMax);
+            float factor = Mathf.Pow(2, debrisGaugeIntensity* debrisGauge / debrisGaugeMax);
+            r.material.SetColor("_EmissionColor", new Color(gradColor.r * factor, gradColor.g * factor, gradColor.b * factor));
+        }
+        //煙
+        if (debrisGauge / debrisGaugeMax >= 0.7f)
+        {
+            debrisGaugeSmokeEffect.Play();
+        }
+        else
+        {
+            debrisGaugeSmokeEffect.Stop();
+        }
         //**********************************************************
 
         //エフェクト更新
@@ -185,7 +214,8 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         hpEffectGradient.colorKeys = colorKeys;
         hpEffect.SetGradient("Gradient", hpEffectGradient);
 
-        foreach(var lerp in monitorHpLerps)
+        //Size Lerp
+        foreach (var lerp in monitorHpLerps)
         {
             lerp.SetLerpSingle(monitorHp / monitorHpMax);
         }
