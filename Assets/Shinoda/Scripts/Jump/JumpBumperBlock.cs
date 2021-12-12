@@ -10,6 +10,7 @@ public class JumpBumperBlock : MonoBehaviour
 
     Vector3 originPos;
 
+    [SerializeField] AudioClip bounceSE;
     [SerializeField] float moveX;
     [SerializeField] float moveY;
     [SerializeField] float blockSize = 1f;
@@ -54,6 +55,7 @@ public class JumpBumperBlock : MonoBehaviour
     {
         if (collision.gameObject == player)
         {
+            SimpleAudioManager.PlayOneShot(bounceSE);
             playerRb.AddForce(bounceDir.normalized * bouncePower, ForceMode2D.Impulse);
             animator.SetTrigger("bumper");
         }

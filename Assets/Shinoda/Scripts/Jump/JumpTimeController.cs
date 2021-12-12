@@ -10,6 +10,7 @@ public class JumpTimeController : MonoBehaviour
     [SerializeField, Tooltip("制限時間")] float time;
     [SerializeField, Tooltip("ダメージ量")] string damage = "large";
 
+    [SerializeField] AudioClip goalSE;
     [SerializeField] SceneObject thisScene = null;
     [SerializeField] SceneObject nextScene = null;
     [SerializeField] bool finalStage = false;
@@ -68,6 +69,7 @@ public class JumpTimeController : MonoBehaviour
     public void GoalAnimation()
     {
         isGoal = true;
+        SimpleAudioManager.PlayOneShot(goalSE);
         gTransform.DOScale(new Vector3(1, 1, 1), 1).SetEase(Ease.Linear);
         oTransform.DOScale(new Vector3(1, 1, 1), 1).SetDelay(.2f).SetEase(Ease.Linear);
         aTransform.DOScale(new Vector3(1, 1, 1), 1).SetDelay(.4f).SetEase(Ease.Linear);

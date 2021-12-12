@@ -17,6 +17,7 @@ public class JumpGhostController : MonoBehaviour
     float timeCount;
     float distance;
 
+    [SerializeField] AudioClip bounceSE;
     [SerializeField, Tooltip("ダメージ量")] string damage = "small";
     [SerializeField] float bouncePower = 5f;
     [SerializeField] float attackTime = 5f;
@@ -83,11 +84,11 @@ public class JumpGhostController : MonoBehaviour
     {
         if (collision.gameObject == player && ghostState == JumpGhostState.Move)
         {
+            SimpleAudioManager.PlayOneShot(bounceSE);
             playerRb.AddForce(bounceDir.normalized * bouncePower, ForceMode2D.Impulse);
             if (PhotonNetwork.IsMasterClient) MonitorManager.DealDamageToMonitor(damage);
             ghostState = JumpGhostState.Stop;
             timeCount = 0;
-
         }
     }
 }
