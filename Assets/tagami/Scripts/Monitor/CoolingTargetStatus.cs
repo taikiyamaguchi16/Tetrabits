@@ -13,8 +13,8 @@ public class CoolingTargetStatus : MonoBehaviourPunCallbacks, ICool
     [SerializeField] float DamageToMonitor;
     public float damageToMonitor { set { DamageToMonitor = value; } get { return DamageToMonitor; } }
 
-    [Header("Smoke")]
-    [SerializeField] VisualEffect smokeEffect;
+    //[Header("Smoke")]
+    //[SerializeField] VisualEffect smokeEffect;
 
     [Header("Option")]
     [SerializeField] UnityEngine.UI.Slider slider;
@@ -23,8 +23,8 @@ public class CoolingTargetStatus : MonoBehaviourPunCallbacks, ICool
     Vector3 fireEffectLocalScaleMax;
 
     bool isDead;
-    bool isCooled;
-    bool oldIsCooled;
+    //bool isCooled;
+    //bool oldIsCooled;
 
     private void Awake()
     {
@@ -45,7 +45,7 @@ public class CoolingTargetStatus : MonoBehaviourPunCallbacks, ICool
     void Start()
     {
         //ワールド空間に出す
-        smokeEffect.transform.parent = null;
+        //smokeEffect.transform.parent = null;
     }
 
     private void Update()
@@ -59,28 +59,28 @@ public class CoolingTargetStatus : MonoBehaviourPunCallbacks, ICool
             fireEffectObject.transform.localScale = Vector3.Lerp(fireEffectLocalScaleMax * fireEffectLocalScaleMinMultiplier, fireEffectLocalScaleMax, hp / hpMax);
         }
 
-        if(isCooled&&!oldIsCooled)
-        {//Trigger
-            smokeEffect.Play();
-        }
-        else if(!isCooled && oldIsCooled)
-        {
-            smokeEffect.Stop();
-        }
-        oldIsCooled = isCooled;
-        isCooled = false;
+        //if(isCooled&&!oldIsCooled)
+        //{//Trigger
+        //    smokeEffect.Play();
+        //}
+        //else if(!isCooled && oldIsCooled)
+        //{
+        //    smokeEffect.Stop();
+        //}
+        //oldIsCooled = isCooled;
+        //isCooled = false;
     }
 
     public void OnCooled(float _damage)
     {
-        isCooled = true;
+        //isCooled = true;
 
         hp -= _damage;
         if (hp <= 0 && !isDead)
         {
             isDead = true;
 
-            smokeEffect.GetComponent<DestroyOnTime>().enabled = true;
+            //smokeEffect.GetComponent<DestroyOnTime>().enabled = true;
 
             if (PhotonNetwork.IsMasterClient)
             {
