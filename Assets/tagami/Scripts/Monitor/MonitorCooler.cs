@@ -24,6 +24,11 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     [SerializeField] VisualEffect coolingEffect;
     [SerializeField] Transform coolingMuzzule;
     [SerializeField] VisualEffect coolingCollisionEffect;
+    [SerializeField] float spawnCount=1.0f;
+    [SerializeField] float spawnCountFire=50.0f;
+
+    //[SerializeField] VisualEffect coolingCollisionFireEffect;
+    int coolingCollisionEffectFrameCount = 0;
 
     [Header("RotateTarget")]
     [SerializeField] Transform rotateXTransform;
@@ -85,14 +90,20 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
                 //エフェクトの移動
                 if (!setHitPoint                                //このフレームでは未設定
                     && hit.collider.gameObject != gameObject    //自分自身でない
-                    && !hit.collider.isTrigger                  //トリガーの当たり判定ではない
-                    && coolingCollisionEffect)                  //エフェクトが設定されている
+                    && (!hit.collider.isTrigger|| hit.collider.CompareTag("CoolingTarget")))                  //トリガーの当たり判定ではない                
                 {
                     setHitPoint = true;
                     coolingCollisionEffect.transform.position = hit.point;
-                    coolingCollisionEffect.Play();
-                    //Debug.Log(hit.collider.gameObject.name + "の場所にエフェクトを出しています");
-                }
+                    //coolingCollisionFireEffect.transform.position = hit.point;
+
+                    coolingCollisionEffectFrameCount++;
+                    if (coolingCollisionEffectFrameCount > 10)
+                    {
+                        coolingCollisionEffectFrameCount = 0;
+                        coolingCollisionEffect.Play();
+                        //coolingCollisionFireEffect.Play();
+                    }
+                }//Effect Play OK!
 
                 //炎ターゲットに当たっているか
                 if (hit.collider.CompareTag("CoolingTarget"))
@@ -107,14 +118,25 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
                     {
                         Debug.LogError("CoolingTargetObjectにはICoolを継承したコンポーネントをアタッチしてください");
                     }
-                    //targetに一回でもあたったら終了
+
+                    //coolingCollisionEffect.enabled=false;
+                    //coolingCollisionFireEffect.enabled = true;
+                    coolingCollisionEffect.SetFloat("spawn count", spawnCountFire);
+                    //coolingtargetに一回でもあたったら終了
                     break;
                 }
+                else
+                {
+                    //coolingCollisionEffect.enabled = true;
+                    //coolingCollisionFireEffect.enabled = false;
+                    coolingCollisionEffect.SetFloat("spawn count", spawnCount);
+                }
             }
-        }
-        if (!hitting && coolingCollisionEffect)
+        }//Runnning
+        if (!hitting)
         {
             coolingCollisionEffect.Stop();
+            //coolingCollisionFireEffect.Stop();
         }
 
         //回転処理
