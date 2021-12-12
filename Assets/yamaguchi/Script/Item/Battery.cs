@@ -28,6 +28,8 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
     [SerializeField]
     private Text actionText;
+    [SerializeField]
+    ControlUIActivator myControlUi;
 
     [SerializeField]
     float throwForce;
@@ -38,7 +40,6 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
     private ItemPocket ownerSc;
 
-    private Rigidbody ownerRb;
 
     private void Update()
     {
@@ -51,14 +52,6 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
             actionText.text = "すてる";
         }
 
-        //Playerの向いている方向を取得
-        if(ownerRb!=null)
-        {
-            if(ownerRb.velocity.magnitude>0f)
-            {
-                playerDir = ownerRb.velocity.normalized;
-            }
-        }
         if (PhotonNetwork.IsMasterClient)
         {
             elpsedTime += Time.deltaTime;
@@ -138,7 +131,7 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         priority = 100;
 
         ownerSc = _obj.GetComponent<ItemPocket>();
-        ownerRb = _obj.GetComponent<Rigidbody>();
+        //ownerRb = _obj.GetComponent<Rigidbody>();
 
         ownerSc.SetItem(this.gameObject);
         rb.isKinematic = true;
@@ -161,11 +154,16 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
             isOwned = false;
             priority = 40;
 
-            Vector3 _power = playerDir * throwForce;
-            _power.y = throwUpForce;
-            rb.AddForce(_power, ForceMode.Impulse);
+            PlayerMove p_move = ownerSc.gameObject.GetComponent<PlayerMove>();
+            if (p_move != null)
+            {
+                playerDir = p_move.GetPlayerDir();
+                Vector3 _power = playerDir * throwForce;
+                _power.y = throwUpForce;
+                rb.AddForce(_power, ForceMode.Impulse);
+            }
 
-            ownerRb = null;
+            myControlUi.SetControlUIActive(false);
         }
     }
     public float GetLevel()

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.VFX;
 
 public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
 {
     private Battery ownBattery;
 
     [SerializeField]
-    ParticleSystem batteryDustEfect;
+    VisualEffect batteryDustEfect;
 
     ItemPocket pocket;
     // Start is called before the first frame update
@@ -33,8 +34,6 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
 
                 photonView.RPC(nameof(RPCDestroyBattery), RpcTarget.AllBufferedViaServer, ownBattery.photonView.ViewID);
                 ownBattery = null;
-
-                batteryDustEfect.Play();
 
                 photonView.RPC(nameof(RPCNotifyThrowBatteryAway), RpcTarget.AllBufferedViaServer);
             }
@@ -88,6 +87,7 @@ public class BatteryDustBox : MonoBehaviourPunCallbacks, IPlayerAction
     [PunRPC]
     public void RPCDestroyBattery(int _id)
     {
+        batteryDustEfect.SendEvent("OnPlay");
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.Destroy(NetworkObjContainer.NetworkObjDictionary[_id]);
