@@ -15,9 +15,13 @@ public class AISensorDistanceTarget : AISensor
 
     public float distanceToTarget { get; private set; }
 
+    public float diffToTargetZ { get; private set; }
+
     // Update is called once per frame
     void Update()
     {
+        diffToTargetZ = target.transform.position.z - transform.position.z;
+
         sensorActive = false;
         distanceToTarget = Vector3.Distance(target.transform.position, transform.position);
         if (distanceToTarget < activeDistanceMax &&

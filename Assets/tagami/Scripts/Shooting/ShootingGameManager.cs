@@ -21,6 +21,9 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
     [SerializeField] int initialBombNum = 3;
     public int bomb { private set; get; }
 
+    [Header("Start")]
+    [SerializeField] AudioClip startBGM;
+
     //再開処理
     [Header("Restart or GameOver")]
     [SerializeField] Trisibo.SceneField restartScene;
@@ -66,6 +69,9 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
 
         //タイマースタート
         GameInGameUtil.StartGameInGameTimer("shooting");
+
+        //SimpleAudioManager.PlayBGMCrossFade(startBGM, 1.0f);
+        SimpleAudioManager.PlayBGMOverride(startBGM);
     }
 
     // Update is called once per frame
