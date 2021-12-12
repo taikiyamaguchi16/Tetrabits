@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6224457482702864122}
   - component: {fileID: 8216332752838159715}
   - component: {fileID: 2139661869423234754}
+  - component: {fileID: 23120833625599597}
   m_Layer: 0
   m_Name: Battery 1
   m_TagString: Untagged
@@ -60,6 +61,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 2139661869423234754}
+  - {fileID: 23120833625599597}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -96,6 +98,7 @@ MonoBehaviour:
   priority: 50
   level: 100
   actionText: {fileID: 5403389549892578179}
+  myControlUi: {fileID: 6224457482702864122}
   throwForce: 800
   throwUpForce: 800
 --- !u!65 &5040694322774631259
@@ -181,6 +184,22 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &23120833625599597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5348215941343250890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 0
+  m_TeleportEnabled: 0
+  m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &2460977906160017837
 MonoBehaviour:
   m_ObjectHideFlags: 0
