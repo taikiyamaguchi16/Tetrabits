@@ -22,6 +22,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     [SerializeField] VisualEffect hpEffect;
     int hpEffectRateMax = 1;
     [SerializeField] Gradient hpEffectColorGradient;
+    [SerializeField] List<MonitorHpLerp> monitorHpLerps;
 
     [System.Serializable]
     struct MonitorStageStatus
@@ -183,6 +184,11 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         colorKeys[1].color = hpEffectColorGradient.Evaluate(monitorHp / monitorHpMax);
         hpEffectGradient.colorKeys = colorKeys;
         hpEffect.SetGradient("Gradient", hpEffectGradient);
+
+        foreach(var lerp in monitorHpLerps)
+        {
+            lerp.SetLerpSingle(monitorHp / monitorHpMax);
+        }
     }
 
 
