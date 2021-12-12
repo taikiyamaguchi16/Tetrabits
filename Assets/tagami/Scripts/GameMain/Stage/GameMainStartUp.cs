@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 using UnityEngine.Events;
 
 public class GameMainStartUp : MonoBehaviour
@@ -20,6 +21,9 @@ public class GameMainStartUp : MonoBehaviour
 
     [Header("Disable Lights")]
     [SerializeField] List<Light> disableLights;
+
+    [Header("Play Effects")]
+    [SerializeField] List<VisualEffect> playEffects;
 
     [Header("Other Events")]
     [SerializeField] UnityEvent startUpEvent;
@@ -106,6 +110,12 @@ public class GameMainStartUp : MonoBehaviour
 
         //色あがりきるの待つ
         yield return new WaitForSeconds(1.0f);
+
+        //エフェクト
+        foreach(var effect in playEffects)
+        {
+            effect.Play();
+        }
 
         //電気をつける
         foreach (var light in startUpLights)
