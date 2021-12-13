@@ -113,15 +113,23 @@ public class MonitorManager : MonoBehaviourPunCallbacks
                 break;
             }
         }
-        if (createdCoolingTargets.Count > 0 || debrisExists)
+        bool coolingTargetExists = false;
+        foreach (var createdCoolingTarget in createdCoolingTargets)
         {
-            fireExists = true;
+            if (createdCoolingTarget)
+            {
+                coolingTargetExists = true;
+                break;
+            }
         }
-        if (fireExists&&!oldFireExists)
+
+        fireExists = coolingTargetExists || debrisExists;
+
+        if (fireExists && !oldFireExists)
         {
             fireAudioSource.Play();
         }
-        else if(!fireExists&&oldFireExists)
+        else if (!fireExists && oldFireExists)
         {
             fireAudioSource.Stop();
         }
