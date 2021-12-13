@@ -16,6 +16,9 @@ public class CountDown : MonoBehaviour
     float liveTimer = 0f;
 
     [SerializeField]
+    float activeTimeSeconds = 3f;
+
+    [SerializeField]
     string timeOutText = "Timeout";
 
     [SerializeField]
@@ -23,10 +26,19 @@ public class CountDown : MonoBehaviour
 
     public bool isTimeOut { get; private set; } = false;
 
+    [SerializeField]
+    GameObject deactiveObj;
+
+    [SerializeField]
+    AudioClip seCountDown;
+
+    bool playedSe = false;
+
     // Start is called before the first frame update
     void Start()
     {
         countDownTimer = countDownTimeSeconds;
+        text.text = "";
     }
 
     // Update is called once per frame
@@ -37,7 +49,15 @@ public class CountDown : MonoBehaviour
             countDownTimer -= Time.deltaTime;
             if (text != null)
             {
-                text.text = ((int)countDownTimer + 1).ToString();
+                if((int)countDownTimer + 1 <= activeTimeSeconds)
+                {
+                    if (!playedSe)
+                    {
+                        playedSe = true;
+                        SimpleAudioManager.PlayOneShot(seCountDown);
+                    }
+                    text.text = ((int)countDownTimer + 1).ToString();
+                }
             }
         }
         else
@@ -53,6 +73,7 @@ public class CountDown : MonoBehaviour
             if(liveTimer > liveTimeSeconds)
             {
                 gameObject.SetActive(false);
+                deactiveObj.SetActive(false);
             }
         }
     }

@@ -44,6 +44,12 @@ public class RaceFinish : MonoBehaviourPunCallbacks
 
     bool sceneShifted = false;
 
+    [SerializeField]
+    AudioClip seWin;
+
+    [SerializeField]
+    AudioClip seLose;
+
     // Update is called once per frame
     void Update()
     {
@@ -118,11 +124,13 @@ public class RaceFinish : MonoBehaviourPunCallbacks
         {
             textObjWhenWin.SetActive(true);
             winFlag = true;
+            SimpleAudioManager.PlayOneShot(seWin);
         }
         else
         {
             textObjWhenLose.SetActive(true);
             textObjWhenLoseOthersGoal.SetActive(true);
+            SimpleAudioManager.PlayOneShot(seLose);
         }
     }
 
