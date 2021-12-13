@@ -36,6 +36,8 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     [SerializeField]
     float throwUpForce;
 
+    [SerializeField]
+    AudioClip throwBatterrySe;
     private Vector3 playerDir;
 
     private ItemPocket ownerSc;
@@ -157,6 +159,7 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
             PlayerMove p_move = ownerSc.gameObject.GetComponent<PlayerMove>();
             if (p_move != null)
             {
+                SimpleAudioManager.PlayOneShot(throwBatterrySe);
                 playerDir = p_move.GetPlayerDir();
                 Vector3 _power = playerDir * throwForce;
                 _power.y = throwUpForce;
