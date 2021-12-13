@@ -35,6 +35,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     int currentMonitorStatusIndex = 0;
     [SerializeField] List<VisualEffect> nextStageEffects;
     [SerializeField] float playNextStageEffectIntervalSeconds = 0.5f;
+    [SerializeField] SEAudioClip monitorBreakClip;
 
     [Header("Monitor Damage Callback")]
     [SerializeField] UnityEvent monitorDamageEvent;
@@ -61,6 +62,10 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     [SerializeField] Slider debrisGaugeSlider;
     [SerializeField] Text numDebrisText;
 
+    [Header("Fire Audio Source")]
+    [SerializeField] AudioSource fireAudioSource;
+    bool fireExists;
+    bool oldFireExists;
 
     private void Awake()
     {
@@ -96,6 +101,31 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         {
             numDebrisText.text = "破片落下数：" + numCreateRandomDebris;
         }
+
+        //炎が出ているかどうかでパチパチ音を鳴らす
+        oldFireExists = fireExists;
+        bool debrisExists = false;
+        foreach (var debris in stageDebrisList)
+        {
+            if (debris.GetActiveSelf())
+            {
+                debrisExists = true;
+                break;
+            }
+        }
+        if (createdCoolingTargets.Count > 0 || debrisExists)
+        {
+            fireExists = true;
+        }
+        if (fireExists&&!oldFireExists)
+        {
+            fireAudioSource.Play();
+        }
+        else if(!fireExists&&oldFireExists)
+        {
+            fireAudioSource.Stop();
+        }
+
     }
 
 
@@ -181,7 +211,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         foreach (var r in debrisGaugeRenderers)
         {
             var gradColor = debrisGaugeGradient.Evaluate(debrisGauge / debrisGaugeMax);
-            float factor = Mathf.Pow(2, debrisGaugeIntensity* debrisGauge / debrisGaugeMax);
+            float factor = Mathf.Pow(2, debrisGaugeIntensity * debrisGauge / debrisGaugeMax);
             r.material.SetColor("_EmissionColor", new Color(gradColor.r * factor, gradColor.g * factor, gradColor.b * factor));
         }
         //煙
@@ -236,6 +266,9 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             }
             return;
         }
+
+        //音を鳴らす
+        SimpleAudioManager.PlayOneShot(monitorBreakClip);
 
         //次の破壊段階へ進める 
         //現在のモデルを非アクティブにし、次の段階のモデルをアクティブにする

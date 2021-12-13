@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class SEAudioClip
+{
+    public AudioClip clip;
+    public float volumeScale = 1.0f;
+}
+
 [DefaultExecutionOrder(-1)]
 public class SimpleAudioManager : MonoBehaviour
 {
@@ -141,6 +148,16 @@ public class SimpleAudioManager : MonoBehaviour
         }
 
         sSimpleAudioManager.GetSEAudioSource()?.PlayOneShot(_audioClip, _volumeScale);
+    }
+    public static void PlayOneShot(SEAudioClip _seAudioClip)
+    {
+        if (!sSimpleAudioManager)
+        {
+            Debug.LogError("SimpleAudioManagerが登録されていません");
+            return;
+        }
+
+        sSimpleAudioManager.GetSEAudioSource()?.PlayOneShot(_seAudioClip.clip, _seAudioClip.volumeScale);
     }
 
     //**********************************************************

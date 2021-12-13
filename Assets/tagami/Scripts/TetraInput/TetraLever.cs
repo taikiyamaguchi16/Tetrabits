@@ -14,6 +14,9 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
     [SerializeField] float batteryConsumptionPerSeconds = 1.0f;
     [SerializeField] float switchingTime = 1.0f;
 
+    [Header("Sound")]
+    [SerializeField] SEAudioClip leverClip;
+
     [Header("Indicator")]
     [SerializeField] EmissionIndicator emissionIndicator;
 
@@ -98,9 +101,12 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
         {
             leverState = !leverState;
 
+            SimpleAudioManager.PlayOneShot(leverClip);
+
             if (leverState)
             {
                 sparkEffect.Play();
+                
             }
         }
     }
