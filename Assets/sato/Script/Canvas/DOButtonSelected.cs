@@ -43,6 +43,10 @@ public class DOButtonSelected : MonoBehaviour
 
     bool isInput = false;
 
+    [SerializeField]
+    [Header("ÉJÅ[É\Éãà⁄ìÆâπ")]
+    AudioClip cursorMoveSe;
+
     //--------------------------------------------------
     // Start
     // èâä˙âª
@@ -98,6 +102,8 @@ public class DOButtonSelected : MonoBehaviour
                     currentButtonNum--;
 
                     isInput = true;
+
+                    SimpleAudioManager.PlayOneShot(cursorMoveSe);
                 }
 
                 // â∫ì¸óÕ
@@ -106,6 +112,8 @@ public class DOButtonSelected : MonoBehaviour
                     currentButtonNum++;
 
                     isInput = true;
+
+                    SimpleAudioManager.PlayOneShot(cursorMoveSe);
                 }
             }
         }
@@ -120,6 +128,8 @@ public class DOButtonSelected : MonoBehaviour
                     currentButtonNum--;
 
                     isInput = true;
+
+                    SimpleAudioManager.PlayOneShot(cursorMoveSe);
                 }
 
                 // è„ì¸óÕ
@@ -128,6 +138,8 @@ public class DOButtonSelected : MonoBehaviour
                     currentButtonNum++;
 
                     isInput = true;
+
+                    SimpleAudioManager.PlayOneShot(cursorMoveSe);
                 }
             }
         }
