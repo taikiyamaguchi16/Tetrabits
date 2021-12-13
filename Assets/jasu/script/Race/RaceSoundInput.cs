@@ -15,30 +15,82 @@ public class RaceSoundInput : MonoBehaviour
     [SerializeField]
     AudioClip bgm;
 
+    [SerializeField]
+    RaceStart raceStart;
+
+    [SerializeField]
+    float bgmSwitchSeconds = 1f;
+
+    float bgmSwitchTimer = 0f;
+
+    bool bgmSwitched = true;
+
     // Update is called once per frame
     void Update()
     {
-        if (TetraInput.sTetraButton.GetTrigger())
+        if (raceStart.GetStarted())
         {
-            SimpleAudioManager.PlayOneShot(seButton);
-        }
+            if (TetraInput.sTetraButton.GetTrigger())
+            {
+                SimpleAudioManager.PlayOneShot(seButton);
+            }
 
-        if (TetraInput.sTetraLever.GetPoweredOn())
-        {
-            if (!leverOn)
+            if (TetraInput.sTetraLever.GetPoweredOn())
             {
-                leverOn = true;
-                SimpleAudioManager.PlayBGMCrossFade(bgmLever, 1f);
+                if (!leverOn)
+                {
+                    leverOn = true;
+                    if (bgmSwitched)
+                    {
+                        bgmSwitchTimer = 0f;
+                        bgmSwitched = false;
+                    }
+                    else
+                    {
+                        bgmSwitched = true;
+                    }
+                }
+                else
+                {
+                    if (!bgmSwitched)
+                    {
+                        bgmSwitchTimer += Time.deltaTime;
+                        if (bgmSwitchTimer >= bgmSwitchSeconds)
+                        {
+                            bgmSwitched = true;
+                            SimpleAudioManager.PlayBGMCrossFade(bgmLever, 1f);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (leverOn)
+                {
+                    leverOn = false;
+                    if(bgmSwitched)
+                    {
+                        bgmSwitchTimer = 0f;
+                        bgmSwitched = false;
+                    }
+                    else
+                    {
+                        bgmSwitched = true;
+                    }
+                }
+                else
+                {
+                    if (!bgmSwitched)
+                    {
+                        bgmSwitchTimer += Time.deltaTime;
+                        if (bgmSwitchTimer >= bgmSwitchSeconds)
+                        {
+                            bgmSwitched = true;
+                            SimpleAudioManager.PlayBGMCrossFade(bgm, 1f);
+                        }
+                    }
+                }
             }
         }
-        else
-        {
-            if (leverOn)
-            {
-                leverOn = false;
-                SimpleAudioManager.PlayBGMCrossFade(bgm, 1f);
-            }
-        }
-        
     }
 }
