@@ -49,6 +49,10 @@ MonoBehaviour:
   seAudioSource: {fileID: 8571019516769663415}
   bgmAudioSourceA: {fileID: 7332043446795131763}
   bgmAudioSourceB: {fileID: 8310366667658847150}
+  debugAudio: 0
+  bgmA: {fileID: 8300000, guid: dbd2d8bf23af0ce4ea4798605d4e6105, type: 3}
+  bgmB: {fileID: 8300000, guid: dbd2d8bf23af0ce4ea4798605d4e6105, type: 3}
+  seA: {fileID: 8300000, guid: f53792f7fc896294facd46e46c839615, type: 3}
 --- !u!82 &8571019516769663415
 AudioSource:
   m_ObjectHideFlags: 0
@@ -60,7 +64,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -156,7 +160,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -252,7 +256,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
