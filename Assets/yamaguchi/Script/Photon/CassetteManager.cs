@@ -31,14 +31,6 @@ public class CassetteManager : MonoBehaviourPunCallbacks
         RPCHideAllCassette();
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.H))
-        {
-            ActiveCassetIsClearOn();
-        }
-    }
-    
     public void SetActiveCassette(Cassette _ca)
     {
         activeCassette = _ca;
@@ -59,7 +51,9 @@ public class CassetteManager : MonoBehaviourPunCallbacks
     public void AppearAllCassette()
     {
         foreach (var ca in cassetteList)
+        {
             ca.gameObject.SetActive(true);
+        }
     }
     //全クリチェック
     public bool CheckAllCassette()
@@ -84,7 +78,6 @@ public class CassetteManager : MonoBehaviourPunCallbacks
             activeCassette.GetComponent<Rigidbody>().AddForce(-this.transform.forward * 3f + Vector3.up * 15f,ForceMode.Impulse);
 
             photonView.RPC(nameof(RPCPlayCassetEfect), RpcTarget.All);
-            //outCassetteEfect.SendEvent("OnPlay");
         }
     }
 

@@ -48,7 +48,7 @@ public class CassetteHolder : MonoBehaviourPunCallbacks, IPlayerAction
                 //managerの現在のカセットを更新
                 cassetteManager.SetActiveCassette(ownCassette);
 
-                inCassetteEfect.SendEvent("OnPlay");
+                photonView.RPC(nameof(RPCPlayInCassetEfect), RpcTarget.All);
             }
         }
     }
@@ -84,5 +84,11 @@ public class CassetteHolder : MonoBehaviourPunCallbacks, IPlayerAction
             Debug.Log(pla.name);
             pla.GetComponent<Zenmai>().decreaseTrigger = true;
         }
+    }
+
+    [PunRPC]
+    private void RPCPlayInCassetEfect()
+    {
+        inCassetteEfect.SendEvent("OnPlay");
     }
 }
