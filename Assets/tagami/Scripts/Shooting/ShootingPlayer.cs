@@ -77,7 +77,7 @@ namespace Shooting
 
             if (PhotonNetwork.IsMasterClient)
             {
-                myRb2D.velocity = TetraInput.sTetraPad.GetVector() * moveSpeed * Time.deltaTime;
+                myRb2D.velocity = TetraInput.sTetraPad.GetVector() * moveSpeed;
                 photonTransformView.SetSynchronizedValues(myRb2D.velocity, 0);
             }
 
