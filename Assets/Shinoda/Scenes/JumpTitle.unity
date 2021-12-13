@@ -205,24 +205,16 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 1794991059069389242, guid: e078650c2fa3b424ebf8535f1ae880dc, type: 3}
   m_PrefabInstance: {fileID: 487410577}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2067813688
+--- !u!1001 &1465055968
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 397781568198729803, guid: f0bdddc8c34849d429ed15f01e2f730a, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 500
-      objectReference: {fileID: 0}
     - target: {fileID: 3146935066272666202, guid: f0bdddc8c34849d429ed15f01e2f730a, type: 3}
       propertyPath: m_Text
       value: "\u4E0A\u3092\u76EE\u6307\u305B\uFF01"
-      objectReference: {fileID: 0}
-    - target: {fileID: 3146935066272666202, guid: f0bdddc8c34849d429ed15f01e2f730a, type: 3}
-      propertyPath: m_FontData.m_Alignment
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4241528675117454472, guid: f0bdddc8c34849d429ed15f01e2f730a, type: 3}
       propertyPath: m_Text
@@ -234,7 +226,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6746215790129332420, guid: f0bdddc8c34849d429ed15f01e2f730a, type: 3}
       propertyPath: m_Text
-      value: "\u30B8\u30E3\u30F3\u30D7\u3059\u308B\u65B9\u5411\u6307\u5B9A"
+      value: "\u30B8\u30E3\u30F3\u30D7\u529B\u3068\u65B9\u5411\u3092\u6C7A\u3081\u308B"
       objectReference: {fileID: 0}
     - target: {fileID: 7578475307825508815, guid: f0bdddc8c34849d429ed15f01e2f730a, type: 3}
       propertyPath: m_Sprite
@@ -332,9 +324,5 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 487410578}
-    - target: {fileID: 7728588222470648583, guid: f0bdddc8c34849d429ed15f01e2f730a, type: 3}
-      propertyPath: nextScene.m_SceneName
-      value: JumpNew1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0bdddc8c34849d429ed15f01e2f730a, type: 3}
