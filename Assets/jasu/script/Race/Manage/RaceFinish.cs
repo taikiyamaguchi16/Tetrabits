@@ -103,7 +103,6 @@ public class RaceFinish : MonoBehaviourPunCallbacks
             // ゴール時のみ
             if (racerInfo.lapCounter.goaled && !goaled)
             {
-                goaled = true;
                 if (PhotonNetwork.IsMasterClient)
                 {
                     raceManager.RankingCalculation();
@@ -118,6 +117,8 @@ public class RaceFinish : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPCWhenGoal(int _ranking)
     {
+        goaled = true;
+
         playerInfo.ranking = _ranking;
 
         if (playerInfo.ranking == 1)
