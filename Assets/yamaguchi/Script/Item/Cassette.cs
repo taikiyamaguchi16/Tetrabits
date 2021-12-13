@@ -56,6 +56,11 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
         {
             actionText.text = "すてる";
         }
+
+        if(isClear)
+        {
+            this.gameObject.SetActive(false);
+        }
     }
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
