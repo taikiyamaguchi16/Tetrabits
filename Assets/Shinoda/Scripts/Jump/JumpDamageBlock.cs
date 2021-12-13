@@ -40,7 +40,7 @@ public class JumpDamageBlock : MonoBehaviour
             {
                 anim.SetTrigger("damage");
             }
-            //playerControllerComponent.DamageAnimation();
+            playerControllerComponent.DamageAnimation();
             timeCount = time;
         }
     }
