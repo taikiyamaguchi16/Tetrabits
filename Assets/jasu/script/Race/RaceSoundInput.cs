@@ -18,6 +18,13 @@ public class RaceSoundInput : MonoBehaviour
     [SerializeField]
     RaceStart raceStart;
 
+    [SerializeField]
+    float bgmSwitchSeconds = 1f;
+
+    float bgmSwitchTimer = 0f;
+
+    bool bgmSwitched = true;
+
     // Update is called once per frame
     void Update()
     {
@@ -33,7 +40,27 @@ public class RaceSoundInput : MonoBehaviour
                 if (!leverOn)
                 {
                     leverOn = true;
-                    SimpleAudioManager.PlayBGMCrossFade(bgmLever, 1f);
+                    if (bgmSwitched)
+                    {
+                        bgmSwitchTimer = 0f;
+                        bgmSwitched = false;
+                    }
+                    else
+                    {
+                        bgmSwitched = true;
+                    }
+                }
+                else
+                {
+                    if (!bgmSwitched)
+                    {
+                        bgmSwitchTimer += Time.deltaTime;
+                        if (bgmSwitchTimer >= bgmSwitchSeconds)
+                        {
+                            bgmSwitched = true;
+                            SimpleAudioManager.PlayBGMCrossFade(bgmLever, 1f);
+                        }
+                    }
                 }
             }
             else
@@ -41,7 +68,27 @@ public class RaceSoundInput : MonoBehaviour
                 if (leverOn)
                 {
                     leverOn = false;
-                    SimpleAudioManager.PlayBGMCrossFade(bgm, 1f);
+                    if(bgmSwitched)
+                    {
+                        bgmSwitchTimer = 0f;
+                        bgmSwitched = false;
+                    }
+                    else
+                    {
+                        bgmSwitched = true;
+                    }
+                }
+                else
+                {
+                    if (!bgmSwitched)
+                    {
+                        bgmSwitchTimer += Time.deltaTime;
+                        if (bgmSwitchTimer >= bgmSwitchSeconds)
+                        {
+                            bgmSwitched = true;
+                            SimpleAudioManager.PlayBGMCrossFade(bgm, 1f);
+                        }
+                    }
                 }
             }
         }
