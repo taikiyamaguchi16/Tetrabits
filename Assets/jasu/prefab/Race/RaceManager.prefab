@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9122674639491399778}
   - component: {fileID: 9122674639491399779}
   - component: {fileID: 911848194607409425}
+  - component: {fileID: 741523042945110334}
   - component: {fileID: 1940900105}
   m_Layer: 0
   m_Name: RaceManager
@@ -71,6 +72,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   countDown: {fileID: 0}
+  firstStage: 0
+  bgm: {fileID: 8300000, guid: 9919cc87c98d1334b9ae6c3fdc0f6c2a, type: 3}
 --- !u!114 &911848194607409425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,10 +92,29 @@ MonoBehaviour:
     m_SceneName: RaceGameStage1
   raceManager: {fileID: 9122674639491399778}
   playerInfo: {fileID: 0}
+  racerInfos: []
   textObjWhenWin: {fileID: 0}
   textObjWhenLose: {fileID: 0}
+  textObjWhenLoseOthersGoal: {fileID: 0}
   standBytimeSeconds: 3
   finalStage: 0
+  seWin: {fileID: 8300000, guid: 7bfad034a63788e40848ccd31405d667, type: 3}
+  seLose: {fileID: 8300000, guid: 82514decaa7af4b418d2e4e970ebe3c6, type: 3}
+--- !u!114 &741523042945110334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9122674639491399780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef3aad230c27a224884b4f51b7ad42fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seButton: {fileID: 8300000, guid: fe660e9a196b85d45860b37ed1f1d801, type: 3}
+  bgmLever: {fileID: 8300000, guid: 3a54d21fcf7e002408b465b5305b602b, type: 3}
+  bgm: {fileID: 8300000, guid: 9919cc87c98d1334b9ae6c3fdc0f6c2a, type: 3}
 --- !u!114 &1940900105
 MonoBehaviour:
   m_ObjectHideFlags: 0
