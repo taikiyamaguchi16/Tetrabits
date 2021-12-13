@@ -8,11 +8,12 @@ public class GyroCommonGimmick : MonoBehaviour
     [SerializeField] Sprite onSprite;
 
     [SerializeField] bool offStart = false;
+    [SerializeField] AudioClip switchSE;
 
     SpriteRenderer spriteRenderer;
     BoxCollider2D boxCollider;
 
-    bool leverState = false;
+    //bool leverState = false;
 
     // Start is called before the first frame update
     void Start()
@@ -35,15 +36,21 @@ public class GyroCommonGimmick : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(leverState!= TetraInput.sTetraLever.GetPoweredOn())
+        if(TetraInput.sTetraButton.GetTrigger())
         {
             SwitchGimmick();
         }
-        leverState = TetraInput.sTetraLever.GetPoweredOn();
+
+        //if(leverState!= TetraInput.sTetraLever.GetPoweredOn())
+        //{
+        //    SwitchGimmick();
+        //}
+        //leverState = TetraInput.sTetraLever.GetPoweredOn();
     }
 
     void SwitchGimmick()
     {
+        SimpleAudioManager.PlayOneShot(switchSE);
         if (boxCollider.enabled)
         {
             spriteRenderer.sprite = offSprite;

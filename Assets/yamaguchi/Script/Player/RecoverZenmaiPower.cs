@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class RecoverZenmaiPower : MonoBehaviourPunCallbacks, IPlayerAction
+public class RecoverZenmaiPower : MonoBehaviourPunCallbacks
 {
     Zenmai zenmai;  // ゼンマイ
 
@@ -34,25 +34,25 @@ public class RecoverZenmaiPower : MonoBehaviourPunCallbacks, IPlayerAction
         }
     }
 
-    // アクションインターフェース　スタート
-    void IPlayerAction.StartPlayerAction(PlayerActionDesc _desc)
-    {
-        photonView.RPC(nameof(RPCRecoverZenmaiPower), RpcTarget.All, photonView.ViewID);
+    //// アクションインターフェース　スタート
+    //void IPlayerAction.StartPlayerAction(PlayerActionDesc _desc)
+    //{
+    //    photonView.RPC(nameof(RPCRecoverZenmaiPower), RpcTarget.All, photonView.ViewID);
 
-        _desc.playerObj.GetComponent<PlayerMove>().SetPlayerMovable(false);
-    }
+    //    _desc.playerObj.GetComponent<PlayerMove>().SetPlayerMovable(false);
+    //}
 
-    // アクションインターフェース　エンド
-    void IPlayerAction.EndPlayerAction(PlayerActionDesc _desc)
-    {
-        photonView.RPC(nameof(RPCEndRecoverZenmaiPower), RpcTarget.All, photonView.ViewID);
-        _desc.playerObj.GetComponent<PlayerMove>().SetPlayerMovable(true);
-    }
+    //// アクションインターフェース　エンド
+    //void IPlayerAction.EndPlayerAction(PlayerActionDesc _desc)
+    //{
+    //    photonView.RPC(nameof(RPCEndRecoverZenmaiPower), RpcTarget.All, photonView.ViewID);
+    //    _desc.playerObj.GetComponent<PlayerMove>().SetPlayerMovable(true);
+    //}
 
-    int IPlayerAction.GetPriority()
-    {
-        return 50;
-    }
+    //int IPlayerAction.GetPriority()
+    //{
+    //    return 50;
+    //}
 
     public bool GetIsActionPossible(PlayerActionDesc _desc)
     {

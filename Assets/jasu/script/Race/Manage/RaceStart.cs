@@ -15,6 +15,9 @@ public class RaceStart : MonoBehaviour
     [SerializeField]
     bool firstStage = false;
 
+    [SerializeField]
+    AudioClip bgm;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +33,8 @@ public class RaceStart : MonoBehaviour
         if (countDown.isTimeOut && !started)
         {
             started = true;
-            foreach(var bikeCtrlStartGoal in bikeCtrlStartGoals)
+            SimpleAudioManager.PlayBGMOverride(bgm);
+            foreach (var bikeCtrlStartGoal in bikeCtrlStartGoals)
             {
                 bikeCtrlStartGoal.SetActiveBeforeStart(true);
             }

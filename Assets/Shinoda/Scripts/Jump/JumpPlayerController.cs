@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class JumpPlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
+    SpriteRenderer myRenderer;
     bool isParasol = false;
     bool isJump = false;
     public bool GetJump() { return isJump; }
@@ -13,6 +15,7 @@ public class JumpPlayerController : MonoBehaviour
     Animator animator;
     float beforeVelocityY;
     bool beforeParasol;
+    bool playAnim = false;
 
     [Header("Player")]
     [SerializeField] float jumpForce = 10f;
@@ -22,6 +25,10 @@ public class JumpPlayerController : MonoBehaviour
     [SerializeField] float speedLimit = 5f;
     [SerializeField] bool upOnly;
 
+    [SerializeField] AudioClip BGM;
+    [SerializeField] AudioClip jumpSE;
+    [SerializeField] AudioClip hitSE;
+
     [Header("Arrow")]
     Vector3 originScale;
     [SerializeField] GameObject arrow;
@@ -30,10 +37,12 @@ public class JumpPlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SimpleAudioManager.PlayBGMCrossFade(BGM, 1.0f);
         GameInGameUtil.StartGameInGameTimer("jump");
         rb = this.gameObject.GetComponent<Rigidbody2D>();
         originScale = arrow.transform.localScale;
         animator = GetComponent<Animator>();
+        myRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -93,6 +102,7 @@ public class JumpPlayerController : MonoBehaviour
 
     void Jump(Vector2 _jumpDirection)
     {
+        SimpleAudioManager.PlayOneShot(jumpSE);
         if (upOnly)
         {
             if (padVec.y > 0) rb.AddForce(_jumpDirection * jumpForce, ForceMode2D.Impulse);
@@ -120,5 +130,20 @@ public class JumpPlayerController : MonoBehaviour
         animator.SetBool("jump", false);
         animator.SetBool("close", false);
         animator.SetBool("stand", true);
+    }
+
+    public void DamageAnimation()
+    {
+        if (!playAnim)
+        {
+            playAnim = true;
+            myRenderer.DOColor(new Color(255, 0, 0, 255), 0.3f).OnComplete(() =>
+            {
+                myRenderer.DOColor(new Color(255, 255, 255, 255), 0.3f).OnComplete(() =>
+                {
+                    playAnim = false;
+                });
+            });
+        }
     }
 }

@@ -18,6 +18,10 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
 
     [SerializeField]
     Text actionText;
+
+    [SerializeField]
+    AudioClip BatteryInSE;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -160,6 +164,7 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
 
     private void PlaySparkEfect()
     {
+        SimpleAudioManager.PlayOneShot(BatteryInSE);
         sparkEfects[Random.Range(0, 3)].SendEvent("OnPlay");
     }
 }
