@@ -12,6 +12,8 @@ public class RaceStart : MonoBehaviour
 
     bool started = false;
 
+    public bool GetStarted() { return started; }
+
     [SerializeField]
     bool firstStage = false;
 

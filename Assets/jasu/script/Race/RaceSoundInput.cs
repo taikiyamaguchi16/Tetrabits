@@ -15,30 +15,35 @@ public class RaceSoundInput : MonoBehaviour
     [SerializeField]
     AudioClip bgm;
 
+    [SerializeField]
+    RaceStart raceStart;
+
     // Update is called once per frame
     void Update()
     {
-        if (TetraInput.sTetraButton.GetTrigger())
+        if (raceStart.GetStarted())
         {
-            SimpleAudioManager.PlayOneShot(seButton);
-        }
+            if (TetraInput.sTetraButton.GetTrigger())
+            {
+                SimpleAudioManager.PlayOneShot(seButton);
+            }
 
-        if (TetraInput.sTetraLever.GetPoweredOn())
-        {
-            if (!leverOn)
+            if (TetraInput.sTetraLever.GetPoweredOn())
             {
-                leverOn = true;
-                SimpleAudioManager.PlayBGMCrossFade(bgmLever, 1f);
+                if (!leverOn)
+                {
+                    leverOn = true;
+                    SimpleAudioManager.PlayBGMCrossFade(bgmLever, 1f);
+                }
+            }
+            else
+            {
+                if (leverOn)
+                {
+                    leverOn = false;
+                    SimpleAudioManager.PlayBGMCrossFade(bgm, 1f);
+                }
             }
         }
-        else
-        {
-            if (leverOn)
-            {
-                leverOn = false;
-                SimpleAudioManager.PlayBGMCrossFade(bgm, 1f);
-            }
-        }
-        
     }
 }
