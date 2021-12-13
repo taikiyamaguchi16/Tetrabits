@@ -81,8 +81,8 @@ public class CassetteHolder : MonoBehaviourPunCallbacks, IPlayerAction
 
         foreach(var pla in players)
         {
-            Debug.Log(pla.name);
             pla.GetComponent<Zenmai>().decreaseTrigger = true;
+            pla.GetComponent<CassetteTitleImage>().SetCassetteImageActive(false);
         }
     }
 
