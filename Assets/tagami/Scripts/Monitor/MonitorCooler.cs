@@ -59,6 +59,9 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     [SerializeField] SEAudioClip hitClip;
     GameObject hitFireObjBuff;
     GameObject oldHitFireObjBuff;
+    [SerializeField] AudioSource coolingLaserAudioSource;
+    [SerializeField] float coolingLaserVolumeScale = 0.5f;
+    bool coolingLaserAudioForcePlay;
 
     [Header("Debug")]
     [SerializeField] bool deadBatteryDebugLocal = false;
@@ -263,10 +266,28 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         if (running)
         {
             coolingLaserEffect.Play();
+            coolingLaserAudioForcePlay = true;
+            coolingLaserAudioSource.volume = coolingLaserVolumeScale;
+            coolingLaserAudioSource.Play();
         }
         else
         {
             coolingLaserEffect.Stop();
+            StartCoroutine(CoCoolingLaserFadeOutStop());
+        }
+    }
+    IEnumerator CoCoolingLaserFadeOutStop()
+    {
+        coolingLaserAudioForcePlay = false;
+        while (!coolingLaserAudioForcePlay)
+        {
+            coolingLaserAudioSource.volume -= Time.deltaTime;
+            if (coolingLaserAudioSource.volume <= 0)
+            {
+                coolingLaserAudioSource.volume = 0;
+                break;
+            }
+            yield return null;
         }
     }
 
