@@ -35,11 +35,16 @@ public class GyroCommonGimmick : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(leverState!= TetraInput.sTetraLever.GetPoweredOn())
+        if(TetraInput.sTetraButton.GetTrigger())
         {
             SwitchGimmick();
         }
-        leverState = TetraInput.sTetraLever.GetPoweredOn();
+
+        //if(leverState!= TetraInput.sTetraLever.GetPoweredOn())
+        //{
+        //    SwitchGimmick();
+        //}
+        //leverState = TetraInput.sTetraLever.GetPoweredOn();
     }
 
     void SwitchGimmick()

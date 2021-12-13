@@ -12,7 +12,8 @@ public class JumpDamageBlock : MonoBehaviour
     float timeCount;
     GameObject player;
     GameObject playerFoot;
-    Animator animator;
+    JumpPlayerController playerControllerComponent;
+    [SerializeField] Animator[] animator;
     bool playerOn = false;
 
     // Start is called before the first frame update
@@ -21,9 +22,7 @@ public class JumpDamageBlock : MonoBehaviour
         timeCount = time;
         player = GameObject.Find("JumpMan");
         playerFoot = player.transform.Find("Foot").gameObject;
-        //playerFoot = GameObject.Find("Foot");
-
-        animator = GetComponent<Animator>();
+        playerControllerComponent = player.GetComponent<JumpPlayerController>();
     }
 
     // Update is called once per frame
@@ -37,7 +36,11 @@ public class JumpDamageBlock : MonoBehaviour
             {
                 MonitorManager.DealDamageToMonitor(damage);
             }
-            animator.SetTrigger("damage");
+            foreach (var anim in animator)
+            {
+                anim.SetTrigger("damage");
+            }
+            //playerControllerComponent.DamageAnimation();
             timeCount = time;
         }
     }
