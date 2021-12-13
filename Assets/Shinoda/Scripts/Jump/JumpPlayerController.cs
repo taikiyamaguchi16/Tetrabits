@@ -25,6 +25,10 @@ public class JumpPlayerController : MonoBehaviour
     [SerializeField] float speedLimit = 5f;
     [SerializeField] bool upOnly;
 
+    [SerializeField] AudioClip BGM;
+    [SerializeField] AudioClip jumpSE;
+    [SerializeField] AudioClip hitSE;
+
     [Header("Arrow")]
     Vector3 originScale;
     [SerializeField] GameObject arrow;
@@ -33,6 +37,7 @@ public class JumpPlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SimpleAudioManager.PlayBGMCrossFade(BGM, 1.0f);
         GameInGameUtil.StartGameInGameTimer("jump");
         rb = this.gameObject.GetComponent<Rigidbody2D>();
         originScale = arrow.transform.localScale;
@@ -97,6 +102,7 @@ public class JumpPlayerController : MonoBehaviour
 
     void Jump(Vector2 _jumpDirection)
     {
+        SimpleAudioManager.PlayOneShot(jumpSE);
         if (upOnly)
         {
             if (padVec.y > 0) rb.AddForce(_jumpDirection * jumpForce, ForceMode2D.Impulse);
