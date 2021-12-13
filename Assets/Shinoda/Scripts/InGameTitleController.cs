@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 using Photon.Pun;
 
@@ -15,6 +16,9 @@ public class InGameTitleController : MonoBehaviour
 
     [SerializeField] GameObject titlePanel;
     [SerializeField] GameObject optionPanel;
+    [SerializeField] Text titleText;
+    [SerializeField] Text optionText;
+    [SerializeField] Ease easeType;
 
     [SerializeField] SceneObject nextScene;
     bool loadable = true;
@@ -29,6 +33,7 @@ public class InGameTitleController : MonoBehaviour
         //titlePanel.SetActive(true);
         //optionPanel.SetActive(false);
         if (PhotonNetwork.IsMasterClient) MonitorManager.CallResetNumDebrisInGameMainStage();
+        FlashPressButton();
     }
 
     // Update is called once per frame
@@ -51,5 +56,11 @@ public class InGameTitleController : MonoBehaviour
          {
              state = CanvasState.Option;
          });
+    }
+
+    void FlashPressButton()
+    {
+        titleText.DOFade(0.0f, 1f).SetEase(easeType).SetLoops(-1, LoopType.Yoyo);
+        optionText.DOFade(0.0f, 1f).SetEase(easeType).SetLoops(-1, LoopType.Yoyo);
     }
 }
