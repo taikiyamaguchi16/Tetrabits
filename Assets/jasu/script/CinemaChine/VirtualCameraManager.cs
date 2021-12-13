@@ -100,10 +100,6 @@ public class VirtualCameraManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.R))
-        {
-            ImpulseNoise();
-        }
         //activeDepthOfFieldParam = sActiveDepthOfFieldParam;
         //oldDepthOfFieldParam = sOldDepthOfFieldParam;
 
@@ -206,5 +202,15 @@ public class VirtualCameraManager : MonoBehaviour
     static public void ImpulseNoise()
     {
         sImpulseSource.GenerateImpulse();
+    }
+
+    static public void ImpulseNoise(float _force)
+    {
+        sImpulseSource.GenerateImpulse(_force);
+    }
+
+    static public void ImpulseNoise(Vector3 _velocity)
+    {
+        sImpulseSource.GenerateImpulseAt(Vector3.zero, _velocity);
     }
 }

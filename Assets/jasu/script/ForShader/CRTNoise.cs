@@ -21,6 +21,8 @@ public class CRTNoise : MonoBehaviour
     float noiseTimer = 0f;
 
     [SerializeField, Tooltip("ノイズの継続時間")]
+    float defaultNoiseDuration = 3f;
+
     float noiseDuration = 3f;
 
     [SerializeField]
@@ -71,7 +73,8 @@ public class CRTNoise : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        noiseTimer = noiseDuration;
+        noiseTimer = defaultNoiseDuration;
+        noiseDuration = defaultNoiseDuration;
         randomNoiseTimer = Random.Range(randomNoiseInterval.min, randomNoiseInterval.max);
     }
 
@@ -111,15 +114,28 @@ public class CRTNoise : MonoBehaviour
             }
             else　// 常にノイズ
             {
-                crt.NoiseX = noiseX;
-                crt.RGBNoise = rgbNoise;
-                crt.SinNoiseScale = sinNoiseScale;
-                crt.SinNoiseWidth = sinNoiseWidth;
-                crt.SinNoiseOffset = sinNoiseOffset;
-
                 if (stopNoiseInDuration)
                 {
+                    float halfNoiseDuration = noiseDuration / 2;
+                    if (noiseTimer > halfNoiseDuration)
+                    {
+                        float multiply = 1 - (noiseTimer - halfNoiseDuration) / halfNoiseDuration;
+                        crt.NoiseX = noiseX * multiply;
+                        crt.RGBNoise = rgbNoise * multiply;
+                        crt.SinNoiseScale = sinNoiseScale * multiply;
+                        crt.SinNoiseWidth = sinNoiseWidth * multiply;
+                        crt.SinNoiseOffset = sinNoiseOffset * multiply;
+                    }
+                    else
+                    {
+                        crt.NoiseX = noiseX * noiseTimer / halfNoiseDuration;
+                        crt.RGBNoise = rgbNoise * noiseTimer / halfNoiseDuration;
+                        crt.SinNoiseScale = sinNoiseScale * noiseTimer / halfNoiseDuration;
+                        crt.SinNoiseWidth = sinNoiseWidth * noiseTimer / halfNoiseDuration;
+                        crt.SinNoiseOffset = sinNoiseOffset * noiseTimer / halfNoiseDuration;
+                    }
                     noiseTimer -= Time.deltaTime;
+
                     if (noiseTimer <= 0)
                     {
                         if (afterNoise)
@@ -139,6 +155,14 @@ public class CRTNoise : MonoBehaviour
                         crt.SinNoiseWidth = 0f;
                         crt.SinNoiseOffset = 0f;
                     }
+                }
+                else
+                {
+                    crt.NoiseX = noiseX;
+                    crt.RGBNoise = rgbNoise;
+                    crt.SinNoiseScale = sinNoiseScale;
+                    crt.SinNoiseWidth = sinNoiseWidth;
+                    crt.SinNoiseOffset = sinNoiseOffset;
                 }
             }
 
@@ -187,13 +211,15 @@ public class CRTNoise : MonoBehaviour
         randomNoiseActive = false;
         stopNoiseInDuration = true;
         afterNoise = _afterNoise;
-        noiseTimer = noiseDuration;
+        noiseTimer = defaultNoiseDuration;
+        noiseDuration = defaultNoiseDuration;
     }
 
     public void AlWaysNoiseWithTimeLimit(float _noiseDuration, bool _afterNoise)
     {
         AlWaysNoiseWithTimeLimit(_afterNoise);
         noiseTimer = _noiseDuration;
+        noiseDuration = _noiseDuration;
     }
 
     public void SetNoiseActive(bool _active)
