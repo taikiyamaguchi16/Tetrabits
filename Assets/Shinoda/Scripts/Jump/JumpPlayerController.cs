@@ -134,16 +134,6 @@ public class JumpPlayerController : MonoBehaviour
 
     public void DamageAnimation()
     {
-        if (!playAnim)
-        {
-            playAnim = true;
-            myRenderer.DOColor(new Color(255, 0, 0, 255), 0.3f).OnComplete(() =>
-            {
-                myRenderer.DOColor(new Color(255, 255, 255, 255), 0.3f).OnComplete(() =>
-                {
-                    playAnim = false;
-                });
-            });
-        }
+        myRenderer.DOColor(Color.red, 0.5f).SetEase(Ease.OutFlash, 4, 0.5f);
     }
 }

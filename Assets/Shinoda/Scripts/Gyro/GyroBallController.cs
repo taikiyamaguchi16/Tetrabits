@@ -60,10 +60,31 @@ public class GyroBallController : MonoBehaviour
 
         effectInstanceTransform.rotation = Quaternion.FromToRotation(Vector3.right, rb.velocity);
 
-        if (timeCount >3)
+        float speed = rb.velocity.magnitude;
+        Debug.Log(speed);
+        if (speed < 10)
         {
-            InstanceEffect();
-            timeCount = 0;
+            if (timeCount > 5)
+            {
+                InstanceEffect();
+                timeCount = 0;
+            }
+        }
+        else if (speed > 10 && speed < 30)
+        {
+            if (timeCount > 2.5f)
+            {
+                InstanceEffect();
+                timeCount = 0;
+            }
+        }
+        else if (speed > 30)
+        {
+            if (timeCount > 0.5f)
+            {
+                InstanceEffect();
+                timeCount = 0;
+            }
         }
     }
 
