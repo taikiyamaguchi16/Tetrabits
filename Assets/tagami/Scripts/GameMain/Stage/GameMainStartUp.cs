@@ -80,11 +80,7 @@ public class GameMainStartUp : MonoBehaviour
         //カメラ引くのちょっと待つ
         yield return new WaitForSeconds(1.0f);
 
-
-
         //マテリアルの色あげてく処理
-        SimpleAudioManager.PlayOneShot(emissionStartUpClip);
-
         bool materialLerpLoop = true;
         float timer = 0.0f;
         while (materialLerpLoop)
@@ -111,6 +107,9 @@ public class GameMainStartUp : MonoBehaviour
         {
             indicator.StartUpEmissionIndicator();
         }
+
+        //エミッション起動音
+        SimpleAudioManager.PlayOneShot(emissionStartUpClip);
 
         //色あがりきるの待つ
         yield return new WaitForSeconds(1.0f);

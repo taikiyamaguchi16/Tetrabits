@@ -20,6 +20,9 @@ public class StageDebris : MonoBehaviourPunCallbacks, ICool
     [SerializeField] SpriteRenderer fallingPositionUIRenderer;
     [SerializeField] AnimationCurve fallingPositionUIAlphaCurve;
 
+    [Header("Sound")]
+    [SerializeField] SEAudioClip landClip;
+
     [Header("Effect")]
     [SerializeField] GameObject fireEffect;
     Vector3 fireEffectScaleMax;
@@ -109,6 +112,7 @@ public class StageDebris : MonoBehaviourPunCallbacks, ICool
             //抜ける
             if (fallTimer >= fallSeconds)
             {
+                SimpleAudioManager.PlayOneShot(landClip);
                 break;
             }
             else

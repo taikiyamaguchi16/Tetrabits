@@ -9,6 +9,7 @@ public class MonitorHpLerp : MonoBehaviour
     [SerializeField] Transform endTransform;
 
     [SerializeField] float lerpSingle;
+    float targetLerpSingle;
 
     Vector3 startPosition;
     Vector3 startScale;
@@ -21,9 +22,10 @@ public class MonitorHpLerp : MonoBehaviour
         startScale = transform.localScale;
     }
 
-    public void SetLerpSingle(float _single)
+    private void Update()
     {
-        lerpSingle = _single;
+        //少し遅れて
+        lerpSingle = Mathf.Lerp(lerpSingle, targetLerpSingle, 0.5f);
         if (usePosition)
         {
             transform.position = Vector3.Lerp(endTransform.position, startPosition, lerpSingle);
@@ -34,5 +36,10 @@ public class MonitorHpLerp : MonoBehaviour
             scale.x = Mathf.Lerp(endTransform.localScale.x, startScale.x, lerpSingle);
             transform.localScale = scale;
         }
+    }
+
+    public void SetLerpSingle(float _single)
+    {
+        targetLerpSingle = _single;
     }
 }
