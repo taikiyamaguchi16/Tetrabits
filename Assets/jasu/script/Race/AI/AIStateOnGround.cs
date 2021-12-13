@@ -10,8 +10,8 @@ public class AIStateOnGround : AIState
     [SerializeField]
     GameObject[] otherRacers;
 
-    //[SerializeField]
-    //AISensorDistanceTarget sensorDistanceTarget;
+    [SerializeField]
+    AISensorDistanceTarget sensorDistanceTarget;
 
     [SerializeField]
     DirtSensor dirtSensor;
@@ -31,19 +31,30 @@ public class AIStateOnGround : AIState
     [SerializeField]
     AttitudeCtrlInRace attitudeCtrl;
 
+    [SerializeField]
+    MoveInRace moveInRace;
+
+    [SerializeField]
+    RacerInfo racerInfo;
+
     //[SerializeField]
     //DirtSplashSpawn dirtSplashSpawn;
 
     [SerializeField]
     ColliderSensor colliderSensor = null;
 
+    RacerInfo playerRacerInfo = null;
+
     //[SerializeField]
     //RaceManager raceManager = null;
 
     [Header("パラメータ")]
 
-    //[SerializeField, Tooltip("加速距離")]
-    //float accelerateDistance = 10f;
+    [SerializeField, Tooltip("加速距離")]
+    float accelerateDistance = 100f;
+
+    [SerializeField, Tooltip("加速倍率")]
+    float accelerateMultiply = 1.4f;
 
     //[SerializeField, Tooltip("減速距離")]
     //float decelerateDistance = 10f;
@@ -60,6 +71,11 @@ public class AIStateOnGround : AIState
     //float distanceToPlayer;
 
     List<float> distances = new List<float>();
+
+    private void Start()
+    {
+        playerRacerInfo = playerObj.GetComponent<RacerInfo>();
+    }
 
     public override void StateStart()
     {
@@ -94,7 +110,7 @@ public class AIStateOnGround : AIState
         //    attitudeCtrl.dirRot = 1f;
         //}
 
-        if (dirtSensor.sensorActive)    // 泥あったら減速
+        if (dirtSensor.sensorActive)    // 泥あったらレーン移動
         {
             //attitudeCtrl.dirRot = -1f;
             ShiftLane();
@@ -103,6 +119,17 @@ public class AIStateOnGround : AIState
         if (onSlope)   // 坂道では中速
         {
             attitudeCtrl.dirRot = 0f;
+        }
+
+        // プレイヤーに一定距離以上負けていたら加速
+        if(sensorDistanceTarget.diffToTargetZ > accelerateDistance &&
+            racerInfo.ranking > playerRacerInfo.ranking)
+        {
+            moveInRace.moveSpdMultiply = accelerateMultiply;
+        }
+        else
+        {
+            moveInRace.moveSpdMultiply = 1f;
         }
 
         // レーン移動

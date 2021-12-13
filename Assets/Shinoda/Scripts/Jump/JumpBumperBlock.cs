@@ -55,6 +55,7 @@ public class JumpBumperBlock : MonoBehaviour
         if (collision.gameObject == player)
         {
             playerRb.AddForce(bounceDir.normalized * bouncePower, ForceMode2D.Impulse);
+            animator.SetTrigger("bumper");
         }
     }
 }

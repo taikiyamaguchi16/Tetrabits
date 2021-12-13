@@ -7,8 +7,8 @@ public class CoolerRotater : MonoBehaviourPunCallbacks
 {
     public MonitorCooler monitorCooler;
 
-    Quaternion rotQtX = Quaternion.identity;
-    Quaternion rotQtY = Quaternion.identity;
+    float rotX = 0.0f;
+    float rotY = 0.0f;
 
     float rotateAnglePerSeconds = 45;
     int frameCount = 0;
@@ -25,32 +25,34 @@ public class CoolerRotater : MonoBehaviourPunCallbacks
 
             if (Input.GetKey(KeyCode.A) || XInputManager.GetButtonPress(controlXinputIndex, XButtonType.LThumbStickLeft))
             {
-                rotQtY *= Quaternion.AngleAxis(-rotateAnglePerSeconds * Time.fixedDeltaTime, Vector3.up);
-                //rotateTarget.CallMultiplyRotation(Quaternion.AngleAxis(-rotateAnglePerSeconds * Time.fixedDeltaTime,rotateTarget.transform.up));
+                //rotQtY *= Quaternion.AngleAxis(-rotateAnglePerSeconds * Time.fixedDeltaTime, Vector3.up);
+                rotY += -rotateAnglePerSeconds * Time.fixedDeltaTime;
             }
             if (Input.GetKey(KeyCode.D) || XInputManager.GetButtonPress(controlXinputIndex, XButtonType.LThumbStickRight))
             {
-                rotQtY *= Quaternion.AngleAxis(rotateAnglePerSeconds * Time.fixedDeltaTime, Vector3.up);
-                //rotateTarget.CallMultiplyRotation(Quaternion.AngleAxis(rotateAnglePerSeconds * Time.fixedDeltaTime, rotateTarget.transform.up));
+                //rotQtY *= Quaternion.AngleAxis(rotateAnglePerSeconds * Time.fixedDeltaTime, Vector3.up);
+                rotY += rotateAnglePerSeconds * Time.fixedDeltaTime;
             }
             if (Input.GetKey(KeyCode.W) || XInputManager.GetButtonPress(controlXinputIndex, XButtonType.LThumbStickUp))
             {
-                rotQtX *= Quaternion.AngleAxis(rotateAnglePerSeconds * Time.fixedDeltaTime, Vector3.right);
-                //rotateTarget.CallMultiplyRotation(Quaternion.AngleAxis(-rotateAnglePerSeconds * Time.fixedDeltaTime, rotateTarget.transform.right));
+                //rotQtX *= Quaternion.AngleAxis(rotateAnglePerSeconds * Time.fixedDeltaTime, Vector3.right);
+                rotX += rotateAnglePerSeconds * Time.fixedDeltaTime;
             }
             if (Input.GetKey(KeyCode.S) || XInputManager.GetButtonPress(controlXinputIndex, XButtonType.LThumbStickDown))
             {
-                rotQtX *= Quaternion.AngleAxis(-rotateAnglePerSeconds * Time.fixedDeltaTime, Vector3.right);
-                //rotateTarget.CallMultiplyRotation(Quaternion.AngleAxis(rotateAnglePerSeconds * Time.fixedDeltaTime, rotateTarget.transform.right));
+                //rotQtX *= Quaternion.AngleAxis(-rotateAnglePerSeconds * Time.fixedDeltaTime, Vector3.right);
+                rotX += -rotateAnglePerSeconds * Time.fixedDeltaTime;
             }
 
             frameCount++;
             if (frameCount > 4)
             {
                 frameCount = 0;
-                monitorCooler.CallMultiplyRotation(rotQtX, rotQtY);
-                rotQtX = Quaternion.identity;
-                rotQtY = Quaternion.identity;
+                monitorCooler.CallMultiplyRotation(rotX, rotY);
+                //rotQtX = Quaternion.identity;
+                //rotQtY = Quaternion.identity;
+                rotX = 0.0f;
+                rotY = 0.0f;
             }
 
         }

@@ -7,6 +7,7 @@ public class JumpPlayerController : MonoBehaviour
     Rigidbody2D rb;
     bool isParasol = false;
     bool isJump = false;
+    public bool GetJump() { return isJump; }
     public GameObject lastFlag;
     Vector2 padVec;
     Animator animator;

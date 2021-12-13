@@ -4,18 +4,14 @@ using UnityEngine;
 
 public class ShootingExplosion : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] AudioClip explosionClip;
+
+    private void Start()
     {
-        
+        SimpleAudioManager.PlayOneShot(explosionClip);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    //Anim
     public void Destroy()
     {
         Destroy(gameObject);

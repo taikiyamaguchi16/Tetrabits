@@ -11,6 +11,7 @@ public class BattleshipBoss : MonoBehaviour, IShootingEnemy
     [SerializeField] float moveSpeed = 1.0f;
     [SerializeField] int hpMax = 100;
     int hp;
+  
 
     [Header("Dead")]
     bool isDead;
@@ -25,6 +26,10 @@ public class BattleshipBoss : MonoBehaviour, IShootingEnemy
     [SerializeField] float bulletWidth = 1.0f;
     bool delayShooting;
 
+    [Header("BGM")]
+    [SerializeField] AudioClip bossBGMClip;
+    [SerializeField] AudioClip deadSEClip;
+
     GameObject playerObject;
 
     // Start is called before the first frame update
@@ -33,11 +38,19 @@ public class BattleshipBoss : MonoBehaviour, IShootingEnemy
         movable = true;
         hp = hpMax;
 
+        StartCoroutine(CoPlayBGMLate(bossBGMClip,3.0f));
+
         if(!bothDeadCameraStopper)
         {
             Debug.LogError("Scene上のShootingCameraStopperを設定してください");
         }
     }
+    IEnumerator CoPlayBGMLate(AudioClip _clip,float _lateSeconds)
+    {
+        yield return new WaitForSeconds(_lateSeconds);
+        SimpleAudioManager.PlayBGMOverride(_clip);
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -118,6 +131,8 @@ public class BattleshipBoss : MonoBehaviour, IShootingEnemy
 
     IEnumerator DeadAction()
     {
+        SimpleAudioManager.PlayOneShot(deadSEClip);
+
         //まずは爆破
         int numDeadExplosion = 10;
         for (int i = 0; i < numDeadExplosion; i++)
