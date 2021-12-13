@@ -9968,6 +9968,7 @@ GameObject:
   - component: {fileID: 1024355660}
   - component: {fileID: 1024355659}
   - component: {fileID: 1024355658}
+  - component: {fileID: 1024355661}
   m_Layer: 0
   m_Name: StairsVCam
   m_TagString: Untagged
@@ -10099,6 +10100,21 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 970802561}
+--- !u!114 &1024355661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024355656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
 --- !u!1 &1030303045
 GameObject:
   m_ObjectHideFlags: 0
@@ -14306,6 +14322,7 @@ GameObject:
   - component: {fileID: 1375872743}
   - component: {fileID: 1375872742}
   - component: {fileID: 1375872741}
+  - component: {fileID: 1375872745}
   m_Layer: 0
   m_Name: StageVCam
   m_TagString: Untagged
@@ -14437,6 +14454,21 @@ Transform:
   m_Father: {fileID: 1815132998}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 13, y: 0, z: -0.01}
+--- !u!114 &1375872745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375872740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
 --- !u!1 &1378785462 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1904825074, guid: f5d37d252f524494eb17b46f948b917e, type: 3}
@@ -18000,6 +18032,7 @@ GameObject:
   - component: {fileID: 1741427807}
   - component: {fileID: 1741427806}
   - component: {fileID: 1741427805}
+  - component: {fileID: 1741427809}
   m_Layer: 0
   m_Name: MonitorVCam
   m_TagString: Untagged
@@ -18131,6 +18164,21 @@ Transform:
   m_Father: {fileID: 1815132998}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1741427809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741427804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
 --- !u!1 &1744925997
 GameObject:
   m_ObjectHideFlags: 0
