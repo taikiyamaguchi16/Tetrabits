@@ -12,6 +12,10 @@ public class GetOnClick : MonoBehaviour
     [Header("コントーローラーID")]
     public int controllerID = 0;
 
+    [SerializeField]
+    [Header("カーソル決定音")]
+    AudioClip cursorDecisionSe;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +38,8 @@ public class GetOnClick : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || XInputManager.GetButtonTrigger(controllerID, XButtonType.B))
         {
             cursor.GetCurrentButton().onClick.Invoke();
+
+            SimpleAudioManager.PlayOneShot(cursorDecisionSe);
         }
     }
 }

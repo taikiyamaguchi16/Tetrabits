@@ -301,6 +301,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 512787087}
     m_Modifications:
+    - target: {fileID: 565826748137252545, guid: 04fea50f930a10a4cb276f172d8847ea, type: 3}
+      propertyPath: cursorDecisionSe
+      value: 
+      objectReference: {fileID: 8300000, guid: 616316276949db94398183f025de6280, type: 3}
     - target: {fileID: 2308512266368671692, guid: 04fea50f930a10a4cb276f172d8847ea, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -33
@@ -501,6 +505,14 @@ PrefabInstance:
       propertyPath: moveTime
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7844680526898306864, guid: 04fea50f930a10a4cb276f172d8847ea, type: 3}
+      propertyPath: cursorMoveSe
+      value: 
+      objectReference: {fileID: 8300000, guid: ef66d9f967113894dab03e8868adf64c, type: 3}
+    - target: {fileID: 7844680526898306864, guid: 04fea50f930a10a4cb276f172d8847ea, type: 3}
+      propertyPath: cursorDecisionSe
+      value: 
+      objectReference: {fileID: 8300000, guid: 616316276949db94398183f025de6280, type: 3}
     - target: {fileID: 7844680526898306866, guid: 04fea50f930a10a4cb276f172d8847ea, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -638,6 +650,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1465336091}
   m_CullTransparentMesh: 0
+--- !u!1 &1868608476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1868608478}
+  - component: {fileID: 1868608477}
+  m_Layer: 0
+  m_Name: BGM
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1868608477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1868608476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c94151079e934945bead3c144292e50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmClip: {fileID: 8300000, guid: f972973acd30ca844a4334ab2809a8df, type: 3}
+--- !u!4 &1868608478
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1868608476}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.8784373, y: 43.65157, z: -14.703016}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2042672512
 PrefabInstance:
   m_ObjectHideFlags: 0
