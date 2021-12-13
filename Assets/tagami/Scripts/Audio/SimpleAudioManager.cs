@@ -9,6 +9,9 @@ public class SimpleAudioManager : MonoBehaviour
     [SerializeField] AudioSource bgmAudioSourceA;
     [SerializeField] AudioSource bgmAudioSourceB;
 
+    float currentVolumeScale = 1;
+    float nextVolumeScale = 1;
+
     AudioSource currentBGMAudioSource;
     AudioSource nextBGMAudioSource;
 
@@ -18,10 +21,11 @@ public class SimpleAudioManager : MonoBehaviour
     float crossFadeTimer = 0;
     float crossFadeSeconds;
 
-    [Header("Debug")]
-    [SerializeField] AudioClip bgmA;
-    [SerializeField] AudioClip bgmB;
-
+    //[Header("Debug")]
+    //[SerializeField] bool debugAudio;
+    //[SerializeField] AudioClip bgmA;
+    //[SerializeField] AudioClip bgmB;
+    //[SerializeField] AudioClip seA;
 
     // Start is called before the first frame update
     void Start()
@@ -46,24 +50,32 @@ public class SimpleAudioManager : MonoBehaviour
             if (crossFadeTimer <= 0.0f)
             {
                 currentBGMAudioSource.volume = 0;
-                nextBGMAudioSource.volume = 1;
+                nextBGMAudioSource.volume = nextVolumeScale;
             }
             else
             {
-                currentBGMAudioSource.volume = 1 - (crossFadeTimer / crossFadeSeconds);
-                nextBGMAudioSource.volume = (crossFadeTimer / crossFadeSeconds);
+                currentBGMAudioSource.volume = currentVolumeScale * (1 - (crossFadeTimer / crossFadeSeconds));
+                nextBGMAudioSource.volume = nextVolumeScale * (crossFadeTimer / crossFadeSeconds);
             }
         }
 
-        //if (bgmA && bgmB)
+        //if (debugAudio && bgmA && bgmB)
         //{
         //    if (Input.GetKeyDown("a"))
         //    {
-        //        PlayBGMCrossFade(bgmA, 0.0f);
+        //        MPlayBGMCrossFade(bgmA, 2.0f, 0.1f);
         //    }
         //    if (Input.GetKeyDown("d"))
         //    {
-        //        PlayBGMCrossFade(bgmB, 0.0f);
+        //        MPlayBGMCrossFade(bgmB, 3.0f, 1.0f);
+        //    }
+        //    if (Input.GetKeyDown("s"))
+        //    {
+        //        PlayOneShot(seA, 5.0f);
+        //    }
+        //    if (Input.GetKeyDown("w"))
+        //    {
+        //        PlayOneShot(seA, 1.0f);
         //    }
         //}
     }
@@ -73,8 +85,13 @@ public class SimpleAudioManager : MonoBehaviour
         return seAudioSource;
     }
 
-    void MPlayBGMCrossFade(AudioClip _bgmClip, float _crossFadeSeconds)
+    void MPlayBGMCrossFade(AudioClip _bgmClip, float _crossFadeSeconds, float _volumeScale)
     {
+        if (_volumeScale > 1.0f)
+        {
+            Debug.LogError("velumeScaleは1.0f以上に対応していません");
+        }
+
         //初期設定
         crossFading = true;
         crossFadeTimer = 0.0f;
@@ -97,11 +114,14 @@ public class SimpleAudioManager : MonoBehaviour
         nextBGMAudioSource.clip = _bgmClip;
         nextBGMAudioSource.volume = 0;
         nextBGMAudioSource.Play();
+        nextVolumeScale = _volumeScale;
     }
 
     //*********************************************************
     static SimpleAudioManager sSimpleAudioManager;
 
+    //**********************************************************
+    //PlayOneShot
     public static void PlayOneShot(AudioClip _audioClip)
     {
         if (!sSimpleAudioManager)
@@ -112,7 +132,19 @@ public class SimpleAudioManager : MonoBehaviour
 
         sSimpleAudioManager.GetSEAudioSource()?.PlayOneShot(_audioClip);
     }
+    public static void PlayOneShot(AudioClip _audioClip, float _volumeScale)
+    {
+        if (!sSimpleAudioManager)
+        {
+            Debug.LogError("SimpleAudioManagerが登録されていません");
+            return;
+        }
 
+        sSimpleAudioManager.GetSEAudioSource()?.PlayOneShot(_audioClip, _volumeScale);
+    }
+
+    //**********************************************************
+    //PlayBGMOverride
     public static void PlayBGMOverride(AudioClip _bgmClip)
     {
         if (!sSimpleAudioManager)
@@ -121,9 +153,21 @@ public class SimpleAudioManager : MonoBehaviour
             return;
         }
 
-        sSimpleAudioManager.MPlayBGMCrossFade(_bgmClip, 0.0f);
+        sSimpleAudioManager.MPlayBGMCrossFade(_bgmClip, 0.0f, 1.0f);
+    }
+    public static void PlayBGMOverride(AudioClip _bgmClip, float _volumeScale)
+    {
+        if (!sSimpleAudioManager)
+        {
+            Debug.LogError("SimpleAudioManagerが登録されていません");
+            return;
+        }
+
+        sSimpleAudioManager.MPlayBGMCrossFade(_bgmClip, 0.0f, _volumeScale);
     }
 
+    //**********************************************************
+    //PlayBGMCrossFade
     public static void PlayBGMCrossFade(AudioClip _bgmClip, float _crossFadeSeconds)
     {
         if (!sSimpleAudioManager)
@@ -132,7 +176,17 @@ public class SimpleAudioManager : MonoBehaviour
             return;
         }
 
-        sSimpleAudioManager.MPlayBGMCrossFade(_bgmClip, _crossFadeSeconds);
+        sSimpleAudioManager.MPlayBGMCrossFade(_bgmClip, _crossFadeSeconds, 1.0f);
+    }
+    public static void PlayBGMCrossFade(AudioClip _bgmClip, float _crossFadeSeconds, float _volumeScale)
+    {
+        if (!sSimpleAudioManager)
+        {
+            Debug.LogError("SimpleAudioManagerが登録されていません");
+            return;
+        }
+
+        sSimpleAudioManager.MPlayBGMCrossFade(_bgmClip, _crossFadeSeconds, _volumeScale);
     }
 
 }
