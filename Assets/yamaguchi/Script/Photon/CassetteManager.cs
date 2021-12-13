@@ -28,7 +28,7 @@ public class CassetteManager : MonoBehaviourPunCallbacks
             ca.gameObject.SetActive(false);
             ca.gameObject.transform.parent = null;
         }
-        HideAllCassette();
+        RPCHideAllCassette();
     }
 
     private void Update()
@@ -38,13 +38,19 @@ public class CassetteManager : MonoBehaviourPunCallbacks
             ActiveCassetIsClearOn();
         }
     }
-
+    
     public void SetActiveCassette(Cassette _ca)
     {
         activeCassette = _ca;
     }
 
-    public void HideAllCassette()
+    public void CallHideAllCassette()
+    {
+        photonView.RPC(nameof(RPCHideAllCassette), RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RPCHideAllCassette()
     {
         foreach (var ca in cassetteList)
             ca.gameObject.SetActive(false);
@@ -77,7 +83,14 @@ public class CassetteManager : MonoBehaviourPunCallbacks
 
             activeCassette.GetComponent<Rigidbody>().AddForce(-this.transform.forward * 3f + Vector3.up * 15f,ForceMode.Impulse);
 
-            outCassetteEfect.SendEvent("OnPlay");
+            photonView.RPC(nameof(RPCPlayCassetEfect), RpcTarget.All);
+            //outCassetteEfect.SendEvent("OnPlay");
         }
+    }
+
+    [PunRPC]
+    private void RPCPlayCassetEfect()
+    {
+        outCassetteEfect.SendEvent("OnPlay");
     }
 }
