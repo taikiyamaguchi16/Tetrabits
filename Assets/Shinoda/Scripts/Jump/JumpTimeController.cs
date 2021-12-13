@@ -70,10 +70,10 @@ public class JumpTimeController : MonoBehaviour
     {
         isGoal = true;
         SimpleAudioManager.PlayOneShot(goalSE);
-        gTransform.DOScale(new Vector3(1, 1, 1), 1).SetEase(Ease.Linear);
-        oTransform.DOScale(new Vector3(1, 1, 1), 1).SetDelay(.2f).SetEase(Ease.Linear);
-        aTransform.DOScale(new Vector3(1, 1, 1), 1).SetDelay(.4f).SetEase(Ease.Linear);
-        lTransform.DOScale(new Vector3(1, 1, 1), 1).SetDelay(.6f).SetEase(Ease.Linear).OnComplete(() =>
+        gTransform.DOScale(new Vector3(1, 1, 1), 1.5f).SetEase(Ease.Linear);
+        oTransform.DOScale(new Vector3(1, 1, 1), 1.5f).SetDelay(.3f).SetEase(Ease.Linear);
+        aTransform.DOScale(new Vector3(1, 1, 1), 1.5f).SetDelay(.6f).SetEase(Ease.Linear);
+        lTransform.DOScale(new Vector3(1, 1, 1), 1.5f).SetDelay(.9f).SetEase(Ease.Linear).OnComplete(() =>
            {
                if (finalStage && loadable)
                {

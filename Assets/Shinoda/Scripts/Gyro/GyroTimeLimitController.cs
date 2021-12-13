@@ -71,10 +71,10 @@ public class GyroTimeLimitController : MonoBehaviour
     {
         isGoal = true;
         SimpleAudioManager.PlayOneShot(clearSE);
-        gText.DOColor(new Color(255, 255, 255, 255), 1).SetEase(Ease.Linear);
-        oText.DOColor(new Color(255, 255, 255, 255), 1).SetDelay(.2f).SetEase(Ease.Linear);
-        aText.DOColor(new Color(255, 255, 255, 255), 1).SetDelay(.4f).SetEase(Ease.Linear);
-        lText.DOColor(new Color(255, 255, 255, 255), 1).SetDelay(.6f).SetEase(Ease.Linear).OnComplete(() =>
+        gText.DOColor(new Color(255, 255, 255, 255), 1.5f).SetEase(Ease.InQuint);
+        oText.DOColor(new Color(255, 255, 255, 255), 1.5f).SetDelay(.3f).SetEase(Ease.InQuint);
+        aText.DOColor(new Color(255, 255, 255, 255), 1.5f).SetDelay(.6f).SetEase(Ease.InQuint);
+        lText.DOColor(new Color(255, 255, 255, 255), 1.5f).SetDelay(.9f).SetEase(Ease.InQuint).OnComplete(() =>
            {
                if (finalStage && loadable)
                {
