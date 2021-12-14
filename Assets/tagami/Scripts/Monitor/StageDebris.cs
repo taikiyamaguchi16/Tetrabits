@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class StageDebris : MonoBehaviourPunCallbacks, ICool
+public class StageDebris : MonoBehaviourPunCallbacks
 {
     [Header("Status")]
     [SerializeField] GameObject bodyObject;
@@ -55,7 +55,7 @@ public class StageDebris : MonoBehaviourPunCallbacks, ICool
     public void RPCSetActive(bool _active)
     {
         bodyObject.SetActive(_active);
-        GetComponent<Collider>().enabled = _active;
+        //GetComponent<Collider>().enabled = _active;
 
         if (_active)
         {

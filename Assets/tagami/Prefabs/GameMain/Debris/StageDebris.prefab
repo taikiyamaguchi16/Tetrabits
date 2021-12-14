@@ -9,9 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 472472893684944206}
+  - component: {fileID: 7661129478871769140}
+  - component: {fileID: 4760962101128043030}
   m_Layer: 0
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: CoolingTarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34,6 +36,33 @@ Transform:
   m_Father: {fileID: 1060766425239595762}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7661129478871769140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192563429935978680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf334d77b12482142be7d435fd6cf731, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageDebris: {fileID: 4093512745827785090}
+--- !u!136 &4760962101128043030
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192563429935978680}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &447284778558692032
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,7 +170,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 47dc21f688cbce94abcf9e81b8365223, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ab955f47587dc73478359010b11123a0, type: 3}
   m_Color: {r: 1, g: 0.94493365, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -243,12 +272,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1060766425239595762}
-  - component: {fileID: 7662856516548081025}
   - component: {fileID: 4093512745827785090}
   - component: {fileID: 1142619420966693760}
   m_Layer: 0
   m_Name: StageDebris
-  m_TagString: CoolingTarget
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -269,19 +297,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7662856516548081025
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2576885838876897046}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4093512745827785090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,7 +568,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: b3fcb998a3fd34b4a90e499eda9eac1e, type: 3}
     volumeScale: 1
   fireEffect: {fileID: 2667729677054355641}
-  fireEffectScaleMinMultiplier: 0.3
+  fireEffectScaleMinMultiplier: 0.5
 --- !u!114 &1142619420966693760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1290,15 +1305,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4267080101833516639, guid: 4a1468ec3ef476b4682f64698116042f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 4267080101833516639, guid: 4a1468ec3ef476b4682f64698116042f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 4267080101833516639, guid: 4a1468ec3ef476b4682f64698116042f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.5
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 4267080101833516639, guid: 4a1468ec3ef476b4682f64698116042f, type: 3}
       propertyPath: m_LocalPosition.x
