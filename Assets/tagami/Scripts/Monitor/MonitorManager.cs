@@ -36,6 +36,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     [SerializeField] List<VisualEffect> nextStageEffects;
     [SerializeField] float playNextStageEffectIntervalSeconds = 0.5f;
     [SerializeField] SEAudioClip monitorBreakClip;
+    [SerializeField] Vector3 monitorImpulseVector;
 
     [Header("Monitor Damage Callback")]
     [SerializeField] UnityEvent monitorDamageEvent;
@@ -49,6 +50,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     [Header("Cooling Target Prefabs")]
     [SerializeField] List<KeyGameObject> coolingTargetPrefabs;
     List<GameObject> createdCoolingTargets = new List<GameObject>();
+    [SerializeField] Vector3 coolingTargetCameraImpulse;
 
     [Header("Stage Debris")]
     [SerializeField] List<StageDebris> stageDebrisList;
@@ -191,6 +193,8 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.InstantiateRoomObject("GameMain/Monitor/" + prefab.name, _damagePosition, Quaternion.identity);
         }
+        //ちょっとカメラ揺らす
+        VirtualCameraManager.ImpulseNoise(coolingTargetCameraImpulse);
 
         //**********************************************************
         //実際のダメージ処理
@@ -277,6 +281,9 @@ public class MonitorManager : MonoBehaviourPunCallbacks
 
         //音を鳴らす
         SimpleAudioManager.PlayOneShot(monitorBreakClip);
+
+        //カメラを揺らす
+        VirtualCameraManager.ImpulseNoise(monitorImpulseVector);
 
         //次の破壊段階へ進める 
         //現在のモデルを非アクティブにし、次の段階のモデルをアクティブにする

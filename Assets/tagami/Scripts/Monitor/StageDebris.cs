@@ -14,6 +14,7 @@ public class StageDebris : MonoBehaviourPunCallbacks
     [SerializeField] float fallOffsetY = 10.0f;
     [SerializeField] float fallSeconds = 1.0f;
     Vector3 bodyEndLocalPosition;
+    [SerializeField] Vector3 landCameraImpulse;
 
     [Header("FallingUI")]
     [SerializeField] float flashSeconds = 5.0f;
@@ -125,7 +126,10 @@ public class StageDebris : MonoBehaviourPunCallbacks
             //抜ける
             if (fallTimer >= fallSeconds)
             {
+                //着地音
                 SimpleAudioManager.PlayOneShot(landClip);
+                //カメラ揺らす
+                VirtualCameraManager.ImpulseNoise(landCameraImpulse);
                 break;
             }
             else
