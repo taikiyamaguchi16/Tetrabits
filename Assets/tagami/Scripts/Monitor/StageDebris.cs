@@ -22,6 +22,7 @@ public class StageDebris : MonoBehaviourPunCallbacks
 
     [Header("Sound")]
     [SerializeField] SEAudioClip landClip;
+    [SerializeField] SEAudioClip alertClip;
 
     [Header("Effect")]
     [SerializeField] GameObject fireEffect;
@@ -75,6 +76,9 @@ public class StageDebris : MonoBehaviourPunCallbacks
 
         //UI点滅
         float uiTimer = 0.0f;
+        bool playAlert = false;
+        bool oldPlayAlert = false;
+
         while (true)
         {
             uiTimer += Time.deltaTime;
@@ -87,6 +91,15 @@ public class StageDebris : MonoBehaviourPunCallbacks
             color.a = fallingPositionUIAlphaCurve.Evaluate(uiTimer / flashSeconds);
             fallingPositionUIRenderer.color = color;
 
+            //ピ
+            oldPlayAlert = playAlert;
+            playAlert = fallingPositionUIAlphaCurve.Evaluate(uiTimer / flashSeconds) > 0.95f;         
+            if (playAlert && !oldPlayAlert)
+            {
+                SimpleAudioManager.PlayOneShot(alertClip);
+            }
+
+            //終了条件
             if (uiTimer >= flashSeconds)
             {
                 break;
