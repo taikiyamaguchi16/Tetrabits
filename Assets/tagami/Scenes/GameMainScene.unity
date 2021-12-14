@@ -2091,6 +2091,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: aab203862460cb348b88abbfe215b03a, type: 3}
     volumeScale: 1
   coolingLaserAudioSource: {fileID: 198004689}
+  coolingLaserVolumeScale: 0.5
   deadBatteryDebugLocal: 0
 --- !u!65 &198004687
 BoxCollider:
@@ -12239,7 +12240,7 @@ MonoBehaviour:
   gameInGameScenesOnDebugWindow:
   - sceneAsset: {fileID: 102900000, guid: fce0bef3e33adc942bfb94d30da8e873, type: 3}
     required: 0
-    buildIndex: 16
+    buildIndex: -1
   - sceneAsset: {fileID: 102900000, guid: 66e458efcfe8ddc448705adc4baa8456, type: 3}
     required: 0
     buildIndex: 20
@@ -12341,7 +12342,7 @@ MonoBehaviour:
   tutorialScene:
     sceneAsset: {fileID: 102900000, guid: 209f88a35cf7c624d834a2b63ba0064d, type: 3}
     required: 0
-    buildIndex: 31
+    buildIndex: -1
   initialColor: {r: 0, g: 0, b: 0, a: 1}
   materialLerpSeconds: 1
   startUpRenderers: []
@@ -12358,6 +12359,7 @@ MonoBehaviour:
   - {fileID: 807357323}
   - {fileID: 890106494}
   - {fileID: 508494178}
+  - {fileID: 5568306287274073757}
   emissionStartUpClip: {fileID: 8300000, guid: 1c943617081aebf4490c0b4a5044775b, type: 3}
   startUpLights:
   - {fileID: 2117064206}
@@ -21920,6 +21922,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
+--- !u!114 &5568306287274073757 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1202500601, guid: 385534ee1a595fd488c160ae329da0e0, type: 3}
+  m_PrefabInstance: {fileID: 5568306287274073756}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e872673ddadd1bc4b835116c4b2c1cde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7588637293568976410
 PrefabInstance:
   m_ObjectHideFlags: 0

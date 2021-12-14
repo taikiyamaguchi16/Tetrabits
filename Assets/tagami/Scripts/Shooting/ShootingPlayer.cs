@@ -100,7 +100,7 @@ namespace Shooting
                     switch (TetraInput.sTetraPad.GetNumOnPad())
                     {
                         case 0:
-                            //何もしない
+                            CallShotBullet(Vector3.zero, Vector3.right * bulletSpeed);
                             break;
                         case 1:
                             CallShotBullet(Vector3.zero, Vector3.right * bulletSpeed);
