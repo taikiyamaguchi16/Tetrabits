@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.VFX;
 
 public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
 {
@@ -18,10 +19,18 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
     //経過時間
     private float elpsedTime;
 
+    //エフェクト再生からの経過時間
+    private float elpsedEfectTime;
+    //エフェクト再生から何秒でとれるか
+    [SerializeField]
+    float canBatteryActionTime;
+
+    private bool isPlayEfect;
+
     [SerializeField]
     BatteryLift batteryLift;
     [SerializeField]
-    ParticleSystem smokeEfect;
+    VisualEffect smokeEfect;
     //生成可能かどうか
     private bool canSpawn;
     // Start is called before the first frame update
@@ -60,12 +69,13 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
                 }          
             }
         }
+        elpsedEfectTime += Time.deltaTime;
     }
 
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
         //エフェクト再生中には取れないように
-        if (smokeEfect.isStopped)
+        if (elpsedEfectTime>canBatteryActionTime)
         {
             photonView.RPC(nameof(RPCSpownerBatteryAction), RpcTarget.AllBufferedViaServer, _desc.playerObj.GetPhotonView().ViewID);   
         }
@@ -78,9 +88,8 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
 
     public bool GetIsActionPossible(PlayerActionDesc _desc)
     {
-        
         //エフェクト再生中には取れないように
-        if (smokeEfect.isStopped)
+        if (elpsedEfectTime > canBatteryActionTime)
         {
             ItemPocket otherPocket = _desc.playerObj.GetComponent<ItemPocket>();
             //プレイヤーが何も持っていない場合
@@ -126,12 +135,15 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
     public void RPCPlaySmokeEfect()
     {
         //エフェクトの再生
-        smokeEfect.Play();
+        smokeEfect.SendEvent("OnPlay");
+        isPlayEfect = true;
+        elpsedEfectTime = 0f;
     }
 
     [PunRPC]
     public void RPCStolenOwnBattery()
     {
+        //保持しているバッテリーを放棄
         pocket.SetItem(null);
         ownBattery = null;
     }
@@ -150,6 +162,9 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
                 {
                     ownBattery.CallPickUp(_id);
                     photonView.RPC(nameof(RPCStolenOwnBattery), RpcTarget.All);
+
+                    //エフェクトの経過時間をリセット                    
+                    isPlayEfect = false;
                 }
             }
 

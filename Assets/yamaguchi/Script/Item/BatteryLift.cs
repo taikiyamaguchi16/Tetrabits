@@ -31,7 +31,6 @@ public class BatteryLift : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        //lightMesh.material.EnableKeyword("_EMISSION");
         blinkFg = false;
         nowBlinkingFg = false;
     }
