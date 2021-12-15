@@ -11,15 +11,25 @@ public class GameInGameResultManager : MonoBehaviour
     [SerializeField] Transform initialResultObjectPosition;
     [SerializeField] Vector3 resultObjectOffset;
 
-    [Header("Next Scene")]
-    [SerializeField] SceneObject nextScene;
+    [Header("AllClear")]
+    [SerializeField] Trisibo.SceneField allClearScene;
+    [SerializeField] float loadAllClearSceneWaitSeconds = 5.0f;
+
+    [Header("GameOver")]
+    [SerializeField] GameObject reloadText;
+    [SerializeField] float reloadTextWaitSeconds = 5.0f;
+
+    //[Header("Next Scene")]
+    //[SerializeField] SceneObject nextScene;
+
+    bool gameInGameAllCleared;
+    bool fixedMonitorCamera = true;
 
     [Header("Debug")]
     [SerializeField] bool useDebugResult;
 
     private void Start()
-    {       
-
+    {
         List<GameMainManager.GameInGameTimer> gameInGameTimers = new List<GameMainManager.GameInGameTimer>();
         if (useDebugResult)
         {//Debug用データ用意
@@ -94,33 +104,60 @@ public class GameInGameResultManager : MonoBehaviour
                 resultObjectPosition += resultObjectOffset;
             }
         }
-    }//update
+
+        //すべてのゲームをクリアしているかどうか
+        CassetteManager outCassetteManager;
+        if (GameInGameUtil.TryGetCassetteManager(out outCassetteManager))
+        {
+            if (outCassetteManager.CheckAllCassette())
+            {
+                gameInGameAllCleared = true;
+            }
+        }
+
+        if (gameInGameAllCleared)
+        {
+            StartCoroutine(CoAllClear());
+        }
+        else
+        {
+            StartCoroutine(CoGameOver());
+        }
+
+    }//start
+
+    IEnumerator CoAllClear()
+    {
+        yield return new WaitForSeconds(loadAllClearSceneWaitSeconds);
+
+        if (Photon.Pun.PhotonNetwork.IsMasterClient)
+        {
+            GameInGameUtil.SwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(allClearScene.BuildIndex));
+        }
+    }
+
+    IEnumerator CoGameOver()
+    {
+        yield return new WaitForSeconds(reloadTextWaitSeconds);
+        reloadText.SetActive(true);
+
+        while (true)
+        {
+            if ((XInputManager.GetButtonTrigger(0, XButtonType.A) || Input.GetKeyDown(KeyCode.Return)))
+            {
+                GameInGameUtil.DisconnectAndReloadGameMain();
+            }
+            yield return null;
+        }
+    }
 
     // Update is called once per frame
     void Update()
     {
-        //カメラよる
-        VirtualCameraManager.OnlyActive(0);
-
-        if ((XInputManager.GetButtonTrigger(0, XButtonType.A) || Input.GetKeyDown(KeyCode.Return)))
+        //カメラ固定
+        if (fixedMonitorCamera)
         {
-            //コンテナをクリア
-            NetworkObjContainer.NetworkObjDictionary.Clear();
-
-            //ルーム解散処理？
-            Photon.Pun.PhotonNetwork.LeaveRoom();
-            Photon.Pun.PhotonNetwork.LeaveLobby();
-            Photon.Pun.PhotonNetwork.Disconnect();
-
-
-            //12/6 田上　初期化とか面倒すぎるのでコメントアウト
-            //オフライン関数でタイトルへ戻る
-            //GameInGameUtil.SwitchGameInGameSceneOffline(nextScene);
-
-
-            //GameMainの再読み込み
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
+            VirtualCameraManager.OnlyActive(0);
         }
     }
 }

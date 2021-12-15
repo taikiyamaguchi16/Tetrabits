@@ -276,8 +276,13 @@ MonoBehaviour:
   - {fileID: 1792733513}
   initialResultObjectPosition: {fileID: 1231629955}
   resultObjectOffset: {x: 0, y: -1.7, z: 0}
-  nextScene:
-    m_SceneName: Title
+  allClearScene:
+    sceneAsset: {fileID: 102900000, guid: 5659ad0e9b3d6a5418d8152c11998a66, type: 3}
+    required: 0
+    buildIndex: 39
+  loadAllClearSceneWaitSeconds: 5
+  reloadText: {fileID: 1548425701}
+  reloadTextWaitSeconds: 5
   useDebugResult: 0
 --- !u!4 &318982649
 Transform:
@@ -803,12 +808,12 @@ GameObject:
   - component: {fileID: 1548425704}
   - component: {fileID: 1548425703}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ReloadText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1548425702
 RectTransform:
   m_ObjectHideFlags: 0
