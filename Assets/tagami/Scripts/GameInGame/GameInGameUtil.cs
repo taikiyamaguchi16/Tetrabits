@@ -87,4 +87,46 @@ public class GameInGameUtil : MonoBehaviour
             Debug.LogError("GameMainManagerが見つかりませんでした");
         }
     }
+
+    public static void DisconnectAndReloadGameMain()
+    {
+        //コンテナをクリア
+        NetworkObjContainer.NetworkObjDictionary.Clear();
+
+        //ルーム解散処理？
+        Photon.Pun.PhotonNetwork.LeaveRoom();
+        Photon.Pun.PhotonNetwork.LeaveLobby();
+        Photon.Pun.PhotonNetwork.Disconnect();
+
+
+        //12/6 田上　初期化とか面倒すぎるのでコメントアウト
+        //オフライン関数でタイトルへ戻る
+        //GameInGameUtil.SwitchGameInGameSceneOffline(nextScene);
+
+
+        //GameMainの再読み込み
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public static bool TryGetCassetteManager(out CassetteManager _cassetteManager)
+    {
+        _cassetteManager = null;
+
+        var obj = GameObject.Find("CassetteHolder");
+        if (!obj)
+        {
+            Debug.LogError("CassetteHolderオブジェクトが見つかりませんでした");
+            return false;
+        }
+
+        var cassetteManager = obj.GetComponent<CassetteManager>();
+        if (!cassetteManager)
+        {
+            Debug.LogError("CassetteManagerを取得できませんでした");
+            return false;
+        }
+
+        _cassetteManager = cassetteManager;
+        return true;
+    }
 }
