@@ -13,11 +13,17 @@ public class RainbowSprite : MonoBehaviour
     [SerializeField]
     float matlight = 0.5f;
 
+    [SerializeField]
+    bool activeWhenStart = false;
+
     // Start is called before the first frame update
     void Start()
     {
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (activeWhenStart)
+            active = true;
     }
 
     // Update is called once per frame

@@ -105,7 +105,7 @@ public class SlipSensorForPlayer : OnDirt
         {
             if (!bikeSlipDown.isSliping)
             {
-                Debug.Log("敵にぶつかった");
+                //Debug.Log("敵にぶつかった");
                 bikeSlipDown.SlipStart("small");
             }
             return;

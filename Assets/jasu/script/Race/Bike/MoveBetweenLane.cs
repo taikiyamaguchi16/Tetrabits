@@ -35,6 +35,10 @@ public class MoveBetweenLane : MonoBehaviour
 
     public int dirMove { get; set; } = 0;
 
+    [SerializeField]
+    bool contactSlope = false;
+
+    List<GameObject> contactSlopeList = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -67,13 +71,46 @@ public class MoveBetweenLane : MonoBehaviour
             }
             else
             {
-                if (DirX > 0)
+                //Vector3 rayPosition = transform.position;
+                //rayPosition.y -= 0.8f;
+                //Ray ray = new Ray(rayPosition, Vector3.right);
+                //if (Physics.Raycast(ray, out RaycastHit rightHitInfo, 1f))
+                //{
+                //    if (rightHitInfo.transform.tag == "FlatRoadInRace" ||
+                //        rightHitInfo.transform.tag == "SlopeRoadInRace")
+                //        contactSlope = true;
+                //}
+                //else
+                //{
+                //    ray = new Ray(rayPosition, Vector3.left);
+                //    if (Physics.Raycast(ray, out RaycastHit leftHitInfo, 1f))
+                //    {
+                //        if (leftHitInfo.transform.tag == "FlatRoadInRace" ||
+                //                leftHitInfo.transform.tag == "SlopeRoadInRace")
+                //            contactSlope = true;
+                //    }
+                //    else
+                //    {
+                //        contactSlope = false;
+                //    }
+                //}
+
+                //velo = rb.velocity;
+
+                if (contactSlope)
                 {
-                    rb.velocity = new Vector3(spd, rb.velocity.y, rb.velocity.z);
+                    rb.velocity = new Vector3(0f, rb.velocity.y, rb.velocity.z);
                 }
                 else
                 {
-                    rb.velocity = new Vector3(-spd, rb.velocity.y, rb.velocity.z);
+                    if (DirX > 0)
+                    {
+                        rb.velocity = new Vector3(spd, rb.velocity.y, rb.velocity.z);
+                    }
+                    else
+                    {
+                        rb.velocity = new Vector3(-spd, rb.velocity.y, rb.velocity.z);
+                    }
                 }
             }
         }
@@ -97,6 +134,28 @@ public class MoveBetweenLane : MonoBehaviour
             {
                 belongingLaneId = _laneId;
                 arrivalLane = false;
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "SlopeRoadInRace")
+        {
+            contactSlopeList.Add(collision.gameObject);
+            contactSlope = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "SlopeRoadInRace")
+        {
+            contactSlopeList.Remove(collision.gameObject);
+            if(contactSlopeList.Count <= 0)
+            {
+                contactSlopeList.Clear();
+                contactSlope = false;
             }
         }
     }

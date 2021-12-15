@@ -233,7 +233,7 @@ MonoBehaviour:
   moveSpdStandard: 85
   accelerateMultiply: 1.12
   decelerateMultiply: 0.7
-  moveSlopeMultiply: 1.2
+  moveSlopeMultiply: 2.5
   moveForceMultiplyStart: 2
   moveForceMultiplyStop: 1
   rotLateSlope: 0.25
@@ -260,6 +260,7 @@ MonoBehaviour:
   bikeSlipDown: {fileID: 5219267999466606608}
   colliderSensor: {fileID: 3019873534829246529}
   spd: 30
+  contactSlope: 0
 --- !u!114 &396231687437029225
 MonoBehaviour:
   m_ObjectHideFlags: 0

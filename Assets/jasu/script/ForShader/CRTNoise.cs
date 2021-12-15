@@ -70,6 +70,11 @@ public class CRTNoise : MonoBehaviour
     // 
     bool afterNoise = false;
 
+    [Header("SE")]
+
+    [SerializeField]
+    AudioClip noiseSound;
+
     // Start is called before the first frame update
     void Start()
     {
