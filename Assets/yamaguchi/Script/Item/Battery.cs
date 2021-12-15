@@ -51,7 +51,7 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         }
         else
         {
-            actionText.text = "すてる";
+            actionText.text = "投げる";
         }
 
         if (PhotonNetwork.IsMasterClient)
