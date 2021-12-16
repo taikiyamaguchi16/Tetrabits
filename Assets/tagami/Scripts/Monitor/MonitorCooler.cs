@@ -55,6 +55,14 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
     [Header("Indicator")]
     [SerializeField] List<EmissionIndicator> emissionIndicatorList;
 
+    [Header("Sound")]
+    [SerializeField] SEAudioClip hitClip;
+    GameObject hitFireObjBuff;
+    GameObject oldHitFireObjBuff;
+    [SerializeField] AudioSource coolingLaserAudioSource;
+    [SerializeField] float coolingLaserVolumeScale = 0.5f;
+    bool coolingLaserAudioForcePlay;
+
     [Header("Debug")]
     [SerializeField] bool deadBatteryDebugLocal = false;
 
@@ -84,6 +92,9 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
             batteryHolder.ConsumptionOwnBattery(consumeBatteryPerSeconds * Time.deltaTime);
 
             bool setHitPoint = false;
+
+            //初期化
+            hitFireObjBuff = null;
 
             //レイとばして冷却ターゲット削除        
             //11/19 なんかforwardの逆にレイが飛んでるっぽい
@@ -140,6 +151,8 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
                         Debug.LogError("CoolingTargetObjectにはICoolを継承したコンポーネントをアタッチしてください");
                     }
 
+                    hitFireObjBuff = hit.collider.gameObject;
+
                     //coolingtargetに一回でもあたったら終了
                     break;
                 }
@@ -154,6 +167,13 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         //回転処理
         rotateXTransform.localRotation = Quaternion.Slerp(rotateXTransform.localRotation, endQtX, 0.1f);
         rotateYTransform.localRotation = Quaternion.Slerp(rotateYTransform.localRotation, endQtY, 0.1f);
+
+        //ヒット音
+        if (hitFireObjBuff && hitFireObjBuff != oldHitFireObjBuff)
+        {
+            SimpleAudioManager.PlayOneShot(hitClip);
+        }
+        oldHitFireObjBuff = hitFireObjBuff;
 
         //インジケーター
         if (batteryHolder && batteryHolder.GetBatterylevel() > 0)
@@ -246,10 +266,28 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         if (running)
         {
             coolingLaserEffect.Play();
+            coolingLaserAudioForcePlay = true;
+            coolingLaserAudioSource.volume = coolingLaserVolumeScale;
+            coolingLaserAudioSource.Play();
         }
         else
         {
             coolingLaserEffect.Stop();
+            StartCoroutine(CoCoolingLaserFadeOutStop());
+        }
+    }
+    IEnumerator CoCoolingLaserFadeOutStop()
+    {
+        coolingLaserAudioForcePlay = false;
+        while (!coolingLaserAudioForcePlay)
+        {
+            coolingLaserAudioSource.volume -= Time.deltaTime;
+            if (coolingLaserAudioSource.volume <= 0)
+            {
+                coolingLaserAudioSource.volume = 0;
+                break;
+            }
+            yield return null;
         }
     }
 
@@ -266,7 +304,7 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
         {
             _deltaRotX = rotateXMax - rotateX;
         }
-        else if(judgeRotX<rotateXMin)
+        else if (judgeRotX < rotateXMin)
         {
             _deltaRotX = rotateXMin - rotateX;
         }

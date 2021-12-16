@@ -161,16 +161,16 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
 
     IEnumerator CoGameOver()
     {       
-        if (PhotonNetwork.IsMasterClient)
-        {
-            MonitorManager.DealDamageToMonitor("large");
-        }
+        //12/14　でか炎出すの無し
+        //if (PhotonNetwork.IsMasterClient)
+        //{
+        //    MonitorManager.DealDamageToMonitor("large");
+        //}
 
         //ゲームオーバーUI表示
         gameoverUIObject.SetActive(true);
 
         yield return new WaitForSeconds(gameoverDispSeconds);
-
        
         if (PhotonNetwork.IsMasterClient)
         {

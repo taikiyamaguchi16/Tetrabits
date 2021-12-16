@@ -56,8 +56,8 @@ public class CountDown : MonoBehaviour
                         playedSe = true;
                         SimpleAudioManager.PlayOneShot(seCountDown);
                     }
-                    text.text = ((int)countDownTimer + 1).ToString();
                 }
+                text.text = ((int)countDownTimer + 1).ToString();
             }
         }
         else

@@ -27,6 +27,7 @@ public class FanRotater : MonoBehaviour
     public void StartUpRotating()
     {
         rotating = true;
+        GetComponent<AudioSource>().Play();
     }
 
 }

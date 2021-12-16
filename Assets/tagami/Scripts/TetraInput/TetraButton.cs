@@ -21,6 +21,9 @@ public class TetraButton : MonoBehaviourPunCallbacks
     [SerializeField] float stdYSpring = 5000.0f;
     [SerializeField, Tooltip("この値よりボタンと土台のY値の差分が低くなった時ボタンが押されます")] float pressableDifferenceY = 0;
 
+    [Header("Sound")]
+    [SerializeField] SEAudioClip pressClip;
+
     [Header("Indicator")]
     [SerializeField] List<EmissionIndicator> emissionIndicators;
 
@@ -63,7 +66,8 @@ public class TetraButton : MonoBehaviourPunCallbacks
                 smokeEffect.Play();
                 batteryHolder.ConsumptionOwnBattery(batteryConsumptionOnPressed);
                 testCounter++;
-                Debug.Log(testCounter + "回 button pressed!");
+                //Debug.Log(testCounter + "回 button pressed!");
+                SimpleAudioManager.PlayOneShot(pressClip);
             }
 
             //エミッション処理

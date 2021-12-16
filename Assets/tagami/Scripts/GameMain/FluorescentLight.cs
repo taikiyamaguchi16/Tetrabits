@@ -5,15 +5,18 @@ using UnityEngine;
 [RequireComponent(typeof(Light))]
 public class FluorescentLight : MonoBehaviour
 {
-   
+    [Header("Status")]
     [SerializeField] AnimationCurve intensityCurve;
     [SerializeField] float flickeringSeconds = 1.0f;
     float intensityMultiplier;
     float flickeringTimer;
     bool isFlickering;
+    [SerializeField] AudioClip flickingClip;
 
+
+    [Header("Loop")]
     [SerializeField] bool occasionallyFlickering;
-    [SerializeField] float OccasionallyFlickeringSeconds=10.0f;
+    [SerializeField] float OccasionallyFlickeringSeconds = 10.0f;
     Light myLight;
 
     // Start is called before the first frame update
@@ -40,9 +43,6 @@ public class FluorescentLight : MonoBehaviour
     {
         if (flickeringSeconds <= 0) return;
 
-       
-
-
         if (isFlickering)
         {
             flickeringTimer += Time.deltaTime;
@@ -57,13 +57,17 @@ public class FluorescentLight : MonoBehaviour
             {
                 //明るさを変更する
                 myLight.intensity = intensityCurve.Evaluate(flickeringTimer / flickeringSeconds) * intensityMultiplier;
-            }         
+            }
         }
     }
 
     public void StartFlickering()
     {
         isFlickering = true;
+        if (flickingClip)
+        {
+            SimpleAudioManager.PlayOneShot(flickingClip);
+        }
     }
 
     private IEnumerator OccasionallyFlickeringLoop(float _seconds)

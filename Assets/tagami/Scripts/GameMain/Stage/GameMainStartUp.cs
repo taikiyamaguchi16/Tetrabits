@@ -14,7 +14,7 @@ public class GameMainStartUp : MonoBehaviour
     [SerializeField] float materialLerpSeconds = 1.0f;
     [SerializeField] List<Renderer> startUpRenderers;
     [SerializeField] List<EmissionIndicator> emissionIndicators;
-
+    [SerializeField] AudioClip emissionStartUpClip;
 
     [Header("Enable Lights")]
     [SerializeField] List<Light> startUpLights;
@@ -107,6 +107,9 @@ public class GameMainStartUp : MonoBehaviour
         {
             indicator.StartUpEmissionIndicator();
         }
+
+        //エミッション起動音
+        SimpleAudioManager.PlayOneShot(emissionStartUpClip);
 
         //色あがりきるの待つ
         yield return new WaitForSeconds(1.0f);

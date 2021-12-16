@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class StageDebris : MonoBehaviourPunCallbacks, ICool
+public class StageDebris : MonoBehaviourPunCallbacks
 {
     [Header("Status")]
     [SerializeField] GameObject bodyObject;
@@ -14,11 +14,16 @@ public class StageDebris : MonoBehaviourPunCallbacks, ICool
     [SerializeField] float fallOffsetY = 10.0f;
     [SerializeField] float fallSeconds = 1.0f;
     Vector3 bodyEndLocalPosition;
+    [SerializeField] Vector3 landCameraImpulse;
 
     [Header("FallingUI")]
     [SerializeField] float flashSeconds = 5.0f;
     [SerializeField] SpriteRenderer fallingPositionUIRenderer;
     [SerializeField] AnimationCurve fallingPositionUIAlphaCurve;
+
+    [Header("Sound")]
+    [SerializeField] SEAudioClip landClip;
+    [SerializeField] SEAudioClip alertClip;
 
     [Header("Effect")]
     [SerializeField] GameObject fireEffect;
@@ -52,7 +57,7 @@ public class StageDebris : MonoBehaviourPunCallbacks, ICool
     public void RPCSetActive(bool _active)
     {
         bodyObject.SetActive(_active);
-        GetComponent<Collider>().enabled = _active;
+        //GetComponent<Collider>().enabled = _active;
 
         if (_active)
         {
@@ -72,6 +77,9 @@ public class StageDebris : MonoBehaviourPunCallbacks, ICool
 
         //UI点滅
         float uiTimer = 0.0f;
+        bool playAlert = false;
+        bool oldPlayAlert = false;
+
         while (true)
         {
             uiTimer += Time.deltaTime;
@@ -84,6 +92,15 @@ public class StageDebris : MonoBehaviourPunCallbacks, ICool
             color.a = fallingPositionUIAlphaCurve.Evaluate(uiTimer / flashSeconds);
             fallingPositionUIRenderer.color = color;
 
+            //ピ
+            oldPlayAlert = playAlert;
+            playAlert = fallingPositionUIAlphaCurve.Evaluate(uiTimer / flashSeconds) > 0.95f;         
+            if (playAlert && !oldPlayAlert)
+            {
+                SimpleAudioManager.PlayOneShot(alertClip);
+            }
+
+            //終了条件
             if (uiTimer >= flashSeconds)
             {
                 break;
@@ -109,6 +126,10 @@ public class StageDebris : MonoBehaviourPunCallbacks, ICool
             //抜ける
             if (fallTimer >= fallSeconds)
             {
+                //着地音
+                SimpleAudioManager.PlayOneShot(landClip);
+                //カメラ揺らす
+                VirtualCameraManager.ImpulseNoise(landCameraImpulse);
                 break;
             }
             else

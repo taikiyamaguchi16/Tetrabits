@@ -14,8 +14,11 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
     [SerializeField] float batteryConsumptionPerSeconds = 1.0f;
     [SerializeField] float switchingTime = 1.0f;
 
+    [Header("Sound")]
+    [SerializeField] SEAudioClip leverClip;
+
     [Header("Indicator")]
-    [SerializeField] EmissionIndicator emissionIndicator;
+    [SerializeField] List<EmissionIndicator> emissionIndicators;
 
     [Header("Effect")]
     [SerializeField] VisualEffect sparkEffect;
@@ -48,17 +51,22 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
         if (!deadBatteryDebug && batteryHolder && batteryHolder.GetBatterylevel() <= 0)
         {
             leverState = false;
-            emissionIndicator.SetColor(EmissionIndicator.ColorType.Unusable);
+
+            foreach (var emissionIndicator in emissionIndicators)
+                emissionIndicator.SetColor(EmissionIndicator.ColorType.Unusable);
         }
         //電力消費
         else if (leverState)
         {//使用中
             batteryHolder.ConsumptionOwnBattery(batteryConsumptionPerSeconds * Time.deltaTime);
-            emissionIndicator.SetColor(EmissionIndicator.ColorType.Using);
+
+            foreach (var emissionIndicator in emissionIndicators)
+                emissionIndicator.SetColor(EmissionIndicator.ColorType.Using);
         }
         else
         {//使用可能
-            emissionIndicator.SetColor(EmissionIndicator.ColorType.Usable);
+            foreach (var emissionIndicator in emissionIndicators)
+                emissionIndicator.SetColor(EmissionIndicator.ColorType.Usable);
         }
 
         //支点回転
@@ -98,9 +106,12 @@ public class TetraLever : MonoBehaviourPunCallbacks, IPlayerAction
         {
             leverState = !leverState;
 
+            SimpleAudioManager.PlayOneShot(leverClip);
+
             if (leverState)
             {
                 sparkEffect.Play();
+
             }
         }
     }

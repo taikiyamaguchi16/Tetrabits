@@ -51,7 +51,7 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         }
         else
         {
-            actionText.text = "すてる";
+            actionText.text = "投げる";
         }
 
         if (PhotonNetwork.IsMasterClient)
@@ -133,14 +133,29 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
         priority = 100;
 
         ownerSc = _obj.GetComponent<ItemPocket>();
-        //ownerRb = _obj.GetComponent<Rigidbody>();
 
-        ownerSc.SetItem(this.gameObject);
-        rb.isKinematic = true;
-        col.enabled = false;
-        this.transform.parent = _obj.transform;
-        //保有状態に切り替え
-        isOwned = true;
+        //Playerが二つ持っちゃう場合の例外処理
+        if (ownerSc.gameObject.tag == "Player")
+        {
+            if (ownerSc.gameObject.transform.Find("Battery 1(Clone)") == null)
+            {
+                ownerSc.SetItem(this.gameObject);
+                rb.isKinematic = true;
+                col.enabled = false;
+                this.transform.parent = _obj.transform;
+                //保有状態に切り替え
+                isOwned = true;
+            }
+        }
+        else
+        {
+            ownerSc.SetItem(this.gameObject);
+            rb.isKinematic = true;
+            col.enabled = false;
+            this.transform.parent = _obj.transform;
+            //保有状態に切り替え
+            isOwned = true;
+        }
     }
 
     [PunRPC]
@@ -167,6 +182,7 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
             }
 
             myControlUi.SetControlUIActive(false);
+            ownerSc = null;
         }
     }
     public float GetLevel()

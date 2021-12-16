@@ -149,9 +149,11 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                     transform.localScale = scale;
                 }
 
-                moveDir += rightDir * XInputManager.GetThumbStickLeftX(controllerID);
-                moveDir += forwardDir * XInputManager.GetThumbStickLeftY(controllerID);
-
+                if (moveDir.magnitude == 0f)
+                {
+                    moveDir += rightDir * XInputManager.GetThumbStickLeftX(controllerID);
+                    moveDir += forwardDir * XInputManager.GetThumbStickLeftY(controllerID);
+                }
                 moveDir.Normalize();
 
                 if (jumpable == true)//着地しているとき
