@@ -12,6 +12,7 @@ namespace Generic
         [SerializeField] Vector3 endLocalPosition;
         [SerializeField] float positionLerpSeconds = 1.0f;
         float positionLerpTimer;
+        [HideInInspector] public float positionLerpTimeScale = 1.0f;
         [SerializeField] bool positionLerpRepeat;
         [SerializeField] AnimationCurve positionLerpCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
@@ -27,13 +28,25 @@ namespace Generic
         [Header("Debug")]
         [SerializeField] bool enabledTimerReset;
 
+        private void Start()
+        {
+            if (usePositionLerp)
+            {
+                transform.localPosition = Vector3.Lerp(startLocalPosition, endLocalPosition, positionLerpCurve.Evaluate(positionLerpTimer / positionLerpSeconds));
+            }
+            if (useScaleLerp)
+            {
+                transform.localScale = Vector3.Lerp(startLocalScale, endLocalScale, scaleLerpCurve.Evaluate(scaleLerpTimer / scaleLerpSeconds));
+            }
+        }
+
         // Update is called once per frame
         void Update()
         {
             //position
             if (usePositionLerp)
             {
-                positionLerpTimer += Time.deltaTime;
+                positionLerpTimer += Time.deltaTime * positionLerpTimeScale;
                 if (positionLerpTimer > positionLerpSeconds)
                 {
                     if (positionLerpRepeat)
@@ -69,11 +82,16 @@ namespace Generic
 
         private void OnEnable()
         {
-            if(enabledTimerReset)
+            if (enabledTimerReset)
             {
                 positionLerpTimer = 0.0f;
                 scaleLerpTimer = 0.0f;
             }
+        }
+
+        public float GetPositionLerpSingle()
+        {
+            return positionLerpTimer / positionLerpSeconds;
         }
 
     }//class
