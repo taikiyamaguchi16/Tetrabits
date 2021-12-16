@@ -72,8 +72,13 @@ public class CRTNoise : MonoBehaviour
 
     [Header("SE")]
 
+    //[SerializeField]
+    //AudioClip noiseSound;
+
     [SerializeField]
-    AudioClip noiseSound;
+    AudioSource audioSource;
+
+    float soundVolMax = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -81,6 +86,8 @@ public class CRTNoise : MonoBehaviour
         noiseTimer = defaultNoiseDuration;
         noiseDuration = defaultNoiseDuration;
         randomNoiseTimer = Random.Range(randomNoiseInterval.min, randomNoiseInterval.max);
+
+        soundVolMax = audioSource.volume;
     }
 
     // Update is called once per frame
@@ -103,6 +110,8 @@ public class CRTNoise : MonoBehaviour
                         crt.SinNoiseScale = 0f;
                         crt.SinNoiseWidth = 0f;
                         crt.SinNoiseOffset = 0f;
+
+                        audioSource.Pause();
                     }
                     else
                     {
@@ -114,33 +123,39 @@ public class CRTNoise : MonoBehaviour
                         crt.SinNoiseScale = Random.Range(sinNoiseScaleRandom.min, sinNoiseScaleRandom.max);
                         crt.SinNoiseWidth = Random.Range(sinNoiseWidthRandom.min, sinNoiseWidthRandom.max);
                         crt.SinNoiseOffset = Random.Range(sinNoiseOffsetRandom.min, sinNoiseOffsetRandom.max);
+
+                        audioSource.UnPause();
+                        audioSource.volume = soundVolMax;
                     }
                 }
             }
             else　// 常にノイズ
             {
+                audioSource.UnPause();
+
                 if (stopNoiseInDuration)
                 {
+                    // ノイズの強さの倍率
                     float halfNoiseDuration = noiseDuration / 2;
+                    float multiply = 1f;
                     if (noiseTimer > halfNoiseDuration)
                     {
-                        float multiply = 1 - (noiseTimer - halfNoiseDuration) / halfNoiseDuration;
-                        crt.NoiseX = noiseX * multiply;
-                        crt.RGBNoise = rgbNoise * multiply;
-                        crt.SinNoiseScale = sinNoiseScale * multiply;
-                        crt.SinNoiseWidth = sinNoiseWidth * multiply;
-                        crt.SinNoiseOffset = sinNoiseOffset * multiply;
+                        multiply = 1f - (noiseTimer - halfNoiseDuration) / halfNoiseDuration;
                     }
                     else
                     {
-                        crt.NoiseX = noiseX * noiseTimer / halfNoiseDuration;
-                        crt.RGBNoise = rgbNoise * noiseTimer / halfNoiseDuration;
-                        crt.SinNoiseScale = sinNoiseScale * noiseTimer / halfNoiseDuration;
-                        crt.SinNoiseWidth = sinNoiseWidth * noiseTimer / halfNoiseDuration;
-                        crt.SinNoiseOffset = sinNoiseOffset * noiseTimer / halfNoiseDuration;
+                        multiply = noiseTimer / halfNoiseDuration;
                     }
-                    noiseTimer -= Time.deltaTime;
 
+                    crt.NoiseX = noiseX * multiply;
+                    crt.RGBNoise = rgbNoise * multiply;
+                    crt.SinNoiseScale = sinNoiseScale * multiply;
+                    crt.SinNoiseWidth = sinNoiseWidth * multiply;
+                    crt.SinNoiseOffset = sinNoiseOffset * multiply;
+
+                    audioSource.volume = soundVolMax * multiply;
+
+                    noiseTimer -= Time.deltaTime;
                     if (noiseTimer <= 0)
                     {
                         if (afterNoise)
@@ -159,6 +174,8 @@ public class CRTNoise : MonoBehaviour
                         crt.SinNoiseScale = 0f;
                         crt.SinNoiseWidth = 0f;
                         crt.SinNoiseOffset = 0f;
+
+                        audioSource.Pause();
                     }
                 }
                 else
@@ -168,6 +185,8 @@ public class CRTNoise : MonoBehaviour
                     crt.SinNoiseScale = sinNoiseScale;
                     crt.SinNoiseWidth = sinNoiseWidth;
                     crt.SinNoiseOffset = sinNoiseOffset;
+
+                    audioSource.volume = soundVolMax;
                 }
             }
 
@@ -179,6 +198,8 @@ public class CRTNoise : MonoBehaviour
             crt.SinNoiseScale = 0f;
             crt.SinNoiseWidth = 0f;
             crt.SinNoiseOffset = 0f;
+
+            audioSource.Pause();
         }
     }
 
@@ -189,6 +210,7 @@ public class CRTNoise : MonoBehaviour
     //    randomNoiseActive = _active;
     //}
 
+    // ノイズがランダムで発生
     public void RamdomNoise()
     {
         noiseActive = true;
@@ -201,8 +223,11 @@ public class CRTNoise : MonoBehaviour
         crt.SinNoiseScale = 0f;
         crt.SinNoiseWidth = 0f;
         crt.SinNoiseOffset = 0f;
+
+        audioSource.Pause();
     }
 
+    // 常にノイズ
     public void AlWaysNoise()
     {
         noiseActive = true;
@@ -210,6 +235,7 @@ public class CRTNoise : MonoBehaviour
         stopNoiseInDuration = false;
     }
 
+    // 秒数に合わせてノイズの強さが変化、決められた秒数でノイズオフ
     public void AlWaysNoiseWithTimeLimit(bool _afterNoise)
     {
         noiseActive = true;
@@ -220,6 +246,7 @@ public class CRTNoise : MonoBehaviour
         noiseDuration = defaultNoiseDuration;
     }
 
+    // 秒数に合わせてノイズの強さが変化、決められた秒数でノイズオフ
     public void AlWaysNoiseWithTimeLimit(float _noiseDuration, bool _afterNoise)
     {
         AlWaysNoiseWithTimeLimit(_afterNoise);
