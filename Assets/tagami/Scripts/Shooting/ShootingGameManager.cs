@@ -113,10 +113,14 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
 
         if (nextScene == null || nextScene.BuildIndex < 0)
         {
-            Debug.Log("Shooting最終ステージクリア 全ステージクリアにより強制ダウンを行います");
-            GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
-            GameInGameUtil.StopGameInGameTimer("shooting");
+            Debug.Log("Shooting最終ステージクリア");
+            //GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
+            //GameInGameUtil.StopGameInGameTimer("shooting");
             //sInitialized = false;
+            if (PhotonNetwork.IsMasterClient)
+            {
+                GameInGameUtil.SwitchGameInGameScene("ShootingClear");
+            }
         }
         else
         {
@@ -160,7 +164,7 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
     }
 
     IEnumerator CoGameOver()
-    {       
+    {
         //12/14　でか炎出すの無し
         //if (PhotonNetwork.IsMasterClient)
         //{
@@ -171,7 +175,7 @@ public class ShootingGameManager : MonoBehaviourPunCallbacks
         gameoverUIObject.SetActive(true);
 
         yield return new WaitForSeconds(gameoverDispSeconds);
-       
+
         if (PhotonNetwork.IsMasterClient)
         {
             //Debrisの数を追加
