@@ -5,12 +5,15 @@ using UnityEngine;
 public class noiseTest : MonoBehaviour
 {
     [SerializeField]
-    CRTNoise cRTNoise; 
+    CRTNoise crtNoise;
+
+    [SerializeField]
+    NoiseParameter noiseParam;
 
     // Start is called before the first frame update
     void Start()
     {
-        cRTNoise.AlWaysNoise();
+        crtNoise.AlWaysNoise();
     }
 
     // Update is called once per frame
@@ -18,7 +21,8 @@ public class noiseTest : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.N))
         {
-            cRTNoise.AlWaysNoise();
+            crtNoise.SetNoiseParam(noiseParam);
+            crtNoise.AlWaysNoise();
         }
     }
 }
