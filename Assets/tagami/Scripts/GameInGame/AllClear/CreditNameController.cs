@@ -6,6 +6,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Text))]
 public class CreditNameController : MonoBehaviour
 {
+    [Header("Bit")]
+    [SerializeField] GameObject creditNameBitPrefab;
+
     Text dividedText;
     List<Rigidbody2D> createdCharRigidbodys = new List<Rigidbody2D>();
 
@@ -19,22 +22,27 @@ public class CreditNameController : MonoBehaviour
             return;
         }
 
+        var myShadow = GetComponent<Shadow>();
+
         //一文字ずつ作成
-        var rectLocalScale = new Vector2(dividedText.fontSize * 1.1f, dividedText.fontSize * 1.1f);
-        Vector3 instanceLocalPosition = new Vector3(-rectLocalScale.x * dividedText.text.Length / 2, 0, 0);
+        float rectLocalScalePerByte = dividedText.fontSize * 0.55f;
+        Vector3 instanceLocalPosition = new Vector3(-(GetComponent<RectTransform>().sizeDelta.x / 2) + (dividedText.fontSize / 2), 0, 0);
         foreach (var str in dividedText.text)
         {
-            var obj = new GameObject(str.ToString());
+            var obj = Instantiate(creditNameBitPrefab, transform);
+
+            //Name
+            obj.name = str.ToString();
 
             //Transform
-            var rectTrans = obj.AddComponent<RectTransform>();
-            rectTrans.parent = this.transform;
+            var rectTrans = obj.GetComponent<RectTransform>();
             rectTrans.localPosition = instanceLocalPosition;
             rectTrans.localScale = Vector3.one;
-            rectTrans.sizeDelta = rectLocalScale;
+            var strByte = System.Text.Encoding.GetEncoding("Shift_JIS").GetByteCount(str.ToString());
+            rectTrans.sizeDelta = new Vector2(rectLocalScalePerByte * strByte, rectLocalScalePerByte * 2);
 
             //Text
-            var text = obj.AddComponent<Text>();
+            var text = obj.GetComponent<Text>();
             text.text = str.ToString();
             text.font = dividedText.font;
             text.fontSize = dividedText.fontSize;
@@ -43,36 +51,24 @@ public class CreditNameController : MonoBehaviour
             //Collider
             //var boxCollider2D = obj.AddComponent<BoxCollider2D>();
             //boxCollider2D.size = rectTrans.sizeDelta;
-            var circleCollider2D = obj.AddComponent<CircleCollider2D>();
+            var circleCollider2D = obj.GetComponent<CircleCollider2D>();
             circleCollider2D.radius = rectTrans.sizeDelta.x / 2;
+            //var sphereCollider = obj.GetComponent<SphereCollider>();
+            //sphereCollider.radius = rectTrans.sizeDelta.x / 2;
 
-            //Rigidbody
-            var rb = obj.AddComponent<Rigidbody2D>();
-            rb.gravityScale = 0;
-
-            //登録
-            createdCharRigidbodys.Add(rb);
+            //Shadow
+            if (myShadow)
+            {
+                var shadow = obj.AddComponent<Shadow>();
+                shadow.effectColor = myShadow.effectColor;
+                shadow.effectDistance = myShadow.effectDistance;
+            }
 
             //次への準備
-            instanceLocalPosition.x += rectLocalScale.x;
+            instanceLocalPosition.x += rectTrans.sizeDelta.x;
         }//分割
 
         dividedText.enabled = false;
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //横移動
-        transform.position += -Vector3.right * Time.deltaTime;
-
-        if (TetraInput.sTetraButton.GetTrigger())
-        {
-            foreach (var rb in createdCharRigidbodys)
-            {
-                rb.AddForce(rb.transform.localPosition * 5.0f);
-            }
-        }
     }
 }
