@@ -48,16 +48,28 @@ public class TitleDemoManager : MonoBehaviour
     //private int playerCountZ = 0;
     private int playerCount = 0;
 
+    // 生成回数カウント
+    private int InstantiateCount = 0;
+
+    [SerializeField]
+    private int InstantiateUpperLimit = 3;
+
+    // 生成ストップフラグ
+    private bool isStopInstantiate = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        isStopInstantiate = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        PlayerInstantiate();
+        if (isStopInstantiate)
+        {
+            PlayerInstantiate();
+        }
     }
 
     //--------------------------------------------------
@@ -87,12 +99,16 @@ public class TitleDemoManager : MonoBehaviour
                         case 0:
                             Instantiate(PlayersX[randomNum], SpawnerLeft.transform.position, Quaternion.identity);
                             playerCount++;
+
+                            InstantiateCount++;
                             break;
 
                         // 右
                         case 1:
                             Instantiate(PlayersX[randomNum], SpawnerRight.transform.position, Quaternion.identity);
                             playerCount++;
+
+                            InstantiateCount++;
                             break;
 
                         default:
@@ -114,15 +130,14 @@ public class TitleDemoManager : MonoBehaviour
                     // 生成
                     Instantiate(PlayersZ[randomNum], SpawnerZ[randomPos].transform.position, Quaternion.identity);
                     playerCount++;
+
+                    InstantiateCount++;
                 }
                 break;
 
             default:
                 break;
         }
-        
-
-        
 
         // 生成制限
         if(playerCount > playerUpperLimit)
@@ -132,6 +147,12 @@ public class TitleDemoManager : MonoBehaviour
         else
         {
             isInstantiate = true;
+        }
+
+        // 各ゲームデモ開始のためのフラグ停止(開始は別で管理)
+        if(InstantiateCount >= InstantiateUpperLimit)
+        {
+//            isStopInstantiate = false;
         }
 
         //if(playerCountX > playerUpperLimitX && playerCountZ > playerUpperLimitZ)
