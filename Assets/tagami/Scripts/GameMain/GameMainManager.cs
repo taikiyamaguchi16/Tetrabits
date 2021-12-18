@@ -13,10 +13,6 @@ public class GameMainManager : MonoBehaviourPunCallbacks
     [SerializeField] SceneObject resultScene;
     [SerializeField] Trisibo.SceneField waitInsertCassetteScene;
 
-    [Header("Sound")]
-    [SerializeField] AudioClip waitInsertCassetteBGMClip;
-    [SerializeField] float waitInsertCassetteBGMVolumeScale = 1.0f;
-
     public class GameInGameTimer
     {
         public string tag;
@@ -65,9 +61,6 @@ public class GameMainManager : MonoBehaviourPunCallbacks
         }
         else
         { //カセット待機シーンへ
-            //BGM戻しておく
-            SimpleAudioManager.PlayBGMCrossFade(waitInsertCassetteBGMClip, 1.0f, waitInsertCassetteBGMVolumeScale);
-
             if (PhotonNetwork.IsMasterClient)
             {
                 GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene(GameInGameUtil.GetSceneNameByBuildIndex(waitInsertCassetteScene.BuildIndex));
