@@ -89,7 +89,8 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
 
             nowCoroutine = StartCoroutine(BlinkWarning());
             yield return new WaitForSeconds(blinkingTime);
-            StopCoroutine(nowCoroutine);
+            if(nowCoroutine!=null)
+                StopCoroutine(nowCoroutine);
 
             blinkImage.enabled = false;
             blinkingNow = false;
