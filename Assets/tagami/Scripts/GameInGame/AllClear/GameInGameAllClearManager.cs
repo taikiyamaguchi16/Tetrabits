@@ -27,7 +27,7 @@ public class GameInGameAllClearManager : MonoBehaviour
     //[SerializeField] List<CreditInput> creditInputs;
     //int creditInputIndex = 0;
 
-
+    bool oldPowerdOn;
 
     [Header("Credit Scroll")]
     [SerializeField] float scrollSpeed = 1.0f;
@@ -36,7 +36,8 @@ public class GameInGameAllClearManager : MonoBehaviour
     [SerializeField] GameObject scrollParent;
     bool stopedScroll;
     [SerializeField] List<RawImage> fastForwardImages;
-    Color fastForwardColor;
+    [SerializeField] Color fastForwardColor;
+    [SerializeField] Color fastForwardDefaultColor;
 
     [Header("Credit End")]
     [SerializeField] RawImage fadeImage;
@@ -54,10 +55,11 @@ public class GameInGameAllClearManager : MonoBehaviour
     void Start()
     {
         VirtualCameraManager.OnlyActive(1);
-
-        fastForwardColor = fastForwardImages[0].color;
-
         //StartCoroutine(CoCreateCredit());
+
+        //初期カラー設定
+        foreach (var fastForwardImage in fastForwardImages)
+            fastForwardImage.color = fastForwardDefaultColor;
     }
 
     IEnumerator CoEndCredit()
@@ -101,18 +103,30 @@ public class GameInGameAllClearManager : MonoBehaviour
         //スクロール速度
         if (!stopedScroll)
         {
+
             if (TetraInput.sTetraLever.GetPoweredOn())
             {
-                scrollParent.transform.localPosition += -Vector3.right * fastForwardScrollSpeed;
-                foreach (var fastForwardImage in fastForwardImages)
-                    fastForwardImage.color = fastForwardColor;
+                scrollParent.transform.localPosition += -Vector3.right * fastForwardScrollSpeed * Time.deltaTime;
             }
             else
             {
-                scrollParent.transform.localPosition += -Vector3.right * scrollSpeed;
-                foreach (var fastForwardImage in fastForwardImages)
-                    fastForwardImage.color = Color.black;
+                scrollParent.transform.localPosition += -Vector3.right * scrollSpeed * Time.deltaTime;
             }
+
+            if (TetraInput.sTetraLever.GetPoweredOn() && !oldPowerdOn)
+            {
+                //GameObject.Find("Display")?.GetComponent<CRTNoise>()?.
+
+                foreach (var fastForwardImage in fastForwardImages)
+                    fastForwardImage.color = fastForwardColor;
+            }
+            else if (!TetraInput.sTetraLever.GetPoweredOn() && oldPowerdOn)
+            {
+                foreach (var fastForwardImage in fastForwardImages)
+                    fastForwardImage.color = fastForwardDefaultColor;
+            }
+
+            oldPowerdOn = TetraInput.sTetraLever.GetPoweredOn();
         }
 
         //タイトルへ
