@@ -55,26 +55,15 @@ public class JumpPlayerController : MonoBehaviour
         if (TetraInput.sTetraLever.GetPoweredOn()) isParasol = true;
         else isParasol = false;
 
-        // 落下開始時にparasol状態なら傘を開く
-        if (beforeVelocityY >= 0 && rb.velocity.y < 0)
+        if (beforeParasol && !isParasol)
         {
-            Debug.Log("落下開始");
-            animator.SetBool("stand", false);
-            animator.SetBool("jump", false);
-            if (isParasol) animator.SetBool("open", true);
+            AnimAllOff();
+            animator.SetBool("standClose", true);
         }
-        if (rb.velocity.y < 0)
+        else if (!beforeParasol && isParasol)
         {
-            if (beforeParasol && !isParasol)
-            {
-                animator.SetBool("open", false);
-                animator.SetBool("close", true);
-            }
-            else if (!beforeParasol && isParasol)
-            {
-                animator.SetBool("close", false);
-                animator.SetBool("open", true);
-            }
+            AnimAllOff();
+            animator.SetBool("standOpen", true);
         }
 
         //isParasol中の落下速度軽減
@@ -103,11 +92,8 @@ public class JumpPlayerController : MonoBehaviour
     void Jump(Vector2 _jumpDirection)
     {
         SimpleAudioManager.PlayOneShot(jumpSE);
-        if (upOnly)
-        {
-            if (padVec.y > 0) rb.AddForce(_jumpDirection * jumpForce, ForceMode2D.Impulse);
-        }
-        else rb.AddForce(_jumpDirection * jumpForce, ForceMode2D.Impulse);
+        if (padVec.x == 0 && padVec.y == 0) rb.AddForce(transform.up.normalized * 2f, ForceMode2D.Impulse);
+        else if (padVec.y > 0) rb.AddForce(_jumpDirection * jumpForce, ForceMode2D.Impulse);
     }
 
     void ArrowControll(Vector2 _dir)
@@ -119,21 +105,26 @@ public class JumpPlayerController : MonoBehaviour
     public void JumpOn()
     {
         isJump = true;
-        animator.SetBool("stand", false);
-        animator.SetBool("jump", true);
     }
 
     public void JumpOff()
     {
         isJump = false;
-        animator.SetBool("open", false);
-        animator.SetBool("jump", false);
-        animator.SetBool("close", false);
-        animator.SetBool("stand", true);
+        AnimAllOff();
+        if (isParasol) animator.SetBool("standParasol", true);
+        else animator.SetBool("standNormal", true);
     }
 
     public void DamageAnimation()
     {
         myRenderer.DOColor(Color.red, 0.5f).SetEase(Ease.OutFlash, 4, 0.5f);
+    }
+
+    void AnimAllOff()
+    {
+        animator.SetBool("standOpen", false);
+        animator.SetBool("standClose", false);
+        animator.SetBool("standParasol", false);
+        animator.SetBool("standNormal", false);
     }
 }

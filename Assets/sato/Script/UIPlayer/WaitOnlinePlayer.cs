@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class WaitOnlinePlayer : MonoBehaviour
+public class WaitOnlinePlayer : MonoBehaviourPunCallbacks
 {
     private const int _PLAYER_UPPER_LIMIT = 4;
 
@@ -15,17 +15,24 @@ public class WaitOnlinePlayer : MonoBehaviour
     [SerializeField]
     Text nameText;
 
+    [SerializeField]
+    GameObject textReady;
+
     Player[] players;
 
-    [SerializeField]
-    bool isNameDecision = false;
-
     int controllerID = 0;
+
+    Animator anim;
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        isNameDecision = true;
+        
     }
 
     // Update is called once per frame
@@ -33,41 +40,81 @@ public class WaitOnlinePlayer : MonoBehaviour
     {
         players = PhotonNetwork.PlayerList;
 
-        //for (int i = 0; i < players.Length; i++)
-        //{
-        //    if (NameManager.GetActorNum()[i] == players[i].ActorNumber)
-        //    {
-        //        nameText.text = players[i].NickName;
-        //    } 
-        //}
-
         // ここ直す場所あり
 
         if (Own.activeSelf)
         {
-            if (Own.name == "Keirei_Yellow(Clone)")
-            {
-                nameText.text = players[0].NickName;
-                nameText.color = Color.yellow;
-            }
-
-            if (Own.name == "Keirei_Red(Clone)")
-            {
-                nameText.text = players[1].NickName;
-                nameText.color = Color.red;
-            }
-
-            if (Own.name == "Keirei_Green(Clone)")
-            {
-                nameText.text = players[2].NickName;
-                nameText.color = Color.green;
-            }
-
-            if (Own.name == "Keirei_Blue(Clone)")
-            {
-                nameText.text = players[3].NickName;
-                nameText.color = Color.blue;
-            }
+            
         }
+
+        //if (Own.name == "Keirei_Yellow(Clone)")
+        //{
+        //    nameText.text = players[0].NickName;
+        //    nameText.color = Color.yellow;
+        //}
+
+        //if (Own.name == "Keirei_Red(Clone)")
+        //{
+        //    nameText.text = players[1].NickName;
+        //    nameText.color = Color.red;
+        //}
+
+        //if (Own.name == "Keirei_Green(Clone)")
+        //{
+        //    nameText.text = players[2].NickName;
+        //    nameText.color = Color.green;
+        //}
+
+        //if (Own.name == "Keirei_Blue(Clone)")
+        //{
+        //    nameText.text = players[3].NickName;
+        //    nameText.color = Color.blue;
+        //}
+
+        if (photonView.IsMine)
+        {
+            if (PhotonNetwork.LocalPlayer.CustomProperties["isPlayerReady"] is bool isPlayerReady)
+            {
+                if (isPlayerReady)
+                {
+                    photonView.RPC(nameof(WaitPlayerSyncThings), RpcTarget.All);
+                }
+            }
+            photonView.RPC(nameof(WaitPlayerSyncName), RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    public void WaitPlayerSyncThings()
+    {
+        textReady.SetActive(true);
+
+        anim.SetBool("isKeirei", true);
+    }
+
+    [PunRPC]
+    public void WaitPlayerSyncName()
+    {
+        if (gameObject.name == "Keirei_Yellow(Clone)")
+        {
+            nameText.color = Color.yellow;
+        }
+
+        if (gameObject.name == "Keirei_Red(Clone)")
+        {
+            nameText.color = Color.red;
+        }
+
+        if (gameObject.name == "Keirei_Green(Clone)")
+        {
+            nameText.color = Color.green;
+        }
+
+        if (gameObject.name == "Keirei_Blue(Clone)")
+        {
+            nameText.color = Color.blue;
+        }
+
+        nameText.text = photonView.Owner.NickName;
     }
 }

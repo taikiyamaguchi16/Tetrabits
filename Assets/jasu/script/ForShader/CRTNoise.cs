@@ -2,10 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct NoiseParameter
+{
+    public float noiseX;
+    public float rgbNoise;
+    public float sinNoiseScale;
+    public float sinNoiseWidth;
+    public float sinNoiseOffset;
+}
+
 public class CRTNoise : MonoBehaviour
 {
     [SerializeField]
     CRT crt;
+
+    NoiseParameter defaultNoiseParam;
 
     [Tooltip("ノイズ有効")]
     public bool noiseActive = true;
@@ -65,9 +77,10 @@ public class CRTNoise : MonoBehaviour
     
     float randomNoiseTimer = 0f;
 
+    // ノイズ中
     bool noising = false;
 
-    // 
+    // 常にノイズの状態解除後ランダムでノイズ発生するようになるか否か
     bool afterNoise = false;
 
     [Header("SE")]
@@ -83,6 +96,12 @@ public class CRTNoise : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        defaultNoiseParam.noiseX = noiseX;
+        defaultNoiseParam.rgbNoise = rgbNoise;
+        defaultNoiseParam.sinNoiseScale = sinNoiseScale;
+        defaultNoiseParam.sinNoiseWidth = sinNoiseWidth;
+        defaultNoiseParam.sinNoiseOffset = sinNoiseOffset;
+
         noiseTimer = defaultNoiseDuration;
         noiseDuration = defaultNoiseDuration;
         randomNoiseTimer = Random.Range(randomNoiseInterval.min, randomNoiseInterval.max);
@@ -257,5 +276,32 @@ public class CRTNoise : MonoBehaviour
     public void SetNoiseActive(bool _active)
     {
         noiseActive = _active;
+    }
+
+    public void SetNoiseParam(NoiseParameter _noiseParam)
+    {
+        noiseX = _noiseParam.noiseX;
+        rgbNoise = _noiseParam.rgbNoise;
+        sinNoiseScale = _noiseParam.sinNoiseScale;
+        sinNoiseWidth = _noiseParam.sinNoiseWidth;
+        sinNoiseOffset = _noiseParam.sinNoiseOffset;
+    }
+
+    public void SetNoiseParam(float _noiseX, float _rgbNoise, float _sinNoiseScale, float _sinNoiseWidth, float _sinNoiseOffset)
+    {
+        noiseX = _noiseX;
+        rgbNoise = _rgbNoise;
+        sinNoiseScale = _sinNoiseScale;
+        sinNoiseWidth = _sinNoiseWidth;
+        sinNoiseOffset = _sinNoiseOffset;
+    }
+
+    public void SetDefaultNoiseParam()
+    {
+        noiseX = defaultNoiseParam.noiseX;
+        rgbNoise = defaultNoiseParam.rgbNoise;
+        sinNoiseScale = defaultNoiseParam.sinNoiseScale;
+        sinNoiseWidth = defaultNoiseParam.sinNoiseWidth;
+        sinNoiseOffset = defaultNoiseParam.sinNoiseOffset;
     }
 }

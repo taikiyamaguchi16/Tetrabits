@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
-using System.Linq;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PlayerReadyManager : MonoBehaviourPunCallbacks
 {
@@ -14,32 +14,34 @@ public class PlayerReadyManager : MonoBehaviourPunCallbacks
     Text PushButtonText;
 
     bool isReadyMaster = false;
-    public List<bool> isReadyGuest = new List<bool>();
-    public bool isReady;
+    private bool isReady;
+
+    private static Hashtable playerProps = new Hashtable();
 
     bool isPlayerLimit = false;
 
     int controllerID = 0;
 
-    GameObject MasterPlayer;
-
     Player[] players;
 
-    int ReadiedGuest = 0;
+    void Awake()
+    {
+        // カスタムプロパティのキーを設定(各プレイヤーが生成時にisReadyの変数を持っているイメージ
+        playerProps["isPlayerReady"] = false;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps);
+        playerProps.Clear();
 
-    int MineActorNum = 0;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            playerProps["isPlayerReady"] = true;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps);
+            playerProps.Clear();
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        // とりあえず50
-        for (int i = 0; i < 50; i++)
-        {
-            isReadyGuest.Add(false);
-        }
-
-        ReadiedGuest = 0;
-
         players = PhotonNetwork.PlayerList;
     }
 
@@ -66,9 +68,17 @@ public class PlayerReadyManager : MonoBehaviourPunCallbacks
                 PushButtonText.text = "他のプレイヤーがReadyするまでお待ちください!";
             }
 
-            if (ReadiedGuest >= 3)
+            // ルーム上限で各プレイヤーのレディー状況を判別
+            if (PhotonNetwork.CurrentRoom.PlayerCount >= _PLAYER_UPPER_LIMIT)
             {
-                isReadyMaster = true;
+                if (PlayerReadyCheck())
+                {
+                    isReadyMaster = true;
+                }
+                else
+                {
+                    isReadyMaster = false;
+                }
             }
         }
         // ゲスト
@@ -99,12 +109,12 @@ public class PlayerReadyManager : MonoBehaviourPunCallbacks
             }
 
             // エディターでのみ使用可能
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
             if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Return))
             {
                 GameObject.Find("SetUp").GetComponent<OnlineWaitRoomSetUper>().OnlineGameStart();
             }
-#endif
+//#endif
         }
         // ゲスト
         else
@@ -113,29 +123,54 @@ public class PlayerReadyManager : MonoBehaviourPunCallbacks
             {
                 if (Input.GetKeyDown(KeyCode.Return) || XInputManager.GetButtonTrigger(controllerID, XButtonType.B))
                 {
-                    isReady = true;
-                    photonView.RPC(nameof(SendIsReadyGuest), RpcTarget.All);
+                    playerProps["isPlayerReady"] = true;
+                    PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps);
+                    playerProps.Clear();
+
+                    isReady = (PhotonNetwork.LocalPlayer.CustomProperties["isPlayerReady"] is bool);
+
+                    //photonView.RPC(nameof(SendIsReadyGuest), RpcTarget.All);
                 }
             }
         }
     }
 
+    bool PlayerReadyCheck()
+    {
+        // 各要素に対してbool状況を確認
+        foreach (var props in PhotonNetwork.PlayerList)
+        {
+            // 全員レディー完了でtrueが返る
+            if(props.CustomProperties["isPlayerReady"] is bool isPlayerReady)
+            {
+                if (!isPlayerReady)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    // 何番目のプレイヤーかをホストに送信
     [PunRPC]
     public void SendIsReadyGuest()
     {
         for (int i = 0; i < players.Length; i++)
         {
-            if (photonView.IsMine)
-            {
-                MineActorNum = players[i].ActorNumber;
-            }
+
         }
-        isReadyGuest[MineActorNum] = true;
-        ReadiedGuest++;
     }
 
+    // プレイヤーがルームに入室時にリスト更新
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         players = PhotonNetwork.PlayerList;
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+
     }
 }

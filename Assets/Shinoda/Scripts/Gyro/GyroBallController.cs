@@ -5,6 +5,7 @@ using UnityEngine;
 public class GyroBallController : MonoBehaviour
 {
     Rigidbody2D rb;
+    SpriteRenderer myRenderer;
 
     [SerializeField] AudioClip BGM;
     [SerializeField] AudioClip bounceSE;
@@ -13,10 +14,11 @@ public class GyroBallController : MonoBehaviour
     [SerializeField] float rotateScale = 0.1f;
     [SerializeField] float stopTime = 1.0f;
     [SerializeField] float gravityScale = 9.8f;
+    [SerializeField] Color stopColor;
 
     [SerializeField] GameObject effectPrefab = null;
     [SerializeField] Transform effectInstanceTransform;
-    float timeCount;
+    GameObject accelEffect = null;
 
     bool leverState = false;
 
@@ -25,14 +27,15 @@ public class GyroBallController : MonoBehaviour
     {
         SimpleAudioManager.PlayBGMCrossFade(BGM, 1.0f);
         GameInGameUtil.StartGameInGameTimer("gyro");
-        rb = this.gameObject.GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
+        myRenderer = GetComponent<SpriteRenderer>();
+        accelEffect = Instantiate(effectPrefab, effectInstanceTransform);
     }
 
     // Update is called once per frame
     void Update()
     {
         Vector2 padVec = TetraInput.sTetraPad.GetVector();
-        timeCount += Time.deltaTime;
 
         if (padVec.x > 0)
         {
@@ -46,7 +49,9 @@ public class GyroBallController : MonoBehaviour
         if (TetraInput.sTetraLever.GetPoweredOn())
         {
             rb.velocity = Vector2.zero;
+            myRenderer.color = stopColor;
         }
+        else myRenderer.color = Color.white;
         if (leverState ^ TetraInput.sTetraLever.GetPoweredOn()) SimpleAudioManager.PlayOneShot(leverSE);
         leverState = TetraInput.sTetraLever.GetPoweredOn();
         //if (TetraInput.sTetraButton.GetTrigger())
@@ -54,38 +59,11 @@ public class GyroBallController : MonoBehaviour
         //    rb.velocity = Vector2.zero;
         //}
 
-
-
         rb.AddForce(-(this.transform.up) * gravityScale);
 
         effectInstanceTransform.rotation = Quaternion.FromToRotation(Vector3.right, rb.velocity);
 
         float speed = rb.velocity.magnitude;
-        Debug.Log(speed);
-        if (speed < 10)
-        {
-            if (timeCount > 5)
-            {
-                InstanceEffect();
-                timeCount = 0;
-            }
-        }
-        else if (speed > 10 && speed < 30)
-        {
-            if (timeCount > 2.5f)
-            {
-                InstanceEffect();
-                timeCount = 0;
-            }
-        }
-        else if (speed > 30)
-        {
-            if (timeCount > 0.5f)
-            {
-                InstanceEffect();
-                timeCount = 0;
-            }
-        }
     }
 
     public void InstanceEffect()

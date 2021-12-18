@@ -47,30 +47,6 @@ public class WaitOnlineUI : MonoBehaviourPunCallbacks
                 Quaternion.identity);
             isPlayerInstantiate[PhotonNetwork.LocalPlayer.GetPlayerNum()] = false;
         }
-
-        //if (PhotonNetwork.IsMasterClient)
-        //{
-        //    if (isPlayerInstantiate[1])
-        //    {
-        //        ClonePlayer[1] = GameObject.Find("Keirei_Red(Clone)");
-        //        isPlayerInstantiate[1] = false;
-        //        Debug.Log("ClonePlayer[1]");
-        //    }
-
-        //    if (isPlayerInstantiate[2])
-        //    {
-        //        ClonePlayer[2] = GameObject.Find("Keirei_Green(Clone)");
-        //        isPlayerInstantiate[2] = false;
-        //        Debug.Log("ClonePlayer[2]");
-        //    }
-
-        //    if (isPlayerInstantiate[3])
-        //    {
-        //        ClonePlayer[3] = GameObject.Find("Keirei_Blue(Clone)");
-        //        isPlayerInstantiate[3] = false;
-        //        Debug.Log("ClonePlayer[3]");
-        //    }
-        //}
     }
 
     // シーンアンロードで生成したプレファブを消去

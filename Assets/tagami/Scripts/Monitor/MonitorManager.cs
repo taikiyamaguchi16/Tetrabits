@@ -37,6 +37,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     [SerializeField] float playNextStageEffectIntervalSeconds = 0.5f;
     [SerializeField] SEAudioClip monitorBreakClip;
     [SerializeField] Vector3 monitorImpulseVector;
+    bool isResulted;
 
     [Header("Monitor Damage Callback")]
     [SerializeField] UnityEvent monitorDamageEvent;
@@ -272,8 +273,9 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             Debug.Log("これ以上モニターの破壊段階を進めることはできません");
             Debug.Log("GameMainOverを確認");
             //ゲーム画面落としてゲームオーバーシーンへ遷移とか？
-            if (PhotonNetwork.IsMasterClient)
+            if (!isResulted && PhotonNetwork.IsMasterClient)
             {
+                isResulted = true;
                 gameInGameSwitcher.CallSwitchGameInGameScene("GameInGameResult");
             }
             return;

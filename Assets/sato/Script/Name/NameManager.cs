@@ -73,8 +73,6 @@ public class NameManager : MonoBehaviourPunCallbacks
 
         TextObjects.SetActive(true);
 
-        // ローカルプレイヤーとして登録(この段階で固有のものという認識でいいはず)
-        player = PhotonNetwork.LocalPlayer;
 
         players = PhotonNetwork.PlayerList;
 
@@ -107,16 +105,7 @@ public class NameManager : MonoBehaviourPunCallbacks
     public void NameInputExit()
     {
         // プレイヤー自身の名前を設定する
-        player.NickName = text.text;
-
-        //for (int i = 0; i <= players.Length; i++)
-        //{
-        //    if(i == player.ActorNumber)
-        //    {
-        //        // アクターナンバーと同じ番号でアクターの固有番号を格納
-        //        ActorNum.Add(player.ActorNumber);
-        //    }
-        //}
+        PhotonNetwork.LocalPlayer.NickName = text.text;
 
         GameObject.Find("GameMainManager").GetComponent<GameInGameSwitcher>().RPCSwitchGameInGameScene(scene);
     }
