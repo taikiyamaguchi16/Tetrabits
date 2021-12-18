@@ -16417,7 +16417,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4229e072b4d21b42bb03ed47d0b7a99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cRTNoise: {fileID: 2113594501}
+  crtNoise: {fileID: 2113594501}
+  noiseParam:
+    noiseX: 0.008
+    rgbNoise: 0.001
+    sinNoiseScale: 0.15
+    sinNoiseWidth: 0.5
+    sinNoiseOffset: 0.1
 --- !u!4 &1519141377
 Transform:
   m_ObjectHideFlags: 0
