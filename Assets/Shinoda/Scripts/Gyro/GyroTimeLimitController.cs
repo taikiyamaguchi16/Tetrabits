@@ -8,7 +8,6 @@ using DG.Tweening;
 public class GyroTimeLimitController : MonoBehaviour
 {
     [SerializeField, Tooltip("制限時間")] float time;
-    [SerializeField, Tooltip("ダメージ量")] string damage = "large";
 
     [SerializeField] AudioClip clearSE;
 
@@ -96,7 +95,6 @@ public class GyroTimeLimitController : MonoBehaviour
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                MonitorManager.DealDamageToMonitor(damage);
                 MonitorManager.CallAddNumDebrisInGameMainStage();
                 GameInGameUtil.SwitchGameInGameScene(thisScene);
             }
