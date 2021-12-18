@@ -173,15 +173,15 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
             PlayerMove p_move = ownerSc.gameObject.GetComponent<PlayerMove>();
             if (p_move != null)
-            {              
+            {
                 SimpleAudioManager.PlayOneShot(throwBatterrySe);
-                playerDir = p_move.GetPlayerDir();
-
-                Debug.Log(playerDir);
-                Vector3 _power = playerDir * throwForce;
-                _power.y = throwUpForce;
-                Debug.Log(playerDir);
-                rb.AddForce(_power, ForceMode.Impulse);
+                if (_obj.GetPhotonView().IsMine)
+                {                    
+                    playerDir = p_move.GetPlayerDir();
+                    Vector3 _power = playerDir * throwForce;
+                    _power.y = throwUpForce;
+                    photonView.RPC(nameof(RPCThrowBattery), RpcTarget.All, _power);
+                }
             }
 
             myControlUi.SetControlUIActive(false);
@@ -224,5 +224,11 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
             level = 0f;
             energyGazeObj.transform.localScale = Vector3.zero;
         }
+    }
+
+    [PunRPC]
+    private void RPCThrowBattery(Vector3 _power)
+    {
+        rb.AddForce(_power, ForceMode.Impulse);
     }
 }
