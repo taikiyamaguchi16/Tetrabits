@@ -57,17 +57,17 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
 
             if (PhotonNetwork.IsMasterClient)
             {
-                if (batteryHolder.GetBatterylevel() < startWarningLevel)
+                if (batteryHolder.GetBatterylevel() <= startWarningLevel)
                 {
                     if (!blinkingNow)
                     {                       
-                        photonView.RPC(nameof(StartBlinkWarning), RpcTarget.All);
+                        photonView.RPC(nameof(StartBlinkWarning), RpcTarget.All,photonView.ViewID);
                     }
                 }               
             }
+
             if(batteryHolder.GetBatterylevel() > startWarningLevel)
-            {
-                
+            {               
                 //コルーチン走っている場合
                 if (nowCoroutine != null)
                 {
@@ -76,23 +76,25 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
                 }
             }
         }
-
         
     }
 
     [PunRPC]
-    IEnumerator StartBlinkWarning()
+    IEnumerator StartBlinkWarning(int _id)
     {
-        blinkingNow = true;
-        nothingImage.enabled = false;
+        if (photonView.ViewID == _id)
+        {
+            blinkingNow = true;
+            nothingImage.enabled = false;
 
-        nowCoroutine = StartCoroutine(BlinkWarning());
-        yield return new WaitForSeconds(blinkingTime);
-        StopCoroutine(nowCoroutine);
+            nowCoroutine = StartCoroutine(BlinkWarning());
+            yield return new WaitForSeconds(blinkingTime);
+            StopCoroutine(nowCoroutine);
 
-        blinkImage.enabled = false;
-        blinkingNow = false;
-        yield break;
+            blinkImage.enabled = false;
+            blinkingNow = false;
+            yield break;
+        }
     }
     IEnumerator BlinkWarning()
     {
@@ -103,11 +105,8 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
                 blinkImage.enabled = false;
             else
                 blinkImage.enabled = !blinkImage.enabled;
+
             yield return new WaitForSeconds(interval);
         }
     }
-
-    [PunRPC]
-    private void StoPWarningBlink()
-    { }
 }

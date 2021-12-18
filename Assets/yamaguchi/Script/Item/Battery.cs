@@ -173,11 +173,14 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
             PlayerMove p_move = ownerSc.gameObject.GetComponent<PlayerMove>();
             if (p_move != null)
-            {
+            {              
                 SimpleAudioManager.PlayOneShot(throwBatterrySe);
                 playerDir = p_move.GetPlayerDir();
+
+                Debug.Log(playerDir);
                 Vector3 _power = playerDir * throwForce;
                 _power.y = throwUpForce;
+                Debug.Log(playerDir);
                 rb.AddForce(_power, ForceMode.Impulse);
             }
 
