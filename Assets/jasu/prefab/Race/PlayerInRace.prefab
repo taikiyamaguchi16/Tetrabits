@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 95986286519900269}
+  - component: {fileID: 2468045070594408822}
   m_Layer: 0
-  m_Name: EffectTrans
+  m_Name: AccelEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,11 +26,26 @@ Transform:
   m_GameObject: {fileID: 46313721082218362}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 8, z: 6}
-  m_LocalScale: {x: 2, y: 10, z: 2}
+  m_LocalScale: {x: 5, y: 10, z: 2}
   m_Children: []
   m_Father: {fileID: 4178323175449870650}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2468045070594408822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46313721082218362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5de6a7bd3868cb949b6d9afde09d14b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectPrefab: {fileID: 1496107599636398923, guid: 9674a5cf1bbf07444b0d992f5cd33108, type: 3}
+  effectInstanceTrans: {fileID: 95986286519900269}
+  effectAudioClip: {fileID: 8300000, guid: fe660e9a196b85d45860b37ed1f1d801, type: 3}
 --- !u!1 &1136199793080129522
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,8 +298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 7603701497981581255}
-  effectPrefab: {fileID: 1496107599636398923, guid: 9674a5cf1bbf07444b0d992f5cd33108, type: 3}
-  effectInstanceTrans: {fileID: 95986286519900269}
+  effectGenerator: {fileID: 2468045070594408822}
   acceleratePower: 200
   bodyBlowActiveSeconds: 0.5
 --- !u!114 &3743806979556830801
