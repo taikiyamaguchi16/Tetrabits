@@ -42,35 +42,6 @@ public class WaitOnlinePlayer : MonoBehaviourPunCallbacks
 
         // ここ直す場所あり
 
-        if (Own.activeSelf)
-        {
-            
-        }
-
-        //if (Own.name == "Keirei_Yellow(Clone)")
-        //{
-        //    nameText.text = players[0].NickName;
-        //    nameText.color = Color.yellow;
-        //}
-
-        //if (Own.name == "Keirei_Red(Clone)")
-        //{
-        //    nameText.text = players[1].NickName;
-        //    nameText.color = Color.red;
-        //}
-
-        //if (Own.name == "Keirei_Green(Clone)")
-        //{
-        //    nameText.text = players[2].NickName;
-        //    nameText.color = Color.green;
-        //}
-
-        //if (Own.name == "Keirei_Blue(Clone)")
-        //{
-        //    nameText.text = players[3].NickName;
-        //    nameText.color = Color.blue;
-        //}
-
         if (photonView.IsMine)
         {
             if (PhotonNetwork.LocalPlayer.CustomProperties["isPlayerReady"] is bool isPlayerReady)
