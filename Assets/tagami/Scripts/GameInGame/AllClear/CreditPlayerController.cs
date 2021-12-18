@@ -7,45 +7,31 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Rigidbody2D))]
 public class CreditPlayerController : MonoBehaviour
 {
-    [SerializeField] Texture pressedbuttonTexture;
-    [SerializeField] Texture releasedbuttonTexture;
-    RawImage buttonImage;
+    [Header("Move")]
+    [SerializeField] float moveSpeed = 100.0f;
+
+    [Header("Bomb")]
+    [SerializeField] GameObject bombFieldPrefab;
 
     Rigidbody2D myRigidbody2D;
-
-    bool buttonTrigger;
-    bool usedButtonTrigger;
 
     // Start is called before the first frame update
     void Start()
     {
-        buttonImage = GetComponent<RawImage>();
         myRigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        myRigidbody2D.velocity = TetraInput.sTetraPad.GetVector() * 5;
+        //Debug.Log("動かねぇ");
 
-        if(buttonTrigger&&usedButtonTrigger)
-        {
-            buttonTrigger = false;
-            usedButtonTrigger = false;
-        }      
+        //移動
+        myRigidbody2D.velocity = TetraInput.sTetraPad.GetVector() * moveSpeed * Time.deltaTime;
+
         if (TetraInput.sTetraButton.GetTrigger())
         {
-            buttonTrigger = true;
-        }
-
-
-        if (TetraInput.sTetraButton.GetPress())
-        {
-            buttonImage.texture = pressedbuttonTexture;
-        }
-        else
-        {
-            buttonImage.texture = releasedbuttonTexture;
+            Instantiate(bombFieldPrefab, transform);
         }
 
         //position制限
@@ -67,15 +53,5 @@ public class CreditPlayerController : MonoBehaviour
             localPosition.y = -490.0f;
         }
         transform.localPosition = localPosition;
-
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (buttonTrigger)
-        {
-            usedButtonTrigger = true;
-            collision.attachedRigidbody?.AddForce((collision.transform.position - transform.position).normalized * 5, ForceMode2D.Impulse);
-        }
     }
 }

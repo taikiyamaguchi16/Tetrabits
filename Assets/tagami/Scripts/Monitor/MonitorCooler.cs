@@ -212,17 +212,28 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
 
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
+        Debug.Log("PlayerActionStart");
+
+        //return
         if (runningRotator)
         {
             Debug.LogError("誰かが(多分自分)冷却起動中のため冷却装置を起動できません");
             return;
         }
+        if (running)
+        {
+            Debug.LogWarning("おそらく他の人が使用中のため起動できません");
+            return;
+        }
+
+        //？
         CoolerRotater cr;
         if (_desc.playerObj.TryGetComponent(out cr))
         {
             Debug.LogError("なぜか冷却装置回転用コンポーネントがすでについています　破壊します");
             Destroy(cr);
         }
+
 
 
         //おそらくIsMineで呼ばれてるので同期関数をそのまま呼び出す
@@ -239,6 +250,8 @@ public class MonitorCooler : MonoBehaviourPunCallbacks, IPlayerAction
 
     public void EndPlayerAction(PlayerActionDesc _desc)
     {
+        Debug.Log("PlayerActionEnd");
+
         CallSetRunning(false);
 
         Destroy(runningRotator);

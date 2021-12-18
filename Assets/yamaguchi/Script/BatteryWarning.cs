@@ -16,7 +16,7 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
     BatteryHolder batteryHolder;
 
     [SerializeField]
-    Image[] blinkImage = new Image[2];
+    Image blinkImage;
 
     [SerializeField]
     Image nothingImage;
@@ -48,8 +48,7 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
             if (nowCoroutine != null)
             {
                 StopCoroutine(nowCoroutine);
-                blinkImage[0].enabled = false;
-                blinkImage[1].enabled = false;
+                blinkImage.enabled = false;
             }
         }
         else
@@ -58,53 +57,57 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
 
             if (PhotonNetwork.IsMasterClient)
             {
-                if (batteryHolder.GetBatterylevel() < startWarningLevel)
+                if (batteryHolder.GetBatterylevel() <= startWarningLevel)
                 {
                     if (!blinkingNow)
                     {                       
-                        photonView.RPC(nameof(StartBlinkWarning), RpcTarget.All);
+                        photonView.RPC(nameof(StartBlinkWarning), RpcTarget.All,photonView.ViewID);
                     }
                 }               
             }
+
             if(batteryHolder.GetBatterylevel() > startWarningLevel)
-            {
+            {               
+                //コルーチン走っている場合
                 if (nowCoroutine != null)
                 {
                     StopCoroutine(nowCoroutine);
-                    blinkImage[0].enabled = false;
-                    blinkImage[1].enabled = false;
+                    blinkImage.enabled = false;
                 }
             }
         }
-
         
     }
 
     [PunRPC]
-    IEnumerator StartBlinkWarning()
+    IEnumerator StartBlinkWarning(int _id)
     {
-        blinkingNow = true;
+        if (photonView.ViewID == _id)
+        {
+            blinkingNow = true;
+            nothingImage.enabled = false;
 
-        nowCoroutine = StartCoroutine(BlinkWarning());
-        yield return new WaitForSeconds(blinkingTime);
-        StopCoroutine(nowCoroutine);
+            nowCoroutine = StartCoroutine(BlinkWarning());
+            yield return new WaitForSeconds(blinkingTime);
+            if(nowCoroutine!=null)
+                StopCoroutine(nowCoroutine);
 
-        blinkImage[0].enabled = false;
-        blinkImage[1].enabled = false;
-        blinkingNow = false;
-        yield break;
+            blinkImage.enabled = false;
+            blinkingNow = false;
+            yield break;
+        }
     }
     IEnumerator BlinkWarning()
     {
         while (true)
         {
-            blinkImage[0].enabled = !blinkImage[0].enabled;
-            blinkImage[1].enabled = !blinkImage[1].enabled;
+            //アクションのUIが出ている場合点滅UIを非表示
+            if (controllUiCanvas.activeSelf)
+                blinkImage.enabled = false;
+            else
+                blinkImage.enabled = !blinkImage.enabled;
+
             yield return new WaitForSeconds(interval);
         }
     }
-
-    [PunRPC]
-    private void StoPWarningBlink()
-    { }
 }

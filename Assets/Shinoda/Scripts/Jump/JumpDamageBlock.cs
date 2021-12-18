@@ -13,7 +13,7 @@ public class JumpDamageBlock : MonoBehaviour
     GameObject player;
     GameObject playerFoot;
     JumpPlayerController playerControllerComponent;
-    [SerializeField] Animator[] animator;
+    [SerializeField] Animator[] animator = null;
     bool playerOn = false;
 
     // Start is called before the first frame update

@@ -8,7 +8,6 @@ using Photon.Pun;
 public class JumpTimeController : MonoBehaviour
 {
     [SerializeField, Tooltip("制限時間")] float time;
-    [SerializeField, Tooltip("ダメージ量")] string damage = "large";
 
     [SerializeField] AudioClip goalSE;
     [SerializeField] SceneObject thisScene = null;
@@ -95,7 +94,6 @@ public class JumpTimeController : MonoBehaviour
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                MonitorManager.DealDamageToMonitor(damage);
                 MonitorManager.CallAddNumDebrisInGameMainStage();
                 GameInGameUtil.SwitchGameInGameScene(thisScene);
             }
