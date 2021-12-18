@@ -24,6 +24,11 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     [SerializeField]
     protected OnDirt onDirt;
 
+    [SerializeField]
+    protected EffectGenerator effectGenerator;
+
+    protected bool effectGenerated = false;
+
     [Header("パラメータ")]
     
     [SerializeField]
@@ -166,6 +171,12 @@ public class MoveInRace : MonoBehaviourPunCallbacks
         {
             if (onSlope)
             {
+                if (!effectGenerated)
+                {
+                    effectGenerated = true;
+                    effectGenerator.InstanceEffect();
+                }
+
                 moveVec = Vector3.ProjectOnPlane(Vector3.forward, groundNormalVec);
 
                 // ありえん角度なら坂判定リセット
@@ -190,6 +201,8 @@ public class MoveInRace : MonoBehaviourPunCallbacks
             }
             else
             {
+                effectGenerated = false;
+
                 groundNormalVec = Vector3.zero;
 
                 //if (colliderSensor.GetExistInCollider())
