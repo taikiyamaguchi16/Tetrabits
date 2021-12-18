@@ -299,8 +299,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 7603701497981581255}
+  moveInRace: {fileID: 7784544147762866932}
   effectGenerator: {fileID: 2468045070594408822}
-  acceleratePower: 200
+  spdMultiply: 1.2
+  accelSeconds: 2
+  accelTimer: 0
   bodyBlowActiveSeconds: 0.5
 --- !u!114 &3743806979556830801
 MonoBehaviour:

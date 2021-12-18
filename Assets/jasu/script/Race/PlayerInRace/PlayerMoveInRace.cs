@@ -44,17 +44,6 @@ public class PlayerMoveInRace : MoveInRace
 
         SetMoveSpd();
         //moveSpdStandard = moveSpdHolder;
-    }
-
-    private void FixedUpdate()
-    {
-        moveVec = Vector3.zero;
-
-        // 移動ベクトル作成
-        //if (!moveInput)
-        //{
-        //    moveSpd = 0f;
-        //}
 
         if (onDirt.onDirt)
         {
@@ -67,6 +56,17 @@ public class PlayerMoveInRace : MoveInRace
                 moveSpd *= onDirtSlowMultiply;
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        moveVec = Vector3.zero;
+
+        // 移動ベクトル作成
+        //if (!moveInput)
+        //{
+        //    moveSpd = 0f;
+        //}
 
         SetMoveVec();
 

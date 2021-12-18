@@ -8,19 +8,37 @@ public class AccelerateInInput : MonoBehaviour
     Rigidbody rb = null;
 
     [SerializeField]
+    MoveInRace moveInRace;
+
+    [SerializeField]
     EffectGenerator effectGenerator;
+
+    //bool input = false;
 
     [Header("パラメータ")]
 
+    [Header("加速")]
+
+    //[SerializeField]
+    //float acceleratePower = 300f;
+
     [SerializeField]
-    float acceleratePower = 300f;
+    float spdMultiply = 1.1f;
+
+    [SerializeField]
+    float accelSeconds = 2f;
+
+    [SerializeField]
+    float accelTimer = 0f;
+
+    bool accelerating = false;
+
+    [Header("体当たり")]
 
     [SerializeField]
     float bodyBlowActiveSeconds = 0.5f;
 
     float bodyBlowActiveTimer = 0f;
-
-    bool input = false;
 
     public bool bodyBlowActive { get; private set; } = true;
 
@@ -37,8 +55,26 @@ public class AccelerateInInput : MonoBehaviour
         //input = false;
         if (TetraInput.sTetraButton.GetTrigger())
         {
-            input = true;
+            moveInRace.moveSpdMultiply = spdMultiply;
+            effectGenerator.InstanceEffect();
+
+            accelerating = true;
+            accelTimer = 0f;
+
+            //input = true;
             bodyBlowActive = true;
+        }
+
+        if (accelerating)   // 加速中
+        {
+            accelTimer += Time.deltaTime;
+            if(accelTimer > accelSeconds)
+            {
+                moveInRace.moveSpdMultiply = 1f;
+
+                accelerating = false;
+                accelTimer = 0f;
+            }
         }
 
         if (bodyBlowActive)
@@ -54,12 +90,15 @@ public class AccelerateInInput : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (input)
-        {
-            input = false;
-            rb.AddForce(Vector3.forward * acceleratePower, ForceMode.Impulse);
-            effectGenerator.InstanceEffect();
-            //GameInGameUtil.MoveGameObjectToOwnerScene(accelEffect, gameObject);
-        }
+        //if (input)
+        //{
+        //    input = false;
+        //    //rb.AddForce(Vector3.forward * acceleratePower, ForceMode.Impulse);
+
+
+
+        //    //effectGenerator.InstanceEffect();
+        //    //GameInGameUtil.MoveGameObjectToOwnerScene(accelEffect, gameObject);
+        //}
     }
 }

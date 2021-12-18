@@ -51,14 +51,14 @@ public class SwitchingLaneInInput : MonoBehaviour
             //inputY = TetraInput.sTetraPad.GetVector().y / TetraInput.sTetraPad.GetNumOnPad();
         }
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            inputY = 1f;
-        }
-        else if(Input.GetKey(KeyCode.S))
-        {
-            inputY = -1f;
-        }
+        //if (Input.GetKey(KeyCode.W))
+        //{
+        //    inputY = 1f;
+        //}
+        //else if(Input.GetKey(KeyCode.S))
+        //{
+        //    inputY = -1f;
+        //}
             
         if (inputY < -padInputRangeY)
         {

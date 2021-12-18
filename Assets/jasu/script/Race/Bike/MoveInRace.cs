@@ -97,18 +97,16 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     {
         // 移動速度決定
         SetMoveSpd();
-    }
-
-    private void FixedUpdate()
-    {
-        moveVec = Vector3.zero;
 
         if (onDirt.onDirt)
         {
             moveSpd *= onDirtSlowMultiply;
         }
+    }
 
-        moveSpd *= moveSpdMultiply;
+    private void FixedUpdate()
+    {
+        moveVec = Vector3.zero;
 
         // 移動ベクトル作成
         SetMoveVec();
@@ -160,6 +158,8 @@ public class MoveInRace : MonoBehaviourPunCallbacks
                 moveSpd *= accelerate;
             }
         }
+
+        moveSpd *= moveSpdMultiply;
     }
 
     protected void SetMoveVec()
