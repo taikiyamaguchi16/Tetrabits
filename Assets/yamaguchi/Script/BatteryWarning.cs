@@ -16,7 +16,7 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
     BatteryHolder batteryHolder;
 
     [SerializeField]
-    Image[] blinkImage = new Image[2];
+    Image blinkImage;
 
     [SerializeField]
     Image nothingImage;
@@ -48,8 +48,7 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
             if (nowCoroutine != null)
             {
                 StopCoroutine(nowCoroutine);
-                blinkImage[0].enabled = false;
-                blinkImage[1].enabled = false;
+                blinkImage.enabled = false;
             }
         }
         else
@@ -68,11 +67,12 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
             }
             if(batteryHolder.GetBatterylevel() > startWarningLevel)
             {
+                
+                //コルーチン走っている場合
                 if (nowCoroutine != null)
                 {
                     StopCoroutine(nowCoroutine);
-                    blinkImage[0].enabled = false;
-                    blinkImage[1].enabled = false;
+                    blinkImage.enabled = false;
                 }
             }
         }
@@ -84,13 +84,13 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
     IEnumerator StartBlinkWarning()
     {
         blinkingNow = true;
+        nothingImage.enabled = false;
 
         nowCoroutine = StartCoroutine(BlinkWarning());
         yield return new WaitForSeconds(blinkingTime);
         StopCoroutine(nowCoroutine);
 
-        blinkImage[0].enabled = false;
-        blinkImage[1].enabled = false;
+        blinkImage.enabled = false;
         blinkingNow = false;
         yield break;
     }
@@ -98,8 +98,10 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
     {
         while (true)
         {
-            blinkImage[0].enabled = !blinkImage[0].enabled;
-            blinkImage[1].enabled = !blinkImage[1].enabled;
+            blinkImage.enabled = !blinkImage.enabled;
+            //アクションのUIが出ている場合点滅UIを非表示
+            if (controllUiCanvas.activeSelf)
+                blinkImage.enabled = false;
             yield return new WaitForSeconds(interval);
         }
     }
