@@ -7,50 +7,32 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Rigidbody2D))]
 public class CreditPlayerController : MonoBehaviour
 {
-    [SerializeField] float impulseForce = 10.0f;
-    [SerializeField] Texture pressedbuttonTexture;
-    [SerializeField] Texture releasedbuttonTexture;
-    RawImage buttonImage;
+    [Header("Move")]
+    [SerializeField] float moveSpeed = 100.0f;
+
+    [Header("Bomb")]
+    [SerializeField] GameObject bombFieldPrefab;
 
     Rigidbody2D myRigidbody2D;
-
-    bool buttonTrigger;
-    bool usedButtonTrigger;
 
     // Start is called before the first frame update
     void Start()
     {
-        buttonImage = GetComponent<RawImage>();
         myRigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log("動かねぇ");
+
         //移動
-        myRigidbody2D.velocity = TetraInput.sTetraPad.GetVector() * 5;
+        myRigidbody2D.velocity = TetraInput.sTetraPad.GetVector() * moveSpeed * Time.deltaTime;
 
-
-        //ボタントリガー
-        //if (buttonTrigger && usedButtonTrigger)
-        //{
-        //    buttonTrigger = false;
-        //    usedButtonTrigger = false;
-        //}
-        //if (TetraInput.sTetraButton.GetTrigger())
-        //{
-        //    buttonTrigger = true;
-        //}
-
-
-        //if (TetraInput.sTetraButton.GetPress())
-        //{
-        //    buttonImage.texture = pressedbuttonTexture;
-        //}
-        //else
-        //{
-        //    buttonImage.texture = releasedbuttonTexture;
-        //}
+        if (TetraInput.sTetraButton.GetTrigger())
+        {
+            Instantiate(bombFieldPrefab, transform);
+        }
 
         //position制限
         var localPosition = transform.localPosition;
@@ -71,15 +53,5 @@ public class CreditPlayerController : MonoBehaviour
             localPosition.y = -490.0f;
         }
         transform.localPosition = localPosition;
-
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        //if (buttonTrigger)
-        //{
-        //    usedButtonTrigger = true;
-        //    collision.attachedRigidbody?.AddForce((collision.transform.position - transform.position).normalized * impulseForce / Vector3.Distance(collision.transform.position, transform.position), ForceMode2D.Impulse);
-        //}
     }
 }
