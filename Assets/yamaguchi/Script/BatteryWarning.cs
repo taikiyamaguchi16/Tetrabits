@@ -98,10 +98,11 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
     {
         while (true)
         {
-            blinkImage.enabled = !blinkImage.enabled;
             //アクションのUIが出ている場合点滅UIを非表示
             if (controllUiCanvas.activeSelf)
                 blinkImage.enabled = false;
+            else
+                blinkImage.enabled = !blinkImage.enabled;
             yield return new WaitForSeconds(interval);
         }
     }
