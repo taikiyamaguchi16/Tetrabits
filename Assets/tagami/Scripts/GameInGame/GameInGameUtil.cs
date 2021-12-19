@@ -129,4 +129,17 @@ public class GameInGameUtil : MonoBehaviour
         _cassetteManager = cassetteManager;
         return true;
     }
+
+    public static void PlayCrackers()
+    {
+        var managerObj=GameObject.Find("CrackerManager");
+        if(managerObj)
+        {
+            managerObj.GetComponent<CrackerManager>().PlayCrackers();
+        }
+        else
+        {
+            Debug.LogError("クラッカーマネージャーを取得できませんでした");
+        }
+    }
 }
