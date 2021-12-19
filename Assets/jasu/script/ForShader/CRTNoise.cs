@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public struct NoiseParameter
 {
+    public string name;
     public float noiseX;
     public float rgbNoise;
     public float sinNoiseScale;
@@ -92,6 +93,11 @@ public class CRTNoise : MonoBehaviour
     AudioSource audioSource;
 
     float soundVolMax = 1f;
+
+    [Header("その他のノイズパラメータ")]
+
+    [SerializeField]
+    List<NoiseParameter> noiseParamList = new List<NoiseParameter>();
 
     // Start is called before the first frame update
     void Start()
@@ -294,6 +300,20 @@ public class CRTNoise : MonoBehaviour
         sinNoiseScale = _sinNoiseScale;
         sinNoiseWidth = _sinNoiseWidth;
         sinNoiseOffset = _sinNoiseOffset;
+    }
+
+    public void SetNoiseParam(string _name)
+    {
+        foreach(var noiseParam in noiseParamList)
+        {
+            if(noiseParam.name == _name)
+            {
+                SetNoiseParam(noiseParam);
+                return;
+            }
+        }
+
+        Debug.LogError("SetNoiseParam : " + _name + " : 指定されたパラメータがリストにありません");
     }
 
     public void SetDefaultNoiseParam()

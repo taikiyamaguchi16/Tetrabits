@@ -11,6 +11,8 @@ public class FollowTarget : MonoBehaviour
     [SerializeField]
     Vector3 offset;
 
+    public Vector3 GetOffset() { return offset; }
+
     [SerializeField]
     bool followX = true;
 
@@ -41,6 +43,26 @@ public class FollowTarget : MonoBehaviour
     public void Follow()
     {
         Vector3 pos = offset;
+        if (followX)
+        {
+            pos.x += followTrans.position.x;
+        }
+
+        if (followY)
+        {
+            pos.y += followTrans.position.y;
+        }
+
+        if (followZ)
+        {
+            pos.z += followTrans.position.z;
+        }
+        transform.position = pos;
+    }
+
+    public void Follow(Vector3 _offset)
+    {
+        Vector3 pos = _offset;
         if (followX)
         {
             pos.x += followTrans.position.x;

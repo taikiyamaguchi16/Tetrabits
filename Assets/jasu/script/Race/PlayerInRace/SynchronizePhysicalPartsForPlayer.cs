@@ -19,7 +19,9 @@ public class SynchronizePhysicalPartsForPlayer : MonoBehaviour
         transform.position = worldPos;
         physicalParts.transform.localPosition = Vector3.zero;
 
-        cameraFollow.Follow();  // カメラ位置補正
+        // カメラ位置補正
+        Vector3 offset = cameraFollow.GetOffset();
+        cameraFollow.Follow(offset);
 
         synchronizeCamera.Synchronise();    // モニターカメラに同期
     }

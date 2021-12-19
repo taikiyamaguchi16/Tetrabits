@@ -30,10 +30,10 @@ public class RaceSoundInput : MonoBehaviour
     {
         if (raceStart.GetStarted())
         {
-            if (TetraInput.sTetraButton.GetTrigger())
-            {
-                SimpleAudioManager.PlayOneShot(seButton);
-            }
+            //if (TetraInput.sTetraButton.GetTrigger())
+            //{
+            //    SimpleAudioManager.PlayOneShot(seButton);
+            //}
 
             if (TetraInput.sTetraLever.GetPoweredOn())
             {

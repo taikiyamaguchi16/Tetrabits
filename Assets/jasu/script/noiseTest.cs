@@ -21,8 +21,9 @@ public class noiseTest : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.N))
         {
-            crtNoise.SetNoiseParam(noiseParam);
-            crtNoise.AlWaysNoise();
+            //crtNoise.SetNoiseParam(noiseParam);
+            //crtNoise.AlWaysNoise();
+            crtNoise.SetNoiseParam("FastForward");
         }
     }
 }
