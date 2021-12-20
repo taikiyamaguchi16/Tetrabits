@@ -60,6 +60,7 @@ public class GameMainManager : MonoBehaviourPunCallbacks
         {
             if (PhotonNetwork.IsMasterClient)
             {
+                MonitorManager.CallCompleteDestroyCreatedCoolingTarget();
                 GetComponent<GameInGameSwitcher>().CallSwitchGameInGameScene(resultScene);
             }
         }

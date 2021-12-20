@@ -16,7 +16,7 @@ public class GameInGameResultManager : MonoBehaviour
     [SerializeField] float loadAllClearSceneWaitSeconds = 5.0f;
 
     [Header("GameOver")]
-    [SerializeField] GameObject reloadText;
+    [SerializeField] UnityEngine.UI.Text reloadText;
     [SerializeField] float reloadTextWaitSeconds = 5.0f;
 
     //[Header("Next Scene")]
@@ -139,11 +139,11 @@ public class GameInGameResultManager : MonoBehaviour
     IEnumerator CoGameOver()
     {
         yield return new WaitForSeconds(reloadTextWaitSeconds);
-        reloadText.SetActive(true);
+        reloadText.enabled = true;
 
         while (true)
         {
-            if ((XInputManager.GetButtonTrigger(0, XButtonType.A) || Input.GetKeyDown(KeyCode.Return)))
+            if ((XInputManager.GetButtonTrigger(0, XButtonType.B) || Input.GetKeyDown(KeyCode.Return)))
             {
                 GameInGameUtil.DisconnectAndReloadGameMain();
             }
@@ -158,6 +158,15 @@ public class GameInGameResultManager : MonoBehaviour
         if (fixedMonitorCamera)
         {
             VirtualCameraManager.OnlyActive(0);
+        }
+
+        if(XInputManager.IsConnected(0))
+        {
+            reloadText.text="Bボタンでタイトルへ戻る";
+        }
+        else
+        {
+            reloadText.text = "Enterでタイトルへ戻る";
         }
     }
 }
