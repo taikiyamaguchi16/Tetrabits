@@ -10,7 +10,9 @@ public class TutorialBatteryLamp : MonoBehaviour
     public BatteryHolder batteryHolder { private set; get; }
 
     [Header("Control Target")]
-    [SerializeField] RawImage controlImage;
+    [SerializeField] RawImage colorChangeImage;
+    [SerializeField] GameObject textureChangeImageOn;
+    [SerializeField] GameObject textureChangeImageOff;
 
     // Start is called before the first frame update
     void Start()
@@ -31,11 +33,15 @@ public class TutorialBatteryLamp : MonoBehaviour
     {
         if (batteryHolder && batteryHolder.GetBatterylevel() > 0)
         {
-            controlImage.color = Color.cyan;
+            textureChangeImageOn.SetActive(true);
+            textureChangeImageOff.SetActive(false);
+            colorChangeImage.color = Color.cyan;
         }
         else
         {
-            controlImage.color = Color.red;
+            textureChangeImageOn.SetActive(false);
+            textureChangeImageOff.SetActive(true);
+            colorChangeImage.color = Color.red;
         }
     }
 }
