@@ -236,6 +236,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   indicatorColorData: {fileID: 11400000, guid: 1c9cc3eadb025d344b2092c99b61b36b, type: 2}
   startUpOccupancy: 0
+--- !u!1 &1406006877
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1406006878}
+  m_Layer: 0
+  m_Name: ButtonPressSensor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1406006878
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406006877}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.98, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5568306286399505661}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1819938556
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,7 +735,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5568306285539570048}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.15, y: -0.54, z: -3.96}
+  m_LocalPosition: {x: -2.431, y: 1.52, z: -7.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6542855780028286593}
@@ -872,6 +902,7 @@ Transform:
   - {fileID: 784967733364921724}
   - {fileID: 1672558768719101525}
   - {fileID: 1819938557}
+  - {fileID: 1406006878}
   m_Father: {fileID: 5568306287210744423}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -888,13 +919,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   batteryHolder: {fileID: 0}
-  buttonBodyCollider: {fileID: 6959435501379785722}
   buttonRb: {fileID: 1336086697509937431}
   foundationJoint: {fileID: 2845345281303665969}
+  buttonPressSensor: {fileID: 1406006877}
   batteryConsumptionOnPressed: 10
-  pressedYSpring: 15
+  pressedYSpring: 45
   stdYSpring: 300
-  pressableDifferenceY: -1
+  buttonBodyStoperCollider: {fileID: 6959435501379785722}
   pressClip:
     clip: {fileID: 8300000, guid: 7bce762f3f349f14abcf972dfd37afc9, type: 3}
     volumeScale: 1
@@ -1206,11 +1237,6 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 29bc99384ff75e141abf473cb2d3b0b7, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45d5290c2d704c948a9f58b0cb864386, type: 3}
---- !u!1 &2576888463732837116 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3976837682646800582, guid: 45d5290c2d704c948a9f58b0cb864386, type: 3}
-  m_PrefabInstance: {fileID: 1509377311585456698}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &784967733364921724 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2168097654423799622, guid: 45d5290c2d704c948a9f58b0cb864386, type: 3}
@@ -1219,6 +1245,11 @@ Transform:
 --- !u!1 &2270563837890330209 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 824382401564716123, guid: 45d5290c2d704c948a9f58b0cb864386, type: 3}
+  m_PrefabInstance: {fileID: 1509377311585456698}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2576888463732837116 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3976837682646800582, guid: 45d5290c2d704c948a9f58b0cb864386, type: 3}
   m_PrefabInstance: {fileID: 1509377311585456698}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4021959857316428541
