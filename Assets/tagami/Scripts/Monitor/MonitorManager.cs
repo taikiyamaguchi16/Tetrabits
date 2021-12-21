@@ -276,6 +276,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
             if (!isResulted && PhotonNetwork.IsMasterClient)
             {
                 isResulted = true;
+                CallCompleteDestroyCoolingTarget();
                 gameInGameSwitcher.CallSwitchGameInGameScene("GameInGameResult");
             }
             return;
@@ -301,13 +302,7 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         //冷却ターゲット消去
         if (PhotonNetwork.IsMasterClient)
         {
-            foreach (var obj in createdCoolingTargets)
-            {
-                if (obj)
-                {
-                    PhotonNetwork.Destroy(obj);
-                }
-            }
+            CallCompleteDestroyCoolingTarget();
         }
 
         //エフェクトを再生する
@@ -326,6 +321,17 @@ public class MonitorManager : MonoBehaviourPunCallbacks
         {
             effect.Play();
             yield return new WaitForSeconds(playNextStageEffectIntervalSeconds);
+        }
+    }
+
+    public void CallCompleteDestroyCoolingTarget()
+    {
+        foreach (var obj in createdCoolingTargets)
+        {
+            if (obj)
+            {
+                PhotonNetwork.Destroy(obj);
+            }
         }
     }
 
@@ -447,6 +453,11 @@ public class MonitorManager : MonoBehaviourPunCallbacks
     public static void CallAddNumDebrisInGameMainStage()
     {
         sMonitorManager?.CallAddNumDebris();
+    }
+
+    public static void CallCompleteDestroyCreatedCoolingTarget()
+    {
+        sMonitorManager?.CallCompleteDestroyCoolingTarget();
     }
 
     //ほぼ専用関数

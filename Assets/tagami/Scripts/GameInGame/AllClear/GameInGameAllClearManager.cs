@@ -43,6 +43,7 @@ public class GameInGameAllClearManager : MonoBehaviour
     [SerializeField] RawImage fadeImage;
     [SerializeField] Text toTitleText;
 
+
     [Header("Background")]
     [SerializeField] RawImage frontBackground;
     [SerializeField] RawImage backBackground;
@@ -60,6 +61,9 @@ public class GameInGameAllClearManager : MonoBehaviour
         //初期カラー設定
         foreach (var fastForwardImage in fastForwardImages)
             fastForwardImage.color = fastForwardDefaultColor;
+
+        //ノイズ設定
+        GameObject.Find("Display")?.GetComponent<CRTNoise>()?.SetNoiseParam("FastForward");
     }
 
     IEnumerator CoEndCredit()
@@ -90,6 +94,8 @@ public class GameInGameAllClearManager : MonoBehaviour
             VirtualCameraManager.OnlyActive(0);
             if ((XInputManager.GetButtonTrigger(0, XButtonType.A) || Input.GetKeyDown(KeyCode.Return)))
             {
+                //ノイズもとに戻す
+                GameObject.Find("Display")?.GetComponent<CRTNoise>()?.SetDefaultNoiseParam();
                 GameInGameUtil.DisconnectAndReloadGameMain();
             }
             yield return null;
@@ -115,13 +121,15 @@ public class GameInGameAllClearManager : MonoBehaviour
 
             if (TetraInput.sTetraLever.GetPoweredOn() && !oldPowerdOn)
             {
-                //GameObject.Find("Display")?.GetComponent<CRTNoise>()?.
+                GameObject.Find("Display")?.GetComponent<CRTNoise>()?.SetNoiseActive(true);
 
                 foreach (var fastForwardImage in fastForwardImages)
                     fastForwardImage.color = fastForwardColor;
             }
             else if (!TetraInput.sTetraLever.GetPoweredOn() && oldPowerdOn)
             {
+                GameObject.Find("Display")?.GetComponent<CRTNoise>()?.SetNoiseActive(false);
+
                 foreach (var fastForwardImage in fastForwardImages)
                     fastForwardImage.color = fastForwardDefaultColor;
             }

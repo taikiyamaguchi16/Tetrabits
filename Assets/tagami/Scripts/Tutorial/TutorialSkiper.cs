@@ -13,6 +13,10 @@ public class TutorialSkiper : MonoBehaviour
     [SerializeField] float skipableSeconds = 5.0f;
     float skipTimer;
 
+    [Header("Sound")]
+    [SerializeField] AudioSource skippingAudioSource;
+
+    bool oldPoweredOn;
     bool skiped;
 
     // Start is called before the first frame update
@@ -45,6 +49,18 @@ public class TutorialSkiper : MonoBehaviour
                 skipTimer = 0;
             }
         }
+
+        if (TetraInput.sTetraLever.GetPoweredOn() && !oldPoweredOn)
+        {
+            Debug.Log("Skip音再生");
+            skippingAudioSource.Play();
+        }
+        else if (!TetraInput.sTetraLever.GetPoweredOn() && oldPoweredOn)
+        {
+            Debug.Log("Skip音終了");
+            skippingAudioSource.Stop();
+        }
+        oldPoweredOn = TetraInput.sTetraLever.GetPoweredOn();
 
         //Gauge更新
         skipGaugeSlider.value = skipTimer;

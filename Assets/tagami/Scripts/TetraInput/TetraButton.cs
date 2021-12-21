@@ -10,16 +10,17 @@ public class TetraButton : MonoBehaviourPunCallbacks
     [Header("Require Reference")]
     [SerializeField] BatteryHolder batteryHolder;
 
-    [Header("Prefab Reference")]
-    [SerializeField] ButtonBodyCollider buttonBodyCollider;
+    [Header("Press")]
+
     [SerializeField] Rigidbody buttonRb;
     [SerializeField] ConfigurableJoint foundationJoint;
+    [SerializeField] GameObject buttonPressSensor;
 
-    [Header("Status")]
     [SerializeField] float batteryConsumptionOnPressed = 1.0f;
     [SerializeField, Tooltip("ボタン押し返し力")] float pressedYSpring = 100.0f;
     [SerializeField] float stdYSpring = 5000.0f;
-    [SerializeField, Tooltip("この値よりボタンと土台のY値の差分が低くなった時ボタンが押されます")] float pressableDifferenceY = 0;
+
+    [SerializeField] ButtonBodyCollider buttonBodyStoperCollider;
 
     [Header("Sound")]
     [SerializeField] SEAudioClip pressClip;
@@ -58,7 +59,7 @@ public class TetraButton : MonoBehaviourPunCallbacks
             if (PhotonNetwork.IsMasterClient)
             {//マスタークライアントでのみ処理を行う   
                 oldLocalMasterButtonState = localMasterButtonState;
-                localMasterButtonState = (buttonRb.transform.localPosition.y - foundationJoint.transform.localPosition.y) < pressableDifferenceY;
+                localMasterButtonState = buttonRb.transform.localPosition.y < buttonPressSensor.transform.localPosition.y;
             }
 
             if (GetTrigger())   //GetTriggerが同期しているためローカル処理で良い
@@ -107,13 +108,13 @@ public class TetraButton : MonoBehaviourPunCallbacks
         }
 
         //押し返し力の設定
-        if (buttonBodyCollider.collidingObjects.Count > 0)
+        if (buttonBodyStoperCollider.collidingObjects.Count > 0)
         {
             SetYDrive(pressedYSpring);
-            buttonBodyCollider.triggerEnter = false;
+            buttonBodyStoperCollider.triggerEnter = false;
         }
         //誰も乗っていない＆Stopperのトリガー判定に触れている
-        else if (buttonBodyCollider.triggerEnter)
+        else if (buttonBodyStoperCollider.triggerEnter)
         {
             SetYDrive(stdYSpring);
         }

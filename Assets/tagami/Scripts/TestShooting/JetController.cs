@@ -50,6 +50,8 @@ public class JetController : MonoBehaviourPunCallbacks
                 Destroy(obj);
             }
             selfDestroyTimer += bombSelfDestroyCostSeconds;
+
+            GameInGameUtil.PlayCrackers();
         }
 
         //**********************************************************
