@@ -89,12 +89,12 @@ public class BikeSlipDown : MonoBehaviourPunCallbacks
         spriteRenderer.sprite = defaultSprite;
     }
 
-    public void SlipStart()
+    public void CallSlipStart()
     {
         photonView.RPC(nameof(RPCSlipStart), RpcTarget.All);
     }
 
-    public void SlipStart(string _damage)
+    public void CallSlipStart(string _damage)
     {
         if (PhotonNetwork.IsMasterClient)
         {

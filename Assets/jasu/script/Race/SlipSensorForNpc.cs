@@ -45,7 +45,7 @@ public class SlipSensorForNpc : OnDirt
             if (dirtSlipTimer > dirtSlipSeconds)
             {
                 dirtSlipTimer = 0f;
-                bikeSlipDown.SlipStart();
+                bikeSlipDown.CallSlipStart();
             }
         }
     }
@@ -62,7 +62,7 @@ public class SlipSensorForNpc : OnDirt
         {
             if (!bikeSlipDown.isSliping)
             {
-                bikeSlipDown.SlipStart();
+                bikeSlipDown.CallSlipStart();
             }
             return;
         }

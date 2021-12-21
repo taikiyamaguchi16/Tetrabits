@@ -22,7 +22,7 @@ public class MoveBetweenLaneInInput : MoveBetweenLane
         moveDir = 0;
 
         // 接地中
-        if (colliderSensor.GetExistInCollider())
+        if (groundSensor.GetSensorActive())
         {
             if (TetraInput.sTetraPad.GetVector().y > padInputRangeY)
             {

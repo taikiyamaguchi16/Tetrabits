@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColliderSensor : MonoBehaviour
+public class GroundSensor : MonoBehaviour
 {
     [SerializeField]
-    bool existInCollider = false; // コリジョン内に何かしらのオブジェクトがあればtrue;
+    bool sensorActive = false; // コリジョン内に何かしらのオブジェクトがあればtrue;
 
     [SerializeField]
     float distanceToGround = 3f;
@@ -51,12 +51,12 @@ public class ColliderSensor : MonoBehaviour
                     return;
                 }
             }
-            existInCollider = true;
+            sensorActive = true;
             //Debug.Log("地面判定 : " + hitInfo.transform.gameObject.name);
         }
         else
         {
-            existInCollider = false;
+            sensorActive = false;
         }
     }
 
@@ -85,8 +85,8 @@ public class ColliderSensor : MonoBehaviour
     //    return objList.Count;
     //}
 
-    public bool GetExistInCollider()
+    public bool GetSensorActive()
     {
-        return existInCollider;
+        return sensorActive;
     }
 }
