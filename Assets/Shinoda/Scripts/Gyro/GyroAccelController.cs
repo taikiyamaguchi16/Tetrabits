@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GyroAccelController : MonoBehaviour
 {
-    [SerializeField] float accelScale = 1.5f;
+    [SerializeField] float accelScale = 5f;
     [SerializeField] float accelRecast = 3.0f;
 
     bool accelable = true;
@@ -32,7 +32,8 @@ public class GyroAccelController : MonoBehaviour
         if (accelable)
         {
             Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
-            rb.velocity *= accelScale;
+            Vector2 work = rb.velocity.normalized;
+            rb.velocity += work * accelScale;
         }
     }
 }

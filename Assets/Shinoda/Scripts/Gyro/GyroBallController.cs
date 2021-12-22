@@ -40,11 +40,11 @@ public class GyroBallController : MonoBehaviour
 
         if (padVec.x > 0)
         {
-            this.transform.Rotate(0.0f, 0.0f, 1.0f * rotateScale);
+            this.transform.Rotate(0.0f, 0.0f, padVec.magnitude * rotateScale);
         }
         else if (padVec.x < 0)
         {
-            this.transform.Rotate(0.0f, 0.0f, -1.0f * rotateScale);
+            this.transform.Rotate(0.0f, 0.0f, -padVec.magnitude * rotateScale);
         }
 
         if (TetraInput.sTetraLever.GetPoweredOn())
