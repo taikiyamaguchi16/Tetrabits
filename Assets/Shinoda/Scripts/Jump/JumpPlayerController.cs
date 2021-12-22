@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Photon.Pun;
 
 public class JumpPlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
     SpriteRenderer myRenderer;
+    PhotonTransformViewClassic photonTransformView;
     bool isParasol = false;
     bool isJump = false;
     public bool GetJump() { return isJump; }
@@ -43,6 +45,7 @@ public class JumpPlayerController : MonoBehaviour
         originScale = arrow.transform.localScale;
         animator = GetComponent<Animator>();
         myRenderer = GetComponent<SpriteRenderer>();
+        photonTransformView = GetComponent<PhotonTransformViewClassic>();
     }
 
     // Update is called once per frame
@@ -87,6 +90,8 @@ public class JumpPlayerController : MonoBehaviour
                 rb.AddForce(transform.right * padVec.x * moveScale);
             }
         }
+
+        photonTransformView.SetSynchronizedValues(speed: rb.velocity, turnSpeed: 0);
     }
 
     void Jump(Vector2 _jumpDirection)

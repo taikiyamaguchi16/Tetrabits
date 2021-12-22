@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6177388447697350374}
   - component: {fileID: 6481888112067299211}
   - component: {fileID: 4563822447849705540}
-  - component: {fileID: 8453766682660795452}
   - component: {fileID: 1648537289978904134}
   m_Layer: 0
   m_Name: Accel
@@ -111,22 +110,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &8453766682660795452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5435360071206294363}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99ae9098c3cde2448adea399c3fccb52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offSprite: {fileID: 21300000, guid: fa2a83d4a8f588a4f8b105c2404e54fc, type: 3}
-  onSprite: {fileID: 21300000, guid: 73d83e444e29ba94ab3d0da330fad1c9, type: 3}
-  offStart: 0
-  switchSE: {fileID: 8300000, guid: 6fc7e2d25d540a64dbb3a7dbe7db739d, type: 3}
 --- !u!114 &1648537289978904134
 MonoBehaviour:
   m_ObjectHideFlags: 0
