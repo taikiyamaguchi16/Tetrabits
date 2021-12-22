@@ -7,14 +7,13 @@ public class GyroAccelController : MonoBehaviour
     [SerializeField] float accelScale = 1.5f;
     [SerializeField] float accelRecast = 3.0f;
 
-    GyroBallController ballControllerComponent;
     bool accelable = true;
     float timeCount = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        ballControllerComponent = GameObject.Find("Ball").GetComponent<GyroBallController>();
+
     }
 
     // Update is called once per frame
@@ -34,7 +33,6 @@ public class GyroAccelController : MonoBehaviour
         {
             Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
             rb.velocity *= accelScale;
-            ballControllerComponent.InstanceEffect();
         }
     }
 }

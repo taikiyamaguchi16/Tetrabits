@@ -27,7 +27,7 @@ public class InGameClear : MonoBehaviour
     {
         if(animEnd&&!usePopper)
         {
-            // クラッカー鳴らす
+            GameInGameUtil.PlayCrackers();
             usePopper = true;
         }
 
