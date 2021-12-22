@@ -162,6 +162,12 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
         {
             if (other.gameObject.GetComponent<IPlayerAction>() != null)
             {
+                //実行中のアクションを終わる
+                if(runningAction!=null)
+                {
+                    runningAction.EndPlayerAction(desc);
+                    runningAction = null;
+                }
                 allActionItem.Remove(other.gameObject);  // アクション候補のリスト
 
                 GameObject carryObj = holder.GetItem();
