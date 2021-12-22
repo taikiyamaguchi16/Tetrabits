@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class GyroBallController : MonoBehaviour
 {
     Rigidbody2D rb;
     SpriteRenderer myRenderer;
+    PhotonTransformViewClassic photonTransformView;
 
     [SerializeField] AudioClip BGM;
     [SerializeField] AudioClip bounceSE;
@@ -30,6 +32,7 @@ public class GyroBallController : MonoBehaviour
         GameInGameUtil.StartGameInGameTimer("gyro");
         rb = GetComponent<Rigidbody2D>();
         myRenderer = GetComponent<SpriteRenderer>();
+        photonTransformView = GetComponent<PhotonTransformViewClassic>();
         //accelEffect = Instantiate(effectPrefab, effectInstanceTransform);
     }
 
@@ -55,16 +58,13 @@ public class GyroBallController : MonoBehaviour
         else myRenderer.color = moveColor;
         if (leverState ^ TetraInput.sTetraLever.GetPoweredOn()) SimpleAudioManager.PlayOneShot(leverSE);
         leverState = TetraInput.sTetraLever.GetPoweredOn();
-        //if (TetraInput.sTetraButton.GetTrigger())
-        //{
-        //    rb.velocity = Vector2.zero;
-        //}
 
         rb.AddForce(-(this.transform.up) * gravityScale);
 
         effectInstanceTransform.rotation = Quaternion.FromToRotation(Vector3.right, rb.velocity);
 
-        float speed = rb.velocity.magnitude;
+        //float speed = rb.velocity.magnitude;
+        photonTransformView.SetSynchronizedValues(speed: rb.velocity, turnSpeed: 0);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

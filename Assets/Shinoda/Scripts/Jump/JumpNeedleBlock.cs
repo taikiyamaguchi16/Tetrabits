@@ -10,7 +10,6 @@ public class JumpNeedleBlock : MonoBehaviour
 
     float timeCount;
     GameObject player;
-    GameObject playerFoot;
     JumpPlayerController playerControllerComponent;
     bool playerOn = false;
 
@@ -19,7 +18,6 @@ public class JumpNeedleBlock : MonoBehaviour
     {
         timeCount = time;
         player = GameObject.Find("JumpMan");
-        playerFoot = player.transform.Find("Foot").gameObject;
         playerControllerComponent = player.GetComponent<JumpPlayerController>();
     }
 
@@ -41,24 +39,17 @@ public class JumpNeedleBlock : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player" && PhotonNetwork.IsMasterClient)
+        if (collision.gameObject == player)
         {
-            MonitorManager.DealDamageToMonitor(damage);
+            if (PhotonNetwork.IsMasterClient) MonitorManager.DealDamageToMonitor(damage);
             playerControllerComponent.DamageAnimation();
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject == playerFoot)
-        {
             playerOn = true;
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnCollisionExit2D(Collider2D collision)
     {
-        if (collision.gameObject == playerFoot)
+        if (collision.gameObject == player)
         {
             timeCount = time;
             playerOn = false;

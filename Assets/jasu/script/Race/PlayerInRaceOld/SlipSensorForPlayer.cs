@@ -79,7 +79,7 @@ public class SlipSensorForPlayer : OnDirt
                 if (dirtSlipTimer > dirtSlipOnLeverSeconds)
                 {
                     dirtSlipTimer = 0f;
-                    bikeSlipDown.SlipStart("small");
+                    bikeSlipDown.CallSlipStart("small");
                 }
             }
             else
@@ -87,7 +87,7 @@ public class SlipSensorForPlayer : OnDirt
                 if (dirtSlipTimer > dirtSlipSeconds)
                 {
                     dirtSlipTimer = 0f;
-                    bikeSlipDown.SlipStart("medium");
+                    bikeSlipDown.CallSlipStart("medium");
                 }
             }
         }
@@ -106,7 +106,7 @@ public class SlipSensorForPlayer : OnDirt
             if (!bikeSlipDown.isSliping)
             {
                 //Debug.Log("敵にぶつかった");
-                bikeSlipDown.SlipStart("small");
+                bikeSlipDown.CallSlipStart("small");
             }
             return;
         }

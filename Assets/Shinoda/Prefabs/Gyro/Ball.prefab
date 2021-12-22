@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 6261697391292533268}
   - component: {fileID: 6261697391292533269}
   - component: {fileID: -6094582012326296392}
-  - component: {fileID: -8834602355415472269}
+  - component: {fileID: 2383939375928697451}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -279,11 +279,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: -8834602355415472269}
+  - {fileID: 2383939375928697451}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-8834602355415472269
+--- !u!114 &2383939375928697451
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -292,13 +292,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 6261697391292533279}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
+  m_PositionModel:
+    SynchronizeEnabled: 1
+    TeleportEnabled: 1
+    TeleportIfDistanceGreaterThan: 3
+    InterpolateOption: 3
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 1
+    ExtrapolateOption: 0
+    ExtrapolateSpeed: 1
+    ExtrapolateIncludingRoundTripTime: 1
+    ExtrapolateNumberOfStoredPositions: 1
+  m_RotationModel:
+    SynchronizeEnabled: 1
+    InterpolateOption: 1
+    InterpolateRotateTowardsSpeed: 180
+    InterpolateLerpSpeed: 5
+  m_ScaleModel:
+    SynchronizeEnabled: 0
+    InterpolateOption: 0
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 0
 --- !u!1 &7527442449048009553
 GameObject:
   m_ObjectHideFlags: 0

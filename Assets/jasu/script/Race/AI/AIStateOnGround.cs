@@ -41,7 +41,7 @@ public class AIStateOnGround : AIState
     //DirtSplashSpawn dirtSplashSpawn;
 
     [SerializeField]
-    ColliderSensor colliderSensor = null;
+    GroundSensor groundSensor = null;
 
     RacerInfo playerRacerInfo = null;
 
@@ -199,7 +199,7 @@ public class AIStateOnGround : AIState
 
     public override bool CheckShiftCondition()
     {
-        if (colliderSensor.GetExistInCollider())
+        if (groundSensor.GetSensorActive())
         {
             return true;
         }
