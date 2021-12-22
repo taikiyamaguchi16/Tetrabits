@@ -187,10 +187,15 @@ MonoBehaviour:
     list: []
   rb: {fileID: 8244586246685513082}
   playerClashSensor: {fileID: 5960601650693689189}
+  raceManager: {fileID: 0}
   racerController: {fileID: 0}
   handleRacerSpdGear: 1
   warpDistance: 60
   warpOffset: {x: 0, y: 70, z: -15}
+  forceWhenGoal: {x: 0, y: 0, z: 0}
+  dirtAtks: []
+  attackInterval: 10
+  atkPercent: 100
   velocity: {x: 0, y: 0, z: 0}
   distance: 0
 --- !u!114 &5960601650693689189
@@ -208,6 +213,8 @@ MonoBehaviour:
   racerController: {fileID: 0}
   impalseForce: {x: 0, y: 2500, z: 300}
   clashStopSeconds: 2.5
+  playerSlipSeconds: 2.1
+  rotNum: 3
 --- !u!114 &7078203196060976321
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19,13 +19,8 @@ public class RacerSlipSensor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (racerController.GetChaseRaceManager().started)
+        if (racerController.GetChaseRaceManager().started && !racerController.GetChaseRaceManager().goaled)
         {
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                bikeSlipDown.CallSlipStart("small");
-            }
-
             if (bikeSlipDown.isSliping)
             {
                 racerController.GetRacerMove().movable = false;
@@ -43,7 +38,15 @@ public class RacerSlipSensor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Slip" && !bikeSlipDown.isSliping)
+        if (other.gameObject.tag == "Slip" && !bikeSlipDown.isSliping && !TetraInput.sTetraLever.GetPoweredOn())
+        {
+            bikeSlipDown.CallSlipStart("small");
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Slip" && !bikeSlipDown.isSliping && !TetraInput.sTetraLever.GetPoweredOn())
         {
             bikeSlipDown.CallSlipStart("small");
         }

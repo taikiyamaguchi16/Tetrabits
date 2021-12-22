@@ -20,6 +20,12 @@ public class PlayerClashSensor : MonoBehaviourPunCallbacks
 
     float clashStopTimer;
 
+    [SerializeField]
+    float playerSlipSeconds = 2.1f;
+
+    [SerializeField]
+    float rotNum = 3f;
+
     private void Start()
     {
         racerRb = racerController.GetRigidbody();
@@ -44,7 +50,7 @@ public class PlayerClashSensor : MonoBehaviourPunCallbacks
         {
             if (!playerClash)
             {
-                racerController.GetBikeSlipDown().CallSlipStart("large");
+                racerController.GetBikeSlipDown().CallSlipStart("large", playerSlipSeconds, 360f * rotNum);
 
                 if (PhotonNetwork.IsMasterClient)
                 {

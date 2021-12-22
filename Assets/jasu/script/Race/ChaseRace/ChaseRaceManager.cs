@@ -14,6 +14,8 @@ public class ChaseRaceManager : MonoBehaviourPunCallbacks
     [SerializeField]
     RaceStageMolder raceStageMolder;
 
+    public RaceStageMolder GetRaceStageMolder() { return raceStageMolder; }
+
     [SerializeField]
     AudioClip bgm;
 
@@ -37,7 +39,7 @@ public class ChaseRaceManager : MonoBehaviourPunCallbacks
     [SerializeField]
     SceneObject nextScene = null;
 
-    bool goaled = false;
+    public bool goaled { get; private set; } = false;
 
     [SerializeField]
     float standBytimeSeconds = 3f;

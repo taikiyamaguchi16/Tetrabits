@@ -25,6 +25,9 @@ public class FollowTarget : MonoBehaviour
     [SerializeField]
     bool self = false;
 
+    [SerializeField]
+    bool local = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,7 +39,16 @@ public class FollowTarget : MonoBehaviour
     {
         if (self)
         {
-            Follow();
+            if (local)
+            {
+                Vector3 pos = transform.position;
+                pos.z = followTrans.position.z + 20f;
+                transform.position = pos;
+            }
+            else
+            {
+                Follow();
+            }
         }
     }
 
