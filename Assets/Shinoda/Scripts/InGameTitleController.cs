@@ -14,6 +14,9 @@ public class InGameTitleController : MonoBehaviour
     }
     CanvasState state = CanvasState.Title;
 
+    [SerializeField] AudioClip BGM;
+    [SerializeField] float volume = 1.0f;
+
     [SerializeField] GameObject titlePanel;
     [SerializeField] GameObject optionPanel;
     [SerializeField] Text titleText;
@@ -28,6 +31,7 @@ public class InGameTitleController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SimpleAudioManager.PlayBGMCrossFade(BGM, volume);
         optionTransform = optionPanel.GetComponent<RectTransform>();
         optionTransform.localScale = new Vector3(1, 0, 1);
         //titlePanel.SetActive(true);

@@ -14,6 +14,7 @@ public class GyroBallController : MonoBehaviour
     [SerializeField] float rotateScale = 0.1f;
     [SerializeField] float stopTime = 1.0f;
     [SerializeField] float gravityScale = 9.8f;
+    [SerializeField] Color moveColor;
     [SerializeField] Color stopColor;
 
     [SerializeField] GameObject effectPrefab = null;
@@ -29,7 +30,7 @@ public class GyroBallController : MonoBehaviour
         GameInGameUtil.StartGameInGameTimer("gyro");
         rb = GetComponent<Rigidbody2D>();
         myRenderer = GetComponent<SpriteRenderer>();
-        accelEffect = Instantiate(effectPrefab, effectInstanceTransform);
+        //accelEffect = Instantiate(effectPrefab, effectInstanceTransform);
     }
 
     // Update is called once per frame
@@ -51,7 +52,7 @@ public class GyroBallController : MonoBehaviour
             rb.velocity = Vector2.zero;
             myRenderer.color = stopColor;
         }
-        else myRenderer.color = Color.white;
+        else myRenderer.color = moveColor;
         if (leverState ^ TetraInput.sTetraLever.GetPoweredOn()) SimpleAudioManager.PlayOneShot(leverSE);
         leverState = TetraInput.sTetraLever.GetPoweredOn();
         //if (TetraInput.sTetraButton.GetTrigger())
@@ -64,11 +65,6 @@ public class GyroBallController : MonoBehaviour
         effectInstanceTransform.rotation = Quaternion.FromToRotation(Vector3.right, rb.velocity);
 
         float speed = rb.velocity.magnitude;
-    }
-
-    public void InstanceEffect()
-    {
-        GameObject accelEffect = Instantiate(effectPrefab, effectInstanceTransform);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
