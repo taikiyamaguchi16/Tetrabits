@@ -135,7 +135,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followTrans: {fileID: 0}
-  offset: {x: 55, y: 75, z: 20}
+  racerController: {fileID: 0}
+  offset: {x: 55, y: 75, z: 15}
+  offsetMinZ: -15
+  offsetMaxZ: 15
+  activeOffset: {x: 0, y: 0, z: 0}
   followX: 1
   followY: 0
   followZ: 1

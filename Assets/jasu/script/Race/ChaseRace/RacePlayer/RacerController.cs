@@ -39,6 +39,11 @@ public class RacerController : MonoBehaviour
 
     public RacerSlipSensor GetRacerSlipSensor() { return racerSlipSensor; }
 
+    [SerializeField]
+    BikeSlipDown bikeSlipDown;
+
+    public BikeSlipDown GetBikeSlipDown() { return bikeSlipDown; }
+
     // Start is called before the first frame update
     void Start()
     {

@@ -26,7 +26,12 @@ public class RacerJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (TetraInput.sTetraButton.GetTrigger() && racerController.GetRacerGroundSensor().GetOnGround())
+        //if (racerController.GetRacerGroundSensor().GetOnGround())
+        //{
+        //    rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        //}
+
+        if (TetraInput.sTetraButton.GetTrigger() && racerController.GetRacerGroundSensor().GetOnGround() && jumpable)
         {
             rb.AddForce(jumpVec, ForceMode.Impulse);
         }

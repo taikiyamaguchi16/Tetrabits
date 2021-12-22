@@ -112,8 +112,8 @@ GameObject:
   - component: {fileID: 1212288839}
   - component: {fileID: 1056743955155448453}
   m_Layer: 0
-  m_Name: PhysicalParts
-  m_TagString: Untagged
+  m_Name: RacerBody
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,7 +143,7 @@ Rigidbody:
   m_Mass: 20
   m_Drag: 0
   m_AngularDrag: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -174,12 +174,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 744101aa81dbdfc4cbb45725b43e6963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  raceManager: {fileID: 0}
   rb: {fileID: 7603701497981581255}
   racerMove: {fileID: 8081333623951487250}
   racerJump: {fileID: 1301844943576596319}
   racerLaneShift: {fileID: 7919584168330228199}
   racerGroundSensor: {fileID: 2912181037873487080}
   racerSlipSensor: {fileID: 6690639494534888735}
+  bikeSlipDown: {fileID: 1446960286}
 --- !u!114 &8081333623951487250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,17 +197,18 @@ MonoBehaviour:
   racerController: {fileID: 2309589884601491043}
   moveSpdGears:
   - 80
+  - 81
   - 82
-  - 85
-  - 90
-  - 100
-  moveSlopeMultiply: 0.5
-  moveDirtMultiply: 0.2
-  moveForceMultiplyStart: 2
+  - 83
+  - 84
+  moveSpdSlope: 80
+  moveSpdDirt: 80
+  moveForceMultiplyStart: 5
   moveForceMultiplyStop: 1
   rotLate: 0.2
   movable: 1
   moveVec: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &1301844943576596319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,8 +222,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   racerController: {fileID: 2309589884601491043}
-  jumpVec: {x: 0, y: 1000, z: 0}
-  gravity: -100
+  jumpVec: {x: 0, y: 1500, z: 0}
+  gravity: -200
   jumpable: 1
 --- !u!114 &7919584168330228199
 MonoBehaviour:

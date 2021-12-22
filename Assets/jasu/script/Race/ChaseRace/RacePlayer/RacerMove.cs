@@ -30,11 +30,11 @@ public class RacerMove : MonoBehaviour
         moveSpd = moveSpdGears[moveGear];
     }
 
-    [SerializeField, Tooltip("坂を上る時移動速度にかける倍率")]
-    float moveSlopeMultiply = 0.5f;
+    [SerializeField, Tooltip("坂を上る時移動速度")]
+    float moveSpdSlope = 80f;
 
-    [SerializeField, Tooltip("泥の上の移動速度にかける倍率")]
-    float moveDirtMultiply = 0.22f;
+    [SerializeField, Tooltip("泥の上の移動速度")]
+    float moveSpdDirt = 80f;
 
     [SerializeField, Tooltip("スタート時の慣性")]
     float moveForceMultiplyStart = 2f;
@@ -53,6 +53,9 @@ public class RacerMove : MonoBehaviour
 
     [SerializeField]
     Vector3 moveVec;
+
+    [SerializeField]
+    Vector3 velocity;
 
     // Start is called before the first frame update
     void Start()
@@ -76,11 +79,13 @@ public class RacerMove : MonoBehaviour
         {
             SetMoveSpd(moveSpdGears.Length - 1);
         }
+
+        velocity = rb.velocity;
     }
 
     private void FixedUpdate()
     {
-        moveVec = Vector3.zero;
+        moveVec = rb.velocity;
 
         // スロープ判定
         if (racerController.GetRacerGroundSensor().GetOnSlope())
@@ -89,8 +94,8 @@ public class RacerMove : MonoBehaviour
 
             transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.LookRotation(moveVec), rotLate);
 
-            moveVec.y *= (moveSpd / moveVec.z) * moveSlopeMultiply;
-            moveVec.z = moveSpd * moveSlopeMultiply;
+            moveVec.y *= (moveSpdSlope / moveVec.z);
+            moveVec.z = moveSpdSlope;
         }
         else
         {
@@ -101,13 +106,14 @@ public class RacerMove : MonoBehaviour
         // Dirt上
         if (racerController.GetRacerGroundSensor().GetOnDirt())
         {
-            moveVec.z *= moveDirtMultiply;
+            moveVec.z = moveSpdDirt;
         }
 
         // AddForce
         if (movable) // start
         {
-            rb.AddForce(moveForceMultiplyStart * (moveVec - rb.velocity), ForceMode.Acceleration);
+            //rb.AddForce(moveForceMultiplyStart * (moveVec - rb.velocity), ForceMode.Acceleration);
+            rb.velocity = moveVec;
         }
         else // stop
         {

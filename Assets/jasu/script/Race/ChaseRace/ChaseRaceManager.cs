@@ -9,6 +9,9 @@ public class ChaseRaceManager : MonoBehaviourPunCallbacks
     RacerController racerController;
 
     [SerializeField]
+    StateAIManager stateAIManager;
+
+    [SerializeField]
     RaceStageMolder raceStageMolder;
 
     [SerializeField]
@@ -62,6 +65,8 @@ public class ChaseRaceManager : MonoBehaviourPunCallbacks
         racerController.GetRacerLaneShift().movable = false;
         racerController.GetRacerLaneShift().belongingLaneId = 1;
 
+        stateAIManager.enabled = false;
+
         foreach (GameObject obj in showObjWhenGoalList)
         {
             obj.SetActive(false);
@@ -80,6 +85,8 @@ public class ChaseRaceManager : MonoBehaviourPunCallbacks
             racerController.GetRacerMove().movable = true;
             racerController.GetRacerJump().jumpable = true;
             racerController.GetRacerLaneShift().movable = true;
+
+            stateAIManager.enabled = true;
         }
 
         // ゴール判定
@@ -91,7 +98,9 @@ public class ChaseRaceManager : MonoBehaviourPunCallbacks
             racerController.GetRacerJump().jumpable = false;
             racerController.GetRacerLaneShift().movable = false;
 
-            foreach(GameObject obj in showObjWhenGoalList)
+            stateAIManager.enabled = false;
+
+            foreach (GameObject obj in showObjWhenGoalList)
             {
                 obj.SetActive(true);
             }
