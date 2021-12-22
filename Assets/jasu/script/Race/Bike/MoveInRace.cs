@@ -10,13 +10,13 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     public Rigidbody rb { get; protected set; }
 
     [SerializeField]
-    protected ColliderSensor colliderSensor = null;
+    protected GroundSensor groundSensor = null;
 
     [SerializeField]
     protected BikeSlipDown bikeSlipDown = null;
 
-    [SerializeField]
-    protected DirtSplashSpawn dirtSplashSpawn;
+    //[SerializeField]
+    //protected DirtSplashSpawn dirtSplashSpawn;
 
     [SerializeField]
     protected AttitudeCtrlInRace attitudeCtrl;
@@ -145,7 +145,7 @@ public class MoveInRace : MonoBehaviourPunCallbacks
 
         moveSpd = moveSpdStandard;
 
-        if (!onSlope && colliderSensor.GetExistInCollider())
+        if (!onSlope && groundSensor.GetSensorActive())
         {
             if (angleX < 0)
             {
@@ -219,7 +219,7 @@ public class MoveInRace : MonoBehaviourPunCallbacks
     protected void SetGravity()
     {
         // 空中でのみ重力
-        if (!colliderSensor.GetExistInCollider())
+        if (!groundSensor.GetSensorActive())
         {
             moveVec.y = gravity;
         }
@@ -237,7 +237,7 @@ public class MoveInRace : MonoBehaviourPunCallbacks
             rb.AddForce(moveForceMultiplyStart * (moveVec - rb.velocity), ForceMode.Acceleration);
         }
 
-        dirtSplashSpawn.moveVec = moveVec;
+        //dirtSplashSpawn.moveVec = moveVec;
     }
 
     //private void OnCollisionEnter(Collision collision)

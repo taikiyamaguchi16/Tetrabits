@@ -7,11 +7,9 @@ using UnityEngine.UI;
 public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
 {
     [SerializeField]
-    private GameObject rendererObj;
-    [SerializeField]
-    private Color cassetteColor;
-    [SerializeField]
     Sprite titleSprite;
+    [SerializeField]
+    Vector2 TitleImageSize;
 
     private CassetteTitleImage cassetteTitleImage;
 
@@ -43,8 +41,6 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
         isClear = false;
 
         priority = 50;
-
-        rendererObj.GetComponent<Renderer>().material.color = cassetteColor;
     }
     private void Update()
     {
@@ -159,7 +155,7 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
             {
                 cassetteTitleImage = other.gameObject.GetComponent<CassetteTitleImage>();
                 cassetteTitleImage.SetCassetteImageActive(true);
-                cassetteTitleImage.SetCassetteTexture(titleSprite);
+                cassetteTitleImage.SetCassetteTexture(titleSprite, TitleImageSize);
             }
         }
     }

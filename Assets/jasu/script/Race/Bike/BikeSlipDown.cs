@@ -50,7 +50,8 @@ public class BikeSlipDown : MonoBehaviourPunCallbacks
             rotCounter += variation * Time.deltaTime;
             if (rotCounter >= rotAngle)
             {
-                photonView.RPC(nameof(RPCSlipEnd), RpcTarget.All);
+                if(PhotonNetwork.IsMasterClient)
+                    photonView.RPC(nameof(RPCSlipEnd), RpcTarget.All);
             }
         }
     }
@@ -89,18 +90,17 @@ public class BikeSlipDown : MonoBehaviourPunCallbacks
         spriteRenderer.sprite = defaultSprite;
     }
 
-    public void SlipStart()
+    public void CallSlipStart()
     {
         photonView.RPC(nameof(RPCSlipStart), RpcTarget.All);
     }
 
-    public void SlipStart(string _damage)
+    public void CallSlipStart(string _damage)
     {
         if (PhotonNetwork.IsMasterClient)
         {
             MonitorManager.DealDamageToMonitor(_damage);
+            photonView.RPC(nameof(RPCSlipStart), RpcTarget.All);
         }
-
-        photonView.RPC(nameof(RPCSlipStart), RpcTarget.All);
     }
 }
