@@ -13,10 +13,13 @@ public class CassetteTitleImage : MonoBehaviourPunCallbacks
     {
         titleImage.enabled = false;
     }
-    public void SetCassetteTexture(Sprite _texture)
+    public void SetCassetteTexture(Sprite _texture,Vector2 size)
     {
-        if(photonView.IsMine)
+        if (photonView.IsMine)
+        {
+            titleImage.rectTransform.sizeDelta = size;
             titleImage.sprite = _texture;
+        }
     }
 
     public void SetCassetteImageActive(bool _fg)
