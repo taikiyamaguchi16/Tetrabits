@@ -49,22 +49,29 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
             {
                 StopCoroutine(nowCoroutine);
                 blinkImage.enabled = false;
+                blinkingNow = false;
+                nowCoroutine = null;
             }
         }
         else
         {
             nothingImage.enabled = false;
 
-            if (PhotonNetwork.IsMasterClient)
+            //if (PhotonNetwork.IsMasterClient)
+            // {
+            if (batteryHolder.GetBatterylevel() <= startWarningLevel)
             {
-                if (batteryHolder.GetBatterylevel() <= startWarningLevel)
+                if (!blinkingNow)
                 {
-                    if (!blinkingNow)
-                    {                       
-                        photonView.RPC(nameof(StartBlinkWarning), RpcTarget.All,photonView.ViewID);
-                    }
-                }               
-            }
+                    //photonView.RPC(nameof(StartBlinkWarning), RpcTarget.All,photonView.ViewID);
+                    //StartBlinkWarning();
+                    blinkingNow = true;
+                    nothingImage.enabled = false;
+
+                    nowCoroutine = StartCoroutine(BlinkWarning());
+                }
+            }               
+           // }
 
             if(batteryHolder.GetBatterylevel() > startWarningLevel)
             {               
@@ -73,6 +80,8 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
                 {
                     StopCoroutine(nowCoroutine);
                     blinkImage.enabled = false;
+                    blinkingNow = false;
+                    nowCoroutine = null;
                 }
             }
         }
@@ -80,22 +89,20 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    IEnumerator StartBlinkWarning(int _id)
+    IEnumerator StartBlinkWarning()
     {
-        if (photonView.ViewID == _id)
-        {
+        //if (photonView.ViewID == _id)
+        //{
             blinkingNow = true;
             nothingImage.enabled = false;
 
             nowCoroutine = StartCoroutine(BlinkWarning());
-            yield return new WaitForSeconds(blinkingTime);
-            if(nowCoroutine!=null)
-                StopCoroutine(nowCoroutine);
+            //yield return new WaitForSeconds(blinkingTime);
 
-            blinkImage.enabled = false;
-            blinkingNow = false;
+            //blinkImage.enabled = false;
+            //blinkingNow = false;
             yield break;
-        }
+       // }
     }
     IEnumerator BlinkWarning()
     {
@@ -108,6 +115,7 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
                 blinkImage.enabled = !blinkImage.enabled;
 
             yield return new WaitForSeconds(interval);
+
         }
     }
 }
