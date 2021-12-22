@@ -33,7 +33,7 @@ public class RaceStageMolder : MonoBehaviour
 
     public DummyStageMolder GetDummyRoadMolder { get { return dummyRoadMolder; } }
 
-    [Header("設定項目")]
+    [Header("パラメータ")]
 
     [SerializeField]
     float laneWidthMultiply = 1f;

@@ -8,7 +8,7 @@ public class SynchronizePhysicalPartsForPlayer : MonoBehaviour
     GameObject physicalParts;
 
     [SerializeField]
-    FollowTarget cameraFollow;
+    FollowTargetInRace cameraFollow;
 
     [SerializeField]
     SynchronizeCamera synchronizeCamera;

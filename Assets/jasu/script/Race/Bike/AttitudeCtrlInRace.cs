@@ -9,7 +9,7 @@ public class AttitudeCtrlInRace : MonoBehaviourPunCallbacks
     protected Rigidbody rb = null;
 
     [SerializeField]
-    protected ColliderSensor colliderSensor = null;
+    protected GroundSensor groundSensor = null;
 
     [SerializeField]
     protected BikeSlipDown bikeSlipDown = null;
@@ -147,11 +147,11 @@ public class AttitudeCtrlInRace : MonoBehaviourPunCallbacks
     // 接地時　転倒判定
     virtual protected void SlipCheck()
     {
-        if (colliderSensor.GetExistInCollider())
+        if (groundSensor.GetSensorActive())
         {
             if (angleX > slipAngleMax || angleX < slipAngleMin)
             {
-                bikeSlipDown.SlipStart();
+                bikeSlipDown.CallSlipStart();
             }
         }
     }
