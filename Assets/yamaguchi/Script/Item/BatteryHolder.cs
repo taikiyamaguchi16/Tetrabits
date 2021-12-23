@@ -127,10 +127,12 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
                 {
                     ownBattery.CallDump(_id);
                     ownBattery.CallPickUp(photonView.ViewID);
+
                     otherPocket.SetItem(null);
                     //自分がバッテリを持っていた場合swapする
                     if (checkbattery != null)
                     {
+                        checkbattery.CallDump(photonView.ViewID);
                         checkbattery.CallPickUp(_id);
                         Debug.Log(otherPocket.gameObject.name + "が電池を入れ替えました");
                     }
