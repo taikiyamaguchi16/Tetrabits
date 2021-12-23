@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 2440525248137612257}
   m_Layer: 20
   m_Name: Move
-  m_TagString: Untagged
+  m_TagString: JumpMove
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0d6059f9dd4d6e468d07c58820b06c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waitFrame: 20
   moveX: 0
   moveY: 0
   blockSize: 1
