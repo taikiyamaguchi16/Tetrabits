@@ -158,6 +158,7 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
                 if (ownBattery != null)
                 {
                     Debug.Log(otherPocket.gameObject.name + "が電池をもらいました");
+                    ownBattery.CallDump(photonView.ViewID);
                     ownBattery.CallPickUp(_id);
 
                     pocket.SetItem(null);

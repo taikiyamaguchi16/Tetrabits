@@ -119,7 +119,9 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
         var b_obj = PhotonNetwork.InstantiateRoomObject(spownObj.name, new Vector3(100,100,100), Quaternion.identity);
         PhotonNetwork.AllocateViewID(b_obj.GetPhotonView().ViewID);
 
-        photonView.RPC(nameof(RPCSpawonBattery), RpcTarget.All, b_obj.GetPhotonView().ViewID);
+        ownBattery = b_obj.GetComponent<Battery>();
+        ownBattery.CallPickUp(photonView.ViewID);
+       // photonView.RPC(nameof(RPCSpawonBattery), RpcTarget.All, b_obj.GetPhotonView().ViewID);
         
         elpsedTime = 0f;
     }
@@ -160,6 +162,7 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
                 //バッテリーが生成されていた場合
                 if (ownBattery != null)
                 {
+                    ownBattery.CallDump(photonView.ViewID);
                     ownBattery.CallPickUp(_id);
                     photonView.RPC(nameof(RPCStolenOwnBattery), RpcTarget.All);
 
