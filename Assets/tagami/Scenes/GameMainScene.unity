@@ -1703,13 +1703,13 @@ Transform:
   - {fileID: 1931276572}
   - {fileID: 198004685}
   - {fileID: 1427029987}
-  - {fileID: 1662844883}
+  - {fileID: 366680173}
   - {fileID: 663454343}
+  - {fileID: 1662844883}
   - {fileID: 2016765603}
   - {fileID: 894389515}
   - {fileID: 1101898432}
   - {fileID: 200439255}
-  - {fileID: 366680173}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3689,7 +3689,7 @@ Transform:
   - {fileID: 412680363}
   - {fileID: 1931309389}
   m_Father: {fileID: 122388379}
-  m_RootOrder: 10
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &370796232 stripped
 Transform:
@@ -9441,7 +9441,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2576885838876897046, guid: 0afabee5e980297449567aaec54f44ad, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2667729677054355639, guid: 0afabee5e980297449567aaec54f44ad, type: 3}
       propertyPath: m_Enabled
@@ -12307,7 +12307,7 @@ MonoBehaviour:
   gameInGameScenesOnDebugWindow:
   - sceneAsset: {fileID: 102900000, guid: d0cf48490c35e4d448cd11f3384fde49, type: 3}
     required: 0
-    buildIndex: 33
+    buildIndex: 30
   - sceneAsset: {fileID: 102900000, guid: 25887a4d3aaf9f24eb450af45061ab35, type: 3}
     required: 0
     buildIndex: 4
@@ -12316,7 +12316,7 @@ MonoBehaviour:
     buildIndex: 13
   - sceneAsset: {fileID: 102900000, guid: 5659ad0e9b3d6a5418d8152c11998a66, type: 3}
     required: 0
-    buildIndex: 39
+    buildIndex: 36
 --- !u!4 &1213106694
 Transform:
   m_ObjectHideFlags: 0
@@ -12365,7 +12365,7 @@ MonoBehaviour:
   waitInsertCassetteScene:
     sceneAsset: {fileID: 102900000, guid: d0cf48490c35e4d448cd11f3384fde49, type: 3}
     required: 0
-    buildIndex: 33
+    buildIndex: 30
   waitInsertCassetteBGMClip: {fileID: 8300000, guid: f972973acd30ca844a4334ab2809a8df, type: 3}
   waitInsertCassetteBGMVolumeScale: 1
 --- !u!114 &1213106697
@@ -12405,7 +12405,7 @@ MonoBehaviour:
   tutorialScene:
     sceneAsset: {fileID: 102900000, guid: 209f88a35cf7c624d834a2b63ba0064d, type: 3}
     required: 0
-    buildIndex: 31
+    buildIndex: 28
   initialColor: {r: 0, g: 0, b: 0, a: 1}
   materialLerpSeconds: 1
   startUpRenderers: []

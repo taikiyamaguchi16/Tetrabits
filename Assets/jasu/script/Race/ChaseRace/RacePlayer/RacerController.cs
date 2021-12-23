@@ -44,6 +44,9 @@ public class RacerController : MonoBehaviour
 
     public BikeSlipDown GetBikeSlipDown() { return bikeSlipDown; }
 
+    [SerializeField]
+    RainbowSprite rainbowSprite;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +56,7 @@ public class RacerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(raceManager.started)
+            rainbowSprite.SetActive(TetraInput.sTetraLever.GetPoweredOn());
     }
 }

@@ -11,13 +11,15 @@ public class EffectGenerator : MonoBehaviour
     Transform effectInstanceTrans;
 
     [SerializeField]
-    AudioClip effectAudioClip;
+    AudioClip effectAudioClip = null;
 
     public void InstanceEffect()
     {
         GameObject accelEffect = Instantiate(effectPrefab, effectInstanceTrans);
         accelEffect.transform.position = effectInstanceTrans.position;
         accelEffect.transform.localScale = effectInstanceTrans.localScale;
-        SimpleAudioManager.PlayOneShot(effectAudioClip);
+
+        if(effectAudioClip != null)
+            SimpleAudioManager.PlayOneShot(effectAudioClip);
     }
 }

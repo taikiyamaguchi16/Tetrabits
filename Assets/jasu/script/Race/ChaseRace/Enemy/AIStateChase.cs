@@ -11,6 +11,9 @@ public class AIStateChase : AIState
     PlayerClashSensor playerClashSensor;
 
     [SerializeField]
+    ChaseRaceManager raceManager;
+
+    [SerializeField]
     RacerController racerController;
 
     [SerializeField]
@@ -24,6 +27,19 @@ public class AIStateChase : AIState
     [SerializeField]
     Vector3 warpOffset;
 
+    [Header("泥かけ攻撃")]
+
+    [SerializeField]
+    RaceEnemyDirtAttack[] dirtAtks;
+
+    [SerializeField]
+    float attackInterval = 10f;
+
+    float attackTimer = 5f;
+
+    [SerializeField, Range(0, 100)]
+    float atkPercent = 50f;
+
     [Header("デバッグ")]
 
     [SerializeField]
@@ -32,15 +48,28 @@ public class AIStateChase : AIState
     [SerializeField]
     float distance;
 
+    [SerializeField]
+    bool goaled;
+
+
+    private void Start()
+    {
+        racerSpdGears = racerController.GetRacerMove().GetMoveSpdGears();
+    }
+
     private void Update()
     {
         velocity = rb.velocity;
+
+        if (raceManager.goaled)
+        {
+            rb.velocity = Vector3.zero;
+        }
     }
 
     public override void StateUpdate()
     {
-        racerSpdGears = racerController.GetRacerMove().GetMoveSpdGears();
-
+        // ワープ
         distance = Mathf.Abs(racerController.transform.position.z - transform.position.z);
 
         if (distance > warpDistance)
@@ -48,6 +77,18 @@ public class AIStateChase : AIState
             Vector3 pos = racerController.transform.position;
             pos += warpOffset;
             transform.position = pos;
+        }
+
+        // 攻撃
+        attackTimer += Time.deltaTime;
+        if(attackTimer > attackInterval)
+        {
+            attackTimer = 0f;
+            
+            if(Random.Range(0, 100) < atkPercent)
+            {
+                dirtAtks[Random.Range(0, dirtAtks.Length)].AttackStart();
+            }
         }
     }
 
