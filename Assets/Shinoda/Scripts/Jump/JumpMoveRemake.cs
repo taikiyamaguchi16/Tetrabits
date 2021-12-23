@@ -65,6 +65,8 @@ public class JumpMoveRemake : MonoBehaviourPunCallbacks
 
         for (var i = 0; i < waitFrame; i++)
         {
+            Debug.Log(playerTransformViewClassic.enabled);
+            Debug.Log("待ってるなう" + player.transform.parent + player.transform.localPosition);
             yield return null;
         }
 
