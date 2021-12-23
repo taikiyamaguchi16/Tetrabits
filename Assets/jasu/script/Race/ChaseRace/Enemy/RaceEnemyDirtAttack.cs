@@ -27,6 +27,9 @@ public class RaceEnemyDirtAttack : MonoBehaviour
 
     int dirtCounter = 0;
 
+    [SerializeField]
+    float dirtPosY = 70f; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,7 +55,7 @@ public class RaceEnemyDirtAttack : MonoBehaviour
                     GameInGameUtil.MoveGameObjectToOwnerScene(dirtSplashObj, gameObject);
                     dirtSplashObj.transform.parent = transform;
                     Vector3 pos = transform.position;
-                    pos.y = 50f;
+                    pos.y = dirtPosY;
                     pos.z -= 3f * dirtCounter;
                     dirtSplashObj.transform.position = pos;
                     dirtCounter++;

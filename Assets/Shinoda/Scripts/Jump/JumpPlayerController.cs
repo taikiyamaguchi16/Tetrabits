@@ -94,6 +94,14 @@ public class JumpPlayerController : MonoBehaviour
         photonTransformView.SetSynchronizedValues(speed: rb.velocity, turnSpeed: 0);
     }
 
+    void LateUpdate()
+    {
+        if(Input.GetKey(KeyCode.I))
+        {
+            transform.localPosition = new Vector3(3, 3, 0);
+        }
+    }
+
     void Jump(Vector2 _jumpDirection)
     {
         SimpleAudioManager.PlayOneShot(jumpSE);
