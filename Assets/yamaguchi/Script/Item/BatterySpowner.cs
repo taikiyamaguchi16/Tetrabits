@@ -120,9 +120,8 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
         PhotonNetwork.AllocateViewID(b_obj.GetPhotonView().ViewID);
 
         //ownBattery = b_obj.GetComponent<Battery>();
-        //ownBattery.CallPickUp(photonView.ViewID);
         photonView.RPC(nameof(RPCSpawonBattery), RpcTarget.All, b_obj.GetPhotonView().ViewID);
-        
+        ownBattery.CallPickUp(photonView.ViewID);
         elpsedTime = 0f;
     }
 
@@ -130,7 +129,7 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
     public void RPCSpawonBattery(int _id)
     {
         ownBattery = NetworkObjContainer.NetworkObjDictionary[_id].GetComponent<Battery>();
-        ownBattery.CallPickUp(photonView.ViewID);      
+       // ownBattery.CallPickUp(photonView.ViewID);      
     }
 
     [PunRPC]
