@@ -62,6 +62,8 @@ public class FollowTargetInRace : MonoBehaviour
         else if (rate > 1f) rate = 1f;
 
         Vector3 targetOffset = activeOffset;
+        targetOffset.x = offset.x;
+        targetOffset.y = offset.y;
         targetOffset.z = offsetMaxZ + (offsetMinZ - offsetMaxZ) * rate;
 
         activeOffset = Vector3.Lerp(activeOffset, targetOffset, Time.deltaTime);
