@@ -9,6 +9,8 @@ public class JumpMoveRemake : MonoBehaviourPunCallbacks
     Transform parent;
     GameObject player;
     GameObject playerFoot;
+    PhotonTransformViewClassic playerTransformViewClassic;
+    [SerializeField] int waitFrame = 20;
 
     Vector3 originPos;
 
@@ -25,6 +27,7 @@ public class JumpMoveRemake : MonoBehaviourPunCallbacks
         parent = GameObject.Find("GameInGame").transform;
         player = GameObject.Find("JumpMan");
         playerFoot = player.transform.Find("Foot").gameObject;
+        playerTransformViewClassic = player.GetComponent<PhotonTransformViewClassic>();
 
         originPos = transform.position;
         targetPos = new Vector3(originPos.x + (moveX * blockSize), originPos.y + (moveY * blockSize), originPos.z);
@@ -42,8 +45,8 @@ public class JumpMoveRemake : MonoBehaviourPunCallbacks
     {
         if (collision.gameObject == playerFoot)
         {
-            //player.transform.parent = this.transform;
-            photonView.RPC(nameof(JumpManEntry), RpcTarget.AllBufferedViaServer);
+            StartCoroutine(TransformViewSwitch());
+            if (PhotonNetwork.IsMasterClient) photonView.RPC(nameof(JumpManEntry), RpcTarget.AllViaServer);
         }
     }
 
@@ -51,9 +54,21 @@ public class JumpMoveRemake : MonoBehaviourPunCallbacks
     {
         if (collision.gameObject == playerFoot)
         {
-            //player.transform.parent = parent;
-            photonView.RPC(nameof(JumpManExit), RpcTarget.AllBufferedViaServer);
+            StartCoroutine(TransformViewSwitch());
+            if (PhotonNetwork.IsMasterClient) photonView.RPC(nameof(JumpManExit), RpcTarget.AllViaServer);
         }
+    }
+
+    private IEnumerator TransformViewSwitch()
+    {
+        playerTransformViewClassic.enabled = false;
+
+        for (var i = 0; i < waitFrame; i++)
+        {
+            yield return null;
+        }
+
+        playerTransformViewClassic.enabled = true;
     }
 
     [PunRPC]
