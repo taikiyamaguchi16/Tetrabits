@@ -22,13 +22,14 @@ public class RaceBackScroll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (racerController.GetRigidbody().velocity.z > 1f)
-        {
-            spriteRenderer.material.SetFloat("_ScrollX", -spd);
-        }
-        else
-        {
-            spriteRenderer.material.SetFloat("_ScrollX", 0);
-        }
+        spriteRenderer.material.SetFloat("_ScrollX", -spd);
+        //if (racerController.GetRigidbody().velocity.z > 1f)
+        //{
+
+        //}
+        //else
+        //{
+        //    spriteRenderer.material.SetFloat("_ScrollX", 0);
+        //}
     }
 }

@@ -42,7 +42,7 @@ public class FollowTarget : MonoBehaviour
             if (local)
             {
                 Vector3 pos = transform.position;
-                pos.z = followTrans.position.z + 20f;
+                pos.z = followTrans.position.z + offset.z;
                 transform.position = pos;
             }
             else
