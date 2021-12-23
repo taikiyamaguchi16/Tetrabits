@@ -132,17 +132,24 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
                     if (checkbattery != null)
                     {
                         checkbattery.CallPickUp(_id);
+                        Debug.Log(otherPocket.gameObject.name + "が電池を入れ替えました");
+                    }
+                    else
+                    {
+                        Debug.Log(otherPocket.gameObject.name + "が電池を渡しました");
                     }
                     //エフェクトの再生
                     PlaySparkEfect();
                     //他のプレイヤーのホルダーにもバッテリーをセット
                     photonView.RPC(nameof(RPCSetOwnBattery), RpcTarget.Others, ownBattery.photonView.ViewID);
+                    
                 }
+
                 //バッテリーでなかった場合元に戻す
-                else
-                {
-                    ownBattery = checkbattery;
-                }
+                //else
+                //{
+                //    ownBattery = checkbattery;
+                //}
             }
             //何も持っていなかった場合自分のを渡す
             else
@@ -150,6 +157,7 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
                 //自分がバッテリを持っていた場合渡す
                 if (ownBattery != null)
                 {
+                    Debug.Log(otherPocket.gameObject.name + "が電池をもらいました");
                     ownBattery.CallPickUp(_id);
 
                     pocket.SetItem(null);
