@@ -20,6 +20,13 @@ public class PowerSwitch : MonoBehaviour
     [Header("コントーローラーID")]
     public int controllerID = 0;
 
+    [SerializeField]
+    [Header("決定音")]
+    AudioClip decisionSe;
+
+    [SerializeField]
+    float Volume = 0.3f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +63,8 @@ public class PowerSwitch : MonoBehaviour
         if (XInputManager.GetButtonTrigger(controllerID, XButtonType.B) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
         {
             isPower = true;
+
+            SimpleAudioManager.PlayOneShot(decisionSe, Volume);
         }
     }
 }
