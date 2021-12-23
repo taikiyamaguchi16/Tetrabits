@@ -45,6 +45,7 @@ public class JumpMoveRemake : MonoBehaviourPunCallbacks
     {
         if (collision.gameObject == playerFoot)
         {
+            Debug.Log("Entry===================================");
             StartCoroutine(TransformViewSwitch());
             if (PhotonNetwork.IsMasterClient) photonView.RPC(nameof(JumpManEntry), RpcTarget.AllViaServer);
         }
@@ -54,6 +55,7 @@ public class JumpMoveRemake : MonoBehaviourPunCallbacks
     {
         if (collision.gameObject == playerFoot)
         {
+            Debug.Log("Exit====================================");
             StartCoroutine(TransformViewSwitch());
             if (PhotonNetwork.IsMasterClient) photonView.RPC(nameof(JumpManExit), RpcTarget.AllViaServer);
         }
@@ -65,12 +67,12 @@ public class JumpMoveRemake : MonoBehaviourPunCallbacks
 
         for (var i = 0; i < waitFrame; i++)
         {
-            Debug.Log(playerTransformViewClassic.enabled);
-            Debug.Log("待ってるなう" + player.transform.parent + player.transform.localPosition);
+            Debug.Log(" " + player.transform.parent + player.transform.localPosition);
             yield return null;
         }
 
         playerTransformViewClassic.enabled = true;
+        Debug.Log("Viewがtrueなったよ");
     }
 
     [PunRPC]
