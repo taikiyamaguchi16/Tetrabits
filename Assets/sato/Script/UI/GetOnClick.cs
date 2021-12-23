@@ -16,6 +16,9 @@ public class GetOnClick : MonoBehaviour
     [Header("カーソル決定音")]
     AudioClip cursorDecisionSe;
 
+    [SerializeField]
+    float Volume = 0.3f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +42,7 @@ public class GetOnClick : MonoBehaviour
         {
             cursor.GetCurrentButton().onClick.Invoke();
 
-            SimpleAudioManager.PlayOneShot(cursorDecisionSe);
+            SimpleAudioManager.PlayOneShot(cursorDecisionSe, Volume);
         }
     }
 }

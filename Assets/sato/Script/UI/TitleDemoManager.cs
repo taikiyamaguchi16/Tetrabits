@@ -57,10 +57,17 @@ public class TitleDemoManager : MonoBehaviour
     // 生成ストップフラグ
     private bool isStopInstantiate = false;
 
+    // 名前共通部分指定
+    string Forward = "ForwardWalk";
+    string Wide = "WideWalk";
+
+    // 名前格納用
+    string tmpName;
+
     // Start is called before the first frame update
     void Start()
     {
-        isStopInstantiate = true;
+        
     }
 
     // Update is called once per frame
@@ -114,6 +121,8 @@ public class TitleDemoManager : MonoBehaviour
                         default:
                             break;
                     }
+
+                    tmpName = PlayersX[randomNum].name;
                 }
                 break;
 
@@ -132,6 +141,8 @@ public class TitleDemoManager : MonoBehaviour
                     playerCount++;
 
                     InstantiateCount++;
+
+                    tmpName = PlayersZ[randomNum].name;
                 }
                 break;
 
@@ -147,12 +158,6 @@ public class TitleDemoManager : MonoBehaviour
         else
         {
             isInstantiate = true;
-        }
-
-        // 各ゲームデモ開始のためのフラグ停止(開始は別で管理)
-        if(InstantiateCount >= InstantiateUpperLimit)
-        {
-//            isStopInstantiate = false;
         }
 
         //if(playerCountX > playerUpperLimitX && playerCountZ > playerUpperLimitZ)
@@ -172,6 +177,24 @@ public class TitleDemoManager : MonoBehaviour
     public void PlayerCountDown()
     {
         playerCount--;
+    }
+
+    //--------------------------------------------------
+    // PlayerDestroy
+    // 強制的にプレイヤーを破壊する関数
+    //--------------------------------------------------
+    public void PlayerDestroy()
+    {
+        Destroy(GameObject.Find(tmpName + "(Clone)"));
+    }
+
+    //--------------------------------------------------
+    // isStopInstantiateSwitcher
+    // プレイヤー生成処理を切り替える
+    //--------------------------------------------------
+    public void isStopInstantiateSwitcher(bool _switchFlag)
+    {
+        isStopInstantiate = _switchFlag;
     }
 
     //--------------------------------------------------

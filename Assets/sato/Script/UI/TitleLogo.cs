@@ -11,12 +11,30 @@ public class TitleLogo : DOManager
 
     Button[] selectButton;
 
+    TitleDemoManager DemoManager;
+
     [SerializeField]
-    GameObject DemoManager;
+    GameObject bgm;
+
+    [SerializeField]
+    Sprite[] titleLogos;
+
+    // ロゴの切り替えフラグ
+    bool logoSwitcher = false;
+
+    int titleCount = 0;
+
+    float time = 0.0f;
+
+    [SerializeField]
+    [Header("ロゴの切り替え秒数指定")]
+    float TimerLimit = 1.0f;
 
     // Start is called before the first frame update
     void Start()
     {
+        DemoManager = GameObject.Find("DemoManager").GetComponent<TitleDemoManager>();
+
         // アタッチされたキャンバスの子のボタンコンポーネント取得
         selectButton = buttonParent.GetComponentsInChildren<Button>();
 
@@ -26,7 +44,7 @@ public class TitleLogo : DOManager
     // Update is called once per frame
     void Update()
     {
-
+        LogoSwitching();
     }
 
     void Scaling()
@@ -42,8 +60,49 @@ public class TitleLogo : DOManager
                 }
                 buttonParent.GetComponent<ButtonParent>().CallMove();
 
-                DemoManager.SetActive(true);
+                DemoManager.isStopInstantiateSwitcher(true);
+                bgm.SetActive(true);
+
+                logoSwitcher = true;
             });
+        }
+    }
+
+    void LogoSwitching()
+    {
+        if (logoSwitcher)
+        {
+            switch (titleCount)
+            {
+                case 0:
+                    gameObject.GetComponent<Image>().sprite = titleLogos[titleCount];
+                    break;
+
+                case 1:
+                    gameObject.GetComponent<Image>().sprite = titleLogos[titleCount];
+                    break;
+
+                case 2:
+                    gameObject.GetComponent<Image>().sprite = titleLogos[titleCount];
+                    break;
+
+                case 3:
+                    gameObject.GetComponent<Image>().sprite = titleLogos[titleCount];
+                    break;
+
+                default:
+                    // 最初から
+                    titleCount = 0;
+                    break;
+            }
+
+            time += Time.deltaTime;
+
+            if(time >= TimerLimit)
+            {
+                time = 0.0f;
+                titleCount++;
+            }
         }
     }
 }
