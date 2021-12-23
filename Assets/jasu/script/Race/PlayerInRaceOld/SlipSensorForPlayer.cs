@@ -95,11 +95,11 @@ public class SlipSensorForPlayer : OnDirt
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<DirtSplash>() != null &&
-            other.GetComponent<DirtSplash>().parentInstanceID == transform.gameObject.GetInstanceID())
-        {
-            return;
-        }
+        //if (other.GetComponent<DirtSplash>() != null &&
+        //    other.GetComponent<DirtSplash>().parentInstanceID == transform.gameObject.GetInstanceID())
+        //{
+        //    return;
+        //}
 
         if (other.gameObject.tag == "Slip" && !accelerateInInput.bodyBlowActive)
         {

@@ -25,7 +25,9 @@ public class BikeSlipDown : MonoBehaviourPunCallbacks
     float slipingTimeSeconds = 2f;
 
     [SerializeField]
-    float rotAngle = 360f;
+    float defaultRotAngle = 360f;
+
+    float rotAngle;
 
     Vector3 eulerWhenSlipStart;
     
@@ -36,6 +38,8 @@ public class BikeSlipDown : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        rotAngle = defaultRotAngle;
+
         defaultSprite = spriteRenderer.sprite;
 
         variation = rotAngle / slipingTimeSeconds;
@@ -92,11 +96,26 @@ public class BikeSlipDown : MonoBehaviourPunCallbacks
 
     public void CallSlipStart()
     {
+        rotAngle = defaultRotAngle;
+        variation = rotAngle / slipingTimeSeconds;
         photonView.RPC(nameof(RPCSlipStart), RpcTarget.All);
     }
 
     public void CallSlipStart(string _damage)
     {
+        rotAngle = defaultRotAngle;
+        variation = rotAngle / slipingTimeSeconds;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            MonitorManager.DealDamageToMonitor(_damage);
+            photonView.RPC(nameof(RPCSlipStart), RpcTarget.All);
+        }
+    }
+
+    public void CallSlipStart(string _damage, float _seconds, float _rotAngle)
+    {
+        rotAngle = _rotAngle;
+        variation = _rotAngle / _seconds;
         if (PhotonNetwork.IsMasterClient)
         {
             MonitorManager.DealDamageToMonitor(_damage);

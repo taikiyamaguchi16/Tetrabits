@@ -5,6 +5,9 @@ using UnityEngine;
 public class RacerGroundSensor : MonoBehaviour
 {
     [SerializeField]
+    Transform rayTrans;
+
+    [SerializeField]
     bool onGround;
 
     public bool GetOnGround() { return onGround; }
@@ -38,8 +41,7 @@ public class RacerGroundSensor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 rayPosition = transform.position;
-        rayPosition.y += 1f;
+        Vector3 rayPosition = rayTrans.position;
         Ray ray = new Ray(rayPosition, Vector3.down);
         if (Physics.Raycast(ray, out RaycastHit hitInfo, rayLength))
         {

@@ -52,11 +52,11 @@ public class SlipSensorForNpc : OnDirt
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<DirtSplash>() != null &&
-            other.GetComponent<DirtSplash>().parentInstanceID == gameObject.GetInstanceID())
-        {
-            return;
-        }
+        //if (other.GetComponent<DirtSplash>() != null &&
+        //    other.GetComponent<DirtSplash>().parentInstanceID == gameObject.GetInstanceID())
+        //{
+        //    return;
+        //}
 
         if (other.gameObject.tag == "Slip")
         {

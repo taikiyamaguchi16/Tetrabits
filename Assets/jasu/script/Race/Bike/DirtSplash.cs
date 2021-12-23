@@ -11,31 +11,44 @@ public class DirtSplash : MonoBehaviour
     //GameObject dirtPrefab = null;
 
     [SerializeField]
-    float gravity = -100f; // 重力
+    float gravity = -200f; // 重力
 
     [SerializeField]
-    Vector3 moveForce = Vector3.forward;
+    float existSeconds = 2f;
 
-    //public GameObject parentObj { get; set; } = null;
+    float existTimer = 0f;
 
-    public GameObject[] parentObjs { get; set; } = null;
+    //[SerializeField]
+    //Vector3 moveForce = Vector3.forward;
 
-    public Vector3 parentMoveForce { get; set; } = Vector3.zero;
+    ////public GameObject parentObj { get; set; } = null;
 
-    public int parentInstanceID { get; set; }
+    //public GameObject[] parentObjs { get; set; } = null;
 
-    public float laneLength { get; set; }
+    //public Vector3 parentMoveForce { get; set; } = Vector3.zero;
 
-    //public DummyStageMolder dummyStageMolder { get; set; }
-    public RaceStageMolder raceStageMolder { get; set; }
+    //public int parentInstanceID { get; set; }
+
+    //public float laneLength { get; set; }
+
+    ////public DummyStageMolder dummyStageMolder { get; set; }
+    //public RaceStageMolder raceStageMolder { get; set; }
 
     // Start is called before the first frame update
     void Start()
     {
-        moveForce += parentMoveForce;
-        rb.AddForce(moveForce, ForceMode.Impulse);
+        //moveForce += parentMoveForce;
+        //rb.AddForce(moveForce, ForceMode.Impulse);
     }
-    
+
+    private void Update()
+    {
+        existTimer += Time.deltaTime;
+        if(existTimer > existSeconds)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void FixedUpdate()
     {
@@ -44,17 +57,11 @@ public class DirtSplash : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        foreach(GameObject parent in parentObjs)
+        if(other.transform.tag == "FlatRoadInRace" ||
+            other.transform.tag == "SlopRoadInRace")
         {
-            if (other.gameObject.GetInstanceID() == parent.GetInstanceID())
-                return;
+            Destroy(gameObject);
         }
-
-        if ((other.gameObject.transform.tag == "FlatRoadInRace" && rb.velocity.y > 0f) ||
-            other.gameObject.transform.tag == "Slip")
-            return;
-        
-        Destroy(gameObject);
     }
 
     // 泥だまり生成
