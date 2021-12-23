@@ -50,11 +50,11 @@ public class PlayerClashSensor : MonoBehaviourPunCallbacks
         {
             if (!playerClash)
             {
-                racerController.GetBikeSlipDown().CallSlipStart("large", playerSlipSeconds, 360f * rotNum);
+                racerController.GetBikeSlipDown().CallSlipStart("medium", playerSlipSeconds, 360f * rotNum);
 
                 if (PhotonNetwork.IsMasterClient)
                 {
-                    MonitorManager.CallAddNumDebrisInGameMainStage();
+                    //MonitorManager.CallAddNumDebrisInGameMainStage();
                     photonView.RPC(nameof(RPCClash), RpcTarget.All);
                 }
             }
