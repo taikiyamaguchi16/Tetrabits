@@ -81,6 +81,10 @@ public class FollowTargetInRace : MonoBehaviour
         {
             pos.x += followTrans.position.x;
         }
+        else
+        {
+            pos.x += 1000f;
+        }
 
         if (followY)
         {
@@ -100,6 +104,10 @@ public class FollowTargetInRace : MonoBehaviour
         if (followX)
         {
             pos.x += followTrans.position.x;
+        }
+        else
+        {
+            pos.x += 1000f;
         }
 
         if (followY)

@@ -68,6 +68,9 @@ public class RacerMove : MonoBehaviour
     [SerializeField]
     Vector3 velocity;
 
+    [SerializeField]
+    bool slopeBoost = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -108,6 +111,11 @@ public class RacerMove : MonoBehaviour
     {
         moveVec = rb.velocity;
 
+        if (racerController.GetRacerGroundSensor().GetOnGround())
+        {
+            slopeBoost = false;
+        }
+
         // スロープ判定
         if (racerController.GetRacerGroundSensor().GetOnSlope())
         {
@@ -117,6 +125,8 @@ public class RacerMove : MonoBehaviour
 
             moveVec.y *= (moveSpdSlope / moveVec.z);
             moveVec.z = moveSpdSlope;
+
+            slopeBoost = true;
         }
         else
         {
@@ -130,10 +140,10 @@ public class RacerMove : MonoBehaviour
             moveVec.z = moveSpdDirt;
         }
 
-        //if (!racerController.GetRacerGroundSensor().GetOnGround())
-        //{
-        //    moveVec.y = gravity;
-        //}
+        if (slopeBoost)
+        {
+            moveVec.z = moveSpdSlope;
+        }
 
         // AddForce
         if (movable) // start
