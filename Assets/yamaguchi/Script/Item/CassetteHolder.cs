@@ -38,6 +38,8 @@ public class CassetteHolder : MonoBehaviourPunCallbacks, IPlayerAction
 
                 //カセットに設定されているシーンの読み込み
                 sceneChanger.CallSwitchGameInGameScene(ownCassette.GetLoadSceneObj());
+
+                ownCassette.CallDumpCassette(_desc.playerObj.GetPhotonView().ViewID);
                 //プレイヤーのアイテムを取得してセット
                 ownCassette.CallPickUpCassette(photonView.ViewID);
 

@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 23120833625599597}
   m_Layer: 0
   m_Name: Battery 1
-  m_TagString: Untagged
+  m_TagString: CantJump
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,7 +101,13 @@ MonoBehaviour:
   myControlUi: {fileID: 6224457482702864122}
   throwForce: 800
   throwUpForce: 800
-  throwBatterrySe: {fileID: 8300000, guid: cfdf6ea53d6a7b2489be75c49dc74e1b, type: 3}
+  throwBatterrySe: {fileID: 8300000, guid: 9eafa81ccb58c1747bca05bf50df6e51, type: 3}
+  batteryLevelfromColors:
+  - batteryLevel: 60
+    batteryColor: {r: 7.853045, g: 8.47419, b: 0, a: 0}
+  - batteryLevel: 30
+    batteryColor: {r: 11.313708, g: 0, b: 0, a: 0}
+  batteryMaterial: {fileID: 2263921030481654561}
 --- !u!65 &5040694322774631259
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -311,6 +317,11 @@ Transform:
 --- !u!1 &3480123394543685842 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7591015503646610661, guid: a67806f6494936b4b9252106b320e274, type: 3}
+  m_PrefabInstance: {fileID: 6418568075068261431}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &2263921030481654561 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5077885025790097174, guid: a67806f6494936b4b9252106b320e274, type: 3}
   m_PrefabInstance: {fileID: 6418568075068261431}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8897350247096718515

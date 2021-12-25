@@ -58,17 +58,22 @@ public class TriggerSensor : MonoBehaviour
     Transform rayPosition;
     [SerializeField]
     PlayerMove playerMove;
+
     // Start is called before the first frame update
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
+
         ray = new Ray(rayPosition.position, transform.up * -1); // レイを下に飛ばす
         Debug.DrawRay(ray.origin, ray.direction * distance, Color.red); // レイを赤色で表示させる
 
         if (Physics.Raycast(ray, out hit, distance)) // レイが当たった時の処理
         {
-            playerMove.SetPlayerJumpable(true);
+            if (hit.collider.tag != "CantJump")
+            {
+                playerMove.SetPlayerJumpable(true);
+            }
         }
         else
         {
