@@ -18,8 +18,6 @@ public class WaitOnlinePlayer : MonoBehaviourPunCallbacks
     [SerializeField]
     GameObject textReady;
 
-    Player[] players;
-
     int controllerID = 0;
 
     Animator anim;
@@ -38,10 +36,6 @@ public class WaitOnlinePlayer : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        players = PhotonNetwork.PlayerList;
-
-        // ここ直す場所あり
-
         if (photonView.IsMine)
         {
             if (PhotonNetwork.LocalPlayer.CustomProperties["isPlayerReady"] is bool isPlayerReady)
