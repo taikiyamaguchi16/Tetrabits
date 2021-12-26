@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class NameManager : MonoBehaviourPunCallbacks
 {
@@ -31,10 +32,15 @@ public class NameManager : MonoBehaviourPunCallbacks
     [Header("デバッグ用(trueで名前入力必須)")]
     bool debugFlag = false;
 
-    Player player;
-    Player[] players;
+    private static Hashtable playerProps = new Hashtable();
 
-    static List<int> ActorNum;
+    private void Awake()
+    {
+        // カスタムプロパティのキーを設定(各プレイヤーが生成時にisReadyの変数を持っているイメージ
+        playerProps["isPlayerReady"] = false;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps);
+        playerProps.Clear();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -72,15 +78,6 @@ public class NameManager : MonoBehaviourPunCallbacks
         inputField.SetActive(true);
 
         TextObjects.SetActive(true);
-
-
-        players = PhotonNetwork.PlayerList;
-
-        // マスターがルームに入った時に初期化
-        if (PhotonNetwork.IsMasterClient)
-        {
-            ActorNum = new List<int>();
-        }
     }
 
     //--------------------------------------------------
@@ -115,9 +112,9 @@ public class NameManager : MonoBehaviourPunCallbacks
         return debugFlag;
     }
 
-    // staticなアクター番号を格納している変数を返す
-    static public List<int> GetActorNum()
+    // プレイヤーがルームに入室時の処理
+    public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        return ActorNum;
+        
     }
 }
