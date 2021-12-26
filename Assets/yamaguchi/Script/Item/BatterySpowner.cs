@@ -33,6 +33,9 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
     VisualEffect smokeEfect;
     //生成可能かどうか
     private bool canSpawn;
+
+    [SerializeField]
+    AudioClip joukiSE;
     // Start is called before the first frame update
 
     public void Start()
@@ -137,6 +140,7 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
     {
         //エフェクトの再生
         smokeEfect.SendEvent("OnPlay");
+        SimpleAudioManager.PlayOneShot(joukiSE);
         isPlayEfect = true;
         elpsedEfectTime = 0f;
     }
