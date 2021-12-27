@@ -23,10 +23,12 @@ public class JumpPlayerController : MonoBehaviour
 
     [Header("Player")]
     [SerializeField] float jumpForce = 10f;
-    [SerializeField] float moveScale = 3f;
     [SerializeField] float gravityScale = 1f;
     [SerializeField] float parasolGravity = .5f;
-    [SerializeField] float speedLimit = 5f;
+    [SerializeField] float normalMoveScale = 1f;
+    [SerializeField] float normalSpeedLimit = 3f;
+    [SerializeField] float parasolMoveScale = 3f;
+    [SerializeField] float parasolSpeedLimit = 5f;
     [SerializeField] bool upOnly;
 
     [SerializeField] AudioClip BGM;
@@ -98,13 +100,27 @@ public class JumpPlayerController : MonoBehaviour
     {
         if (isJump)
         {
-            if (padVec.x > 0 && rb.velocity.x < speedLimit)
+            if (isParasol)
             {
-                rb.AddForce(transform.right * padVec.x * moveScale);
+                if (padVec.x > 0 && rb.velocity.x < parasolSpeedLimit)
+                {
+                    rb.AddForce(transform.right * padVec.x * parasolMoveScale);
+                }
+                else if (padVec.x < 0 && rb.velocity.x > -parasolSpeedLimit)
+                {
+                    rb.AddForce(transform.right * padVec.x * parasolMoveScale);
+                }
             }
-            else if (padVec.x < 0 && rb.velocity.x > -speedLimit)
+            else
             {
-                rb.AddForce(transform.right * padVec.x * moveScale);
+                if (padVec.x > 0 && rb.velocity.x < normalSpeedLimit)
+                {
+                    rb.AddForce(transform.right * padVec.x * normalMoveScale);
+                }
+                else if (padVec.x < 0 && rb.velocity.x > -normalSpeedLimit)
+                {
+                    rb.AddForce(transform.right * padVec.x * normalMoveScale);
+                }
             }
         }
 
