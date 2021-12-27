@@ -34,8 +34,8 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
     [Header("プランナー調整用")]
 
-    [SerializeField, Tooltip("ゼンマイパワーの割合とそれに応じた移動速度")]
-    List<MoveSpeedInRatio> moveSpeedInRatios = new List<MoveSpeedInRatio>();
+    //[SerializeField, Tooltip("ゼンマイパワーの割合とそれに応じた移動速度")]
+    //List<MoveSpeedInRatio> moveSpeedInRatios = new List<MoveSpeedInRatio>();
 
     private bool carryObjFg;
     [SerializeField]
@@ -86,19 +86,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
         zenmai = GetComponent<Zenmai>();
         rb.sleepThreshold = -1;
 
-        // ソート
-        //for (int i = 0; i < moveSpeedInRatios.Count; i++)
-        //{
-        //    for(int j = i + 1; j < moveSpeedInRatios.Count; j++)
-        //    {
-        //        if(moveSpeedInRatios[i].ratio < moveSpeedInRatios[j].ratio)
-        //        {
-        //            MoveSpeedInRatio tmp = moveSpeedInRatios[i];
-        //            moveSpeedInRatios[i] = moveSpeedInRatios[j];
-        //            moveSpeedInRatios[j] = tmp;
-        //        }
-        //    }
-        //}
+      
 
         myPocket = GetComponent<ItemPocket>();
         photonTransformView = GetComponent<PhotonTransformViewClassic>();
@@ -116,19 +104,8 @@ public class PlayerMove : MonoBehaviourPunCallbacks
     {
         if (photonView.IsMine)
         {
-            // ゼンマイパワーから速度決定
-            float ratio = zenmai.zenmaiPower / zenmai.maxZenmaiPower;
-            foreach (var speedInRatio in moveSpeedInRatios)
-            {
-                if (ratio <= speedInRatio.ratio)
-                {
-                    moveSpd = speedInRatio.moveSpd;
-                    zenmaiRotation.SetZenmaiRotationSpeed(speedInRatio.zenmaiRotationSpeed);
-                }
-            }
-
-            if (carryObjFg)
-                moveSpd = carryMoveSpeed;
+            
+            moveSpd = carryMoveSpeed;
 
             moveDir = Vector3.zero;
 

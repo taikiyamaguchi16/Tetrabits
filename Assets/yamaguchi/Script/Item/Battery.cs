@@ -180,8 +180,10 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
                 rb.isKinematic = true;
                 col.enabled = false;
                 this.transform.parent = _obj.transform;
+
                 //保有状態に切り替え
                 isOwned = true;
+
             }
         }
     }
@@ -198,7 +200,9 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
                 rb.isKinematic = false;
                 col.enabled = true;
                 this.transform.parent = null;
+
                 isOwned = false;
+
                 priority = 40;
 
                 PlayerMove p_move = ownerSc.gameObject.GetComponent<PlayerMove>();
@@ -262,5 +266,17 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     private void RPCThrowBattery(Vector3 _power)
     {
         rb.AddForce(_power, ForceMode.Impulse);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        //電池の所有者がいないのに所有されていることになっている場合の例外処理
+        if(collision.gameObject.tag=="Player")
+        {
+            if(this.transform.parent==null)
+            {
+                isOwned = false;
+            }
+        }
     }
 }

@@ -70,14 +70,22 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                 //持ち運んでいるオブジェクトがある場合それをアクション候補に加える
                 GameObject carryObj = holder.GetItem();
                 if (carryObj != null)
-                {                   
+                {
+                    //電池を所有してしまっている場合の例外処理
+                    Transform dumyObj = transform.Find("Battery 1(Clone)");
+                    if (dumyObj == null)
+                    {
+                        carryObj = null;
+                    }
+
                     if (!allActionItem.Contains(carryObj))
                     {
                         allActionItem.Add(carryObj);
                     }
                 }
+                //電池のモデルだけ所有する場合の例外処理
                 else
-                {
+                {               
                     Transform dumyObj = transform.Find("Battery 1(Clone)");
                     if (dumyObj != null)
                     {

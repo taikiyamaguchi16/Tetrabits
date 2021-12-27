@@ -29,11 +29,11 @@ public class BatteryLift : MonoBehaviourPunCallbacks
     private bool nowBlinkingFg;
 
 
-    private void Awake()
+    private void Start()
     {
         blinkFg = false;
         nowBlinkingFg = false;
-        lightMesh.material.SetColor("_EmissionColor", color2);
+        //lightMesh.material.SetColor("_EmissionColor", color2);
     }
     public void SetBatteryLiftPos(float _time, float _maxTime)
     {

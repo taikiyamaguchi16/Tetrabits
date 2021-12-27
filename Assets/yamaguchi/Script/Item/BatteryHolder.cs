@@ -134,12 +134,12 @@ public class BatteryHolder : MonoBehaviourPunCallbacks, IPlayerAction
                     {
                         checkbattery.CallDump(photonView.ViewID);
                         checkbattery.CallPickUp(_id);
-                        Debug.Log(otherPocket.gameObject.name + "が電池を入れ替えました");
+                        //Debug.Log(otherPocket.gameObject.name + "が電池を入れ替えました");
                     }
-                    else
-                    {
-                        Debug.Log(otherPocket.gameObject.name + "が電池を渡しました");
-                    }
+                    //else
+                    //{
+                    //    Debug.Log(otherPocket.gameObject.name + "が電池を渡しました");
+                    //}
                     //エフェクトの再生
                     PlaySparkEfect();
                     //他のプレイヤーのホルダーにもバッテリーをセット
