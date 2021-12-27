@@ -4,6 +4,13 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
 
+[System.Serializable]
+public struct BatteryLevelfromColor
+{
+    public float batteryLevel;
+    [ColorUsage(false, true)]  public Color batteryColor;
+}
+
 public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 {
     [SerializeField]
@@ -42,7 +49,11 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
     private ItemPocket ownerSc;
 
+    [SerializeField]
+    List<BatteryLevelfromColor> batteryLevelfromColors = new List<BatteryLevelfromColor>();
 
+    [SerializeField]
+    MeshRenderer batteryMaterial;
     private void Update()
     {
         if (!isOwned)
@@ -65,6 +76,16 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
             }
 
         }
+
+        //残量に応じた色の変更
+        if (level < batteryLevelfromColors[0].batteryLevel)
+        {
+            batteryMaterial.material.SetColor("_EmissionColor", batteryLevelfromColors[0].batteryColor);       
+            if(level<batteryLevelfromColors[1].batteryLevel)
+            {
+                batteryMaterial.material.SetColor("_EmissionColor", batteryLevelfromColors[1].batteryColor);
+            }
+        }
     }
     void Awake()
     {
@@ -78,15 +99,7 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     }
 
     public void StartPlayerAction(PlayerActionDesc _desc)
-    {
-        //if (!isOwned)
-        //{
-        //    photonView.RPC(nameof(PickUp), RpcTarget.AllBufferedViaServer, _desc.playerObj.GetPhotonView().ViewID);
-        //}
-        //else
-        //{
-        //    photonView.RPC(nameof(Dump), RpcTarget.AllBufferedViaServer, _desc.playerObj.GetPhotonView().ViewID);
-        //}
+    {      
         photonView.RPC(nameof(RPCBatteryPlayAction), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
     }
     [PunRPC]
@@ -148,8 +161,6 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
             priority = 100;
 
             ownerSc = _obj.GetComponent<ItemPocket>();
-
-            Debug.Log("拾われました");
             //Playerが二つ持っちゃう場合の例外処理
             if (ownerSc.gameObject.tag == "Player")
             {
@@ -193,13 +204,14 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
                 PlayerMove p_move = ownerSc.gameObject.GetComponent<PlayerMove>();
                 if (p_move != null)
                 {
-                    SimpleAudioManager.PlayOneShot(throwBatterrySe);
                     if (_obj.GetPhotonView().IsMine)
                     {
                         playerDir = p_move.GetPlayerDir();
                         Vector3 _power = playerDir * throwForce;
                         _power.y = throwUpForce;
                         photonView.RPC(nameof(RPCThrowBattery), RpcTarget.All, _power);
+                        if (ownerSc.gameObject.GetComponent<PlayerActionCtrl>().selectedActionObj == this.gameObject)
+                            SimpleAudioManager.PlayOneShot(throwBatterrySe);
                     }
                 }
 

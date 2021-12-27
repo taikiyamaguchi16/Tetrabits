@@ -57,10 +57,6 @@ public class TitleDemoManager : MonoBehaviour
     // 生成ストップフラグ
     private bool isStopInstantiate = false;
 
-    // 名前共通部分指定
-    string Forward = "ForwardWalk";
-    string Wide = "WideWalk";
-
     // 名前格納用
     string tmpName;
 

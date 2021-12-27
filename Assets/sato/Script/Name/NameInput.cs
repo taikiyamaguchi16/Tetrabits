@@ -9,6 +9,8 @@ public class NameInput : InputField
 {
     NameManager nameManager;
 
+    Text placeHolder;
+
     // 名前入力が完了かどうか
     bool isNameInput = false;
 
@@ -20,7 +22,12 @@ public class NameInput : InputField
         // 各種コンポーネント取得
         nameManager = GameObject.Find("NameManager").GetComponent<NameManager>();
 
+        placeHolder = GameObject.Find("Placeholder").GetComponent<Text>();
+
         text = null;
+
+        placeHolder.text = "1～10文字以内";
+        placeHolder.color = Color.black;
     }
 
     // Update is called once per frame
@@ -91,6 +98,9 @@ public class NameInput : InputField
         if (string.IsNullOrEmpty(text) && nameManager.DebugFlagName())
         {
             ActivateInputField();
+
+            placeHolder.text = "1文字以上入力してください";
+            placeHolder.color = Color.red;
 
             isNameInput = false;
             isNameVerify = false;

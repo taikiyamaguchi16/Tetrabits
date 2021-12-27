@@ -13,6 +13,10 @@ public class PlayerReadyManager : MonoBehaviourPunCallbacks
     [SerializeField]
     Text PushButtonText;
 
+    [SerializeField]
+    [Header("Ready音")]
+    AudioClip readySe;
+
     bool isReadyMaster = false;
     private bool isReady;
 
@@ -21,8 +25,6 @@ public class PlayerReadyManager : MonoBehaviourPunCallbacks
     bool isPlayerLimit = false;
 
     int controllerID = 0;
-
-    Player[] players;
 
     void Awake()
     {
@@ -42,7 +44,7 @@ public class PlayerReadyManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        players = PhotonNetwork.PlayerList;
+        
     }
 
     // Update is called once per frame
@@ -66,19 +68,6 @@ public class PlayerReadyManager : MonoBehaviourPunCallbacks
             else
             {
                 PushButtonText.text = "他のプレイヤーがReadyするまでお待ちください!";
-            }
-
-            // ルーム上限で各プレイヤーのレディー状況を判別
-            if (PhotonNetwork.CurrentRoom.PlayerCount >= _PLAYER_UPPER_LIMIT)
-            {
-                if (PlayerReadyCheck())
-                {
-                    isReadyMaster = true;
-                }
-                else
-                {
-                    isReadyMaster = false;
-                }
             }
         }
         // ゲスト
@@ -129,6 +118,8 @@ public class PlayerReadyManager : MonoBehaviourPunCallbacks
 
                     isReady = (PhotonNetwork.LocalPlayer.CustomProperties["isPlayerReady"] is bool);
 
+                    SimpleAudioManager.PlayOneShot(readySe);
+
                     //photonView.RPC(nameof(SendIsReadyGuest), RpcTarget.All);
                 }
             }
@@ -149,7 +140,6 @@ public class PlayerReadyManager : MonoBehaviourPunCallbacks
                 }
             }
         }
-
         return true;
     }
 
@@ -157,20 +147,47 @@ public class PlayerReadyManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SendIsReadyGuest()
     {
-        for (int i = 0; i < players.Length; i++)
-        {
-
-        }
+        
     }
 
     // プレイヤーがルームに入室時にリスト更新
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        players = PhotonNetwork.PlayerList;
+        
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
+        // マスターチェック
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
 
+        // 変更チェック(されてなければ返す)
+        if (!changedProps.ContainsKey("isPlayerReady"))
+        {
+            return;
+        }
+
+        // 上限人数でレディチェック処理開始
+        if (PhotonNetwork.CurrentRoom.PlayerCount >= _PLAYER_UPPER_LIMIT)
+        {
+            // 全員レディ完了でマスターがゲームを開始できるように
+            if (!PlayerReadyCheck())
+            {
+                isReadyMaster = false;
+
+                return;
+            }
+            else
+            {
+                isReadyMaster = true;
+            }
+        }
+        else
+        {
+            return;
+        }
     }
 }

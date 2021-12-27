@@ -10,6 +10,12 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
     float interval;
 
     [SerializeField]
+    AudioClip warningSound;
+
+    private static Coroutine soundCoroutine;
+    private static int playSoundNum = 0;
+
+    [SerializeField]
     float blinkingTime;
 
     [SerializeField]
@@ -34,6 +40,7 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
     private void Awake()
     {
         blinkingNow = false;
+        playSoundNum = 0;
     }
 
     void Update()
@@ -47,6 +54,12 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
 
             if (nowCoroutine != null)
             {
+                playSoundNum--;
+                if (playSoundNum == 0 && soundCoroutine != null)
+                {
+                    StopCoroutine(soundCoroutine);
+                }
+
                 StopCoroutine(nowCoroutine);
                 blinkImage.enabled = false;
                 blinkingNow = false;
@@ -57,27 +70,29 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
         {
             nothingImage.enabled = false;
 
-            //if (PhotonNetwork.IsMasterClient)
-            // {
+  
             if (batteryHolder.GetBatterylevel() <= startWarningLevel)
             {
                 if (!blinkingNow)
                 {
-                    //photonView.RPC(nameof(StartBlinkWarning), RpcTarget.All,photonView.ViewID);
-                    //StartBlinkWarning();
                     blinkingNow = true;
                     nothingImage.enabled = false;
-
                     nowCoroutine = StartCoroutine(BlinkWarning());
+
+                    playSoundNum++;
                 }
             }               
-           // }
 
             if(batteryHolder.GetBatterylevel() > startWarningLevel)
             {               
                 //コルーチン走っている場合
                 if (nowCoroutine != null)
                 {
+                    playSoundNum--;
+                    if(playSoundNum==0&& soundCoroutine!=null)
+                    {
+                        StopCoroutine(soundCoroutine);
+                    }
                     StopCoroutine(nowCoroutine);
                     blinkImage.enabled = false;
                     blinkingNow = false;
@@ -91,21 +106,21 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
     [PunRPC]
     IEnumerator StartBlinkWarning()
     {
-        //if (photonView.ViewID == _id)
-        //{
             blinkingNow = true;
             nothingImage.enabled = false;
 
             nowCoroutine = StartCoroutine(BlinkWarning());
-            //yield return new WaitForSeconds(blinkingTime);
 
-            //blinkImage.enabled = false;
-            //blinkingNow = false;
+        Debug.Log(playSoundNum);
+ 
             yield break;
-       // }
     }
     IEnumerator BlinkWarning()
     {
+        if (playSoundNum == 0)
+        {
+            soundCoroutine = StartCoroutine(WarningSound());
+        }
         while (true)
         {
             //アクションのUIが出ている場合点滅UIを非表示
@@ -115,6 +130,16 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
                 blinkImage.enabled = !blinkImage.enabled;
 
             yield return new WaitForSeconds(interval);
+
+        }
+    }
+
+    IEnumerator WarningSound()
+    {
+        while (true)
+        {
+            SimpleAudioManager.PlayOneShot(warningSound);
+            yield return new WaitForSeconds(0.5f);
 
         }
     }

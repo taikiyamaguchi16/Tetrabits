@@ -65,13 +65,30 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
             cassetteTitleImage.SetCassetteImageActive(false);
             cassetteTitleImage = null;
         }
-        if (!isOwned)
+        photonView.RPC(nameof(RPCCassettePlayAction), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
+        //if (!isOwned)
+        //{
+        //    photonView.RPC(nameof(PickUp), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
+        //}
+        //else
+        //{
+        //    photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
+        //}
+    }
+
+    [PunRPC]
+    private void RPCCassettePlayAction(int _id)
+    {
+        if (PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC(nameof(PickUp), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
-        }
-        else
-        {
-            photonView.RPC(nameof(Dump), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
+            if (!isOwned)
+            {
+                photonView.RPC(nameof(PickUp), RpcTarget.AllBufferedViaServer, _id);
+            }
+            else
+            {
+                photonView.RPC(nameof(Dump), RpcTarget.AllBufferedViaServer, _id);
+            }
         }
     }
     public void EndPlayerAction(PlayerActionDesc _desc) { }
@@ -99,35 +116,40 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
     [PunRPC]
     public void Dump(int _id)
     {
-        GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
-        if (_obj == ownerSc.gameObject)
+        if (isOwned)
         {
-            ownerSc.SetItem(null);  
-            rb.isKinematic = false;
-            col.enabled = true;
-            this.transform.parent = null;
-            isOwned = false;
-            priority = 40;
+            GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
+            if (_obj == ownerSc.gameObject)
+            {
+                ownerSc.SetItem(null);
+                rb.isKinematic = false;
+                col.enabled = true;
+                this.transform.parent = null;
+                isOwned = false;
+                priority = 40;
+            }
         }
     }
 
     [PunRPC]
     public void PickUp(int _id)
     {
+        if (!isOwned)
+        {
+            GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
 
-        GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
+            //持たれたとき用の角度
+            this.transform.rotation = Quaternion.Euler(90f, 0f, 180f);
 
-        //持たれたとき用の角度
-        this.transform.rotation = Quaternion.Euler(90f, 0f, 180f);
-
-        priority = 100;
-        ownerSc = _obj.GetComponent<ItemPocket>();
-        ownerSc.SetItem(this.gameObject);
-        rb.isKinematic = true;
-        col.enabled = false;
-        this.transform.parent = _obj.transform;
-        //保有状態に切り替え
-        isOwned = true;
+            priority = 100;
+            ownerSc = _obj.GetComponent<ItemPocket>();
+            ownerSc.SetItem(this.gameObject);
+            rb.isKinematic = true;
+            col.enabled = false;
+            this.transform.parent = _obj.transform;
+            //保有状態に切り替え
+            isOwned = true;
+        }
     }
 
     public SceneObject GetLoadSceneObj()
