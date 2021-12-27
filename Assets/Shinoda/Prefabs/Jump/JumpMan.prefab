@@ -217,7 +217,6 @@ GameObject:
   - component: {fileID: 9014217376288345528}
   - component: {fileID: 9014217376288345529}
   - component: {fileID: 9014217376288345530}
-  - component: {fileID: 9014217376288345543}
   - component: {fileID: 9014217376288345542}
   - component: {fileID: 2914618179080714118}
   - component: {fileID: 5278007490955226804}
@@ -344,19 +343,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &9014217376288345543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9014217376288345532}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56f9dcefa1257be4a8e94e8b8a2826f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraObject: {fileID: 0}
 --- !u!114 &9014217376288345542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,6 +368,8 @@ MonoBehaviour:
   arrow: {fileID: 3726820300519993325}
   arrowScaleRatio: 5
   cameraObject: {fileID: 0}
+  plusY: 1.5
+  offsetZ: 100
 --- !u!114 &2914618179080714118
 MonoBehaviour:
   m_ObjectHideFlags: 0

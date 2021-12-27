@@ -38,7 +38,11 @@ public class JumpPlayerController : MonoBehaviour
     [SerializeField] GameObject arrow;
     [SerializeField] float arrowScaleRatio = 1f;
 
+    [Header("Camera")]
     [SerializeField] GameObject cameraObject;
+    Camera cameraComponent;
+    [SerializeField] float plusY = 2f;
+    [SerializeField] float size = 6.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -54,8 +58,10 @@ public class JumpPlayerController : MonoBehaviour
         photonTransformView = GetComponent<PhotonTransformViewClassic>();
 
         if (cameraObject == null) cameraObject = GameObject.Find("MonitorCamera");
+        cameraComponent = cameraObject.GetComponent<Camera>();
+        cameraComponent.orthographicSize = size;
         cameraObject.transform.position = new Vector3(this.transform.position.x,
-            this.transform.position.y,
+            this.transform.position.y + plusY,
             cameraObject.transform.position.z);
     }
 
@@ -140,7 +146,7 @@ public class JumpPlayerController : MonoBehaviour
         beforeWorld = transform.position;
 
         cameraObject.transform.position = new Vector3(this.transform.position.x,
-            this.transform.position.y,
+            this.transform.position.y + plusY,
             cameraObject.transform.position.z);
     }
 
