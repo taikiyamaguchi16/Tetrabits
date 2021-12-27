@@ -56,7 +56,7 @@ public class RaceEnemyDirtAttack : MonoBehaviourPunCallbacks
                     pos.y = dirtPosY;
                     pos.z -= 3f * dirtCounter;
 
-                    photonView.RPC(nameof(RPCAttackStart), RpcTarget.All, pos);
+                    photonView.RPC(nameof(RPCGenelateDirt), RpcTarget.All, pos);
 
                     dirtCounter++;
                     if(dirtCounter >= dirtNum)
@@ -75,12 +75,12 @@ public class RaceEnemyDirtAttack : MonoBehaviourPunCallbacks
     {
         if (!isAttacking && PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC(nameof(RPCAttackStart), RpcTarget.All);
+            photonView.RPC(nameof(RPCDirtAttackStart), RpcTarget.All);
         }
     }
 
     [PunRPC]
-    private void RPCAttackStart()
+    public void RPCDirtAttackStart()
     {
         warningTimer = 0f;
         dirtTimer = 0f;
@@ -90,7 +90,7 @@ public class RaceEnemyDirtAttack : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void RPCGenelateDirt(Vector3 _pos)
+    public void RPCGenelateDirt(Vector3 _pos)
     {
         GameObject dirtSplashObj = Instantiate(dirtSplashPrefab);
         GameInGameUtil.MoveGameObjectToOwnerScene(dirtSplashObj, gameObject);
