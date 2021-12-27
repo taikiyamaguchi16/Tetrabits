@@ -25,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 46313721082218362}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 8, z: 6}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalPosition: {x: 0, y: 9, z: 6}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children: []
   m_Father: {fileID: 4178323175449870650}
   m_RootOrder: 2
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectPrefab: {fileID: 1496107599636398923, guid: 9674a5cf1bbf07444b0d992f5cd33108, type: 3}
   effectInstanceTrans: {fileID: 95986286519900269}
-  effectAudioClip: {fileID: 8300000, guid: fe660e9a196b85d45860b37ed1f1d801, type: 3}
+  effectAudioClip: {fileID: 0}
 --- !u!1 &786720983068545330
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,6 +256,7 @@ MonoBehaviour:
   rotLate: 0.2
   movable: 1
   effectInterval: 5
+  slopeBoostEffect: {fileID: 5571124318278176107}
   moveVec: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   slopeBoost: 0
@@ -401,6 +402,7 @@ Transform:
   - {fileID: 7564720750192745863}
   - {fileID: 95986286519900269}
   - {fileID: 1218932975268879331}
+  - {fileID: 1952179093649256126}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -458,6 +460,52 @@ MonoBehaviour:
   m_SynchronizeRotation: 0
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!1 &5461156181231560912
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1952179093649256126}
+  - component: {fileID: 5571124318278176107}
+  m_Layer: 0
+  m_Name: SlopeEffect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1952179093649256126
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5461156181231560912}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 4.74, z: 0.21}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_Children: []
+  m_Father: {fileID: 4178323175449870650}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5571124318278176107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5461156181231560912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5de6a7bd3868cb949b6d9afde09d14b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectPrefab: {fileID: 1496107599636398923, guid: 924d159997eeea64ebefd378522a51bd, type: 3}
+  effectInstanceTrans: {fileID: 1952179093649256126}
+  effectAudioClip: {fileID: 8300000, guid: fe660e9a196b85d45860b37ed1f1d801, type: 3}
 --- !u!1 &8289077812997710500
 GameObject:
   m_ObjectHideFlags: 0

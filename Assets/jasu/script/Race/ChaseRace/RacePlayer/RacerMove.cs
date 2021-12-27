@@ -60,6 +60,11 @@ public class RacerMove : MonoBehaviour
     //[SerializeField]
     //float gravity = -200f;
 
+    [SerializeField]
+    EffectGenerator slopeBoostEffect;
+
+    bool slopeBoostSEplayable = true;
+
     [Header("デバッグ")]
 
     [SerializeField]
@@ -126,12 +131,20 @@ public class RacerMove : MonoBehaviour
             moveVec.y *= (moveSpdSlope / moveVec.z);
             moveVec.z = moveSpdSlope;
 
+            if (slopeBoostSEplayable)
+            {
+                slopeBoostSEplayable = false;
+                slopeBoostEffect.InstanceEffect();
+            }
+
             slopeBoost = true;
         }
         else
         {
             transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, rotLate);
             moveVec.z = moveSpd;
+
+            slopeBoostSEplayable = true;
         }
 
         // Dirt上
