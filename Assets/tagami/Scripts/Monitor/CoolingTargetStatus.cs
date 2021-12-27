@@ -16,6 +16,8 @@ public class CoolingTargetStatus : MonoBehaviourPunCallbacks, ICool
     //[Header("Smoke")]
     //[SerializeField] VisualEffect smokeEffect;
 
+
+
     [Header("Option")]
     [SerializeField] UnityEngine.UI.Slider slider;
     [SerializeField] GameObject fireEffectObject;
@@ -25,6 +27,9 @@ public class CoolingTargetStatus : MonoBehaviourPunCallbacks, ICool
     bool isDead;
     //bool isCooled;
     //bool oldIsCooled;
+
+    [Header("Sound")]
+    [SerializeField] SEAudioClip popSEClip;
 
     private void Awake()
     {
@@ -44,6 +49,7 @@ public class CoolingTargetStatus : MonoBehaviourPunCallbacks, ICool
 
     void Start()
     {
+        SimpleAudioManager.PlayOneShot(popSEClip);
         //ワールド空間に出す
         //smokeEffect.transform.parent = null;
     }

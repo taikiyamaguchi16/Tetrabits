@@ -89,6 +89,7 @@ MonoBehaviour:
   startLocalPosition: {x: 0, y: 0, z: 0}
   endLocalPosition: {x: 0, y: 0, z: 0}
   positionLerpSeconds: 1
+  positionLerpTimeScale: 1
   positionLerpRepeat: 0
   positionLerpCurve:
     serializedVersion: 2
@@ -243,6 +244,7 @@ MonoBehaviour:
   startLocalPosition: {x: 0, y: 0, z: 0}
   endLocalPosition: {x: 0, y: 0, z: 0}
   positionLerpSeconds: 1
+  positionLerpTimeScale: 1
   positionLerpRepeat: 0
   positionLerpCurve:
     serializedVersion: 2
@@ -331,6 +333,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1608621705060399818}
+  - component: {fileID: 1622130853625018165}
   m_Layer: 5
   m_Name: AllOK
   m_TagString: Untagged
@@ -359,3 +362,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1622130853625018165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608621705060399819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d83f5f05517b1e47830184913dc8a7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seClip:
+    clip: {fileID: 8300000, guid: 755445eb6269c234ba3c35e7e07a66d3, type: 3}
+    volumeScale: 1

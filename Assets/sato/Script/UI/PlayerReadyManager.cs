@@ -118,9 +118,7 @@ public class PlayerReadyManager : MonoBehaviourPunCallbacks
 
                     isReady = (PhotonNetwork.LocalPlayer.CustomProperties["isPlayerReady"] is bool);
 
-                    SimpleAudioManager.PlayOneShot(readySe);
-
-                    //photonView.RPC(nameof(SendIsReadyGuest), RpcTarget.All);
+                    photonView.RPC(nameof(SendIsReadyGuest), RpcTarget.All);
                 }
             }
         }
@@ -147,7 +145,7 @@ public class PlayerReadyManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SendIsReadyGuest()
     {
-        
+        SimpleAudioManager.PlayOneShot(readySe);
     }
 
     // プレイヤーがルームに入室時にリスト更新

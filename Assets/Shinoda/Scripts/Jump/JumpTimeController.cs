@@ -9,6 +9,7 @@ public class JumpTimeController : MonoBehaviour
 {
     [SerializeField, Tooltip("制限時間")] float time;
 
+    [SerializeField] AudioClip BGM;
     [SerializeField] AudioClip goalSE;
     [SerializeField] SceneObject thisScene = null;
     [SerializeField] SceneObject nextScene = null;
@@ -67,25 +68,29 @@ public class JumpTimeController : MonoBehaviour
 
     public void GoalAnimation()
     {
-        isGoal = true;
-        SimpleAudioManager.PlayOneShot(goalSE);
-        gTransform.DOScale(new Vector3(1, 1, 1), 1.5f).SetEase(Ease.Linear);
-        oTransform.DOScale(new Vector3(1, 1, 1), 1.5f).SetDelay(.3f).SetEase(Ease.Linear);
-        aTransform.DOScale(new Vector3(1, 1, 1), 1.5f).SetDelay(.6f).SetEase(Ease.Linear);
-        lTransform.DOScale(new Vector3(1, 1, 1), 1.5f).SetDelay(.9f).SetEase(Ease.Linear).OnComplete(() =>
-           {
-               if (finalStage && loadable)
+        if (!isGoal)
+        {
+            isGoal = true;
+            SimpleAudioManager.PlayBGMCrossFade(BGM, 1, 0);
+            SimpleAudioManager.PlayOneShot(goalSE);
+            gTransform.DOScale(new Vector3(1, 1, 1), 1.5f).SetEase(Ease.Linear);
+            oTransform.DOScale(new Vector3(1, 1, 1), 1.5f).SetDelay(.3f).SetEase(Ease.Linear);
+            aTransform.DOScale(new Vector3(1, 1, 1), 1.5f).SetDelay(.6f).SetEase(Ease.Linear);
+            lTransform.DOScale(new Vector3(1, 1, 1), 1.5f).SetDelay(.9f).SetEase(Ease.Linear).OnComplete(() =>
                {
-                   GameInGameUtil.StopGameInGameTimer("jump");
-                   GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
-                   loadable = false;
-               }
-               else if (PhotonNetwork.IsMasterClient && loadable)
-               {
-                   GameInGameUtil.SwitchGameInGameScene(nextScene);
-                   loadable = false;
-               }
-           });
+                   if (finalStage && loadable)
+                   {
+                       GameInGameUtil.StopGameInGameTimer("jump");
+                       GameInGameManager.sCurrentGameInGameManager.isGameEnd = true;
+                       loadable = false;
+                   }
+                   else if (PhotonNetwork.IsMasterClient && loadable)
+                   {
+                       GameInGameUtil.SwitchGameInGameScene(nextScene);
+                       loadable = false;
+                   }
+               });
+        }
     }
 
     public void TimeUpAnimation()

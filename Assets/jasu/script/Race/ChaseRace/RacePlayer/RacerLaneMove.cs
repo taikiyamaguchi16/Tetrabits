@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RacerLaneShift : MonoBehaviour
+public class RacerLaneMove : MonoBehaviour
 {
     [SerializeField]
     RacerController racerController;
@@ -17,9 +17,9 @@ public class RacerLaneShift : MonoBehaviour
     [SerializeField]
     float spd;
 
-    int laneNum = 0;
+    int laneIndexMax = 0;
 
-    public int GetLaneNum() { return laneNum; }
+    public int GetLaneIndexMax() { return laneIndexMax; }
 
     bool arrivalLane = false;
 
@@ -46,11 +46,14 @@ public class RacerLaneShift : MonoBehaviour
     [SerializeField]
     float inputY;
 
+    [SerializeField]
+    bool isInputting;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = racerController.GetRigidbody();
-        laneNum = laneManager.GetLaneNum() - 1;
+        laneIndexMax = laneManager.GetLaneNum() - 1;
         padPos = TetraInput.sTetraPad.transform.position;
     }
 
@@ -59,19 +62,58 @@ public class RacerLaneShift : MonoBehaviour
     {
         InputByAverage();
 
+        if (isInputting)
+        {
+            if(transform.position.x > laneManager.GetLanePosX(0) + 2f)
+            {
+                Vector3 pos = transform.position;
+                pos.x = laneManager.GetLanePosX(0) + 2f;
+                transform.position = pos;
+            }
+            else if(transform.position.x < laneManager.GetLanePosX(laneIndexMax) - 2f)
+            {
+                Vector3 pos = transform.position;
+                pos.x = laneManager.GetLanePosX(laneIndexMax) - 2f;
+                transform.position = pos;
+            }
+        }
         // レーンの中心を保つ
-        if (arrivalLane)
+        else if (arrivalLane)
         {
             float LaneX = laneManager.GetLanePosX(belongingLaneId);
             Vector3 pos = transform.position;
             pos.x = LaneX;
             transform.position = pos;
         }
+        else if (!isInputting && !arrivalLane)
+        {
+            int nearIndex = 0;
+            for (int i = 1; i < laneManager.GetLaneNum(); i++)
+            {
+                if (Mathf.Abs(laneManager.GetLanePosX(i) - transform.position.x) < Mathf.Abs(laneManager.GetLanePosX(nearIndex) - transform.position.x))
+                {
+                    nearIndex = i;
+                }
+            }
+
+            SetMoveLane(nearIndex);
+        }
     }
 
     private void FixedUpdate()
     {
-        if (!arrivalLane)   // 所属レーンへの補正
+        if (isInputting)
+        {
+            if (inputY < 0)
+            {
+                rb.velocity = new Vector3(spd, rb.velocity.y, rb.velocity.z);
+            }
+            else
+            {
+                rb.velocity = new Vector3(-spd, rb.velocity.y, rb.velocity.z);
+            }
+        }
+        else if (!arrivalLane)   // 所属レーンへの補正
         {
             // 到着判定
             float laneX = laneManager.GetLanePosX(belongingLaneId);
@@ -107,9 +149,9 @@ public class RacerLaneShift : MonoBehaviour
         {
             _laneId = 0;
         }
-        else if (_laneId > laneNum)
+        else if (_laneId > laneIndexMax)
         {
-            _laneId = laneNum;
+            _laneId = laneIndexMax;
         }
 
         // 接地中
@@ -127,6 +169,7 @@ public class RacerLaneShift : MonoBehaviour
     private void InputByAverage()
     {
         inputY = 0f;
+        isInputting = false;
         if (movable)
         {
             if (TetraInput.sTetraPad.GetNumOnPad() > 0)
@@ -148,6 +191,11 @@ public class RacerLaneShift : MonoBehaviour
 
                 inputY = total / yLengthList.Count / padLength;
 
+                if(Mathf.Abs(inputY) > padInputRangeY)
+                {
+                    isInputting = true;
+                    arrivalLane = false;
+                }
                 //inputY = TetraInput.sTetraPad.GetVector().y / TetraInput.sTetraPad.GetNumOnPad();
             }
 
@@ -155,32 +203,14 @@ public class RacerLaneShift : MonoBehaviour
             if (Input.GetKey(KeyCode.W))
             {
                 inputY = 1f;
+                isInputting = true;
+                arrivalLane = false;
             }
             else if (Input.GetKey(KeyCode.S))
             {
                 inputY = -1f;
-            }
-
-            if (inputY < -padInputRangeY)
-            {
-                if (belongingLaneId != 0)
-                {
-                    SetMoveLane(0);
-                }
-            }
-            else if (inputY > padInputRangeY)
-            {
-                if (belongingLaneId != 2)
-                {
-                    SetMoveLane(2);
-                }
-            }
-            else
-            {
-                if (belongingLaneId != 1)
-                {
-                    SetMoveLane(1);
-                }
+                isInputting = true;
+                arrivalLane = false;
             }
         }
     }

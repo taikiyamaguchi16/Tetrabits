@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class RaceEnemyDirtAttack : MonoBehaviour
+public class RaceEnemyDirtAttack : MonoBehaviourPunCallbacks
 {
     bool isAttacking = false;
 
@@ -39,7 +40,7 @@ public class RaceEnemyDirtAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isAttacking)
+        if (isAttacking && PhotonNetwork.IsMasterClient)
         {
             warningTimer += Time.deltaTime;
             if(warningTimer > warningTimeSeconds)
@@ -51,13 +52,12 @@ public class RaceEnemyDirtAttack : MonoBehaviour
                 {
                     dirtTimer = 0f;
 
-                    GameObject dirtSplashObj = Instantiate(dirtSplashPrefab);
-                    GameInGameUtil.MoveGameObjectToOwnerScene(dirtSplashObj, gameObject);
-                    dirtSplashObj.transform.parent = transform;
                     Vector3 pos = transform.position;
                     pos.y = dirtPosY;
                     pos.z -= 3f * dirtCounter;
-                    dirtSplashObj.transform.position = pos;
+
+                    photonView.RPC(nameof(RPCGenelateDirt), RpcTarget.All, pos);
+
                     dirtCounter++;
                     if(dirtCounter >= dirtNum)
                     {
@@ -73,13 +73,29 @@ public class RaceEnemyDirtAttack : MonoBehaviour
 
     public void AttackStart()
     {
-        if (!isAttacking)
+        if (!isAttacking && PhotonNetwork.IsMasterClient)
         {
-            warningTimer = 0f;
-            dirtTimer = 0f;
-            dirtCounter = 0;
-            isAttacking = true;
-            spriteBlink.active = true;
+            photonView.RPC(nameof(RPCDirtAttackStart), RpcTarget.All);
         }
+    }
+
+    [PunRPC]
+    public void RPCDirtAttackStart()
+    {
+        warningTimer = 0f;
+        dirtTimer = 0f;
+        dirtCounter = 0;
+        isAttacking = true;
+        spriteBlink.active = true;
+    }
+
+    [PunRPC]
+    public void RPCGenelateDirt(Vector3 _pos)
+    {
+        GameObject dirtSplashObj = Instantiate(dirtSplashPrefab);
+        GameInGameUtil.MoveGameObjectToOwnerScene(dirtSplashObj, gameObject);
+        dirtSplashObj.transform.parent = transform;
+
+        dirtSplashObj.transform.position = _pos;
     }
 }
