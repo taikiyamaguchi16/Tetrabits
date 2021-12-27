@@ -9,6 +9,7 @@ public class GyroTimeLimitController : MonoBehaviour
 {
     [SerializeField, Tooltip("制限時間")] float time;
 
+    [SerializeField] AudioClip BGM;
     [SerializeField] AudioClip clearSE;
 
     [SerializeField] SceneObject thisScene = null;
@@ -69,6 +70,7 @@ public class GyroTimeLimitController : MonoBehaviour
     public void GoalAnimation()
     {
         isGoal = true;
+        SimpleAudioManager.PlayBGMCrossFade(BGM, 1, 0);
         SimpleAudioManager.PlayOneShot(clearSE);
         gText.DOColor(new Color(255, 255, 255, 255), 1.5f).SetEase(Ease.InQuint);
         oText.DOColor(new Color(255, 255, 255, 255), 1.5f).SetDelay(.3f).SetEase(Ease.InQuint);

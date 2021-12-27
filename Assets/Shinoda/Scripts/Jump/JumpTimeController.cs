@@ -9,6 +9,7 @@ public class JumpTimeController : MonoBehaviour
 {
     [SerializeField, Tooltip("制限時間")] float time;
 
+    [SerializeField] AudioClip BGM;
     [SerializeField] AudioClip goalSE;
     [SerializeField] SceneObject thisScene = null;
     [SerializeField] SceneObject nextScene = null;
@@ -68,6 +69,7 @@ public class JumpTimeController : MonoBehaviour
     public void GoalAnimation()
     {
         isGoal = true;
+        SimpleAudioManager.PlayBGMCrossFade(BGM, 1, 0);
         SimpleAudioManager.PlayOneShot(goalSE);
         gTransform.DOScale(new Vector3(1, 1, 1), 1.5f).SetEase(Ease.Linear);
         oTransform.DOScale(new Vector3(1, 1, 1), 1.5f).SetDelay(.3f).SetEase(Ease.Linear);
