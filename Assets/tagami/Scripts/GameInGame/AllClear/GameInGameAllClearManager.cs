@@ -51,12 +51,16 @@ public class GameInGameAllClearManager : MonoBehaviour
     float backgroundFadeTimer;
     bool backgroundFading;
 
+    [Header("Sound")]
+    [SerializeField] AudioClip bgmClip;
 
     // Start is called before the first frame update
     void Start()
     {
         VirtualCameraManager.OnlyActive(1);
         //StartCoroutine(CoCreateCredit());
+
+        SimpleAudioManager.PlayBGMCrossFade(bgmClip, 1.0f);
 
         //初期カラー設定
         foreach (var fastForwardImage in fastForwardImages)
@@ -106,6 +110,7 @@ public class GameInGameAllClearManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         //スクロール速度
         if (!stopedScroll)
         {
