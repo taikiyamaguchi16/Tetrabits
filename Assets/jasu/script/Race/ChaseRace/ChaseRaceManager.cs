@@ -50,6 +50,9 @@ public class ChaseRaceManager : MonoBehaviourPunCallbacks
     List<GameObject> showObjWhenGoalList = new List<GameObject>();
 
     [SerializeField]
+    AudioClip goalSE;
+
+    [SerializeField]
     bool finalStage = false;
 
     // Start is called before the first frame update
@@ -106,6 +109,9 @@ public class ChaseRaceManager : MonoBehaviourPunCallbacks
             {
                 obj.SetActive(true);
             }
+
+            SimpleAudioManager.PlayBGMCrossFade(bgm, 0f);
+            SimpleAudioManager.PlayOneShot(goalSE);
         }
 
         // ゴール後
