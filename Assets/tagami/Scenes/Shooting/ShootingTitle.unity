@@ -239,7 +239,7 @@ MonoBehaviour:
   nextScene:
     sceneAsset: {fileID: 102900000, guid: c0e728621a5f46d43a510e55fdacf6c2, type: 3}
     required: 0
-    buildIndex: 28
+    buildIndex: 25
 --- !u!1001 &1213824590
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -510,8 +510,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1213824591}
     - target: {fileID: 7728588222470648583, guid: f0bdddc8c34849d429ed15f01e2f730a, type: 3}
+      propertyPath: BGM
+      value: 
+      objectReference: {fileID: 8300000, guid: 26880df5dffca534398ca71a9034cb3b, type: 3}
+    - target: {fileID: 7728588222470648583, guid: f0bdddc8c34849d429ed15f01e2f730a, type: 3}
       propertyPath: nextScene.m_SceneName
-      value: ShootingStage0_Ozawa
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0bdddc8c34849d429ed15f01e2f730a, type: 3}
