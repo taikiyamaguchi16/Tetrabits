@@ -25,6 +25,10 @@ public class GameInGameResultManager : MonoBehaviour
     bool gameInGameAllCleared;
     bool fixedMonitorCamera = true;
 
+    [Header("Sound")]
+    [SerializeField] AudioClip clearClip;
+    [SerializeField] AudioClip gameoverClip;
+
     [Header("Debug")]
     [SerializeField] bool useDebugResult;
 
@@ -115,6 +119,9 @@ public class GameInGameResultManager : MonoBehaviour
             }
         }
 
+        //BGMをフェードアウト
+        SimpleAudioManager.PlayBGMCrossFade(clearClip, 1.0f, 0.0f);
+
         if (gameInGameAllCleared)
         {
             StartCoroutine(CoAllClear());
@@ -128,6 +135,8 @@ public class GameInGameResultManager : MonoBehaviour
 
     IEnumerator CoAllClear()
     {
+        SimpleAudioManager.PlayOneShot(clearClip);
+
         yield return new WaitForSeconds(loadAllClearSceneWaitSeconds);
 
         if (Photon.Pun.PhotonNetwork.IsMasterClient)
@@ -138,6 +147,8 @@ public class GameInGameResultManager : MonoBehaviour
 
     IEnumerator CoGameOver()
     {
+        SimpleAudioManager.PlayOneShot(gameoverClip);
+
         yield return new WaitForSeconds(reloadTextWaitSeconds);
         reloadText.enabled = true;
 
