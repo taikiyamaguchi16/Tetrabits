@@ -33,6 +33,9 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
     VisualEffect smokeEfect;
     //生成可能かどうか
     private bool canSpawn;
+
+    [SerializeField]
+    AudioClip joukiSE;
     // Start is called before the first frame update
 
     public void Start()
@@ -119,8 +122,9 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
         var b_obj = PhotonNetwork.InstantiateRoomObject(spownObj.name, new Vector3(100,100,100), Quaternion.identity);
         PhotonNetwork.AllocateViewID(b_obj.GetPhotonView().ViewID);
 
+        //ownBattery = b_obj.GetComponent<Battery>();
         photonView.RPC(nameof(RPCSpawonBattery), RpcTarget.All, b_obj.GetPhotonView().ViewID);
-        
+        ownBattery.CallPickUp(photonView.ViewID);
         elpsedTime = 0f;
     }
 
@@ -128,7 +132,7 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
     public void RPCSpawonBattery(int _id)
     {
         ownBattery = NetworkObjContainer.NetworkObjDictionary[_id].GetComponent<Battery>();
-        ownBattery.CallPickUp(photonView.ViewID);      
+       // ownBattery.CallPickUp(photonView.ViewID);      
     }
 
     [PunRPC]
@@ -136,6 +140,7 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
     {
         //エフェクトの再生
         smokeEfect.SendEvent("OnPlay");
+        SimpleAudioManager.PlayOneShot(joukiSE);
         isPlayEfect = true;
         elpsedEfectTime = 0f;
     }
@@ -160,6 +165,7 @@ public class BatterySpowner : MonoBehaviourPunCallbacks, IPlayerAction
                 //バッテリーが生成されていた場合
                 if (ownBattery != null)
                 {
+                    ownBattery.CallDump(photonView.ViewID);
                     ownBattery.CallPickUp(_id);
                     photonView.RPC(nameof(RPCStolenOwnBattery), RpcTarget.All);
 

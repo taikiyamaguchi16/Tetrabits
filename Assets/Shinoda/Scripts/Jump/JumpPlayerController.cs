@@ -9,6 +9,8 @@ public class JumpPlayerController : MonoBehaviour
     Rigidbody2D rb;
     SpriteRenderer myRenderer;
     PhotonTransformViewClassic photonTransformView;
+    Vector3 beforeLocal;
+    Vector3 beforeWorld;
     bool isParasol = false;
     bool isJump = false;
     public bool GetJump() { return isJump; }
@@ -36,9 +38,13 @@ public class JumpPlayerController : MonoBehaviour
     [SerializeField] GameObject arrow;
     [SerializeField] float arrowScaleRatio = 1f;
 
+    [SerializeField] GameObject cameraObject;
+
     // Start is called before the first frame update
     void Start()
     {
+        beforeLocal = transform.localPosition;
+        beforeWorld = transform.position;
         SimpleAudioManager.PlayBGMCrossFade(BGM, 1.0f);
         GameInGameUtil.StartGameInGameTimer("jump");
         rb = this.gameObject.GetComponent<Rigidbody2D>();
@@ -46,6 +52,11 @@ public class JumpPlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         myRenderer = GetComponent<SpriteRenderer>();
         photonTransformView = GetComponent<PhotonTransformViewClassic>();
+
+        if (cameraObject == null) cameraObject = GameObject.Find("MonitorCamera");
+        cameraObject.transform.position = new Vector3(this.transform.position.x,
+            this.transform.position.y,
+            cameraObject.transform.position.z);
     }
 
     // Update is called once per frame
@@ -92,6 +103,45 @@ public class JumpPlayerController : MonoBehaviour
         }
 
         photonTransformView.SetSynchronizedValues(speed: rb.velocity, turnSpeed: 0);
+    }
+
+    void LateUpdate()
+    {
+        bool isDanger = false;
+
+        if(transform.parent.tag=="JumpMove")
+        {
+            if(transform.localPosition.y>2.0f)
+            {
+                // 不正じゃね
+                Debug.Log("Danger!!!" + "Move乗ってるはずなのにY座標でかくね");
+                isDanger = true;
+            }
+        }
+
+        if(transform.parent.tag=="Ground")
+        {
+            float dis = (transform.position - beforeWorld).magnitude;
+            if(dis>5)
+            {
+                // 不正じゃね
+                Debug.Log("Danger!!!" + "直前とくそ離れてね?" + "current" + transform.position + "before" + beforeWorld + "dis" + dis);
+                isDanger = true;
+            }
+        }
+
+        if(isDanger)    // 実際の補正処理
+        {
+            transform.position = beforeWorld;
+            Debug.Log("parent：" + transform.parent + "local：" + transform.localPosition + "world：" + transform.position);
+        }
+
+        beforeLocal = transform.localPosition;
+        beforeWorld = transform.position;
+
+        cameraObject.transform.position = new Vector3(this.transform.position.x,
+            this.transform.position.y,
+            cameraObject.transform.position.z);
     }
 
     void Jump(Vector2 _jumpDirection)

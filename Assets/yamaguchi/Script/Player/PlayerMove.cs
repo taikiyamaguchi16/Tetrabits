@@ -64,8 +64,21 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
     private Vector3 playerDir;
 
+    [SerializeField]
+    float stepInterval;
+
+    [SerializeField]
+    AudioClip footStepSE;
+    [SerializeField]
+    AudioClip jumpSE;
+
+    //ジャンプしてから一定時間飛べなくするため
+    private bool jumpbleTimeFg;
+
+    private Coroutine nowCoroutine;
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         forwardDir = new Vector3(0f, 0f, 1f);
         rightDir = new Vector3(1f, 0f, 0f);
@@ -74,18 +87,18 @@ public class PlayerMove : MonoBehaviourPunCallbacks
         rb.sleepThreshold = -1;
 
         // ソート
-        for (int i = 0; i < moveSpeedInRatios.Count; i++)
-        {
-            for(int j = i + 1; j < moveSpeedInRatios.Count; j++)
-            {
-                if(moveSpeedInRatios[i].ratio < moveSpeedInRatios[j].ratio)
-                {
-                    MoveSpeedInRatio tmp = moveSpeedInRatios[i];
-                    moveSpeedInRatios[i] = moveSpeedInRatios[j];
-                    moveSpeedInRatios[j] = tmp;
-                }
-            }
-        }
+        //for (int i = 0; i < moveSpeedInRatios.Count; i++)
+        //{
+        //    for(int j = i + 1; j < moveSpeedInRatios.Count; j++)
+        //    {
+        //        if(moveSpeedInRatios[i].ratio < moveSpeedInRatios[j].ratio)
+        //        {
+        //            MoveSpeedInRatio tmp = moveSpeedInRatios[i];
+        //            moveSpeedInRatios[i] = moveSpeedInRatios[j];
+        //            moveSpeedInRatios[j] = tmp;
+        //        }
+        //    }
+        //}
 
         myPocket = GetComponent<ItemPocket>();
         photonTransformView = GetComponent<PhotonTransformViewClassic>();
@@ -95,6 +108,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
             jumpSensor.enabled = true;
         }
 
+        jumpbleTimeFg = false;
     }
 
     // Update is called once per frame
@@ -154,19 +168,24 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                     moveDir += rightDir * XInputManager.GetThumbStickLeftX(controllerID);
                     moveDir += forwardDir * XInputManager.GetThumbStickLeftY(controllerID);
                 }
+                
+                //歩く音を止める
+               
                 moveDir.Normalize();
 
                 if (jumpable == true)//着地しているとき
                 {
                     if (Input.GetKeyDown("space") || XInputManager.GetButtonTrigger(controllerID, XButtonType.A))
                     {
-                        if (myPocket.GetItem() == null)
+                        if (myPocket.GetItem() == null&&!jumpbleTimeFg)
                         {
                             jumpable = false;
                             rb.AddForce(new Vector3(0, jumpPower, 0));
                             playerAnim.SetTrigger("Jumping");
+                            SimpleAudioManager.PlayOneShot(jumpSE);
+                            StartCoroutine(JampTimer());
                         }
-                    }
+                    }                    
 
                 }
             }
@@ -193,6 +212,12 @@ public class PlayerMove : MonoBehaviourPunCallbacks
         playerAnim.SetBool("Actioning", false);
         playerAnim.SetBool("Waiting", false);
         playerAnim.SetBool("Carry", false);
+
+        //歩く音を鳴らす
+        if (nowCoroutine == null)
+        {
+            nowCoroutine = StartCoroutine(FootStepSE());
+        }
     }
 
     public void SetPlayerMovable(bool _fg)
@@ -286,8 +311,15 @@ public class PlayerMove : MonoBehaviourPunCallbacks
                 playerDir = -Vector3.forward;
             }
         }
+        //歩いていない
         else
         {
+            if (nowCoroutine != null)
+            {
+                StopCoroutine(nowCoroutine);
+                nowCoroutine = null;
+            }
+
             playerAnim.SetBool("Walking", false);
             playerAnim.SetBool("Waiting", true);
         }
@@ -306,5 +338,23 @@ public class PlayerMove : MonoBehaviourPunCallbacks
     public Vector3 GetPlayerDir()
     {
         return playerDir;
+    }
+
+    IEnumerator FootStepSE()
+    {
+        while (true)
+        {
+            SimpleAudioManager.PlayOneShot(footStepSE);
+            yield return new WaitForSeconds(stepInterval);
+        }
+    }
+
+    IEnumerator JampTimer()
+    {
+        jumpbleTimeFg = true;
+        yield return new WaitForSeconds(0.1f);
+        jumpbleTimeFg = false;
+
+        yield  break;
     }
 }

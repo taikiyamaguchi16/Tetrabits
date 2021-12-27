@@ -351,7 +351,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9014217376288345532}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56f9dcefa1257be4a8e94e8b8a2826f4, type: 3}
   m_Name: 
@@ -381,6 +381,7 @@ MonoBehaviour:
   hitSE: {fileID: 8300000, guid: 9eef560bf407c1d47bbdfdfa15b9e65c, type: 3}
   arrow: {fileID: 3726820300519993325}
   arrowScaleRatio: 5
+  cameraObject: {fileID: 0}
 --- !u!114 &2914618179080714118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,7 +455,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PositionModel:
     SynchronizeEnabled: 1
-    TeleportEnabled: 0
+    TeleportEnabled: 1
     TeleportIfDistanceGreaterThan: 1
     InterpolateOption: 3
     InterpolateMoveTowardsSpeed: 1

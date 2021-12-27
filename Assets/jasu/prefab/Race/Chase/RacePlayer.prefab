@@ -249,7 +249,7 @@ MonoBehaviour:
   - 62
   - 63
   - 64
-  moveSpdSlope: 120
+  moveSpdSlope: 80
   moveSpdDirt: 40
   moveForceMultiplyStart: 5
   moveForceMultiplyStop: 1
@@ -258,6 +258,7 @@ MonoBehaviour:
   effectInterval: 5
   moveVec: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
+  slopeBoost: 0
 --- !u!114 &1301844943576596319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,8 +273,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   racerController: {fileID: 2309589884601491043}
   jumpEffect: {fileID: 2026074549885286145}
-  jumpVec: {x: 0, y: 1500, z: 0}
-  gravity: -200
+  jumpVec: {x: 0, y: 1200, z: 0}
+  gravity: -100
   jumpable: 1
 --- !u!114 &7919584168330228199
 MonoBehaviour:
@@ -394,7 +395,7 @@ Transform:
   m_GameObject: {fileID: 4878758953354832212}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
   - {fileID: 1142538657956307913}
   - {fileID: 7564720750192745863}

@@ -313,7 +313,7 @@ GameObject:
   - component: {fileID: 8499873171804672462}
   m_Layer: 0
   m_Name: BatteryHolder
-  m_TagString: ActionItem
+  m_TagString: CantJump
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -459,11 +459,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interval: 0.4
+  warningSound: {fileID: 8300000, guid: b373bfc013af7034594a0ab05ba9243f, type: 3}
   blinkingTime: 5
   batteryHolder: {fileID: 8260692506013420948}
   blinkImage: {fileID: 6623658458978985747}
   nothingImage: {fileID: 7148382618523666813}
-  startWarningLevel: 40
+  startWarningLevel: 30
   controllUiCanvas: {fileID: 2021855753518538677}
 --- !u!1001 &1963071501169856172
 PrefabInstance:

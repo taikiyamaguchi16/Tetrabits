@@ -113,14 +113,15 @@ public class RacerLaneShift : MonoBehaviour
         }
 
         // 接地中
-        if (racerController.GetRacerGroundSensor().GetOnGround())
-        {
-            //if (!bikeSlipDown.isSliping)
-            {
-                belongingLaneId = _laneId;
-                arrivalLane = false;
-            }
-        }
+        //if (racerController.GetRacerGroundSensor().GetOnGround())
+        //{
+        //    //if (!bikeSlipDown.isSliping)
+        //    {
+
+        //    }
+        //}
+        belongingLaneId = _laneId;
+        arrivalLane = false;
     }
 
     private void InputByAverage()
@@ -151,14 +152,14 @@ public class RacerLaneShift : MonoBehaviour
             }
 
             // デバッグ
-            if (Input.GetKey(KeyCode.W))
-            {
-                inputY = 1f;
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                inputY = -1f;
-            }
+            //if (Input.GetKey(KeyCode.W))
+            //{
+            //    inputY = 1f;
+            //}
+            //else if (Input.GetKey(KeyCode.S))
+            //{
+            //    inputY = -1f;
+            //}
 
             if (inputY < -padInputRangeY)
             {

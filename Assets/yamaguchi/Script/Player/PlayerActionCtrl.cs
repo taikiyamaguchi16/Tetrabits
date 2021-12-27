@@ -43,7 +43,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
     IPlayerAction runningAction = null;
 
     //アクション実行予定のオブジェクト
-    private GameObject selectedObj;
+    public GameObject selectedActionObj;
 
     [SerializeField]
     private Animator playerAnim;
@@ -93,7 +93,7 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     PriorityCheck();
                     CheckHighPriorityAction();
 
-                    runningAction = selectedObj.GetComponent<IPlayerAction>();
+                    runningAction = selectedActionObj.GetComponent<IPlayerAction>();
                     runningAction.StartPlayerAction(desc);
 
                     playerMove.SetPlayerMovable(false); // プレイヤー行動停止
@@ -189,10 +189,10 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     }
                     else
                     {
-                        if (selectedObj != null)
+                        if (selectedActionObj != null)
                         {
-                            selectedObj.GetComponent<ControlUIActivator>().SetControlUIActive(false);
-                            selectedObj = null;
+                            selectedActionObj.GetComponent<ControlUIActivator>().SetControlUIActive(false);
+                            selectedActionObj = null;
                             runningAction = null;
 
                             candidates.Clear();
@@ -202,10 +202,10 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                 }
                 else
                 {
-                    if (selectedObj != null)
+                    if (selectedActionObj != null)
                     {
-                        selectedObj.GetComponent<ControlUIActivator>().SetControlUIActive(false);
-                        selectedObj = null;
+                        selectedActionObj.GetComponent<ControlUIActivator>().SetControlUIActive(false);
+                        selectedActionObj = null;
                         runningAction = null;
 
                         candidates.Clear();
@@ -260,12 +260,12 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     nearest = can;
             }
             //前のオブジェクトのUIを非表示に
-            if (selectedObj != null)
-                selectedObj.GetComponent<ControlUIActivator>().SetControlUIActive(false);
+            if (selectedActionObj != null)
+                selectedActionObj.GetComponent<ControlUIActivator>().SetControlUIActive(false);
             //IAction持ちの一番近いやつ取得
-            selectedObj = nearest;
+            selectedActionObj = nearest;
 
-            selectedObj.GetComponent<ControlUIActivator>().SetControlUIActive(true);
+            selectedActionObj.GetComponent<ControlUIActivator>().SetControlUIActive(true);
         }
     }
     private void CheckItemPossible()

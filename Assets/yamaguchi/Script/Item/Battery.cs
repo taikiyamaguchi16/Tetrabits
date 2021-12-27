@@ -4,6 +4,13 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
 
+[System.Serializable]
+public struct BatteryLevelfromColor
+{
+    public float batteryLevel;
+    [ColorUsage(false, true)]  public Color batteryColor;
+}
+
 public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 {
     [SerializeField]
@@ -42,7 +49,11 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
 
     private ItemPocket ownerSc;
 
+    [SerializeField]
+    List<BatteryLevelfromColor> batteryLevelfromColors = new List<BatteryLevelfromColor>();
 
+    [SerializeField]
+    MeshRenderer batteryMaterial;
     private void Update()
     {
         if (!isOwned)
@@ -65,6 +76,16 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
             }
 
         }
+
+        //残量に応じた色の変更
+        if (level < batteryLevelfromColors[0].batteryLevel)
+        {
+            batteryMaterial.material.SetColor("_EmissionColor", batteryLevelfromColors[0].batteryColor);       
+            if(level<batteryLevelfromColors[1].batteryLevel)
+            {
+                batteryMaterial.material.SetColor("_EmissionColor", batteryLevelfromColors[1].batteryColor);
+            }
+        }
     }
     void Awake()
     {
@@ -78,19 +99,24 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     }
 
     public void StartPlayerAction(PlayerActionDesc _desc)
+    {      
+        photonView.RPC(nameof(RPCBatteryPlayAction), RpcTarget.All, _desc.playerObj.GetPhotonView().ViewID);
+    }
+    [PunRPC]
+    private void RPCBatteryPlayAction(int _id)
     {
-
-        if (!isOwned)
+        if (PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC(nameof(PickUp), RpcTarget.AllBufferedViaServer, _desc.playerObj.GetPhotonView().ViewID);
-           
-        }
-        else
-        {
-            photonView.RPC(nameof(Dump), RpcTarget.AllBufferedViaServer, _desc.playerObj.GetPhotonView().ViewID);
+            if (!isOwned)
+            {
+                photonView.RPC(nameof(PickUp), RpcTarget.AllBufferedViaServer, _id);
+            }
+            else
+            {
+                photonView.RPC(nameof(Dump), RpcTarget.AllBufferedViaServer, _id);
+            }
         }
     }
-
     public void EndPlayerAction(PlayerActionDesc _desc) { }
     public int GetPriority()
     {
@@ -129,15 +155,26 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     [PunRPC]
     public void PickUp(int _id)
     {
-        GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
-        priority = 100;
-
-        ownerSc = _obj.GetComponent<ItemPocket>();
-
-        //Playerが二つ持っちゃう場合の例外処理
-        if (ownerSc.gameObject.tag == "Player")
+        if (!isOwned)
         {
-            if (ownerSc.gameObject.transform.Find("Battery 1(Clone)") == null)
+            GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
+            priority = 100;
+
+            ownerSc = _obj.GetComponent<ItemPocket>();
+            //Playerが二つ持っちゃう場合の例外処理
+            if (ownerSc.gameObject.tag == "Player")
+            {
+                if (ownerSc.gameObject.transform.Find("Battery 1(Clone)") == null)
+                {
+                    ownerSc.SetItem(this.gameObject);
+                    rb.isKinematic = true;
+                    col.enabled = false;
+                    this.transform.parent = _obj.transform;
+                    //保有状態に切り替え
+                    isOwned = true;
+                }
+            }
+            else
             {
                 ownerSc.SetItem(this.gameObject);
                 rb.isKinematic = true;
@@ -147,45 +184,40 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
                 isOwned = true;
             }
         }
-        else
-        {
-            ownerSc.SetItem(this.gameObject);
-            rb.isKinematic = true;
-            col.enabled = false;
-            this.transform.parent = _obj.transform;
-            //保有状態に切り替え
-            isOwned = true;
-        }
     }
 
     [PunRPC]
     public void Dump(int _id)
     {
-        GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
-        if (_obj == ownerSc.gameObject)
+        if (isOwned)
         {
-            ownerSc.SetItem(null);
-            rb.isKinematic = false;
-            col.enabled = true;
-            this.transform.parent = null;
-            isOwned = false;
-            priority = 40;
-
-            PlayerMove p_move = ownerSc.gameObject.GetComponent<PlayerMove>();
-            if (p_move != null)
+            GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
+            if (_obj == ownerSc.gameObject)
             {
-                SimpleAudioManager.PlayOneShot(throwBatterrySe);
-                if (_obj.GetPhotonView().IsMine)
-                {                    
-                    playerDir = p_move.GetPlayerDir();
-                    Vector3 _power = playerDir * throwForce;
-                    _power.y = throwUpForce;
-                    photonView.RPC(nameof(RPCThrowBattery), RpcTarget.All, _power);
-                }
-            }
+                ownerSc.SetItem(null);
+                rb.isKinematic = false;
+                col.enabled = true;
+                this.transform.parent = null;
+                isOwned = false;
+                priority = 40;
 
-            myControlUi.SetControlUIActive(false);
-            ownerSc = null;
+                PlayerMove p_move = ownerSc.gameObject.GetComponent<PlayerMove>();
+                if (p_move != null)
+                {
+                    if (_obj.GetPhotonView().IsMine)
+                    {
+                        playerDir = p_move.GetPlayerDir();
+                        Vector3 _power = playerDir * throwForce;
+                        _power.y = throwUpForce;
+                        photonView.RPC(nameof(RPCThrowBattery), RpcTarget.All, _power);
+                        if (ownerSc.gameObject.GetComponent<PlayerActionCtrl>().selectedActionObj == this.gameObject)
+                            SimpleAudioManager.PlayOneShot(throwBatterrySe);
+                    }
+                }
+
+                myControlUi.SetControlUIActive(false);
+                ownerSc = null;
+            }
         }
     }
     public float GetLevel()

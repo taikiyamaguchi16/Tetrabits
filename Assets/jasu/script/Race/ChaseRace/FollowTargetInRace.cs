@@ -62,6 +62,8 @@ public class FollowTargetInRace : MonoBehaviour
         else if (rate > 1f) rate = 1f;
 
         Vector3 targetOffset = activeOffset;
+        targetOffset.x = offset.x;
+        targetOffset.y = offset.y;
         targetOffset.z = offsetMaxZ + (offsetMinZ - offsetMaxZ) * rate;
 
         activeOffset = Vector3.Lerp(activeOffset, targetOffset, Time.deltaTime);
@@ -78,6 +80,10 @@ public class FollowTargetInRace : MonoBehaviour
         if (followX)
         {
             pos.x += followTrans.position.x;
+        }
+        else
+        {
+            pos.x += 1000f;
         }
 
         if (followY)
@@ -98,6 +104,10 @@ public class FollowTargetInRace : MonoBehaviour
         if (followX)
         {
             pos.x += followTrans.position.x;
+        }
+        else
+        {
+            pos.x += 1000f;
         }
 
         if (followY)
