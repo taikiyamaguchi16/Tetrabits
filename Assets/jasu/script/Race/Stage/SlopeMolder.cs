@@ -32,6 +32,9 @@ public class SlopeMolder : MonoBehaviour
     [SerializeField]
     SpriteRenderer roadSpriteRenderer;
 
+    [SerializeField]
+    GameObject accelSign = null;
+
     [Header("パラメータ調整")]
 
     [SerializeField, Range(0.1f, 100f), Tooltip("上の道の長さ")]
@@ -129,6 +132,12 @@ public class SlopeMolder : MonoBehaviour
                     roadSpriteRenderer.size = new Vector2(roadLength / 5, roadSpriteRenderer.size.y);
                 }
 
+                if(accelSign != null)
+                {
+                    pos = accelSign.transform.localPosition;
+                    pos.z = -(upSlopeCol.transform.localScale.z * Mathf.Cos(upSlopeAngle * Mathf.Deg2Rad) + roadLength / 2);
+                    accelSign.transform.localPosition = pos;
+                }
             }
         }
     }

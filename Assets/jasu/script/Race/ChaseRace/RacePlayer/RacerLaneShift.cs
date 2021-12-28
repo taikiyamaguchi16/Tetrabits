@@ -152,14 +152,14 @@ public class RacerLaneShift : MonoBehaviour
             }
 
             // デバッグ
-            if (Input.GetKey(KeyCode.W))
-            {
-                inputY = 1f;
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                inputY = -1f;
-            }
+            //if (Input.GetKey(KeyCode.W))
+            //{
+            //    inputY = 1f;
+            //}
+            //else if (Input.GetKey(KeyCode.S))
+            //{
+            //    inputY = -1f;
+            //}
 
             if (inputY < -padInputRangeY)
             {

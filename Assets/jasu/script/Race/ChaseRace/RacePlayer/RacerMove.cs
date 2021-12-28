@@ -7,9 +7,6 @@ public class RacerMove : MonoBehaviour
     [SerializeField]
     RacerController racerController;
 
-    [SerializeField]
-    EffectGenerator effectGenerator;
-
     public float moveSpd { get; private set; }
 
     [SerializeField]
@@ -49,11 +46,6 @@ public class RacerMove : MonoBehaviour
     float rotLate = 0.2f;
 
     public bool movable = true;
-
-    [SerializeField]
-    float effectInterval = 5f;
-
-    float effectTimer = 0f;
 
     Rigidbody rb;
 
@@ -100,16 +92,6 @@ public class RacerMove : MonoBehaviour
         }
 
         velocity = rb.velocity;
-
-        if(numOnPad > 0 && rb.velocity.z > 0)
-        {
-            effectTimer += Time.deltaTime;
-            if(effectTimer > (effectInterval - numOnPad) * 0.25f)
-            {
-                effectTimer = 0f;
-                effectGenerator.InstanceEffect();
-            }
-        }
     }
 
     private void FixedUpdate()
