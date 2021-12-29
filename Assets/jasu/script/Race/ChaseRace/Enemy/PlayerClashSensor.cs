@@ -26,6 +26,18 @@ public class PlayerClashSensor : MonoBehaviourPunCallbacks
     [SerializeField]
     float rotNum = 3f;
 
+    [SerializeField]
+    AudioClip se;
+
+    [SerializeField]
+    float seVol = 2f;
+
+    [SerializeField]
+    AudioClip roarSe;
+
+    [SerializeField]
+    float roarVol = 1f;
+
     private void Start()
     {
         racerRb = racerController.GetRigidbody();
@@ -50,6 +62,9 @@ public class PlayerClashSensor : MonoBehaviourPunCallbacks
         {
             if (!playerClash)
             {
+                SimpleAudioManager.PlayOneShot(se, seVol);
+                SimpleAudioManager.PlayOneShot(roarSe, roarVol);
+
                 racerController.GetBikeSlipDown().CallSlipStart("medium", playerSlipSeconds, 360f * rotNum);
 
                 if (PhotonNetwork.IsMasterClient)

@@ -110,7 +110,7 @@ public class ChaseRaceManager : MonoBehaviourPunCallbacks
                 obj.SetActive(true);
             }
 
-            SimpleAudioManager.PlayBGMCrossFade(bgm, 0f);
+            SimpleAudioManager.PlayBGMCrossFade(bgm, 0f, 0f);
             SimpleAudioManager.PlayOneShot(goalSE);
         }
 
