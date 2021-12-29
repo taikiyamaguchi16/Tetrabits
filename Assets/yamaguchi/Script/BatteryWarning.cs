@@ -12,7 +12,7 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
     [SerializeField]
     AudioClip warningSound;
 
-    private  Coroutine soundCoroutine;
+    private static Coroutine soundCoroutine;
     private static int playSoundNum = 0;
 
     [SerializeField]
@@ -91,7 +91,7 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
                 if (nowCoroutine != null)
                 {
                     playSoundNum--;
-                    if(playSoundNum==0&& soundCoroutine!=null)
+                    if(playSoundNum==0&& soundCoroutine != null)
                     {
                         StopCoroutine(soundCoroutine);
                     }
@@ -147,4 +147,5 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
 
         }
     }
+
 }
