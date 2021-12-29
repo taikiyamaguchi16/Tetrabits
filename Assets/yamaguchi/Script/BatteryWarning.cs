@@ -12,7 +12,7 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
     [SerializeField]
     AudioClip warningSound;
 
-    private static Coroutine soundCoroutine;
+    private  Coroutine soundCoroutine;
     private static int playSoundNum = 0;
 
     [SerializeField]
