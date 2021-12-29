@@ -33,7 +33,7 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
 
     private ItemPocket ownerSc;
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<BoxCollider>();
@@ -53,10 +53,10 @@ public class Cassette : MonoBehaviourPunCallbacks, IPlayerAction
             actionText.text = "すてる";
         }
 
-        if(isClear)
-        {
-            this.gameObject.SetActive(false);
-        }
+        //if(isClear)
+        //{
+        //    this.gameObject.SetActive(false);
+        //}
     }
     public void StartPlayerAction(PlayerActionDesc _desc)
     {
