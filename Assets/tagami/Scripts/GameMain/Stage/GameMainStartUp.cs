@@ -62,6 +62,16 @@ public class GameMainStartUp : MonoBehaviour
         var batterySpoawnerObj = GameObject.Find("BatterySpawner");
         batterySpoawnerObj.GetComponent<BatterySpowner>().StartSpawn();
 
+        //プレイヤーの移動可能状態を起動
+        foreach(var playerObj in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            PlayerMove playerMove;
+            if(playerObj.TryGetComponent(out playerMove))
+            {
+                playerMove.StartPlayerMoving();
+            }
+        }
+
         //カメラ引く
         VirtualCameraManager.OnlyActive(1);
 
