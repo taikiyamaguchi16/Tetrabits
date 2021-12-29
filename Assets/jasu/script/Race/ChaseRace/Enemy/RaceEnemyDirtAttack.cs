@@ -45,7 +45,7 @@ public class RaceEnemyDirtAttack : MonoBehaviourPunCallbacks
             warningTimer += Time.deltaTime;
             if(warningTimer > warningTimeSeconds)
             {
-                spriteBlink.active = false;
+                photonView.RPC(nameof(RPCBlinkFalse), RpcTarget.All);
 
                 dirtTimer += Time.deltaTime;
                 if(dirtTimer > dirtInterval)
@@ -61,10 +61,7 @@ public class RaceEnemyDirtAttack : MonoBehaviourPunCallbacks
                     dirtCounter++;
                     if(dirtCounter >= dirtNum)
                     {
-                        warningTimer = 0f;
-                        dirtTimer = 0f;
-                        dirtCounter = 0;
-                        isAttacking = false;
+                        photonView.RPC(nameof(RPCAttackEnd), RpcTarget.All);
                     }
                 }
             }
@@ -97,5 +94,21 @@ public class RaceEnemyDirtAttack : MonoBehaviourPunCallbacks
         dirtSplashObj.transform.parent = transform;
 
         dirtSplashObj.transform.position = _pos;
+    }
+
+    [PunRPC]
+    public void RPCAttackEnd()
+    {
+        warningTimer = 0f;
+        dirtTimer = 0f;
+        dirtCounter = 0;
+        isAttacking = false;
+    }
+
+
+    [PunRPC]
+    public void RPCBlinkFalse()
+    {
+        spriteBlink.active = false;
     }
 }
