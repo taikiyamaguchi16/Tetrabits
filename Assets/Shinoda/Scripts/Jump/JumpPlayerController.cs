@@ -39,6 +39,7 @@ public class JumpPlayerController : MonoBehaviour
     Vector3 originScale;
     [SerializeField] GameObject arrow;
     [SerializeField] float arrowScaleRatio = 1f;
+    SpriteRenderer arrowRenderer;
 
     [Header("Camera")]
     [SerializeField] GameObject cameraObject;
@@ -58,6 +59,7 @@ public class JumpPlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         myRenderer = GetComponent<SpriteRenderer>();
         photonTransformView = GetComponent<PhotonTransformViewClassic>();
+        arrowRenderer = arrow.GetComponent<SpriteRenderer>();
 
         if (cameraObject == null) cameraObject = GameObject.Find("MonitorCamera");
         cameraComponent = cameraObject.GetComponent<Camera>();
@@ -175,8 +177,13 @@ public class JumpPlayerController : MonoBehaviour
 
     void ArrowControll(Vector2 _dir)
     {
-        arrow.transform.localScale = originScale * (_dir.magnitude * arrowScaleRatio);
-        arrow.transform.rotation = Quaternion.FromToRotation(Vector3.up, _dir);
+        if (padVec.magnitude == 0) arrowRenderer.enabled = false;
+        else
+        {
+            arrowRenderer.enabled = true;
+            arrow.transform.localScale = originScale * (_dir.magnitude * arrowScaleRatio);
+            arrow.transform.rotation = Quaternion.FromToRotation(Vector3.up, _dir);
+        }
     }
 
     public void JumpOn()
