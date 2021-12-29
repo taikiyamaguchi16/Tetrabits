@@ -50,7 +50,7 @@ public class GameMainManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RPCClearCurrentGameInGame(string _gameInGameName, float _clearSeconds)
     {
-        Debug.Log(_gameInGameName + "を" + _clearSeconds + "秒でクリア");
+        //Debug.Log(_gameInGameName + "を" + _clearSeconds + "秒でクリア");
 
         //カセット吐き出し
         cassetteManager.ActiveCassetIsClearOn();
@@ -58,6 +58,7 @@ public class GameMainManager : MonoBehaviourPunCallbacks
         //すべてクリアしたら結果画面へ
         if (cassetteManager.CheckAllCassette())
         {
+            Debug.Log("全クリ確認！！");
             if (PhotonNetwork.IsMasterClient)
             {
                 MonitorManager.CallCompleteDestroyCreatedCoolingTarget();
@@ -66,6 +67,7 @@ public class GameMainManager : MonoBehaviourPunCallbacks
         }
         else
         { //カセット待機シーンへ
+            Debug.Log("ゲームクリアを確認しましたが、全クリを確認できませんでした");
             //BGM戻しておく
             SimpleAudioManager.PlayBGMCrossFade(waitInsertCassetteBGMClip, 1.0f, waitInsertCassetteBGMVolumeScale);
 
