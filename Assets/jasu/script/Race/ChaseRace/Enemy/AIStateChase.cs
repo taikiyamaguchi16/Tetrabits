@@ -51,6 +51,7 @@ public class AIStateChase : AIState
     [SerializeField]
     bool goaled;
 
+    float moveSpd;
 
     private void Start()
     {
@@ -69,14 +70,16 @@ public class AIStateChase : AIState
 
     public override void StateUpdate()
     {
-        // ワープ
+        // 一定以上離れたとき
         distance = Mathf.Abs(racerController.transform.position.z - transform.position.z);
 
         if (distance > warpDistance)
         {
-            Vector3 pos = racerController.transform.position;
-            pos += warpOffset;
-            transform.position = pos;
+            moveSpd = racerSpdGears[handleRacerSpdGear] * 2f;
+        }
+        else
+        {
+            moveSpd = racerSpdGears[handleRacerSpdGear];
         }
 
         // 攻撃
@@ -97,7 +100,7 @@ public class AIStateChase : AIState
         // 移動
         if (!playerClashSensor.playerClash)
         {
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, racerSpdGears[handleRacerSpdGear]);
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, moveSpd);
         }
         else
         {
