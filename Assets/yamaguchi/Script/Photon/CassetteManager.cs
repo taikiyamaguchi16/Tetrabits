@@ -34,8 +34,14 @@ public class CassetteManager : MonoBehaviourPunCallbacks
     public void SetActiveCassette(Cassette _ca)
     {
         activeCassette = _ca;
+        photonView.RPC(nameof(RPCSetActiveCassette), RpcTarget.Others, activeCassette.gameObject.GetPhotonView().ViewID);
     }
 
+    [PunRPC]
+    private void RPCSetActiveCassette(int _id)
+    {
+        activeCassette = NetworkObjContainer.NetworkObjDictionary[_id].GetComponent<Cassette>();
+    }
     public void CallHideAllCassette()
     {
         photonView.RPC(nameof(RPCHideAllCassette), RpcTarget.All);
