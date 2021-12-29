@@ -196,33 +196,43 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
             GameObject _obj = NetworkObjContainer.NetworkObjDictionary[_id];
             if (_obj == ownerSc.gameObject)
             {
-                ownerSc.SetItem(null);
-                rb.isKinematic = false;
-                col.enabled = true;
-                this.transform.parent = null;
-
-                isOwned = false;
-
-                priority = 40;
-
-                PlayerMove p_move = ownerSc.gameObject.GetComponent<PlayerMove>();
-                if (p_move != null)
-                {
-                    if (_obj.GetPhotonView().IsMine)
-                    {
-                        playerDir = p_move.GetPlayerDir();
-                        Vector3 _power = playerDir * throwForce;
-                        _power.y = throwUpForce;
-                        photonView.RPC(nameof(RPCThrowBattery), RpcTarget.All, _power);
-                        if (ownerSc.gameObject.GetComponent<PlayerActionCtrl>().selectedActionObj == this.gameObject)
-                            SimpleAudioManager.PlayOneShot(throwBatterrySe);
-                    }
-                }
-
-                myControlUi.SetControlUIActive(false);
-                ownerSc = null;
+                DumpAction(_obj);
+            }
+            else if(transform.parent!=null)
+            {
+                //保有者がずれていた場合修正
+                ownerSc = _obj.GetComponent<ItemPocket>();
             }
         }
+    }
+
+    private void DumpAction(GameObject _obj)
+    {
+        ownerSc.SetItem(null);
+        rb.isKinematic = false;
+        col.enabled = true;
+        this.transform.parent = null;
+
+        isOwned = false;
+
+        priority = 40;
+
+        PlayerMove p_move = ownerSc.gameObject.GetComponent<PlayerMove>();
+        if (p_move != null)
+        {
+            if (_obj.GetPhotonView().IsMine)
+            {
+                playerDir = p_move.GetPlayerDir();
+                Vector3 _power = playerDir * throwForce;
+                _power.y = throwUpForce;
+                photonView.RPC(nameof(RPCThrowBattery), RpcTarget.All, _power);
+                if (ownerSc.gameObject.GetComponent<PlayerActionCtrl>().selectedActionObj == this.gameObject)
+                    SimpleAudioManager.PlayOneShot(throwBatterrySe);
+            }
+        }
+
+        myControlUi.SetControlUIActive(false);
+        ownerSc = null;
     }
     public float GetLevel()
     {
@@ -266,17 +276,5 @@ public class Battery : MonoBehaviourPunCallbacks, IPlayerAction
     private void RPCThrowBattery(Vector3 _power)
     {
         rb.AddForce(_power, ForceMode.Impulse);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        //電池の所有者がいないのに所有されていることになっている場合の例外処理
-        if(collision.gameObject.tag=="Player")
-        {
-            if(this.transform.parent==null)
-            {
-                isOwned = false;
-            }
-        }
     }
 }
