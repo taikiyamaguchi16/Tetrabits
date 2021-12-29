@@ -22,7 +22,7 @@ namespace Shooting
         float shotIntervalTimer;
 
         [Header("Shot Level")]
-       // [SerializeField, Range(1, 3)] int shotLevel = 1;
+        // [SerializeField, Range(1, 3)] int shotLevel = 1;
         [SerializeField] float dualShotWidth = 1.0f;
         [SerializeField] float tripleShotWidth = 1.0f;
 
@@ -83,55 +83,55 @@ namespace Shooting
 
 
             //弾発射処理
-            if (PhotonNetwork.IsMasterClient && TetraInput.sTetraLever.GetPoweredOn())
+            if (TetraInput.sTetraLever.GetPoweredOn())
             {
                 shotIntervalTimer += Time.deltaTime;
                 if (shotIntervalTimer >= shotIntervalSeconds)
                 {//発射
                     shotIntervalTimer = 0.0f;
 
-                    //仮変更11/18　四捨五入してみる
-                    //int shotLevelOnPad = (int)TetraInput.sTetraPad.GetVector().magnitude;
-                    //if (TetraInput.sTetraPad.GetVector().magnitude - shotLevelOnPad >= 0.5f)
-                    //{
-                    //    shotLevelOnPad++;
-                    //}
+                    //SE再生
+                    SimpleAudioManager.PlayOneShot(shotClip);
 
-                    switch (TetraInput.sTetraPad.GetNumOnPad())
+                    if (PhotonNetwork.IsMasterClient)
+
                     {
-                        case 0:
-                            CallShotBullet(Vector3.zero, Vector3.right * bulletSpeed);
-                            break;
-                        case 1:
-                            CallShotBullet(Vector3.zero, Vector3.right * bulletSpeed);
-                            break;
-                        case 2:
-                            CallShotBullet(new Vector3(0.0f, dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
-                            CallShotBullet(new Vector3(0.0f, -dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
-                            break;
-                        case 3:
-                            CallShotBullet(Vector3.zero, (Vector3.right + Vector3.up * tripleShotWidth).normalized * bulletSpeed);
-                            CallShotBullet(Vector3.zero, Vector3.right * bulletSpeed);
-                            CallShotBullet(Vector3.zero, (Vector3.right + Vector3.down * tripleShotWidth).normalized * bulletSpeed);
-                            break;
-                        case 4:
-                            CallShotBullet(Vector3.zero, (Vector3.right + Vector3.up * tripleShotWidth).normalized * bulletSpeed);
-                            CallShotBullet(new Vector3(0.0f, dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
-                            CallShotBullet(new Vector3(0.0f, -dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
-                            CallShotBullet(Vector3.zero, (Vector3.right + Vector3.down * tripleShotWidth).normalized * bulletSpeed);
-                            break;
-                        default:
-                            Debug.LogWarning("対応していないショットレベル：");
-                            break;
-                    }
-                }
+                        switch (TetraInput.sTetraPad.GetNumOnPad())
+                        {
+                            case 0:
+                                CallShotBullet(Vector3.zero, Vector3.right * bulletSpeed);
+                                break;
+                            case 1:
+                                CallShotBullet(Vector3.zero, Vector3.right * bulletSpeed);
+                                break;
+                            case 2:
+                                CallShotBullet(new Vector3(0.0f, dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
+                                CallShotBullet(new Vector3(0.0f, -dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
+                                break;
+                            case 3:
+                                CallShotBullet(Vector3.zero, (Vector3.right + Vector3.up * tripleShotWidth).normalized * bulletSpeed);
+                                CallShotBullet(Vector3.zero, Vector3.right * bulletSpeed);
+                                CallShotBullet(Vector3.zero, (Vector3.right + Vector3.down * tripleShotWidth).normalized * bulletSpeed);
+                                break;
+                            case 4:
+                                CallShotBullet(Vector3.zero, (Vector3.right + Vector3.up * tripleShotWidth).normalized * bulletSpeed);
+                                CallShotBullet(new Vector3(0.0f, dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
+                                CallShotBullet(new Vector3(0.0f, -dualShotWidth / 2, 0.0f), Vector3.right * bulletSpeed);
+                                CallShotBullet(Vector3.zero, (Vector3.right + Vector3.down * tripleShotWidth).normalized * bulletSpeed);
+                                break;
+                            default:
+                                Debug.LogWarning("対応していないショットレベル：");
+                                break;
+                        }
+                    }//Master
+                }//Interval
             }//lever on
 
             if (PhotonNetwork.IsMasterClient
                 && TetraInput.sTetraButton.GetTrigger()
                 && ShootingGameManager.sShootingGameManager.bomb > 0)
             { //ボム
-                CallInstantiateBombLocal();                
+                CallInstantiateBombLocal();
             }
 
             if (isInvincible)
@@ -208,8 +208,6 @@ namespace Shooting
         [PunRPC]
         public void RPCShotBullet(Vector3 _offset, Vector3 _velocity)
         {
-            SimpleAudioManager.PlayOneShot(shotClip);
-
             var bullet = Instantiate(playerBulletPrefab, transform.position + _offset, Quaternion.identity);
             bullet.GetComponent<Rigidbody2D>().velocity = _velocity;
         }
