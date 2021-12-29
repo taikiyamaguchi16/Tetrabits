@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6224457482702864122}
   - component: {fileID: 2139661869423234754}
   - component: {fileID: 23120833625599597}
+  - component: {fileID: 5970873261009689501}
   m_Layer: 0
   m_Name: Battery 1
   m_TagString: CantJump
@@ -194,19 +195,20 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
---- !u!114 &2460977906160017837
+--- !u!114 &5970873261009689501
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5403389549120452986}
+  m_GameObject: {fileID: 5348215941343250890}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ab49ade531fe2c43b9bdef95dc19862, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   upPosition: 1.5
+  targetObj: {fileID: 5403389549120452986}
 --- !u!1001 &6418568075068261431
 PrefabInstance:
   m_ObjectHideFlags: 0
