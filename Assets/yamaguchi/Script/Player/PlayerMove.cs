@@ -29,13 +29,13 @@ public class PlayerMove : MonoBehaviourPunCallbacks
     private bool jumpable;  // 着地判定
 
     private bool movable = true; // 移動可能フラグ
+
+    private bool gameStartMovable = false;
     
     Zenmai zenmai;  // ゼンマイ
 
     [Header("プランナー調整用")]
 
-    //[SerializeField, Tooltip("ゼンマイパワーの割合とそれに応じた移動速度")]
-    //List<MoveSpeedInRatio> moveSpeedInRatios = new List<MoveSpeedInRatio>();
 
     private bool carryObjFg;
     [SerializeField]
@@ -86,7 +86,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
         zenmai = GetComponent<Zenmai>();
         rb.sleepThreshold = -1;
 
-      
+        gameStartMovable = false;
 
         myPocket = GetComponent<ItemPocket>();
         photonTransformView = GetComponent<PhotonTransformViewClassic>();
@@ -109,7 +109,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks
 
             moveDir = Vector3.zero;
 
-            if (movable)
+            if (movable&& gameStartMovable)
             {
                 if (Input.GetKey("w"))
                 {
@@ -333,5 +333,10 @@ public class PlayerMove : MonoBehaviourPunCallbacks
         jumpbleTimeFg = false;
 
         yield  break;
+    }
+
+    public void StartPlayerMoving()
+    {
+        gameStartMovable = true;
     }
 }

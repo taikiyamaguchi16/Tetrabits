@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemPocket : MonoBehaviour
 {
     //保有しているオブジェクト
+    [SerializeField]
     private GameObject ownObj;
     [SerializeField]
     Transform pocketPos;
