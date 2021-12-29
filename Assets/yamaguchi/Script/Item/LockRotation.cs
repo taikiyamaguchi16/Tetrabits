@@ -17,8 +17,14 @@ public class LockRotation : MonoBehaviour
     }
     void Update()
     {
-        this.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-
+        if (this.transform.parent.localScale.z > 0f)
+        {
+            this.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        }
+        else
+        {
+            this.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
         Vector3 lossScale = transform.lossyScale;
         Vector3 localScale = transform.localScale;
 
