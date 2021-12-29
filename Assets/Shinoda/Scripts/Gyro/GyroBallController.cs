@@ -19,10 +19,6 @@ public class GyroBallController : MonoBehaviour
     [SerializeField] Color moveColor;
     [SerializeField] Color stopColor;
 
-    [SerializeField] GameObject effectPrefab = null;
-    [SerializeField] Transform effectInstanceTransform;
-    GameObject accelEffect = null;
-
     bool leverState = false;
 
     // Start is called before the first frame update
@@ -33,11 +29,37 @@ public class GyroBallController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         myRenderer = GetComponent<SpriteRenderer>();
         photonTransformView = GetComponent<PhotonTransformViewClassic>();
-        //accelEffect = Instantiate(effectPrefab, effectInstanceTransform);
     }
 
     // Update is called once per frame
     void Update()
+    {
+        //Vector2 padVec = TetraInput.sTetraPad.GetVector();
+
+        //if (padVec.x > 0)
+        //{
+        //    this.transform.Rotate(0.0f, 0.0f, padVec.magnitude * rotateScale);
+        //}
+        //else if (padVec.x < 0)
+        //{
+        //    this.transform.Rotate(0.0f, 0.0f, -padVec.magnitude * rotateScale);
+        //}
+
+        //if (TetraInput.sTetraLever.GetPoweredOn())
+        //{
+        //    rb.velocity = Vector2.zero;
+        //    myRenderer.color = stopColor;
+        //}
+        //else myRenderer.color = moveColor;
+        //if (leverState ^ TetraInput.sTetraLever.GetPoweredOn()) SimpleAudioManager.PlayOneShot(leverSE);
+        //leverState = TetraInput.sTetraLever.GetPoweredOn();
+
+        //rb.AddForce(-(this.transform.up) * gravityScale);
+
+        //photonTransformView.SetSynchronizedValues(speed: rb.velocity, turnSpeed: 0);
+    }
+
+    private void FixedUpdate()
     {
         Vector2 padVec = TetraInput.sTetraPad.GetVector();
 
@@ -61,9 +83,6 @@ public class GyroBallController : MonoBehaviour
 
         rb.AddForce(-(this.transform.up) * gravityScale);
 
-        effectInstanceTransform.rotation = Quaternion.FromToRotation(Vector3.right, rb.velocity);
-
-        //float speed = rb.velocity.magnitude;
         photonTransformView.SetSynchronizedValues(speed: rb.velocity, turnSpeed: 0);
     }
 
