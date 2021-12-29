@@ -59,8 +59,10 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
                 {
                     StopCoroutine(soundCoroutine);
                 }
-
-                StopCoroutine(nowCoroutine);
+                if (nowCoroutine != null)
+                {
+                    StopCoroutine(nowCoroutine);
+                }
                 blinkImage.enabled = false;
                 blinkingNow = false;
                 nowCoroutine = null;
@@ -93,7 +95,10 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
                     {
                         StopCoroutine(soundCoroutine);
                     }
-                    StopCoroutine(nowCoroutine);
+                    if (nowCoroutine != null)
+                    {
+                        StopCoroutine(nowCoroutine);
+                    }
                     blinkImage.enabled = false;
                     blinkingNow = false;
                     nowCoroutine = null;
@@ -110,8 +115,6 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
             nothingImage.enabled = false;
 
             nowCoroutine = StartCoroutine(BlinkWarning());
-
-        Debug.Log(playSoundNum);
  
             yield break;
     }
@@ -121,6 +124,7 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
         {
             soundCoroutine = StartCoroutine(WarningSound());
         }
+
         while (true)
         {
             //アクションのUIが出ている場合点滅UIを非表示
