@@ -27,6 +27,20 @@ public class AIStateChase : AIState
     [SerializeField]
     Vector3 warpOffset;
 
+    float moveSpd;
+
+    bool roarable = true;
+
+    [SerializeField]
+    AudioClip roarSe;
+
+    [SerializeField]
+    float roarVol = 2f;
+
+    float roarInterval = 10f;
+
+    float roarTimer = 0f;
+
     [Header("泥かけ攻撃")]
 
     [SerializeField]
@@ -51,8 +65,6 @@ public class AIStateChase : AIState
     [SerializeField]
     bool goaled;
 
-    float moveSpd;
-
     private void Start()
     {
         racerSpdGears = racerController.GetRacerMove().GetMoveSpdGears();
@@ -70,16 +82,30 @@ public class AIStateChase : AIState
 
     public override void StateUpdate()
     {
+        if (!roarable)
+            roarTimer += Time.deltaTime;
+
         // 一定以上離れたとき
         distance = Mathf.Abs(racerController.transform.position.z - transform.position.z);
 
         if (distance > warpDistance)
         {
             moveSpd = racerSpdGears[handleRacerSpdGear] * 2f;
+            if (roarable)
+            {
+                SimpleAudioManager.PlayOneShot(roarSe, roarVol);
+                roarable = false;
+            }
         }
         else
         {
             moveSpd = racerSpdGears[handleRacerSpdGear];
+
+            if(roarTimer > roarInterval)
+            {
+                roarTimer = 0f;
+                roarable = true;
+            }
         }
 
         // 攻撃
@@ -90,6 +116,7 @@ public class AIStateChase : AIState
             
             if(Random.Range(0, 100) < atkPercent)
             {
+                SimpleAudioManager.PlayOneShot(roarSe, roarVol);
                 dirtAtks[Random.Range(0, dirtAtks.Length)].AttackStart();
             }
         }

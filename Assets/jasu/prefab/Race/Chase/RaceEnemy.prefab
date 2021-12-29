@@ -191,8 +191,10 @@ MonoBehaviour:
   raceManager: {fileID: 0}
   racerController: {fileID: 0}
   handleRacerSpdGear: 1
-  warpDistance: 40
+  warpDistance: 45
   warpOffset: {x: 0, y: 70, z: -15}
+  roarSe: {fileID: 8300000, guid: 1321c760859255e42bb3ac994caf0437, type: 3}
+  roarVol: 2
   dirtAtks: []
   attackInterval: 10
   atkPercent: 100
@@ -216,6 +218,10 @@ MonoBehaviour:
   clashStopSeconds: 2.5
   playerSlipSeconds: 2.1
   rotNum: 3
+  se: {fileID: 8300000, guid: be9ac4446e9cc6e439559e7882366b71, type: 3}
+  seVol: 2
+  roarSe: {fileID: 8300000, guid: 1321c760859255e42bb3ac994caf0437, type: 3}
+  roarVol: 2
 --- !u!114 &7078203196060976321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,7 +300,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3031993598759265874}
   m_LocalRotation: {x: 0.29883623, y: -0.64085644, z: 0.29883623, w: 0.64085644}
-  m_LocalPosition: {x: -15, y: 5, z: -37.4}
+  m_LocalPosition: {x: -5, y: 5, z: -37.4}
   m_LocalScale: {x: 20, y: 20, z: 1}
   m_Children: []
   m_Father: {fileID: 1092148269063479307}
@@ -363,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac4b7aeb2454c7549b0e2868cf9e4ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conductWidth: 10
+  conductWidth: 15
   rate: 0.01
 --- !u!1 &5864943109767240732
 GameObject:

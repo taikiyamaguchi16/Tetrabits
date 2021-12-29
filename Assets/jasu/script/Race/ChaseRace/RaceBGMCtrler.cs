@@ -31,7 +31,7 @@ public class RaceBGMCtrler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (raceManager.started)
+        if (raceManager.started && !raceManager.goaled)
         {
             if (TetraInput.sTetraLever.GetPoweredOn())
             {

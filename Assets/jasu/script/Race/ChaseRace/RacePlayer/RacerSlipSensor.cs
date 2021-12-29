@@ -10,6 +10,18 @@ public class RacerSlipSensor : MonoBehaviour
     [SerializeField]
     BikeSlipDown bikeSlipDown;
 
+    [SerializeField]
+    AudioClip impactSe;
+
+    [SerializeField]
+    float impactSeVol = 2f;
+
+    [SerializeField]
+    AudioClip blockSe;
+
+    [SerializeField]
+    float blockSeVol = 2f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,14 +53,23 @@ public class RacerSlipSensor : MonoBehaviour
         if (other.gameObject.tag == "Slip" && !bikeSlipDown.isSliping && !TetraInput.sTetraLever.GetPoweredOn())
         {
             bikeSlipDown.CallSlipStart("small");
+            SimpleAudioManager.PlayOneShot(impactSe, impactSeVol);
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Slip" && !bikeSlipDown.isSliping && !TetraInput.sTetraLever.GetPoweredOn())
+        if (collision.gameObject.tag == "Slip" && !bikeSlipDown.isSliping)
         {
-            bikeSlipDown.CallSlipStart("small");
+            if (TetraInput.sTetraLever.GetPoweredOn())
+            {
+                SimpleAudioManager.PlayOneShot(blockSe, blockSeVol);
+            }
+            else
+            {
+                bikeSlipDown.CallSlipStart("small");
+                SimpleAudioManager.PlayOneShot(impactSe, impactSeVol);
+            }
         }
     }
 }
