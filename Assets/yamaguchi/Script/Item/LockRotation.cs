@@ -37,5 +37,9 @@ public class LockRotation : MonoBehaviour
 
         keepPos.y += upPosition;
         this.transform.position = keepPos;
+
+        Vector3 p = Camera.main.transform.position;
+        p.y = transform.position.y;
+        transform.LookAt(p);
     }
 }

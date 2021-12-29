@@ -52,7 +52,10 @@ public class CassetteManager : MonoBehaviourPunCallbacks
     {
         foreach (var ca in cassetteList)
         {
-            ca.gameObject.SetActive(true);
+            if (!ca.GetIsClear())
+            {
+                ca.gameObject.SetActive(true);
+            }
         }
     }
     //全クリチェック
