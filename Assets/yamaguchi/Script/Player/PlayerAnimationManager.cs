@@ -22,7 +22,6 @@ public class PlayerAnimationManager : MonoBehaviourPunCallbacks
     /// <summary>
     /// プレイヤーに番号を与える
     /// </summary>
-    [PunRPC]
     private void SetMyCustomProperties()
     {
         //自分のクライアントの同期オブジェクトにのみ
