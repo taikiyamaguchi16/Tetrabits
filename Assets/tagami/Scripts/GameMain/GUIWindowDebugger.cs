@@ -14,8 +14,10 @@ public class GUIWindowDebugger : MonoBehaviour
 
     private void OnGUI()
     {
+#if UNITY_EDITOR
         guiWindowRect = GUILayout.Window(0, guiWindowRect, CallbackGUIWindow, "DebugWindow");
         //guiWindowRect = GUI.Window(0, guiWindowRect, CallbackGUIWindow, "DebugWindow");
+#endif
     }
 
     private void CallbackGUIWindow(int _windowId)
