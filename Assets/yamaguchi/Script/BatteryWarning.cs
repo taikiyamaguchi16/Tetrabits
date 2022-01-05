@@ -58,6 +58,7 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
                 if (playSoundNum == 0 && soundCoroutine != null)
                 {
                     StopCoroutine(soundCoroutine);
+                    soundCoroutine = null;
                 }
                 if (nowCoroutine != null)
                 {
@@ -94,6 +95,7 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
                     if(playSoundNum==0&& soundCoroutine != null)
                     {
                         StopCoroutine(soundCoroutine);
+                        soundCoroutine = null;
                     }
                     if (nowCoroutine != null)
                     {
@@ -144,7 +146,6 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
         {
             SimpleAudioManager.PlayOneShot(warningSound);
             yield return new WaitForSeconds(0.5f);
-
         }
     }
 
