@@ -12,7 +12,8 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
     [SerializeField]
     AudioClip warningSound;
 
-    private static Coroutine soundCoroutine;
+    private static int soundCoroutineViewNum;
+    private  Coroutine soundCoroutine;
     private static int playSoundNum = 0;
 
     [SerializeField]
@@ -45,8 +46,13 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
 
     void Update()
     {
+        if (playSoundNum == 0 && soundCoroutine != null)
+        {
+            StopCoroutine(soundCoroutine);
+            soundCoroutine = null;
+        }
         //残量が0の場合のUI表示
-        if(batteryHolder.GetBatterylevel()<=0f)
+        if (batteryHolder.GetBatterylevel()<=0f)
         {
             nothingImage.enabled = true;
             if (controllUiCanvas.activeSelf)
@@ -55,18 +61,14 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
             if (nowCoroutine != null)
             {
                 playSoundNum--;
-                if (playSoundNum == 0 && soundCoroutine != null)
-                {
-                    StopCoroutine(soundCoroutine);
-                    soundCoroutine = null;
-                }
+                
                 if (nowCoroutine != null)
                 {
                     StopCoroutine(nowCoroutine);
+                    nowCoroutine = null;
                 }
                 blinkImage.enabled = false;
-                blinkingNow = false;
-                nowCoroutine = null;
+                blinkingNow = false;       
             }
         }
         else
@@ -100,10 +102,10 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
                     if (nowCoroutine != null)
                     {
                         StopCoroutine(nowCoroutine);
+                        nowCoroutine = null;
                     }
                     blinkImage.enabled = false;
-                    blinkingNow = false;
-                    nowCoroutine = null;
+                    blinkingNow = false;                   
                 }
             }
         }
@@ -125,6 +127,7 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
         if (playSoundNum == 0)
         {
             soundCoroutine = StartCoroutine(WarningSound());
+            soundCoroutineViewNum = photonView.ViewID;
         }
 
         while (true)
@@ -148,5 +151,4 @@ public class BatteryWarning : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(0.5f);
         }
     }
-
 }
