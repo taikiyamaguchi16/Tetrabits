@@ -96,14 +96,6 @@ public class PlayerReadyManager : MonoBehaviourPunCallbacks
                     GameObject.Find("SetUp").GetComponent<OnlineWaitRoomSetUper>().OnlineGameStart();
                 }
             }
-
-            // エディターでのみ使用可能
-//#if UNITY_EDITOR
-            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Return))
-            {
-                GameObject.Find("SetUp").GetComponent<OnlineWaitRoomSetUper>().OnlineGameStart();
-            }
-//#endif
         }
         // ゲスト
         else
