@@ -22,6 +22,7 @@ public class PlayerAnimationManager : MonoBehaviourPunCallbacks
     /// <summary>
     /// プレイヤーに番号を与える
     /// </summary>
+    [PunRPC]
     private void SetMyCustomProperties()
     {
         //自分のクライアントの同期オブジェクトにのみ
@@ -72,7 +73,8 @@ public class PlayerAnimationManager : MonoBehaviourPunCallbacks
         animatorStateEvent = AnimatorStateEvent.Get(animator, 0);
         // ステートが変わった時のコールバック
         animatorStateEvent.stateEntered += _ => ChangeTexture();
-        SetMyCustomProperties();
+        if (photonView.IsMine)
+            SetMyCustomProperties();
     }
 
 
@@ -114,9 +116,22 @@ public class PlayerAnimationManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player target, Hashtable changedProps)
     {
+      
         //自分のクライアントの同期オブジェクトの設定
         if (photonView.IsMine)
         {
+            // 更新されたプレイヤーのカスタムプロパティのペアをコンソールに出力する
+            foreach (var prop in PhotonNetwork.PlayerListOthers)
+            {
+                if (PhotonNetwork.LocalPlayer.GetPlayerNum() == prop.GetPlayerNum())
+                {
+                    if (PhotonNetwork.LocalPlayer.ActorNumber > prop.ActorNumber)
+                    {
+                        SetMyCustomProperties();
+                    }
+                }
+            }
+
             Texture[] textures = null;
             switch (PhotonNetwork.LocalPlayer.GetPlayerNum())
             {
@@ -137,7 +152,6 @@ public class PlayerAnimationManager : MonoBehaviourPunCallbacks
             {
                 if (!playerTextures.ContainsKey(tex.name))
                 {
-                    //Debug.Log(tex.name + "  を追加しました");
                     playerTextures.Add(tex.name, tex);
                 }
             }
@@ -173,4 +187,5 @@ public class PlayerAnimationManager : MonoBehaviourPunCallbacks
             overrideSprite.SetTexture(playerTextures["Idol_front"]);
         }
     }
+
 }

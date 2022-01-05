@@ -93,6 +93,22 @@ public class PlayerActionCtrl : MonoBehaviourPunCallbacks
                     //}
                 }
 
+                //実行可能オブジェクトが離れてしまっている場合
+                if (selectedActionObj!=null)
+                {
+                    float distance = Vector3.Distance(selectedActionObj.transform.position, transform.position);
+                    if (distance > 6f)
+                    {
+                        allActionItem.Remove(selectedActionObj);
+                        selectedActionObj.GetComponent<ControlUIActivator>().SetControlUIActive(false);
+                        selectedActionObj = null;
+                        runningAction = null;
+
+                        candidates.Clear();
+                        highPriorityList.Clear();
+                    }
+                }
+
                 if (allActionItem.Count > 0)
                     CheckItemPossible();
                 if (candidates.Count > 0)
