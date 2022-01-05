@@ -20,6 +20,7 @@ public class JumpPlayerController : MonoBehaviour
     float beforeVelocityY;
     bool beforeParasol;
     bool playAnim = false;
+    bool damaging = false;
 
     [Header("Player")]
     [SerializeField] float jumpForce = 10f;
@@ -201,7 +202,14 @@ public class JumpPlayerController : MonoBehaviour
 
     public void DamageAnimation()
     {
-        myRenderer.DOColor(Color.red, 0.5f).SetEase(Ease.OutFlash, 4, 0.5f);
+        if (!damaging)
+        {
+            damaging = true;
+            myRenderer.DOColor(Color.red, 0.5f).SetEase(Ease.OutFlash, 4, 0.5f).OnComplete(() =>
+            {
+                damaging = false;
+            });
+        }
     }
 
     void AnimAllOff()
