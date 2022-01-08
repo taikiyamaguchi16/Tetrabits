@@ -452,7 +452,7 @@ MonoBehaviour:
   batteryHolder: {fileID: 8260692506013420948}
   blinkImage: {fileID: 6623658458978985747}
   nothingImage: {fileID: 7148382618523666813}
-  startWarningLevel: 30
+  startWarningLevel: 20
   controllUiCanvas: {fileID: 2021855753518538677}
 --- !u!136 &3560904934754661759
 CapsuleCollider:
@@ -625,6 +625,10 @@ PrefabInstance:
       propertyPath: m_Text
       value: "\u3044\u308C\u308B"
       objectReference: {fileID: 0}
+    - target: {fileID: 3568274506282221360, guid: 253d3c0516d7aca459eec01546507870, type: 3}
+      propertyPath: m_FontData.m_HorizontalOverflow
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3568274507376496493, guid: 253d3c0516d7aca459eec01546507870, type: 3}
       propertyPath: m_Name
       value: HolderImage
@@ -640,6 +644,14 @@ PrefabInstance:
     - target: {fileID: 3568274508195229130, guid: 253d3c0516d7aca459eec01546507870, type: 3}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3568274508195229130, guid: 253d3c0516d7aca459eec01546507870, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3568274508195229130, guid: 253d3c0516d7aca459eec01546507870, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3568274508195229130, guid: 253d3c0516d7aca459eec01546507870, type: 3}
       propertyPath: m_LocalPosition.x
